@@ -1,0 +1,1830 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Commander Swipe</title>
+    <link rel="icon" href="data:," />
+    <style>
+      :root {
+        --bg: #15171c;
+        --panel: #1f232b;
+        --line: #333946;
+        --text: #e8eaf0;
+        --muted: #a3a9b8;
+        --add: #3fb768;
+        --skip: #e0575b;
+        --maybe: #e3b341;
+        --accent: #6ea8fe;
+        --accent-bg: #2c4a7a;
+        --accent-line: #3d63a3;
+        --panel-2: #262b35;
+        --r-sm: 8px;
+        --r-md: 12px;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        /* Height of everything around the card, used to size the card to the screen. */
+        --chrome: 430px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.45 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+        padding: var(--space-3) var(--space-4);
+        border-bottom: 1px solid var(--line);
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.15rem;
+        letter-spacing: 0.01em;
+      }
+      header .tagline {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      main {
+        flex: 1 0 auto;
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: var(--space-4);
+      }
+      footer {
+        padding: var(--space-4);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.5;
+      }
+      footer p {
+        max-width: 1100px;
+        margin: 0 auto var(--space-1);
+      }
+      footer a {
+        color: var(--muted);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      h2 {
+        font-size: 1rem;
+        margin: 0 0 8px;
+      }
+      button,
+      select,
+      input,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--r-sm);
+        padding: 8px 14px;
+        cursor: pointer;
+        transition:
+          border-color 0.12s ease,
+          background-color 0.12s ease;
+      }
+      button:hover:not(:disabled) {
+        border-color: var(--accent);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      button:focus-visible,
+      select:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .primary {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      .primary:hover:not(:disabled) {
+        background: #34568c;
+      }
+      select,
+      input[type="number"],
+      textarea {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+      textarea {
+        width: 100%;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .msg {
+        margin: 10px 0;
+      }
+      .msg.error {
+        color: #ff8b8b;
+      }
+      .notice {
+        background: #3a2f12;
+        border: 1px solid #6b5520;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin: 10px 0;
+        font-size: 0.92rem;
+      }
+
+      /* setup */
+      #setup {
+        max-width: 760px;
+        margin: var(--space-2) auto 0;
+      }
+      .how {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin: 0 0 var(--space-5);
+        padding: 0;
+        list-style: none;
+        counter-reset: step;
+      }
+      .how li {
+        flex: 1 1 180px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: var(--space-3);
+        font-size: 0.9rem;
+        color: var(--muted);
+        counter-increment: step;
+      }
+      .how li strong {
+        display: block;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
+      .how li strong::before {
+        content: counter(step) ". ";
+        color: var(--accent);
+      }
+      #setup textarea {
+        min-height: 220px;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 0.85rem;
+      }
+      #setup .row {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* app layout */
+      .deckbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .deckbar label {
+        font-weight: 600;
+      }
+      .deckbar select {
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
+      }
+      #deckReport {
+        font-size: 0.85rem;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 12px;
+      }
+      @media (min-width: 900px) {
+        .layout {
+          grid-template-columns: minmax(0, 1fr) 340px;
+          align-items: start;
+        }
+      }
+      .piles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 4px 0 14px;
+      }
+      .piles button {
+        padding: 5px 10px;
+        font-size: 0.88rem;
+        border-radius: 999px;
+      }
+      .piles button {
+        flex: none;
+        white-space: nowrap;
+      }
+      .piles button[aria-pressed="true"] {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      .piles .count {
+        color: var(--muted);
+        margin-left: 4px;
+      }
+      .piles button[aria-pressed="true"] .count {
+        color: #cfe0ff;
+      }
+
+      /* card stage */
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 300px;
+      }
+      .card {
+        position: relative;
+        width: min(320px, 82vw);
+        width: clamp(
+          200px,
+          min(340px, 86vw, calc((100vh - var(--chrome)) * 0.7176)),
+          340px
+        );
+        width: clamp(
+          200px,
+          min(340px, 86vw, calc((100dvh - var(--chrome)) * 0.7176)),
+          340px
+        );
+        aspect-ratio: 488 / 680;
+        border-radius: 4.75% / 3.4%;
+        overflow: hidden;
+        background: #000;
+        touch-action: none;
+        user-select: none;
+        cursor: grab;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .card.dragging {
+        cursor: grabbing;
+        transition: none;
+      }
+      .card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+      }
+      .card .textface {
+        padding: 18px;
+        background: var(--panel);
+        height: 100%;
+        overflow: auto;
+      }
+      .card .textface .name {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .card .textface .oracle {
+        white-space: pre-wrap;
+        margin-top: 10px;
+        font-size: 0.92rem;
+      }
+      .hint {
+        position: absolute;
+        top: 14px;
+        padding: 4px 10px;
+        border: 3px solid;
+        border-radius: 8px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        background: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hint.add {
+        left: 14px;
+        color: var(--add);
+      }
+      .hint.skip {
+        right: 14px;
+        color: var(--skip);
+      }
+      .hint.maybe {
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--maybe);
+      }
+      .meta {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 0.92rem;
+        color: var(--muted);
+        max-width: 360px;
+      }
+      .meta .cardname {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 1px 7px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        margin: 2px;
+        color: var(--text);
+      }
+      .badge.gc {
+        border-color: #a26ef0;
+        color: #cbb0ff;
+      }
+      .empty {
+        margin-top: 40px;
+        text-align: center;
+        color: var(--muted);
+        max-width: 360px;
+      }
+      .actions {
+        display: flex;
+        gap: var(--space-2);
+        justify-content: center;
+        margin-top: var(--space-3);
+      }
+      .actions button {
+        min-height: 44px;
+        min-width: 0;
+        padding: 8px 16px;
+        font-weight: 600;
+      }
+      .actions .skip {
+        border-color: var(--skip);
+        background: rgba(224, 87, 91, 0.12);
+      }
+      .actions .maybe {
+        border-color: var(--maybe);
+        background: rgba(227, 179, 65, 0.12);
+      }
+      .actions .add {
+        border-color: var(--add);
+        background: rgba(63, 183, 104, 0.22);
+      }
+      .actions .skip:hover:not(:disabled) {
+        border-color: var(--skip);
+        background: rgba(224, 87, 91, 0.22);
+      }
+      .actions .maybe:hover:not(:disabled) {
+        border-color: var(--maybe);
+        background: rgba(227, 179, 65, 0.22);
+      }
+      .actions .add:hover:not(:disabled) {
+        border-color: var(--add);
+        background: rgba(63, 183, 104, 0.34);
+      }
+      .actions #undoBtn {
+        font-weight: 400;
+        background: transparent;
+      }
+      .keys {
+        text-align: center;
+        margin: 6px 0 0;
+        font-size: 0.85rem;
+      }
+      .keys .touch {
+        display: none;
+      }
+      @media (pointer: coarse) {
+        .keys .mouse {
+          display: none;
+        }
+        .keys .touch {
+          display: inline;
+        }
+      }
+      .status {
+        min-height: 1.4em;
+        text-align: center;
+        margin-top: 6px;
+        font-size: 0.9rem;
+      }
+
+      /* side panel */
+      .side > section,
+      .side > details {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: var(--space-3);
+        margin-bottom: var(--space-3);
+      }
+      .side summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .filters label {
+        display: block;
+        margin: 6px 0;
+      }
+      .filters .types {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 12px;
+      }
+      .filters .types label {
+        display: inline-flex;
+        gap: 4px;
+        align-items: center;
+        margin: 2px 0;
+      }
+      .filters input[type="number"] {
+        width: 90px;
+      }
+      .list {
+        list-style: none;
+        margin: 6px 0 0;
+        padding: 0;
+        max-height: 320px;
+        overflow: auto;
+      }
+      .list li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 0;
+        border-bottom: 1px solid #2a2f3a;
+      }
+      .list li span {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .list li .price {
+        flex: none;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .list li button {
+        padding: 0 8px;
+        line-height: 1.6;
+      }
+      .listhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      #copyBox {
+        margin-top: 8px;
+        min-height: 120px;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 0.85rem;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      @media (max-width: 899px) {
+        :root {
+          --chrome: 340px;
+        }
+        main {
+          padding: var(--space-3);
+        }
+        .deckbar {
+          flex-wrap: nowrap;
+        }
+        .deckbar select {
+          flex: 1 1 auto;
+        }
+        .deckbar button {
+          flex: none;
+        }
+        .piles {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          margin: 0 calc(-1 * var(--space-3)) var(--space-3);
+          padding: 2px var(--space-3) 6px;
+          scrollbar-width: thin;
+          scroll-padding: 0 var(--space-3);
+        }
+        .actions {
+          max-width: 440px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .actions button {
+          flex: 1 1 0;
+          padding: 8px 6px;
+        }
+        .actions #undoBtn {
+          flex: 0 1 auto;
+        }
+      }
+      @media (max-width: 520px) {
+        .deckbar label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+        }
+        header .tagline {
+          display: none;
+        }
+        .how {
+          margin-bottom: var(--space-4);
+        }
+        .how li {
+          flex-basis: 100%;
+          padding: var(--space-2) var(--space-3);
+        }
+        .how li strong {
+          display: inline;
+          margin-right: 6px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Commander Swipe</h1>
+      <p class="tagline">Swipe through card ideas for your Commander deck</p>
+    </header>
+    <main>
+      <noscript><p class="msg error">This page needs JavaScript.</p></noscript>
+
+      <!-- Step 1: paste the deck -->
+      <section id="setup">
+        <ol class="how">
+          <li>
+            <strong>Paste your deck</strong>Your Moxfield Export, as text.
+          </li>
+          <li>
+            <strong>Swipe</strong>Right to add, left to skip, up for maybe.
+          </li>
+          <li>
+            <strong>Copy back</strong>Paste your picks into Moxfield.
+          </li>
+        </ol>
+        <h2><label for="exportText">Paste your Moxfield Export</label></h2>
+        <p class="muted">
+          On your deck in Moxfield: More &rarr; Export &rarr; Copy for Moxfield.
+          Then paste it here.
+        </p>
+        <textarea
+          id="exportText"
+          spellcheck="false"
+          placeholder="1 Zurgo Stormrender (TDM) 233&#10;1 Sol Ring (C21) 263&#10;..."
+        ></textarea>
+        <div class="row">
+          <button id="loadBtn" class="primary" type="button">Load deck</button>
+          <span
+            id="setupMsg"
+            class="muted"
+            role="status"
+            aria-live="polite"
+          ></span>
+        </div>
+        <div id="setupError" class="msg error" role="alert"></div>
+      </section>
+
+      <!-- Step 2: swipe -->
+      <section id="app" hidden>
+        <div class="deckbar">
+          <label for="commanderSelect">Commander</label>
+          <select id="commanderSelect"></select>
+          <button id="changeDeckBtn" type="button">Change deck</button>
+        </div>
+        <details id="deckReport" class="muted" style="margin-top: 8px">
+          <summary id="deckSummary"></summary>
+          <div id="deckProblems"></div>
+        </details>
+        <div id="notices"></div>
+
+        <div class="layout">
+          <div>
+            <nav class="piles" id="piles" aria-label="Piles"></nav>
+            <div class="stage" id="stage"></div>
+            <div class="actions" id="actions">
+              <button type="button" class="skip" data-choice="skip">
+                &larr; Skip
+              </button>
+              <button type="button" class="maybe" data-choice="maybe">
+                &uarr; Maybe
+              </button>
+              <button type="button" class="add" data-choice="add">
+                Add &rarr;
+              </button>
+              <button type="button" id="undoBtn" aria-keyshortcuts="z">
+                Undo
+              </button>
+            </div>
+            <p class="keys muted">
+              <span class="mouse"
+                >Drag the card, or use the arrow keys: &rarr; add, &larr; skip,
+                &uarr; maybe, Z undo.</span
+              ><span class="touch"
+                >Drag the card right to add, left to skip, up for maybe.</span
+              >
+            </p>
+            <div
+              class="status"
+              id="status"
+              role="status"
+              aria-live="polite"
+            ></div>
+          </div>
+
+          <div class="side">
+            <section aria-labelledby="addedHead">
+              <div class="listhead">
+                <h2 id="addedHead">Added (<span id="addedCount">0</span>)</h2>
+                <button type="button" id="copyBtn" class="primary">
+                  Copy for Moxfield
+                </button>
+              </div>
+              <div
+                id="copyMsg"
+                class="muted"
+                role="status"
+                aria-live="polite"
+              ></div>
+              <textarea
+                id="copyBox"
+                readonly
+                hidden
+                aria-label="Cards to paste into Moxfield"
+              ></textarea>
+              <ul class="list" id="addedList"></ul>
+            </section>
+            <section aria-labelledby="maybeHead">
+              <h2 id="maybeHead">Maybe (<span id="maybeCount">0</span>)</h2>
+              <ul class="list" id="maybeList"></ul>
+            </section>
+            <details class="filters" id="filters">
+              <summary>Filters</summary>
+              <label
+                ><input type="checkbox" id="fGameChangers" /> Hide Game
+                Changers</label
+              >
+              <label
+                >Max price (USD)
+                <input
+                  type="number"
+                  id="fMaxPrice"
+                  min="0"
+                  step="0.5"
+                  placeholder="any"
+              /></label>
+              <div class="muted">Card types (none ticked = all):</div>
+              <div class="types" id="fTypes"></div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>
+        Recommendations from
+        <a href="https://edhrec.com/" rel="noopener">EDHREC</a>; card data,
+        images and prices from
+        <a href="https://scryfall.com/" rel="noopener">Scryfall</a>. Your
+        picks are saved only in this browser.
+      </p>
+      <p>
+        Commander Swipe is unofficial Fan Content permitted under the
+        <a
+          href="https://company.wizards.com/en/legal/fancontentpolicy"
+          rel="noopener"
+          >Fan Content Policy</a
+        >. Not approved/endorsed by Wizards. Portions of the materials used are
+        property of Wizards of the Coast. &copy;Wizards of the Coast LLC.
+      </p>
+    </footer>
+
+    <script src="core.js"></script>
+    <script>
+      (function () {
+        "use strict";
+
+        if (typeof CS === "undefined") {
+          document.getElementById("setupError").textContent =
+            "core.js didn't load. Keep index.html and core.js in the same folder.";
+          return;
+        }
+
+        var SCRYFALL = "https://api.scryfall.com";
+        var GAP_MS = 100; // Scryfall asks for 50-100 ms between requests
+        var LAST_MAX = 200000; // don't save a pasted export bigger than this
+
+        var store = CS.makeStore();
+        var settings = CS.loadSettings(store);
+        var reduceMotion =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // Everything about the deck being swiped. Reset when a deck is loaded.
+        var S = {
+          token: 0, // bumps when the deck or commander changes; stale answers are ignored
+          parsed: null,
+          matched: null,
+          candidates: [],
+          commander: null,
+          deckNames: {},
+          deckId: null,
+          state: null,
+          edhrecMap: {},
+          edhrecNote: "",
+          piles: [],
+          detailsLoading: false,
+          cardInfo: {}, // Scryfall id -> slim card
+          current: null, // pile key
+          busy: false, // a swipe's fly-off animation is running
+          dragging: false,
+          needsRender: false, // another tab changed things mid-drag or mid-animation
+          shown: null, // the card on screen
+          text: "", // the export text that was loaded
+          saveFailed: false,
+        };
+        var edhrecCache = {}; // slug -> EDHREC page (or null if it failed); one fetch per visit
+        var preloaded = [];
+
+        function $(id) {
+          return document.getElementById(id);
+        }
+
+        /** Small element builder; text always goes in as text, never as HTML. */
+        function el(tag, attrs, kids) {
+          var n = document.createElement(tag);
+          if (attrs)
+            Object.keys(attrs).forEach(function (k) {
+              if (k === "text") n.textContent = attrs[k];
+              else if (k === "class") n.className = attrs[k];
+              else if (k.indexOf("on") === 0)
+                n.addEventListener(k.slice(2), attrs[k]);
+              else n.setAttribute(k, attrs[k]);
+            });
+          (kids || []).forEach(function (c) {
+            if (c != null)
+              n.appendChild(
+                typeof c === "string" ? document.createTextNode(c) : c,
+              );
+          });
+          return n;
+        }
+
+        function sleep(ms) {
+          return new Promise(function (r) {
+            setTimeout(r, ms);
+          });
+        }
+        function noop() {}
+        function money(usd) {
+          return usd == null ? "no price" : "$" + usd.toFixed(2);
+        }
+        function pct(x) {
+          return Math.round(x * 100) + "%";
+        }
+
+        // ------------------------------------------------------------ Scryfall queue
+
+        var queue = Promise.resolve();
+        var lastStart = 0;
+
+        /** One Scryfall request, sent through a queue so calls start >= 100 ms apart. */
+        function scryfall(path, body, retried) {
+          var job = queue
+            .then(function () {
+              var wait = lastStart + GAP_MS - Date.now();
+              return wait > 0 ? sleep(wait) : null;
+            })
+            .then(function () {
+              lastStart = Date.now();
+              var opts = { headers: { Accept: "application/json" } };
+              if (body) {
+                opts.method = "POST";
+                opts.headers["Content-Type"] = "application/json";
+                opts.body = JSON.stringify(body);
+              }
+              return fetch(
+                path.indexOf("http") === 0 ? path : SCRYFALL + path,
+                opts,
+              );
+            });
+          queue = job.then(noop, noop);
+          return job.then(function (res) {
+            if (res.status === 429 && !retried) {
+              return sleep(1000).then(function () {
+                return scryfall(path, body, true);
+              });
+            }
+            return res.json().then(
+              function (data) {
+                if (!res.ok) {
+                  var err = new Error(
+                    (data && data.details) || "Scryfall answered " + res.status,
+                  );
+                  err.status = res.status;
+                  throw err;
+                }
+                return data;
+              },
+              function () {
+                var err = new Error("Scryfall answered " + res.status);
+                err.status = res.status;
+                throw err;
+              },
+            );
+          });
+        }
+
+        /** /cards/collection in chunks of 75. Returns {data, notFound}. */
+        function collection(identifiers) {
+          var out = { data: [], notFound: [] };
+          return CS.chunk(identifiers, 75)
+            .reduce(function (p, part) {
+              return p.then(function () {
+                return scryfall("/cards/collection", {
+                  identifiers: part,
+                }).then(function (r) {
+                  out.data = out.data.concat(r.data || []);
+                  out.notFound = out.notFound.concat(r.not_found || []);
+                });
+              });
+            }, Promise.resolve())
+            .then(function () {
+              return out;
+            });
+        }
+
+        /** Loads card details by Scryfall id for any ids not loaded yet. */
+        function loadCardInfo(ids) {
+          var need = ids.filter(function (id) {
+            return !S.cardInfo[id];
+          });
+          if (!need.length) return Promise.resolve();
+          return collection(
+            need.map(function (id) {
+              return { id: id };
+            }),
+          ).then(function (r) {
+            r.data.forEach(function (sc) {
+              S.cardInfo[sc.id] = CS.slimCard(sc);
+            });
+          });
+        }
+
+        // ------------------------------------------------------------ EDHREC
+
+        function fetchEdhrecJson(url) {
+          return fetch(url, { headers: { Accept: "application/json" } }).then(
+            function (res) {
+              if (!res.ok) throw new Error("EDHREC answered " + res.status);
+              return res.json();
+            },
+          );
+        }
+
+        /** The commander's EDHREC page, fetched at most once per visit. */
+        function edhrecPage(name) {
+          var slug = CS.commanderSlug(name);
+          if (Object.prototype.hasOwnProperty.call(edhrecCache, slug)) {
+            var hit = edhrecCache[slug];
+            return hit
+              ? Promise.resolve(hit)
+              : Promise.reject(new Error("EDHREC didn't answer earlier"));
+          }
+          return fetchEdhrecJson(CS.edhrecUrl(name))
+            .then(function (j) {
+              // Some EDHREC pages are a pointer to the real page.
+              if (
+                j &&
+                typeof j.redirect === "string" &&
+                /^\/commanders\/[a-z0-9-]+$/.test(j.redirect) &&
+                !CS.edhrecLists(j).length
+              ) {
+                return fetchEdhrecJson(
+                  "https://json.edhrec.com/pages" + j.redirect + ".json",
+                );
+              }
+              return j;
+            })
+            .then(
+              function (j) {
+                edhrecCache[slug] = j;
+                return j;
+              },
+              function (e) {
+                edhrecCache[slug] = null;
+                throw e;
+              },
+            );
+        }
+
+        // ------------------------------------------------------------ saved data
+
+        var storageAvailable = store.ok; // whether storage worked when the page opened
+
+        /** Saves this deck's swipes; shows a notice if saving stops working. */
+        function persist() {
+          if (!S.deckId || !S.state) return;
+          var ok = CS.saveDeckState(store, S.deckId, S.state);
+          if (ok !== S.saveFailed) return;
+          S.saveFailed = !ok;
+          renderNotices();
+        }
+
+        /**
+         * The swipes to build the next change on: the saved copy while saving
+         * works (so a swipe made a moment ago in another tab isn't overwritten),
+         * otherwise the copy in memory.
+         */
+        function latestState() {
+          if (!S.deckId || !storageAvailable || S.saveFailed) return S.state;
+          return (
+            CS.migrateDeckState(store.get("deck:" + S.deckId, null)) || S.state
+          );
+        }
+
+        /** Remembers the loaded deck so the next visit opens it again. */
+        function saveLast() {
+          if (!S.text || S.text.length > LAST_MAX) {
+            store.remove("last");
+            return;
+          }
+          store.set("last", {
+            v: 1,
+            text: S.text,
+            commander: S.commander ? S.commander.name : "",
+          });
+        }
+
+        function loadLast() {
+          var last = store.get("last", null);
+          if (
+            !last ||
+            typeof last !== "object" ||
+            last.v !== 1 ||
+            typeof last.text !== "string"
+          )
+            return null;
+          return {
+            text: last.text,
+            commander: typeof last.commander === "string" ? last.commander : "",
+          };
+        }
+
+        // Another tab changed this deck's swipes or the filters: pick up its version.
+        window.addEventListener("storage", function (e) {
+          if (e.key === null) {
+            // Storage was cleared (another tab or app on this address): save what's on screen again.
+            persist();
+            CS.saveSettings(store, settings);
+            return;
+          }
+          if (e.key === "cs:settings") {
+            settings = CS.loadSettings(store);
+            fillFilters();
+          } else if (
+            S.deckId &&
+            e.key === "cs:deck:" + S.deckId &&
+            !S.saveFailed
+          ) {
+            S.state = CS.loadDeckState(store, S.deckId, S.commander.name);
+            loadDecidedNames();
+          } else {
+            return;
+          }
+          if (pending || S.dragging) S.needsRender = true;
+          else render();
+        });
+
+        // ------------------------------------------------------------ loading a deck
+
+        function setupError(msg) {
+          $("setupError").textContent = msg || "";
+        }
+        function setupMsg(msg) {
+          $("setupMsg").textContent = msg || "";
+        }
+
+        function loadDeck(preferCommander) {
+          var text = $("exportText").value;
+          setupError("");
+          var parsed = CS.parseExport(text);
+          if (!parsed.cards.length) {
+            setupError(
+              parsed.unread.length
+                ? 'None of those lines look like cards ("1 Card Name").'
+                : "Paste a deck export first.",
+            );
+            return;
+          }
+          var token = ++S.token;
+          $("loadBtn").disabled = true;
+          setupMsg(
+            "Looking up " + parsed.cards.length + " cards on Scryfall...",
+          );
+          collection(CS.deckIdentifiers(parsed.cards))
+            .then(function (r) {
+              if (token !== S.token) return;
+              var matched = CS.matchCollection(parsed.cards, r.data);
+              var candidates = CS.commanderCandidates(matched);
+              if (!candidates.length) {
+                setupError(
+                  "No legendary creature found in this list, so there's no commander to pick. Is the commander in the export?",
+                );
+                return;
+              }
+              S.parsed = parsed;
+              S.text = text;
+              S.matched = matched;
+              S.candidates = candidates;
+              S.deckNames = CS.deckNameSet(parsed.cards);
+              r.data.forEach(function (sc) {
+                if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
+              });
+              fillDeckReport();
+              var sel = $("commanderSelect");
+              sel.textContent = "";
+              candidates.forEach(function (c) {
+                sel.appendChild(el("option", { value: c.id, text: c.name }));
+              });
+              var pick =
+                candidates.filter(function (c) {
+                  return c.name === preferCommander;
+                })[0] || candidates[0];
+              sel.value = pick.id;
+              $("setup").hidden = true;
+              $("app").hidden = false;
+              setupMsg("");
+              selectCommander(pick);
+            })
+            .catch(function (err) {
+              if (token !== S.token) return;
+              setupError(
+                "Couldn't reach Scryfall: " +
+                  err.message +
+                  ". Check the connection and try again.",
+              );
+            })
+            .then(function () {
+              if (token === S.token) {
+                $("loadBtn").disabled = false;
+                if (!$("setup").hidden) setupMsg("");
+              }
+            });
+        }
+
+        function fillDeckReport() {
+          var notFound = S.matched.filter(function (m) {
+            return !m.card;
+          });
+          var parts = [S.parsed.cards.length + " lines read"];
+          parts.push(S.parsed.unread.length + " not understood");
+          parts.push(notFound.length + " not found on Scryfall");
+          $("deckSummary").textContent = parts.join(" \u00b7 ");
+          var box = $("deckProblems");
+          box.textContent = "";
+          if (S.parsed.unread.length) {
+            box.appendChild(el("p", { text: "Lines not understood:" }));
+            box.appendChild(
+              el(
+                "ul",
+                null,
+                S.parsed.unread.map(function (u) {
+                  return el("li", { text: "Line " + u.lineNo + ": " + u.text });
+                }),
+              ),
+            );
+          }
+          if (notFound.length) {
+            box.appendChild(
+              el("p", {
+                text: "Not found on Scryfall (still left out of the piles):",
+              }),
+            );
+            box.appendChild(
+              el(
+                "ul",
+                null,
+                notFound.map(function (m) {
+                  return el("li", {
+                    text: "Line " + m.line.lineNo + ": " + m.line.name,
+                  });
+                }),
+              ),
+            );
+          }
+          if (!S.parsed.unread.length && !notFound.length)
+            box.appendChild(
+              el("p", { text: "Every line was read and found." }),
+            );
+        }
+
+        function rolePileShell(role) {
+          return {
+            key: "role:" + role.key,
+            label: role.label,
+            cards: [],
+            kind: "role",
+            role: role,
+            loaded: false,
+            error: "",
+          };
+        }
+
+        function selectCommander(cmd) {
+          flushPending(); // save a swipe still animating to the deck it belongs to
+          var token = ++S.token;
+          S.commander = cmd;
+          S.deckId = CS.deckId(cmd.name, S.parsed.cards);
+          S.state = CS.loadDeckState(store, S.deckId, cmd.name);
+          S.edhrecMap = {};
+          S.edhrecNote = "";
+          S.piles = CS.ROLES.map(rolePileShell);
+          S.current = null;
+          S.detailsLoading = true;
+          saveLast();
+          status("");
+          render();
+
+          var namesP = loadDecidedNames();
+          var edhrecP = edhrecPage(cmd.name)
+            .then(function (page) {
+              if (token !== S.token) return;
+              var piles = CS.buildEdhrecPiles(page, S.deckNames).map(
+                function (p) {
+                  p.kind = "edhrec";
+                  p.loaded = true;
+                  return p;
+                },
+              );
+              if (!piles.length)
+                throw new Error("no recommendations on the page");
+              S.edhrecMap = CS.edhrecById(page);
+              S.piles = piles.concat(S.piles);
+              S.current = S.current || piles[0].key;
+              render();
+              return loadCardInfo(
+                CS.edhrecIdentifiers(page).map(function (x) {
+                  return x.id;
+                }),
+              );
+            })
+            .catch(function (err) {
+              if (token !== S.token) return;
+              S.edhrecNote =
+                "EDHREC didn't give recommendations for " +
+                cmd.name +
+                " (" +
+                err.message +
+                "). The role piles below still work, from Scryfall only.";
+            });
+          Promise.all([namesP, edhrecP]).then(
+            function () {
+              if (token !== S.token) return;
+              S.detailsLoading = false;
+              if (!S.current) openPile(S.piles[0].key);
+              else render();
+            },
+            function () {
+              if (token !== S.token) return;
+              S.detailsLoading = false;
+              status(
+                "Some card details didn't load. Try Change deck, then Load deck again.",
+              );
+              if (!S.current) openPile(S.piles[0].key);
+              else render();
+            },
+          );
+        }
+
+        /** Makes sure every Added or Maybe card has its name loaded (role-pile cards after a reload). */
+        function loadDecidedNames() {
+          var token = S.token;
+          return loadCardInfo(Object.keys(S.state.decisions)).then(function () {
+            if (token === S.token) renderLists();
+          });
+        }
+
+        function pileByKey(key) {
+          return (
+            S.piles.filter(function (p) {
+              return p.key === key;
+            })[0] || null
+          );
+        }
+
+        function openPile(key) {
+          var pile = pileByKey(key);
+          if (!pile) return;
+          S.current = key;
+          if (pile.kind === "role" && !pile.loaded && !pile.loading) {
+            var token = S.token;
+            pile.loading = true;
+            pile.error = "";
+            scryfall(CS.roleSearchUrl(pile.role.tag, S.commander.colorIdentity))
+              .catch(function (err) {
+                if (err.status === 404) return { data: [] };
+                throw err;
+              })
+              .then(function (res) {
+                if (token !== S.token) return;
+                var list = res.data || [];
+                list.forEach(function (sc) {
+                  if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
+                });
+                var built = CS.buildRolePile(
+                  pile.role,
+                  list,
+                  S.edhrecMap,
+                  S.deckNames,
+                );
+                pile.cards = built.cards;
+                pile.loaded = true;
+                // EDHREC cards in this pile that weren't on page 1 of Scryfall's answer
+                return loadCardInfo(
+                  built.cards.map(function (c) {
+                    return c.id;
+                  }),
+                );
+              })
+              .catch(function (err) {
+                if (token !== S.token) return;
+                pile.error =
+                  "Couldn't load this pile from Scryfall (" +
+                  err.message +
+                  "). Open it again to retry.";
+              })
+              .then(function () {
+                if (token !== S.token) return;
+                pile.loading = false;
+                render();
+              });
+          }
+          render();
+        }
+
+        // ------------------------------------------------------------ swiping
+
+        var VERB = { add: "Added", skip: "Skipped", maybe: "Maybe" };
+
+        // A swipe whose fly-off animation hasn't finished: {timer, commit}.
+        var pending = null;
+
+        /** Finishes an animating swipe right away (another swipe, undo or a deck change came in). */
+        function flushPending() {
+          if (!pending) return;
+          clearTimeout(pending.timer);
+          var c = pending.commit;
+          pending = null;
+          c();
+        }
+
+        function decide(choice, fromDrag) {
+          flushPending();
+          var rec = S.shown; // the card on screen, even if another tab changed the pile
+          if (!rec || !S.state) return;
+          // Save first, animate after, so a swipe is never lost to a quick
+          // deck change or a closed tab.
+          S.state = CS.decide(latestState(), rec.id, choice, Date.now());
+          persist();
+          var info = S.cardInfo[rec.id];
+          status(VERB[choice] + ": " + (info ? info.name : rec.name));
+          var card = document.querySelector("#stage .card");
+          if (!card || reduceMotion) {
+            render();
+            return;
+          }
+          renderPiles();
+          renderLists();
+          var finish = function () {
+            pending = null;
+            S.busy = false;
+            render();
+          };
+          S.busy = true;
+          var w = card.offsetWidth;
+          var t =
+            choice === "add"
+              ? "translate(" +
+                1.6 * w +
+                "px," +
+                (fromDrag ? fromDrag.dy : 0) +
+                "px) rotate(20deg)"
+              : choice === "skip"
+                ? "translate(" +
+                  -1.6 * w +
+                  "px," +
+                  (fromDrag ? fromDrag.dy : 0) +
+                  "px) rotate(-20deg)"
+                : "translate(0," + -1.6 * card.offsetHeight + "px)";
+          card.classList.remove("dragging");
+          showHint(card, choice, 1);
+          card.style.transform = t;
+          card.style.opacity = "0";
+          pending = { timer: setTimeout(finish, 200), commit: finish };
+        }
+
+        function undo() {
+          flushPending();
+          if (!S.state) return;
+          var r = CS.undo(latestState(), Date.now());
+          if (!r.id) {
+            status("Nothing to undo.");
+            return;
+          }
+          S.state = r.state;
+          persist();
+          var info = S.cardInfo[r.id];
+          status("Undid: " + (info ? info.name : "last swipe"));
+          render();
+        }
+
+        function showHint(card, choice, amount) {
+          ["add", "skip", "maybe"].forEach(function (c) {
+            var h = card.querySelector(".hint." + c);
+            if (h)
+              h.style.opacity =
+                c === choice ? String(Math.min(1, amount)) : "0";
+          });
+        }
+
+        function attachDrag(card) {
+          var start = null;
+          card.addEventListener("pointerdown", function (e) {
+            if (S.busy || (e.pointerType === "mouse" && e.button !== 0)) return;
+            start = { x: e.clientX, y: e.clientY, id: e.pointerId };
+            S.dragging = true;
+            card.setPointerCapture(e.pointerId);
+            card.classList.add("dragging");
+          });
+          card.addEventListener("pointermove", function (e) {
+            if (!start || e.pointerId !== start.id) return;
+            var dx = e.clientX - start.x,
+              dy = e.clientY - start.y;
+            card.style.transform =
+              "translate(" + dx + "px," + dy + "px) rotate(" + dx / 20 + "deg)";
+            var w = card.offsetWidth * 0.3;
+            if (-dy > Math.abs(dx)) showHint(card, "maybe", -dy / w);
+            else showHint(card, dx > 0 ? "add" : "skip", Math.abs(dx) / w);
+          });
+          function end(e, cancelled) {
+            if (!start || e.pointerId !== start.id) return;
+            var dx = e.clientX - start.x,
+              dy = e.clientY - start.y;
+            start = null;
+            S.dragging = false;
+            var limit = card.offsetWidth * 0.3;
+            var choice = null;
+            if (!cancelled) {
+              if (-dy > limit && -dy > Math.abs(dx)) choice = "maybe";
+              else if (dx > limit) choice = "add";
+              else if (dx < -limit) choice = "skip";
+            }
+            if (choice) {
+              decide(choice, { dx: dx, dy: dy });
+              return;
+            }
+            card.classList.remove("dragging");
+            card.style.transform = "";
+            showHint(card, null, 0);
+            if (S.needsRender) render(); // another tab changed things mid-drag
+          }
+          card.addEventListener("pointerup", function (e) {
+            end(e, false);
+          });
+          card.addEventListener("pointercancel", function (e) {
+            end(e, true);
+          });
+        }
+
+        // ------------------------------------------------------------ rendering
+
+        function status(msg) {
+          $("status").textContent = msg || "";
+        }
+
+        function render() {
+          S.needsRender = false;
+          if (!S.state) return;
+          renderNotices();
+          renderPiles();
+          renderStage();
+          renderLists();
+        }
+
+        function renderNotices() {
+          var box = $("notices");
+          box.textContent = "";
+          if (!storageAvailable || S.saveFailed) {
+            box.appendChild(
+              el("div", {
+                class: "notice",
+                text: "Saving isn't working in this browser, so swipes will be lost on reload. Use Copy for Moxfield before you leave.",
+              }),
+            );
+          }
+          if (S.edhrecNote)
+            box.appendChild(el("div", { class: "notice", text: S.edhrecNote }));
+        }
+
+        function remaining(pile) {
+          return CS.nextCards(pile, S.state, settings, S.cardInfo, Infinity)
+            .length;
+        }
+
+        function renderPiles() {
+          var nav = $("piles");
+          nav.textContent = "";
+          S.piles.forEach(function (p) {
+            var count =
+              p.loaded && !(p.kind === "edhrec" && S.detailsLoading)
+                ? String(remaining(p))
+                : "\u2026";
+            nav.appendChild(
+              el(
+                "button",
+                {
+                  type: "button",
+                  "aria-pressed": String(p.key === S.current),
+                  onclick: function () {
+                    openPile(p.key);
+                  },
+                },
+                [p.label, el("span", { class: "count", text: count })],
+              ),
+            );
+          });
+        }
+
+        function cardAlt(info) {
+          return [info.name, info.manaCost, info.typeLine, info.oracle]
+            .filter(Boolean)
+            .join(". ");
+        }
+
+        function renderStage() {
+          var stage = $("stage");
+          stage.textContent = "";
+          S.shown = null;
+          var pile = pileByKey(S.current);
+          var buttons = document.querySelectorAll("#actions [data-choice]");
+          var setButtons = function (on) {
+            Array.prototype.forEach.call(buttons, function (b) {
+              b.disabled = !on;
+            });
+          };
+          $("undoBtn").disabled = !S.state.history.length;
+          if (!pile) {
+            setButtons(false);
+            stage.appendChild(
+              el("p", { class: "empty", text: "Loading recommendations..." }),
+            );
+            return;
+          }
+          if (pile.error) {
+            setButtons(false);
+            stage.appendChild(el("p", { class: "empty", text: pile.error }));
+            return;
+          }
+          if (!pile.loaded || (pile.kind === "edhrec" && S.detailsLoading)) {
+            setButtons(false);
+            stage.appendChild(
+              el("p", { class: "empty", text: "Loading cards..." }),
+            );
+            return;
+          }
+          var next = CS.nextCards(pile, S.state, settings, S.cardInfo, 3);
+          if (!next.length) {
+            setButtons(false);
+            stage.appendChild(
+              el("p", {
+                class: "empty",
+                text: "Nothing left in this pile with the current filters. Try another pile, or loosen the filters.",
+              }),
+            );
+            return;
+          }
+          setButtons(true);
+          var rec = next[0];
+          S.shown = rec;
+          var info = S.cardInfo[rec.id];
+          var face = info.image
+            ? el("img", {
+                src: info.image,
+                alt: cardAlt(info),
+                draggable: "false",
+              })
+            : el("div", { class: "textface" }, [
+                el("div", { class: "name", text: info.name }),
+                el("div", {
+                  class: "muted",
+                  text: [info.manaCost, info.typeLine]
+                    .filter(Boolean)
+                    .join("  "),
+                }),
+                el("div", { class: "oracle", text: info.oracle }),
+              ]);
+          var card = el("div", { class: "card" }, [
+            face,
+            el("div", {
+              class: "hint add",
+              text: "ADD",
+              "aria-hidden": "true",
+            }),
+            el("div", {
+              class: "hint skip",
+              text: "SKIP",
+              "aria-hidden": "true",
+            }),
+            el("div", {
+              class: "hint maybe",
+              text: "MAYBE",
+              "aria-hidden": "true",
+            }),
+          ]);
+          attachDrag(card);
+          stage.appendChild(card);
+
+          var bits = [el("div", { class: "cardname", text: info.name })];
+          var line = [money(info.usd)];
+          if (rec.onEdhrec) {
+            line.push(
+              "in " +
+                pct(rec.inclusion) +
+                " of " +
+                rec.potentialDecks.toLocaleString() +
+                " decks",
+            );
+            line.push(
+              (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + " synergy",
+            );
+          }
+          bits.push(el("div", { text: line.join(" \u00b7 ") }));
+          var badges = [];
+          if (!rec.onEdhrec)
+            badges.push(el("span", { class: "badge", text: "not on EDHREC" }));
+          if (info.gameChanger)
+            badges.push(
+              el("span", { class: "badge gc", text: "Game Changer" }),
+            );
+          if (badges.length) bits.push(el("div", null, badges));
+          stage.appendChild(el("div", { class: "meta" }, bits));
+
+          // Load the next two images ahead.
+          preloaded = next.slice(1).map(function (r) {
+            var i = S.cardInfo[r.id];
+            if (!i || !i.image) return null;
+            var img = new Image();
+            img.src = i.image;
+            return img;
+          });
+        }
+
+        function renderList(choice, listId, countId) {
+          var ids = CS.idsWith(S.state, choice);
+          $(countId).textContent = String(ids.length);
+          var ul = $(listId);
+          ul.textContent = "";
+          ids
+            .slice()
+            .reverse()
+            .forEach(function (id) {
+              var info = S.cardInfo[id];
+              var name = info ? info.name : "(loading name...)";
+              ul.appendChild(
+                el("li", null, [
+                  el("span", { text: name }),
+                  info
+                    ? el("span", { class: "price", text: money(info.usd) })
+                    : null,
+                  el("button", {
+                    type: "button",
+                    "aria-label": "Remove " + name,
+                    title: "Remove (it can come back in its pile)",
+                    text: "\u00d7",
+                    onclick: function () {
+                      S.state = CS.clearDecision(latestState(), id, Date.now());
+                      persist();
+                      render();
+                    },
+                  }),
+                ]),
+              );
+            });
+        }
+
+        function renderLists() {
+          if (!S.state) return;
+          renderList("add", "addedList", "addedCount");
+          renderList("maybe", "maybeList", "maybeCount");
+          $("copyBtn").disabled = !CS.idsWith(S.state, "add").length;
+        }
+
+        // ------------------------------------------------------------ copy out
+
+        function copyForMoxfield() {
+          var ids = CS.idsWith(S.state, "add");
+          var missing = ids.filter(function (id) {
+            return !S.cardInfo[id];
+          });
+          if (missing.length) {
+            $("copyMsg").textContent =
+              missing.length +
+              " card names are still loading. Try again in a moment.";
+            loadDecidedNames();
+            return;
+          }
+          var text = CS.copyOutText(
+            ids.map(function (id) {
+              return S.cardInfo[id].name;
+            }),
+          );
+          var box = $("copyBox");
+          var fallback = function () {
+            box.value = text;
+            box.hidden = false;
+            box.focus();
+            box.select();
+            $("copyMsg").textContent =
+              "The browser blocked copying. The list is selected below: press Ctrl+C.";
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              box.hidden = true;
+              $("copyMsg").textContent =
+                "Copied " +
+                ids.length +
+                " cards. In Moxfield, open Bulk Edit and paste.";
+            }, fallback);
+          } else {
+            fallback();
+          }
+        }
+
+        // ------------------------------------------------------------ filters
+
+        function fillFilters() {
+          $("fGameChangers").checked = settings.hideGameChangers;
+          $("fMaxPrice").value =
+            settings.maxPrice == null ? "" : String(settings.maxPrice);
+          Array.prototype.forEach.call(
+            document.querySelectorAll("#fTypes input"),
+            function (box) {
+              box.checked = settings.types.indexOf(box.value) !== -1;
+            },
+          );
+        }
+
+        function readFilters() {
+          var price = parseFloat($("fMaxPrice").value);
+          var types = [];
+          Array.prototype.forEach.call(
+            document.querySelectorAll("#fTypes input"),
+            function (box) {
+              if (box.checked) types.push(box.value);
+            },
+          );
+          settings = {
+            v: 1,
+            hideGameChangers: $("fGameChangers").checked,
+            maxPrice: isNaN(price) || price < 0 ? null : price,
+            types: types,
+          };
+          CS.saveSettings(store, settings);
+          render();
+        }
+
+        function buildFilters() {
+          var box = $("fTypes");
+          CS.TYPES.forEach(function (t) {
+            box.appendChild(
+              el("label", null, [
+                el("input", {
+                  type: "checkbox",
+                  value: t,
+                  onchange: readFilters,
+                }),
+                t.charAt(0).toUpperCase() + t.slice(1),
+              ]),
+            );
+          });
+          $("fGameChangers").addEventListener("change", readFilters);
+          $("fMaxPrice").addEventListener("input", readFilters);
+          fillFilters();
+        }
+
+        // ------------------------------------------------------------ wiring
+
+        $("loadBtn").addEventListener("click", function () {
+          loadDeck("");
+        });
+        $("commanderSelect").addEventListener("change", function () {
+          var id = this.value;
+          var cmd = S.candidates.filter(function (c) {
+            return c.id === id;
+          })[0];
+          if (cmd) selectCommander(cmd);
+        });
+        $("changeDeckBtn").addEventListener("click", function () {
+          flushPending();
+          S.token++; // ignore answers still on their way
+          S.state = null;
+          S.deckId = null;
+          S.busy = false;
+          $("app").hidden = true;
+          $("setup").hidden = false;
+          $("loadBtn").disabled = false;
+          $("copyBox").hidden = true;
+          $("copyMsg").textContent = "";
+          $("exportText").focus();
+        });
+        Array.prototype.forEach.call(
+          document.querySelectorAll("#actions [data-choice]"),
+          function (b) {
+            b.addEventListener("click", function () {
+              decide(b.getAttribute("data-choice"));
+            });
+          },
+        );
+        $("undoBtn").addEventListener("click", undo);
+        $("copyBtn").addEventListener("click", copyForMoxfield);
+
+        document.addEventListener("keydown", function (e) {
+          if ($("app").hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+          var t = e.target;
+          if (
+            t &&
+            (t.tagName === "INPUT" ||
+              t.tagName === "TEXTAREA" ||
+              t.tagName === "SELECT")
+          )
+            return;
+          var map = { ArrowRight: "add", ArrowLeft: "skip", ArrowUp: "maybe" };
+          if (map[e.key]) {
+            e.preventDefault();
+            decide(map[e.key]);
+          } else if (e.key === "z" || e.key === "Z") {
+            e.preventDefault();
+            undo();
+          }
+        });
+
+        buildFilters();
+
+        // Coming back: reload the last deck so swipes pick up where they left off.
+        var last = loadLast();
+        if (last && last.text.trim()) {
+          $("exportText").value = last.text;
+          loadDeck(last.commander);
+        }
+      })();
+    </script>
+  </body>
+</html>

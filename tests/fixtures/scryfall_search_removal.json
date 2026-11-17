@@ -1,0 +1,4471 @@
+{
+ "object": "list",
+ "total_cards": 4453,
+ "has_more": true,
+ "data": [
+  {
+   "id": "4645eebf-c9fc-4ee7-b646-61dc1205b4b0",
+   "name": "Swords to Plowshares",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 11,
+   "set": "trc",
+   "collector_number": "429",
+   "prices": {
+    "usd": "1.03"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/6/4645eebf-c9fc-4ee7-b646-61dc1205b4b0.jpg?1793111861"
+   }
+  },
+  {
+   "id": "cba7cf86-a9e7-4022-bb46-d9b0f136f3ca",
+   "name": "Path to Exile",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 14,
+   "set": "trc",
+   "collector_number": "425",
+   "prices": {
+    "usd": "0.54"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/b/cba7cf86-a9e7-4022-bb46-d9b0f136f3ca.jpg?1793197463"
+   }
+  },
+  {
+   "id": "7d4b1d44-126e-4987-9a9f-f0f9627a09cb",
+   "name": "Blasphemous Act",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "This spell costs {1} less to cast for each creature on the battlefield.\nBlasphemous Act deals 13 damage to each creature.",
+   "mana_cost": "{8}{R}",
+   "cmc": 9.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 22,
+   "set": "msc",
+   "collector_number": "163",
+   "prices": {
+    "usd": "1.42"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/d/7d4b1d44-126e-4987-9a9f-f0f9627a09cb.jpg?1783903234"
+   }
+  },
+  {
+   "id": "fb8d8106-b9bd-405c-886e-72fc301c65e1",
+   "name": "Chaos Warp",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "The owner of target permanent shuffles it into their library, then reveals the top card of their library. If it's a permanent card, they put it onto the battlefield.",
+   "mana_cost": "{2}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 29,
+   "set": "mbc",
+   "collector_number": "72",
+   "prices": {
+    "usd": "0.64"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/b/fb8d8106-b9bd-405c-886e-72fc301c65e1.jpg?1787743253"
+   }
+  },
+  {
+   "id": "c3f9b454-97e9-4c77-b37a-e974221ae385",
+   "name": "Generous Gift",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 63,
+   "set": "msc",
+   "collector_number": "133",
+   "prices": {
+    "usd": "1.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/3/c3f9b454-97e9-4c77-b37a-e974221ae385.jpg?1783903247"
+   }
+  },
+  {
+   "id": "1df2c2a6-94a9-4365-9bd5-dd5f2854c562",
+   "name": "Toxic Deluge",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 66,
+   "set": "trc",
+   "collector_number": "448",
+   "prices": {
+    "usd": "2.60"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/d/1df2c2a6-94a9-4365-9bd5-dd5f2854c562.jpg?1793023039"
+   }
+  },
+  {
+   "id": "2246c098-1071-4cc3-a60a-802406e2827b",
+   "name": "Feed the Swarm",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent's mana value.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 94,
+   "set": "tle",
+   "collector_number": "257",
+   "prices": {
+    "usd": "0.23"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/2/2246c098-1071-4cc3-a60a-802406e2827b.jpg?1783904770"
+   }
+  },
+  {
+   "id": "71067239-d46f-4201-a91c-6aa4c41fa8b1",
+   "name": "Vandalblast",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 100,
+   "set": "msc",
+   "collector_number": "168",
+   "prices": {
+    "usd": "2.65"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/1/71067239-d46f-4201-a91c-6aa4c41fa8b1.jpg?1783903232"
+   }
+  },
+  {
+   "id": "0e13f735-54fa-42b6-aea4-ced33811d7d4",
+   "name": "Deadly Rollick",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "If you control a commander, you may cast this spell without paying its mana cost.\nExile target creature.",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 105,
+   "set": "cmm",
+   "collector_number": "147",
+   "prices": {
+    "usd": "26.81"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/e/0e13f735-54fa-42b6-aea4-ced33811d7d4.jpg?1783915679"
+   }
+  },
+  {
+   "id": "847b4081-25c9-4a9a-a2f3-d5fdadbfe81b",
+   "name": "Abrade",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Abrade deals 3 damage to target creature.\n\u2022 Destroy target artifact.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 144,
+   "set": "trc",
+   "collector_number": "449",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/4/847b4081-25c9-4a9a-a2f3-d5fdadbfe81b.jpg?1793111894"
+   }
+  },
+  {
+   "id": "8a6357d2-f77c-4df7-90cd-6e416e6405cc",
+   "name": "Anguished Unmaking",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target nonland permanent. You lose 3 life.",
+   "mana_cost": "{1}{W}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 150,
+   "set": "trc",
+   "collector_number": "472",
+   "prices": {
+    "usd": "0.55"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/a/8a6357d2-f77c-4df7-90cd-6e416e6405cc.jpg?1793021105"
+   }
+  },
+  {
+   "id": "7673784e-db4b-43a1-8d55-1bb9fc1e284f",
+   "name": "Lightning Bolt",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Lightning Bolt deals 3 damage to any target.",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 159,
+   "set": "msc",
+   "collector_number": "806",
+   "prices": {
+    "usd": "0.98"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/6/7673784e-db4b-43a1-8d55-1bb9fc1e284f.jpg?1783903008"
+   }
+  },
+  {
+   "id": "2b0b3a09-6964-4615-bfc5-4835d07cf6f8",
+   "name": "Austere Command",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose two \u2014\n\u2022 Destroy all artifacts.\n\u2022 Destroy all enchantments.\n\u2022 Destroy all creatures with mana value 3 or less.\n\u2022 Destroy all creatures with mana value 4 or greater.",
+   "mana_cost": "{4}{W}{W}",
+   "cmc": 6.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 171,
+   "set": "trc",
+   "collector_number": "418",
+   "prices": {
+    "usd": "0.31"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/b/2b0b3a09-6964-4615-bfc5-4835d07cf6f8.jpg?1793281318"
+   }
+  },
+  {
+   "id": "e0d8c9f6-cbbd-4694-b100-01cfb81036cc",
+   "name": "Boros Charm",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Boros Charm deals 4 damage to target player or planeswalker.\n\u2022 Permanents you control gain indestructible until end of turn.\n\u2022 Target creature gains double strike until end of turn.",
+   "mana_cost": "{R}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 181,
+   "set": "fdn",
+   "collector_number": "721",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/0/e0d8c9f6-cbbd-4694-b100-01cfb81036cc.jpg?1783908890"
+   }
+  },
+  {
+   "id": "114d2180-093b-4838-97ad-badbc8ee50b0",
+   "name": "Farewell",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose one or more \u2014\n\u2022 Exile all artifacts.\n\u2022 Exile all creatures.\n\u2022 Exile all enchantments.\n\u2022 Exile all graveyards.",
+   "mana_cost": "{4}{W}{W}",
+   "cmc": 6.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": true,
+   "edhrec_rank": 182,
+   "set": "mkc",
+   "collector_number": "64",
+   "prices": {
+    "usd": "5.14"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/1/114d2180-093b-4838-97ad-badbc8ee50b0.jpg?1783913032"
+   }
+  },
+  {
+   "id": "d42b9f9e-2df2-491e-b6ac-3b2bac8a8d8e",
+   "name": "Stroke of Midnight",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target nonland permanent. Its controller creates a 1/1 white Human creature token.",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 196,
+   "set": "frc",
+   "collector_number": "35",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/4/d42b9f9e-2df2-491e-b6ac-3b2bac8a8d8e.jpg?1789599799"
+   }
+  },
+  {
+   "id": "a3cb782d-c459-468d-9779-9b5669abc337",
+   "name": "Fell the Profane // Fell Mire",
+   "layout": "modal_dfc",
+   "type_line": "Instant // Land",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 198,
+   "set": "mh3",
+   "collector_number": "244",
+   "prices": {
+    "usd": "5.76"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Fell the Profane",
+     "type_line": "Instant",
+     "oracle_text": "Destroy target creature or planeswalker.",
+     "mana_cost": "{2}{B}{B}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/a/3/a3cb782d-c459-468d-9779-9b5669abc337.jpg?1783911234"
+     }
+    },
+    {
+     "name": "Fell Mire",
+     "type_line": "Land",
+     "oracle_text": "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {B}.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/a/3/a3cb782d-c459-468d-9779-9b5669abc337.jpg?1783911234"
+     }
+    }
+   ]
+  },
+  {
+   "id": "a3666439-e859-417b-b39e-5f14dbef81d8",
+   "name": "Terminate",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature. It can't be regenerated.",
+   "mana_cost": "{B}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 228,
+   "set": "trc",
+   "collector_number": "481",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/3/a3666439-e859-417b-b39e-5f14dbef81d8.jpg?1793197541"
+   }
+  },
+  {
+   "id": "f67b323d-0dda-45f8-84b7-d883ce5045a8",
+   "name": "Infernal Grasp",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature. You lose 2 life.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 263,
+   "set": "soc",
+   "collector_number": "216",
+   "prices": {
+    "usd": "0.36"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/6/f67b323d-0dda-45f8-84b7-d883ce5045a8.jpg?1783903785"
+   }
+  },
+  {
+   "id": "06d44ada-f98e-405f-89d3-ac1002bfb854",
+   "name": "Withering Torment",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature or enchantment. You lose 2 life.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 265,
+   "set": "msc",
+   "collector_number": "162",
+   "prices": {
+    "usd": "1.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/6/06d44ada-f98e-405f-89d3-ac1002bfb854.jpg?1783903235"
+   }
+  },
+  {
+   "id": "857bfb0e-17dc-4dda-bc37-3df927a9eae6",
+   "name": "Untimely Malfunction",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Change the target of target spell or ability with a single target.\n\u2022 One or two target creatures can't block this turn.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 266,
+   "set": "dsk",
+   "collector_number": "161",
+   "prices": {
+    "usd": "7.71"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/5/857bfb0e-17dc-4dda-bc37-3df927a9eae6.jpg?1783909463"
+   }
+  },
+  {
+   "id": "7c024bae-5631-4e20-ac69-df392ac9e109",
+   "name": "Orcish Bowmasters",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Orc Archer",
+   "oracle_text": "Flash\nWhen this creature enters and whenever an opponent draws a card except the first one they draw in each of their draw steps, this creature deals 1 damage to any target. Then amass Orcs 1.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": true,
+   "edhrec_rank": 269,
+   "set": "ltr",
+   "collector_number": "103",
+   "prices": {
+    "usd": "36.94"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/c/7c024bae-5631-4e20-ac69-df392ac9e109.jpg?1783916299"
+   }
+  },
+  {
+   "id": "62061e7c-cf19-4f03-b8fa-2bdba62d6b0b",
+   "name": "Witch Enchanter // Witch-Blessed Meadow",
+   "layout": "modal_dfc",
+   "type_line": "Creature \u2014 Human Warlock // Land",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 288,
+   "set": "mh3",
+   "collector_number": "239",
+   "prices": {
+    "usd": "5.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Witch Enchanter",
+     "type_line": "Creature \u2014 Human Warlock",
+     "oracle_text": "When this creature enters, destroy target artifact or enchantment an opponent controls.",
+     "mana_cost": "{3}{W}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/6/2/62061e7c-cf19-4f03-b8fa-2bdba62d6b0b.jpg?1783911236"
+     }
+    },
+    {
+     "name": "Witch-Blessed Meadow",
+     "type_line": "Land",
+     "oracle_text": "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {W}.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/6/2/62061e7c-cf19-4f03-b8fa-2bdba62d6b0b.jpg?1783911236"
+     }
+    }
+   ]
+  },
+  {
+   "id": "f96223d0-04c4-40c2-87a9-0c6bc74adddb",
+   "name": "Braids, Arisen Nightmare",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Nightmare",
+   "oracle_text": "At the beginning of your end step, you may sacrifice an artifact, creature, enchantment, land, or planeswalker. If you do, each opponent may sacrifice a permanent of their choice that shares a card type with it. For each opponent who doesn't, that player loses 2 life and you draw a card.",
+   "mana_cost": "{1}{B}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 299,
+   "set": "eoc",
+   "collector_number": "82",
+   "prices": {
+    "usd": "4.17"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/9/f96223d0-04c4-40c2-87a9-0c6bc74adddb.jpg?1783906041"
+   }
+  },
+  {
+   "id": "64b67170-1602-4050-80c0-ade2a6cac211",
+   "name": "Rakdos Charm",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Exile target player's graveyard.\n\u2022 Destroy target artifact.\n\u2022 Each creature deals 1 damage to its controller.",
+   "mana_cost": "{B}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 322,
+   "set": "eoc",
+   "collector_number": "125",
+   "prices": {
+    "usd": "0.45"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/4/64b67170-1602-4050-80c0-ade2a6cac211.jpg?1783906024"
+   }
+  },
+  {
+   "id": "e58c2b2c-4206-4e9c-97c4-4b58baa554de",
+   "name": "Loran of the Third Path",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Artificer",
+   "oracle_text": "Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 338,
+   "set": "trc",
+   "collector_number": "424",
+   "prices": {
+    "usd": "0.98"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/5/e58c2b2c-4206-4e9c-97c4-4b58baa554de.jpg?1793111849"
+   }
+  },
+  {
+   "id": "84056124-1a6f-4274-bee2-74cf0debddb5",
+   "name": "Damn",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy target creature. A creature destroyed this way can't be regenerated.\nOverload {2}{W}{W} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+   "mana_cost": "{B}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 349,
+   "set": "lcc",
+   "collector_number": "191",
+   "prices": {
+    "usd": "2.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/4/84056124-1a6f-4274-bee2-74cf0debddb5.jpg?1783913875"
+   }
+  },
+  {
+   "id": "96b6b2e1-c3e6-464c-8a13-b15deb34e862",
+   "name": "Aetherflux Reservoir",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "Whenever you cast a spell, you gain 1 life for each spell you've cast this turn.\nPay 50 life: This artifact deals 50 damage to any target.",
+   "mana_cost": "{4}",
+   "cmc": 4.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 364,
+   "set": "kld",
+   "collector_number": "192",
+   "prices": {
+    "usd": "20.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/6/96b6b2e1-c3e6-464c-8a13-b15deb34e862.jpg?1783937164"
+   }
+  },
+  {
+   "id": "c375a022-5b57-496d-a802-e4ea8376e9e4",
+   "name": "Eiganjo, Seat of the Empire",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}: Add {W}.\nChannel \u2014 {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 375,
+   "set": "neo",
+   "collector_number": "268",
+   "prices": {
+    "usd": "6.85"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/3/c375a022-5b57-496d-a802-e4ea8376e9e4.jpg?1783923818"
+   }
+  },
+  {
+   "id": "7fdafc6a-a53e-421d-8494-2a34f945d178",
+   "name": "Go for the Throat",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target nonartifact creature.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 380,
+   "set": "j25",
+   "collector_number": "447",
+   "prices": {
+    "usd": "0.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/f/7fdafc6a-a53e-421d-8494-2a34f945d178.jpg?1783908726"
+   }
+  },
+  {
+   "id": "d3c0aac5-b9f1-4446-bfea-3e1dd1cf1f2f",
+   "name": "Damnation",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures. They can't be regenerated.",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 393,
+   "set": "2x2",
+   "collector_number": "73",
+   "prices": {
+    "usd": "20.06"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/3/d3c0aac5-b9f1-4446-bfea-3e1dd1cf1f2f.jpg?1783921909"
+   }
+  },
+  {
+   "id": "0c7e51b6-4898-4632-b39c-3ce438caa882",
+   "name": "Demolition Field",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice this land: Destroy target nonbasic land an opponent controls. That land's controller may search their library for a basic land card, put it onto the battlefield, then shuffle. You may search your library for a basic land card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 394,
+   "set": "fdn",
+   "collector_number": "687",
+   "prices": {
+    "usd": "0.53"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/c/0c7e51b6-4898-4632-b39c-3ce438caa882.jpg?1783908902"
+   }
+  },
+  {
+   "id": "2c09f45f-54a5-47b5-afd7-9ac7c05438e7",
+   "name": "Despark",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target permanent with mana value 4 or greater.",
+   "mana_cost": "{W}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 402,
+   "set": "frc",
+   "collector_number": "50",
+   "prices": {
+    "usd": "0.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/c/2c09f45f-54a5-47b5-afd7-9ac7c05438e7.jpg?1789599827"
+   }
+  },
+  {
+   "id": "5272436e-74f0-44c4-a291-ea8ebc3f1525",
+   "name": "Walking Ballista",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Construct",
+   "oracle_text": "This creature enters with X +1/+1 counters on it.\n{4}: Put a +1/+1 counter on this creature.\nRemove a +1/+1 counter from this creature: It deals 1 damage to any target.",
+   "mana_cost": "{X}{X}",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 417,
+   "set": "2xm",
+   "collector_number": "306",
+   "prices": {
+    "usd": "7.39"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/2/5272436e-74f0-44c4-a291-ea8ebc3f1525.jpg?1783930088"
+   }
+  },
+  {
+   "id": "4dfbe9c3-db44-4f3e-8e8d-82c81c67bc77",
+   "name": "Dispatch",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Tap target creature.\nMetalcraft \u2014 If you control three or more artifacts, exile that creature.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 432,
+   "set": "trc",
+   "collector_number": "421",
+   "prices": {
+    "usd": "0.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/d/4dfbe9c3-db44-4f3e-8e8d-82c81c67bc77.jpg?1793021055"
+   }
+  },
+  {
+   "id": "4ac29c46-f8ee-42ba-a98c-d785ba65485e",
+   "name": "Living Death",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Each player exiles all creature cards from their graveyard, then sacrifices all creatures they control, then puts all cards they exiled this way onto the battlefield.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 449,
+   "set": "tdc",
+   "collector_number": "185",
+   "prices": {
+    "usd": "6.86"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/a/4ac29c46-f8ee-42ba-a98c-d785ba65485e.jpg?1783907088"
+   }
+  },
+  {
+   "id": "70a45e9b-699e-425a-9f3d-267274830d3e",
+   "name": "Red Elemental Blast",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Counter target blue spell.\n\u2022 Destroy target blue permanent.",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 458,
+   "set": "a25",
+   "collector_number": "147",
+   "prices": {
+    "usd": "10.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/0/70a45e9b-699e-425a-9f3d-267274830d3e.jpg?1783935140"
+   }
+  },
+  {
+   "id": "e262f55e-9239-4a97-a19e-9b08fb34502e",
+   "name": "Goblin Bombardment",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 466,
+   "set": "mh2",
+   "collector_number": "279",
+   "prices": {
+    "usd": "3.81"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/2/e262f55e-9239-4a97-a19e-9b08fb34502e.jpg?1783926784"
+   }
+  },
+  {
+   "id": "960f45a3-f9cf-41e6-b813-f3dee620a944",
+   "name": "Chandra's Ignition",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Target creature you control deals damage equal to its power to each other creature and each opponent.",
+   "mana_cost": "{3}{R}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 470,
+   "set": "lcc",
+   "collector_number": "220",
+   "prices": {
+    "usd": "4.91"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/6/960f45a3-f9cf-41e6-b813-f3dee620a944.jpg?1783913867"
+   }
+  },
+  {
+   "id": "5da14d86-0780-4821-a799-96f64b377df4",
+   "name": "Accursed Marauder",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Zombie Warrior",
+   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 478,
+   "set": "mh3",
+   "collector_number": "80",
+   "prices": {
+    "usd": "0.36"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/d/5da14d86-0780-4821-a799-96f64b377df4.jpg?1783911284"
+   }
+  },
+  {
+   "id": "b029eb9a-dd7a-40c2-96c4-0063d9cc002c",
+   "name": "Pyroblast",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Counter target spell if it's blue.\n\u2022 Destroy target permanent if it's blue.",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 481,
+   "set": "ema",
+   "collector_number": "142",
+   "prices": {
+    "usd": "10.19"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/0/b029eb9a-dd7a-40c2-96c4-0063d9cc002c.jpg?1783937576"
+   }
+  },
+  {
+   "id": "985b9779-b8f6-4d7e-9490-5d2b91ee8db2",
+   "name": "Bedevil",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target artifact, creature, or planeswalker.",
+   "mana_cost": "{B}{B}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 492,
+   "set": "msc",
+   "collector_number": "182",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/8/985b9779-b8f6-4d7e-9490-5d2b91ee8db2.jpg?1783903227"
+   }
+  },
+  {
+   "id": "11040ecd-3153-4029-b42b-1441bc51ec34",
+   "name": "Blasphemous Edict",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "You may pay {B} rather than pay this spell's mana cost if there are thirteen or more creatures on the battlefield.\nEach player sacrifices thirteen creatures of their choice.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 501,
+   "set": "fdn",
+   "collector_number": "57",
+   "prices": {
+    "usd": "5.57"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/1/11040ecd-3153-4029-b42b-1441bc51ec34.jpg?1783909112"
+   }
+  },
+  {
+   "id": "904ff94a-4db4-44a6-8593-89c32905b3fc",
+   "name": "Terror of the Peaks",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Dragon",
+   "oracle_text": "Flying\nSpells your opponents cast that target this creature cost an additional 3 life to cast.\nWhenever another creature you control enters, this creature deals damage equal to that creature's power to any target.",
+   "mana_cost": "{3}{R}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 510,
+   "set": "otj",
+   "collector_number": "149",
+   "prices": {
+    "usd": "32.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/0/904ff94a-4db4-44a6-8593-89c32905b3fc.jpg?1783911813"
+   }
+  },
+  {
+   "id": "670a36cc-34e1-4d11-808e-1b6bc88eb5d8",
+   "name": "Massacre Wurm",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Phyrexian Wurm",
+   "oracle_text": "When this creature enters, creatures your opponents control get -2/-2 until end of turn.\nWhenever a creature an opponent controls dies, that player loses 2 life.",
+   "mana_cost": "{3}{B}{B}{B}",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 517,
+   "set": "fdn",
+   "collector_number": "754",
+   "prices": {
+    "usd": "2.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/7/670a36cc-34e1-4d11-808e-1b6bc88eb5d8.jpg?1787562900"
+   }
+  },
+  {
+   "id": "70d0540f-93c6-4af5-ab2d-65e6c03001c7",
+   "name": "The Meathook Massacre",
+   "layout": "normal",
+   "type_line": "Legendary Enchantment",
+   "oracle_text": "When The Meathook Massacre enters, each creature gets -X/-X until end of turn.\nWhenever a creature you control dies, each opponent loses 1 life.\nWhenever a creature an opponent controls dies, you gain 1 life.",
+   "mana_cost": "{X}{B}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 519,
+   "set": "inr",
+   "collector_number": "122",
+   "prices": {
+    "usd": "25.85"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/0/70d0540f-93c6-4af5-ab2d-65e6c03001c7.jpg?1783908137"
+   }
+  },
+  {
+   "id": "f57fd4c9-0004-4f71-a30f-2720943f57ca",
+   "name": "Strip Mine",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target land.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 537,
+   "set": "vma",
+   "collector_number": "316",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/5/f57fd4c9-0004-4f71-a30f-2720943f57ca.jpg?1783939218"
+   }
+  },
+  {
+   "id": "674f3a8a-4552-4289-b92a-06ce158f115c",
+   "name": "Mayhem Devil",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Devil",
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "mana_cost": "{1}{B}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 572,
+   "set": "eoc",
+   "collector_number": "121",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/7/674f3a8a-4552-4289-b92a-06ce158f115c.jpg?1783906026"
+   }
+  },
+  {
+   "id": "05e6a7bc-a35a-4e68-99a0-be264553b5de",
+   "name": "Saw in Half",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature. If that creature dies this way, its controller creates two tokens that are copies of that creature, except their power is half that creature's power and their toughness is half that creature's toughness. Round up each time.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 576,
+   "set": "unf",
+   "collector_number": "88",
+   "prices": {
+    "usd": "5.94"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/5/05e6a7bc-a35a-4e68-99a0-be264553b5de.jpg?1783920577"
+   }
+  },
+  {
+   "id": "f5a4970b-2ba6-4c91-a301-369369cdf360",
+   "name": "Grave Pact",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control dies, each other player sacrifices a creature of their choice.",
+   "mana_cost": "{1}{B}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 578,
+   "set": "cmm",
+   "collector_number": "165",
+   "prices": {
+    "usd": "31.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/5/f5a4970b-2ba6-4c91-a301-369369cdf360.jpg?1783915673"
+   }
+  },
+  {
+   "id": "88e85619-3a7d-48c2-b9b0-20718c913696",
+   "name": "Mortify",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature or enchantment.",
+   "mana_cost": "{1}{W}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 582,
+   "set": "fdn",
+   "collector_number": "662",
+   "prices": {
+    "usd": "0.31"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/8/88e85619-3a7d-48c2-b9b0-20718c913696.jpg?1783908910"
+   }
+  },
+  {
+   "id": "6e776a1e-266d-4b30-83da-be4721a55ed2",
+   "name": "Darksteel Mutation",
+   "layout": "normal",
+   "type_line": "Enchantment \u2014 Aura",
+   "oracle_text": "Enchant creature\nEnchanted creature is an Insect artifact creature with base power and toughness 0/1 and has indestructible, and it loses all other abilities, card types, and creature types.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 588,
+   "set": "soc",
+   "collector_number": "142",
+   "prices": {
+    "usd": "1.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/e/6e776a1e-266d-4b30-83da-be4721a55ed2.jpg?1783903810"
+   }
+  },
+  {
+   "id": "73a065e3-b530-4e62-ab3c-4f6f908184ec",
+   "name": "Elspeth, Storm Slayer",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Elspeth",
+   "oracle_text": "If one or more tokens would be created under your control, twice that many of those tokens are created instead.\n+1: Create a 1/1 white Soldier creature token.\n0: Put a +1/+1 counter on each creature you control. Those creatures gain flying until your next turn.\n\u22123: Destroy target creature an opponent controls with mana value 3 or greater.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 629,
+   "set": "tdm",
+   "collector_number": "11",
+   "prices": {
+    "usd": "51.57"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/3/73a065e3-b530-4e62-ab3c-4f6f908184ec.jpg?1783907414"
+   }
+  },
+  {
+   "id": "f69d77d1-5980-436c-bf48-790939b069aa",
+   "name": "Torment of Hailfire",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Repeat the following process X times. Each opponent loses 3 life unless that player sacrifices a nonland permanent of their choice or discards a card.",
+   "mana_cost": "{X}{B}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 630,
+   "set": "hou",
+   "collector_number": "77",
+   "prices": {
+    "usd": "34.63"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/6/f69d77d1-5980-436c-bf48-790939b069aa.jpg?1783936036"
+   }
+  },
+  {
+   "id": "97505837-e0e2-4f7b-8581-01942e886bb8",
+   "name": "Plaguecrafter",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Shaman",
+   "oracle_text": "When this creature enters, each player sacrifices a creature or planeswalker of their choice. Each player who can't discards a card.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 640,
+   "set": "rvr",
+   "collector_number": "89",
+   "prices": {
+    "usd": "0.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/7/97505837-e0e2-4f7b-8581-01942e886bb8.jpg?1783913321"
+   }
+  },
+  {
+   "id": "e55c4edd-cd5f-4cc6-9fae-730a5fabd3a0",
+   "name": "Ruinous Ultimatum",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all nonland permanents your opponents control.",
+   "mana_cost": "{R}{R}{W}{W}{W}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B",
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 655,
+   "set": "trc",
+   "collector_number": "479",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/5/e55c4edd-cd5f-4cc6-9fae-730a5fabd3a0.jpg?1793197540"
+   }
+  },
+  {
+   "id": "75bbe89f-09af-494e-b58e-271f64bde4b5",
+   "name": "Snuff Out",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "If you control a Swamp, you may pay 4 life rather than pay this spell's mana cost.\nDestroy target nonblack creature. It can't be regenerated.",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 670,
+   "set": "gvl",
+   "collector_number": "53",
+   "prices": {
+    "usd": "13.41"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/5/75bbe89f-09af-494e-b58e-271f64bde4b5.jpg?1783938751"
+   }
+  },
+  {
+   "id": "f6cd7c08-f5d4-4bdc-a254-809d900b0fc3",
+   "name": "Kindred Dominance",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose a creature type. Destroy all creatures that aren't of the chosen type.",
+   "mana_cost": "{5}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 689,
+   "set": "msc",
+   "collector_number": "156",
+   "prices": {
+    "usd": "4.88"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/6/f6cd7c08-f5d4-4bdc-a254-809d900b0fc3.jpg?1783903243"
+   }
+  },
+  {
+   "id": "1eac116d-bc78-4585-8b97-2775c3d0bdb4",
+   "name": "Wrath of God",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures. They can't be regenerated.",
+   "mana_cost": "{2}{W}{W}",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 690,
+   "set": "trc",
+   "collector_number": "433",
+   "prices": {
+    "usd": "0.99"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/e/1eac116d-bc78-4585-8b97-2775c3d0bdb4.jpg?1793281330"
+   }
+  },
+  {
+   "id": "50686ac7-346c-43d1-bdaa-28d46a12ad93",
+   "name": "Sundering Eruption // Volcanic Fissure",
+   "layout": "modal_dfc",
+   "type_line": "Sorcery // Land",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 692,
+   "set": "mh3",
+   "collector_number": "248",
+   "prices": {
+    "usd": "1.16"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Sundering Eruption",
+     "type_line": "Sorcery",
+     "oracle_text": "Destroy target land. Its controller may search their library for a basic land card, put it onto the battlefield tapped, then shuffle. Creatures without flying can't block this turn.",
+     "mana_cost": "{2}{R}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/5/0/50686ac7-346c-43d1-bdaa-28d46a12ad93.jpg?1783911228"
+     }
+    },
+    {
+     "name": "Volcanic Fissure",
+     "type_line": "Land",
+     "oracle_text": "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {R}.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/5/0/50686ac7-346c-43d1-bdaa-28d46a12ad93.jpg?1783911228"
+     }
+    }
+   ]
+  },
+  {
+   "id": "b829eace-9765-4e9a-939b-25b97baa8b76",
+   "name": "Chain Reaction",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Chain Reaction deals X damage to each creature, where X is the number of creatures on the battlefield.",
+   "mana_cost": "{2}{R}{R}",
+   "cmc": 4.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 702,
+   "set": "trc",
+   "collector_number": "450",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/8/b829eace-9765-4e9a-939b-25b97baa8b76.jpg?1793111895"
+   }
+  },
+  {
+   "id": "8b207a4a-47d1-4905-81d3-455c59bfd7da",
+   "name": "Sheoldred, Whispering One",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Phyrexian Praetor",
+   "oracle_text": "Swampwalk (This creature can't be blocked as long as defending player controls a Swamp.)\nAt the beginning of your upkeep, return target creature card from your graveyard to the battlefield.\nAt the beginning of each opponent's upkeep, that player sacrifices a creature of their choice.",
+   "mana_cost": "{5}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 731,
+   "set": "jmp",
+   "collector_number": "278",
+   "prices": {
+    "usd": "23.19"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/b/8b207a4a-47d1-4905-81d3-455c59bfd7da.jpg?1783930409"
+   }
+  },
+  {
+   "id": "dbe1bfe0-0be7-496d-94db-e8028d4d9493",
+   "name": "Warstorm Surge",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control enters, it deals damage equal to its power to any target.",
+   "mana_cost": "{5}{R}",
+   "cmc": 6.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 739,
+   "set": "clb",
+   "collector_number": "815",
+   "prices": {
+    "usd": "1.45"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/b/dbe1bfe0-0be7-496d-94db-e8028d4d9493.jpg?1783922416"
+   }
+  },
+  {
+   "id": "e3e2d90a-3557-49d5-9986-cb50fd31f396",
+   "name": "Grapeshot",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Grapeshot deals 1 damage to any target.\nStorm (When you cast this spell, copy it for each spell cast before it this turn. You may choose new targets for the copies.)",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 742,
+   "set": "msc",
+   "collector_number": "803",
+   "prices": {
+    "usd": "0.45"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/3/e3e2d90a-3557-49d5-9986-cb50fd31f396.jpg?1783903011"
+   }
+  },
+  {
+   "id": "a91d9163-c1f2-4eae-acab-5dabbc71d7d4",
+   "name": "Elspeth, Sun's Champion",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Elspeth",
+   "oracle_text": "+1: Create three 1/1 white Soldier creature tokens.\n\u22123: Destroy all creatures with power 4 or greater.\n\u22127: You get an emblem with \"Creatures you control get +2/+2 and have flying.\"",
+   "mana_cost": "{4}{W}{W}",
+   "cmc": 6.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 767,
+   "set": "frc",
+   "collector_number": "24",
+   "prices": {
+    "usd": "0.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/9/a91d9163-c1f2-4eae-acab-5dabbc71d7d4.jpg?1789613307"
+   }
+  },
+  {
+   "id": "cb28d217-795e-4320-a032-cd713f7ecc8a",
+   "name": "Liliana, Dreadhorde General",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Liliana",
+   "oracle_text": "Whenever a creature you control dies, draw a card.\n+1: Create a 2/2 black Zombie creature token.\n\u22124: Each player sacrifices two creatures of their choice.\n\u22129: Each opponent chooses a permanent they control of each permanent type and sacrifices the rest.",
+   "mana_cost": "{4}{B}{B}",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 768,
+   "set": "fdn",
+   "collector_number": "176",
+   "prices": {
+    "usd": "13.78"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/b/cb28d217-795e-4320-a032-cd713f7ecc8a.jpg?1783909073"
+   }
+  },
+  {
+   "id": "30eda694-b71b-4e89-929f-237ce6e541ba",
+   "name": "Vanquish the Horde",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "This spell costs {1} less to cast for each creature on the battlefield.\nDestroy all creatures.",
+   "mana_cost": "{6}{W}{W}",
+   "cmc": 8.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 778,
+   "set": "trc",
+   "collector_number": "432",
+   "prices": {
+    "usd": "0.31"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/0/30eda694-b71b-4e89-929f-237ce6e541ba.jpg?1793197475"
+   }
+  },
+  {
+   "id": "fce2baa4-2976-4bbd-b6c5-a5a3c6a901be",
+   "name": "Fleshbag Marauder",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Zombie Warrior",
+   "oracle_text": "When this creature enters, each player sacrifices a creature of their choice.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 788,
+   "set": "clu",
+   "collector_number": "111",
+   "prices": {
+    "usd": "0.27"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/c/fce2baa4-2976-4bbd-b6c5-a5a3c6a901be.jpg?1783912547"
+   }
+  },
+  {
+   "id": "a1a1cfec-72ca-499b-b621-fa2d8502ea20",
+   "name": "Meteor Golem",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Golem",
+   "oracle_text": "When this creature enters, destroy target nonland permanent an opponent controls.",
+   "mana_cost": "{7}",
+   "cmc": 7.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 801,
+   "set": "msc",
+   "collector_number": "205",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/1/a1a1cfec-72ca-499b-b621-fa2d8502ea20.jpg?1783903217"
+   }
+  },
+  {
+   "id": "cfe118f0-f727-41a6-aaaf-9638fe1dad49",
+   "name": "Bitter Triumph",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 816,
+   "set": "trc",
+   "collector_number": "445",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/f/cfe118f0-f727-41a6-aaaf-9638fe1dad49.jpg?1793021093"
+   }
+  },
+  {
+   "id": "275f8721-a6e5-489b-851f-1676aad5ec39",
+   "name": "Brash Taunter",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Goblin",
+   "oracle_text": "Indestructible\nWhenever this creature is dealt damage, it deals that much damage to target opponent.\n{2}{R}, {T}: This creature fights another target creature.",
+   "mana_cost": "{4}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 826,
+   "set": "dsc",
+   "collector_number": "161",
+   "prices": {
+    "usd": "3.74"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/7/275f8721-a6e5-489b-851f-1676aad5ec39.jpg?1783909612"
+   }
+  },
+  {
+   "id": "b5a79f5d-d0df-4799-ac3a-84305e3af0c9",
+   "name": "Yawgmoth, Thran Physician",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Cleric",
+   "oracle_text": "Protection from Humans\nPay 1 life, Sacrifice another creature: Put a -1/-1 counter on up to one target creature and draw a card.\n{B}{B}, Discard a card: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 836,
+   "set": "dmr",
+   "collector_number": "110",
+   "prices": {
+    "usd": "27.54"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/5/b5a79f5d-d0df-4799-ac3a-84305e3af0c9.jpg?1783918469"
+   }
+  },
+  {
+   "id": "39ac7ad0-e570-4209-988c-7c0f9b9d2004",
+   "name": "Dragon Tempest",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control with flying enters, it gains haste until end of turn.\nWhenever a Dragon you control enters, it deals X damage to any target, where X is the number of Dragons you control.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 842,
+   "set": "tdc",
+   "collector_number": "94",
+   "prices": {
+    "usd": "3.56"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/9/39ac7ad0-e570-4209-988c-7c0f9b9d2004.jpg?1783907139"
+   }
+  },
+  {
+   "id": "12f8071c-8955-4aa2-889c-6043df047223",
+   "name": "Ghost Quarter",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target land. Its controller may search their library for a basic land card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 851,
+   "set": "cm2",
+   "collector_number": "253",
+   "prices": {
+    "usd": "0.93"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/2/12f8071c-8955-4aa2-889c-6043df047223.jpg?1783934685"
+   }
+  },
+  {
+   "id": "78c2bfef-06a5-4c7f-8283-ea3fb673b7a1",
+   "name": "Elesh Norn, Grand Cenobite",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Phyrexian Praetor",
+   "oracle_text": "Vigilance\nOther creatures you control get +2/+2.\nCreatures your opponents control get -2/-2.",
+   "mana_cost": "{5}{W}{W}",
+   "cmc": 7.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 865,
+   "set": "ima",
+   "collector_number": "18",
+   "prices": {
+    "usd": "20.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/8/78c2bfef-06a5-4c7f-8283-ea3fb673b7a1.jpg?1783935557"
+   }
+  },
+  {
+   "id": "132ccc20-cb42-4474-b747-7e41a661060e",
+   "name": "Tragic Slip",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Target creature gets -1/-1 until end of turn.\nMorbid \u2014 That creature gets -13/-13 until end of turn instead if a creature died this turn.",
+   "mana_cost": "{B}",
+   "cmc": 1.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 893,
+   "set": "inr",
+   "collector_number": "134",
+   "prices": {
+    "usd": "0.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/3/132ccc20-cb42-4474-b747-7e41a661060e.jpg?1783908131"
+   }
+  },
+  {
+   "id": "1f29d9e4-3100-43cb-9723-7d5c23f89b12",
+   "name": "Murder",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature.",
+   "mana_cost": "{1}{B}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 899,
+   "set": "j25",
+   "collector_number": "467",
+   "prices": {
+    "usd": "0.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/f/1f29d9e4-3100-43cb-9723-7d5c23f89b12.jpg?1783908723"
+   }
+  },
+  {
+   "id": "38326f48-548c-4b18-9ad2-0b7c23385deb",
+   "name": "Grim Hireling",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Tiefling Rogue",
+   "oracle_text": "Whenever one or more creatures you control deal combat damage to a player, create two Treasure tokens.\n{B}, Sacrifice X Treasures: Target creature gets -X/-X until end of turn. Activate only as a sorcery.",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 913,
+   "set": "clb",
+   "collector_number": "755",
+   "prices": {
+    "usd": "11.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/8/38326f48-548c-4b18-9ad2-0b7c23385deb.jpg?1783922451"
+   }
+  },
+  {
+   "id": "3d286cf6-3e16-4941-9326-1818b1e06d69",
+   "name": "Dismember",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "({B/P} can be paid with either {B} or 2 life.)\nTarget creature gets -5/-5 until end of turn.",
+   "mana_cost": "{1}{B/P}{B/P}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 920,
+   "set": "mm2",
+   "collector_number": "79",
+   "prices": {
+    "usd": "4.21"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/d/3d286cf6-3e16-4941-9326-1818b1e06d69.jpg?1783938413"
+   }
+  },
+  {
+   "id": "ab7e2cfa-9c5f-4594-bdcd-2dcd2fb3340b",
+   "name": "Promise of Loyalty",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Each player puts a vow counter on a creature they control and sacrifices the rest. Each of those creatures can't attack you or planeswalkers you control for as long as it has a vow counter on it.",
+   "mana_cost": "{4}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 924,
+   "set": "trc",
+   "collector_number": "426",
+   "prices": {
+    "usd": "0.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/b/ab7e2cfa-9c5f-4594-bdcd-2dcd2fb3340b.jpg?1793111860"
+   }
+  },
+  {
+   "id": "143147d2-2eec-41e7-b78a-592288b38630",
+   "name": "Field of Ruin",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice this land: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 929,
+   "set": "moc",
+   "collector_number": "400",
+   "prices": {
+    "usd": "0.36"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/4/143147d2-2eec-41e7-b78a-592288b38630.jpg?1783917099"
+   }
+  },
+  {
+   "id": "71e7ef4a-2032-4571-afc6-5207d4b40c3d",
+   "name": "Myr Battlesphere",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Myr Construct",
+   "oracle_text": "When this creature enters, create four 1/1 colorless Myr artifact creature tokens.\nWhenever this creature attacks, you may tap X untapped Myr you control. If you do, this creature gets +X/+0 until end of turn and deals X damage to the player or planeswalker it's attacking.",
+   "mana_cost": "{7}",
+   "cmc": 7.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 931,
+   "set": "tdc",
+   "collector_number": "322",
+   "prices": {
+    "usd": "0.36"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/1/71e7ef4a-2032-4571-afc6-5207d4b40c3d.jpg?1783907008"
+   }
+  },
+  {
+   "id": "95ff951b-a098-409c-86c8-373b6c9f8331",
+   "name": "Archon of Cruelty",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Archon",
+   "oracle_text": "Flying\nWhenever this creature enters or attacks, target opponent sacrifices a creature or planeswalker of their choice, discards a card, and loses 3 life. You draw a card and gain 3 life.",
+   "mana_cost": "{6}{B}{B}",
+   "cmc": 8.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 957,
+   "set": "frc",
+   "collector_number": "47",
+   "prices": {
+    "usd": "2.19"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/5/95ff951b-a098-409c-86c8-373b6c9f8331.jpg?1789599818"
+   }
+  },
+  {
+   "id": "4210c54e-89fd-4971-ab6a-ca8f4e7fe97a",
+   "name": "All Is Dust",
+   "layout": "normal",
+   "type_line": "Kindred Sorcery \u2014 Eldrazi",
+   "oracle_text": "Each player sacrifices all permanents they control that are one or more colors.",
+   "mana_cost": "{7}",
+   "cmc": 7.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 969,
+   "set": "cmm",
+   "collector_number": "800",
+   "prices": {
+    "usd": "5.09"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/2/4210c54e-89fd-4971-ab6a-ca8f4e7fe97a.jpg?1783915459"
+   }
+  },
+  {
+   "id": "5bcb4398-edd1-41a7-a496-b12bce22ceb6",
+   "name": "Defile",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Target creature gets -1/-1 until end of turn for each Swamp you control.",
+   "mana_cost": "{B}",
+   "cmc": 1.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 985,
+   "set": "mh1",
+   "collector_number": "86",
+   "prices": {
+    "usd": "1.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/b/5bcb4398-edd1-41a7-a496-b12bce22ceb6.jpg?1783933130"
+   }
+  },
+  {
+   "id": "4ad8d899-5901-4fc8-b4f0-adcc0d97fc6e",
+   "name": "Angel of the Ruins",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Angel",
+   "oracle_text": "Flying\nWhen this creature enters, exile up to two target artifacts and/or enchantments.\nPlainscycling {2} ({2}, Discard this card: Search your library for a Plains card, reveal it, put it into your hand, then shuffle.)",
+   "mana_cost": "{5}{W}{W}",
+   "cmc": 7.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 987,
+   "set": "eoc",
+   "collector_number": "63",
+   "prices": {
+    "usd": "0.24"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/a/4ad8d899-5901-4fc8-b4f0-adcc0d97fc6e.jpg?1783906047"
+   }
+  },
+  {
+   "id": "5f2facfb-dfde-4e5b-8f6d-4fabb4c85519",
+   "name": "Dusk // Dawn",
+   "layout": "split",
+   "type_line": "Sorcery // Sorcery",
+   "mana_cost": "{2}{W}{W} // {3}{W}{W}",
+   "cmc": 9.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 989,
+   "set": "mkc",
+   "collector_number": "61",
+   "prices": {
+    "usd": "0.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/f/5f2facfb-dfde-4e5b-8f6d-4fabb4c85519.jpg?1783913033"
+   },
+   "card_faces": [
+    {
+     "name": "Dusk",
+     "type_line": "Sorcery",
+     "oracle_text": "Destroy all creatures with power 3 or greater.",
+     "mana_cost": "{2}{W}{W}"
+    },
+    {
+     "name": "Dawn",
+     "type_line": "Sorcery",
+     "oracle_text": "Aftermath (Cast this spell only from your graveyard. Then exile it.)\nReturn all creature cards with power 2 or less from your graveyard to your hand.",
+     "mana_cost": "{3}{W}{W}"
+    }
+   ]
+  },
+  {
+   "id": "976f6850-e646-4b51-a103-25240658672d",
+   "name": "Fumigate",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures. You gain 1 life for each creature destroyed this way.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 998,
+   "set": "eoc",
+   "collector_number": "65",
+   "prices": {
+    "usd": "0.33"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/7/976f6850-e646-4b51-a103-25240658672d.jpg?1783906046"
+   }
+  },
+  {
+   "id": "9f06db70-95f9-41eb-8e5f-8bc56fd34c09",
+   "name": "Dictate of Erebos",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Flash\nWhenever a creature you control dies, each opponent sacrifices a creature of their choice.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1031,
+   "set": "jou",
+   "collector_number": "65",
+   "prices": {
+    "usd": "16.27"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9f06db70-95f9-41eb-8e5f-8bc56fd34c09.jpg?1783939437"
+   }
+  },
+  {
+   "id": "289c11b7-a460-4a2f-b11a-e1ba54bd1f34",
+   "name": "Noxious Gearhulk",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Construct",
+   "oracle_text": "Menace\nWhen this creature enters, you may destroy another target creature. If a creature is destroyed this way, you gain life equal to its toughness.",
+   "mana_cost": "{4}{B}{B}",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1032,
+   "set": "tdc",
+   "collector_number": "191",
+   "prices": {
+    "usd": "0.52"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/8/289c11b7-a460-4a2f-b11a-e1ba54bd1f34.jpg?1783907084"
+   }
+  },
+  {
+   "id": "14d60131-8715-477d-8a67-5f1f99a906a8",
+   "name": "Hour of Reckoning",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nDestroy all nontoken creatures.",
+   "mana_cost": "{4}{W}{W}{W}",
+   "cmc": 7.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1049,
+   "set": "tdc",
+   "collector_number": "120",
+   "prices": {
+    "usd": "0.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/4/14d60131-8715-477d-8a67-5f1f99a906a8.jpg?1783907128"
+   }
+  },
+  {
+   "id": "e01cc65a-0e38-4f41-b9ed-796ef0355d0b",
+   "name": "Wear // Tear",
+   "layout": "split",
+   "type_line": "Instant // Instant",
+   "mana_cost": "{1}{R} // {W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1056,
+   "set": "moc",
+   "collector_number": "343",
+   "prices": {
+    "usd": "2.70"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/0/e01cc65a-0e38-4f41-b9ed-796ef0355d0b.jpg?1783917123"
+   },
+   "card_faces": [
+    {
+     "name": "Wear",
+     "type_line": "Instant",
+     "oracle_text": "Destroy target artifact.\nFuse (You may cast one or both halves of this card from your hand.)",
+     "mana_cost": "{1}{R}"
+    },
+    {
+     "name": "Tear",
+     "type_line": "Instant",
+     "oracle_text": "Destroy target enchantment.\nFuse (You may cast one or both halves of this card from your hand.)",
+     "mana_cost": "{W}"
+    }
+   ]
+  },
+  {
+   "id": "5f608efc-0dbc-4cc3-aadd-ed473bfc29ab",
+   "name": "Portal to Phyrexia",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "When this artifact enters, each opponent sacrifices three creatures of their choice.\nAt the beginning of your upkeep, put target creature card from a graveyard onto the battlefield under your control. It's a Phyrexian in addition to its other types.",
+   "mana_cost": "{9}",
+   "cmc": 9.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1065,
+   "set": "bro",
+   "collector_number": "240",
+   "prices": {
+    "usd": "48.82"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/f/5f608efc-0dbc-4cc3-aadd-ed473bfc29ab.jpg?1783920015"
+   }
+  },
+  {
+   "id": "2eb7e322-aba0-42f5-80a1-267f3444ac4d",
+   "name": "Ugin, the Ineffable",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Ugin",
+   "oracle_text": "Colorless spells you cast cost {2} less to cast.\n+1: Exile the top card of your library face down and look at it. Create a 2/2 colorless Spirit creature token. When that token leaves the battlefield, put the exiled card into your hand.\n\u22123: Destroy target permanent that's one or more colors.",
+   "mana_cost": "{6}",
+   "cmc": 6.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1102,
+   "set": "cmm",
+   "collector_number": "811",
+   "prices": {
+    "usd": "2.13"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/e/2eb7e322-aba0-42f5-80a1-267f3444ac4d.jpg?1783915455"
+   }
+  },
+  {
+   "id": "d27cf7b7-7982-46bd-a559-7789c0e74bae",
+   "name": "Kozilek, Butcher of Truth",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Eldrazi",
+   "oracle_text": "When you cast this spell, draw four cards.\nAnnihilator 4 (Whenever this creature attacks, defending player sacrifices four permanents of their choice.)\nWhen Kozilek is put into a graveyard from anywhere, its owner shuffles their graveyard into their library.",
+   "mana_cost": "{10}",
+   "cmc": 10.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1108,
+   "set": "2x2",
+   "collector_number": "2",
+   "prices": {
+    "usd": "47.61"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/2/d27cf7b7-7982-46bd-a559-7789c0e74bae.jpg?1783921940"
+   }
+  },
+  {
+   "id": "5be40c34-6df0-4471-b99b-850ae2be9923",
+   "name": "Damning Verdict",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures with no counters on them.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1111,
+   "set": "ncc",
+   "collector_number": "15",
+   "prices": {
+    "usd": "9.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/b/5be40c34-6df0-4471-b99b-850ae2be9923.jpg?1783923375"
+   }
+  },
+  {
+   "id": "9e9b40f5-3dd0-4607-a78d-b004d57fa4ea",
+   "name": "Drakuseth, Maw of Flames",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Dragon",
+   "oracle_text": "Flying\nWhenever Drakuseth attacks, Drakuseth deals 4 damage to any target and 3 damage to each of up to two other targets.",
+   "mana_cost": "{4}{R}{R}{R}",
+   "cmc": 7.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1114,
+   "set": "fdn",
+   "collector_number": "760",
+   "prices": {
+    "usd": "0.52"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9e9b40f5-3dd0-4607-a78d-b004d57fa4ea.jpg?1787562797"
+   }
+  },
+  {
+   "id": "7ac43e16-8b14-46f2-877a-600ea918766b",
+   "name": "Disenchant",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target artifact or enchantment.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1120,
+   "set": "fdn",
+   "collector_number": "572",
+   "prices": {
+    "usd": "0.25"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/a/7ac43e16-8b14-46f2-877a-600ea918766b.jpg?1783908940"
+   }
+  },
+  {
+   "id": "d68ce39b-0847-4132-b3b5-8bc25f2e7be9",
+   "name": "Vilis, Broker of Blood",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Demon",
+   "oracle_text": "Flying\n{B}, Pay 2 life: Target creature gets -1/-1 until end of turn.\nWhenever you lose life, draw that many cards. (Damage causes loss of life.)",
+   "mana_cost": "{5}{B}{B}{B}",
+   "cmc": 8.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1135,
+   "set": "j25",
+   "collector_number": "70",
+   "prices": {
+    "usd": "9.99"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/6/d68ce39b-0847-4132-b3b5-8bc25f2e7be9.jpg?1783908849"
+   }
+  },
+  {
+   "id": "a9225cc3-90f0-448f-a8d9-7c6c2796d077",
+   "name": "Sheoldred's Edict",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Each opponent sacrifices a nontoken creature of their choice.\n\u2022 Each opponent sacrifices a creature token of their choice.\n\u2022 Each opponent sacrifices a planeswalker of their choice.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1140,
+   "set": "one",
+   "collector_number": "108",
+   "prices": {
+    "usd": "1.61"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/9/a9225cc3-90f0-448f-a8d9-7c6c2796d077.jpg?1783918041"
+   }
+  },
+  {
+   "id": "de547f52-3798-4b3a-947d-24873251204b",
+   "name": "Crackle with Power",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Crackle with Power deals five times X damage to each of up to X targets.",
+   "mana_cost": "{X}{X}{X}{R}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1145,
+   "set": "stx",
+   "collector_number": "95",
+   "prices": {
+    "usd": "8.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/e/de547f52-3798-4b3a-947d-24873251204b.jpg?1783927356"
+   }
+  },
+  {
+   "id": "43787574-7700-47ab-b57c-98ef968cce71",
+   "name": "Grasp of Fate",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "When this enchantment enters, for each opponent, exile up to one target nonland permanent that player controls until this enchantment leaves the battlefield. (Those permanents return under their owners' control.)",
+   "mana_cost": "{1}{W}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1151,
+   "set": "cmm",
+   "collector_number": "823",
+   "prices": {
+    "usd": "0.68"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/3/43787574-7700-47ab-b57c-98ef968cce71.jpg?1783915451"
+   }
+  },
+  {
+   "id": "ae2e7646-5a11-4aef-bd5c-6dc011c3d0b2",
+   "name": "Vindicate",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy target permanent.",
+   "mana_cost": "{1}{W}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1162,
+   "set": "trc",
+   "collector_number": "482",
+   "prices": {
+    "usd": "0.27"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/e/ae2e7646-5a11-4aef-bd5c-6dc011c3d0b2.jpg?1793197553"
+   }
+  },
+  {
+   "id": "a4dfbac0-1849-41c5-853a-1fee108d0b01",
+   "name": "Ravenous Chupacabra",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Beast Horror",
+   "oracle_text": "When this creature enters, destroy target creature an opponent controls.",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1166,
+   "set": "mkc",
+   "collector_number": "136",
+   "prices": {
+    "usd": "0.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/4/a4dfbac0-1849-41c5-853a-1fee108d0b01.jpg?1783913009"
+   }
+  },
+  {
+   "id": "95318d85-4a08-47ac-a43d-ea83c0bea81c",
+   "name": "Summon: Bahamut",
+   "layout": "saga",
+   "type_line": "Enchantment Creature \u2014 Saga Dragon",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after IV.)\nI, II \u2014 Destroy up to one target nonland permanent.\nIII \u2014 Draw two cards.\nIV \u2014 Mega Flare \u2014 This creature deals damage equal to the total mana value of other permanents you control to each opponent.\nFlying",
+   "mana_cost": "{9}",
+   "cmc": 9.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1173,
+   "set": "fin",
+   "collector_number": "1",
+   "prices": {
+    "usd": "26.59"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/5/95318d85-4a08-47ac-a43d-ea83c0bea81c.jpg?1783906656"
+   }
+  },
+  {
+   "id": "2c2fb07b-0f70-403b-be8b-b5217f12e671",
+   "name": "Soul Shatter",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Each opponent sacrifices a creature or planeswalker with the greatest mana value among creatures and planeswalkers they control.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1185,
+   "set": "znr",
+   "collector_number": "127",
+   "prices": {
+    "usd": "4.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/c/2c2fb07b-0f70-403b-be8b-b5217f12e671.jpg?1783929366"
+   }
+  },
+  {
+   "id": "154e9ba9-0d0e-4b0e-acf2-f66a993cf3a2",
+   "name": "Requisition Raid",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Spree (Choose one or more additional costs.)\n+ {1} \u2014 Destroy target artifact.\n+ {1} \u2014 Destroy target enchantment.\n+ {1} \u2014 Put a +1/+1 counter on each creature target player controls.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1191,
+   "set": "otj",
+   "collector_number": "26",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/5/154e9ba9-0d0e-4b0e-acf2-f66a993cf3a2.jpg?1783911852"
+   }
+  },
+  {
+   "id": "548cbc66-d915-4b94-86da-4c909a1ce645",
+   "name": "Steel Hellkite",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Dragon",
+   "oracle_text": "Flying\n{2}: This creature gets +1/+0 until end of turn.\n{X}: Destroy each nonland permanent with mana value X whose controller was dealt combat damage by this creature this turn. Activate only once each turn.",
+   "mana_cost": "{6}",
+   "cmc": 6.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1205,
+   "set": "tdc",
+   "collector_number": "327",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/4/548cbc66-d915-4b94-86da-4c909a1ce645.jpg?1783907007"
+   }
+  },
+  {
+   "id": "b5bc71a1-2344-4bc6-aa60-658cec19d0d6",
+   "name": "Mount Doom",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}, Pay 1 life: Add {B} or {R}.\n{1}{B}{R}, {T}: Mount Doom deals 1 damage to each opponent.\n{5}{B}{R}, {T}, Sacrifice Mount Doom and a legendary artifact: Choose up to two creatures, then destroy the rest. Activate only as a sorcery.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1222,
+   "set": "ltr",
+   "collector_number": "258",
+   "prices": {
+    "usd": "6.50"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/5/b5bc71a1-2344-4bc6-aa60-658cec19d0d6.jpg?1783916235"
+   }
+  },
+  {
+   "id": "9312fada-fc31-46ac-b6a1-cfffd776856f",
+   "name": "Artisan of Kozilek",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Eldrazi",
+   "oracle_text": "When you cast this spell, you may return target creature card from your graveyard to the battlefield.\nAnnihilator 2 (Whenever this creature attacks, defending player sacrifices two permanents of their choice.)",
+   "mana_cost": "{9}",
+   "cmc": 9.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1225,
+   "set": "cmm",
+   "collector_number": "801",
+   "prices": {
+    "usd": "0.47"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/3/9312fada-fc31-46ac-b6a1-cfffd776856f.jpg?1783915459"
+   }
+  },
+  {
+   "id": "aaafb9bc-7cea-4624-a227-595544fa42b0",
+   "name": "Wasteland",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target nonbasic land.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1226,
+   "set": "ema",
+   "collector_number": "248",
+   "prices": {
+    "usd": "24.03"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/a/aaafb9bc-7cea-4624-a227-595544fa42b0.jpg?1783937534"
+   }
+  },
+  {
+   "id": "e671de25-c47c-48a1-919b-6aa30dab142f",
+   "name": "Skyclave Apparition",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Kor Spirit",
+   "oracle_text": "When this creature enters, exile up to one target nonland, nontoken permanent you don't control with mana value 4 or less.\nWhen this creature leaves the battlefield, the exiled card's owner creates an X/X blue Illusion creature token, where X is the mana value of the exiled card.",
+   "mana_cost": "{1}{W}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1245,
+   "set": "soc",
+   "collector_number": "173",
+   "prices": {
+    "usd": "0.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/6/e671de25-c47c-48a1-919b-6aa30dab142f.jpg?1783903800"
+   }
+  },
+  {
+   "id": "9f1fa1c5-ff87-4bbc-89aa-dbebc91eada0",
+   "name": "Vraska, Betrayal's Sting",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Vraska",
+   "oracle_text": "Compleated ({B/P} can be paid with {B} or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n0: You draw a card and lose 1 life. Proliferate.\n\u22122: Target creature becomes a Treasure artifact with \"{T}, Sacrifice this artifact: Add one mana of any color\" and loses all other card types and abilities.\n\u22129: If target player has fewer than nine poison counters, they get a number of poison counters equal to the difference.",
+   "mana_cost": "{4}{B}{B/P}",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1246,
+   "set": "ecc",
+   "collector_number": "88",
+   "prices": {
+    "usd": "4.60"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9f1fa1c5-ff87-4bbc-89aa-dbebc91eada0.jpg?1783904555"
+   }
+  },
+  {
+   "id": "b2d9c467-6e56-401c-ade1-95dad7e4e766",
+   "name": "Lethal Scheme",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nDestroy target creature or planeswalker. Each creature that convoked this spell connives. (Draw a card, then discard a card. If you discarded a nonland card, put a +1/+1 counter on that creature.)",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1248,
+   "set": "msc",
+   "collector_number": "157",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/2/b2d9c467-6e56-401c-ade1-95dad7e4e766.jpg?1783903236"
+   }
+  },
+  {
+   "id": "cba33bf7-0919-408c-8eb0-0bb9fe920c81",
+   "name": "Fracture",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target artifact, enchantment, or planeswalker.",
+   "mana_cost": "{W}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1267,
+   "set": "soc",
+   "collector_number": "310",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/b/cba33bf7-0919-408c-8eb0-0bb9fe920c81.jpg?1783903753"
+   }
+  },
+  {
+   "id": "8e8a5cfe-1b3f-4414-b9a4-078bdb4072a7",
+   "name": "Sheltered by Ghosts",
+   "layout": "normal",
+   "type_line": "Enchantment \u2014 Aura",
+   "oracle_text": "Enchant creature you control\nWhen this Aura enters, exile target nonland permanent an opponent controls until this Aura leaves the battlefield.\nEnchanted creature gets +1/+0 and has lifelink and ward {2}.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1268,
+   "set": "soc",
+   "collector_number": "171",
+   "prices": {
+    "usd": "1.25"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/e/8e8a5cfe-1b3f-4414-b9a4-078bdb4072a7.jpg?1783903800"
+   }
+  },
+  {
+   "id": "670e4457-927e-42ed-a36f-28b60c2f7566",
+   "name": "Cleansing Nova",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy all creatures.\n\u2022 Destroy all artifacts and enchantments.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1272,
+   "set": "msc",
+   "collector_number": "124",
+   "prices": {
+    "usd": "0.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/7/670e4457-927e-42ed-a36f-28b60c2f7566.jpg?1783903251"
+   }
+  },
+  {
+   "id": "83057af6-cb88-4401-92ef-5b5d10463140",
+   "name": "Archfiend of Ifnir",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Demon",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1273,
+   "set": "ecc",
+   "collector_number": "70",
+   "prices": {
+    "usd": "0.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/3/83057af6-cb88-4401-92ef-5b5d10463140.jpg?1788460948"
+   }
+  },
+  {
+   "id": "daaa7b7e-76fc-47a0-a58d-1169be1aa335",
+   "name": "Organic Extinction",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Improvise (Your artifacts can help cast this spell. Each artifact you tap after you're done activating mana abilities pays for {1}.)\nDestroy all nonartifact creatures.",
+   "mana_cost": "{8}{W}{W}",
+   "cmc": 10.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1282,
+   "set": "eoc",
+   "collector_number": "66",
+   "prices": {
+    "usd": "0.33"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/a/daaa7b7e-76fc-47a0-a58d-1169be1aa335.jpg?1783906046"
+   }
+  },
+  {
+   "id": "e4510ee2-8a2e-4fe5-94af-df420a6a35a0",
+   "name": "Balefire Dragon",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Dragon",
+   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player, it deals that much damage to each creature that player controls.",
+   "mana_cost": "{5}{R}{R}",
+   "cmc": 7.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1291,
+   "set": "inr",
+   "collector_number": "479",
+   "prices": {
+    "usd": "16.17"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/4/e4510ee2-8a2e-4fe5-94af-df420a6a35a0.jpg?1783907975"
+   }
+  },
+  {
+   "id": "37bce60d-2cb0-4772-9f5c-122a7ed426a0",
+   "name": "Valakut, the Molten Pinnacle",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped.\nWhenever a Mountain you control enters, if you control at least five other Mountains, you may have this land deal 3 damage to any target.\n{T}: Add {R}.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1294,
+   "set": "zen",
+   "collector_number": "228",
+   "prices": {
+    "usd": "17.74"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/7/37bce60d-2cb0-4772-9f5c-122a7ed426a0.jpg?1783942120"
+   }
+  },
+  {
+   "id": "19efb9ce-62eb-4cbf-b01e-979f3fd09ba6",
+   "name": "Flare of Malice",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "You may sacrifice a nontoken black creature rather than pay this spell's mana cost.\nEach opponent sacrifices a creature or planeswalker with the greatest mana value among creatures and planeswalkers they control.",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1313,
+   "set": "mh3",
+   "collector_number": "95",
+   "prices": {
+    "usd": "5.09"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/9/19efb9ce-62eb-4cbf-b01e-979f3fd09ba6.jpg?1783911280"
+   }
+  },
+  {
+   "id": "5c4d0ad9-4d57-4e5c-b478-059220f5b1dd",
+   "name": "Martial Coup",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Create X 1/1 white Soldier creature tokens. If X is 5 or more, destroy all other creatures.",
+   "mana_cost": "{X}{W}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1325,
+   "set": "frc",
+   "collector_number": "28",
+   "prices": {
+    "usd": "1.02"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/c/5c4d0ad9-4d57-4e5c-b478-059220f5b1dd.jpg?1789599791"
+   }
+  },
+  {
+   "id": "bc1f42a2-fe11-45da-9552-069803b4068a",
+   "name": "Mikaeus, the Unhallowed",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Zombie Cleric",
+   "oracle_text": "Intimidate (This creature can't be blocked except by artifact creatures and/or creatures that share a color with it.)\nWhenever a Human deals damage to you, destroy it.\nOther non-Human creatures you control get +1/+1 and have undying. (When a creature with undying dies, if it had no +1/+1 counters on it, return it to the battlefield under its owner's control with a +1/+1 counter on it.)",
+   "mana_cost": "{3}{B}{B}{B}",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1333,
+   "set": "cmm",
+   "collector_number": "173",
+   "prices": {
+    "usd": "22.89"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/c/bc1f42a2-fe11-45da-9552-069803b4068a.jpg?1783915670"
+   }
+  },
+  {
+   "id": "c74ae706-b3b3-4097-a387-6f6c38a9b603",
+   "name": "Ulamog, the Ceaseless Hunger",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Eldrazi",
+   "oracle_text": "When you cast this spell, exile two target permanents.\nIndestructible\nWhenever Ulamog attacks, defending player exiles the top twenty cards of their library.",
+   "mana_cost": "{10}",
+   "cmc": 10.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1336,
+   "set": "cmm",
+   "collector_number": "5",
+   "prices": {
+    "usd": "23.73"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/7/c74ae706-b3b3-4097-a387-6f6c38a9b603.jpg?1783915730"
+   }
+  },
+  {
+   "id": "2626d4c9-fcef-4057-a154-7d987a4a4b84",
+   "name": "Sword of Fire and Ice",
+   "layout": "normal",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature gets +2/+2 and has protection from red and from blue.\nWhenever equipped creature deals combat damage to a player, this Equipment deals 2 damage to any target and you draw a card.\nEquip {2}",
+   "mana_cost": "{3}",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1339,
+   "set": "2xm",
+   "collector_number": "297",
+   "prices": {
+    "usd": "46.06"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/6/2626d4c9-fcef-4057-a154-7d987a4a4b84.jpg?1783930092"
+   }
+  },
+  {
+   "id": "363f8761-91a7-47e8-9e15-3b73d59bc020",
+   "name": "Priest of Forgotten Gods",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "{T}, Sacrifice two other creatures: Any number of target players each lose 2 life and sacrifice a creature of their choice. You add {B}{B} and draw a card. (Activate only as an instant.)",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1380,
+   "set": "soc",
+   "collector_number": "225",
+   "prices": {
+    "usd": "0.79"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/6/363f8761-91a7-47e8-9e15-3b73d59bc020.jpg?1783903781"
+   }
+  },
+  {
+   "id": "6d75e1f4-bd63-428e-8e6e-131594b3ba44",
+   "name": "All Will Be One",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever you put one or more counters on a permanent or player, this enchantment deals that much damage to target opponent, creature an opponent controls, or planeswalker an opponent controls.",
+   "mana_cost": "{3}{R}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1382,
+   "set": "one",
+   "collector_number": "118",
+   "prices": {
+    "usd": "15.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/d/6d75e1f4-bd63-428e-8e6e-131594b3ba44.jpg?1783918036"
+   }
+  },
+  {
+   "id": "9464a820-65de-44f2-9895-46a35e8621a0",
+   "name": "Ulamog, the Infinite Gyre",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Eldrazi",
+   "oracle_text": "When you cast this spell, destroy target permanent.\nIndestructible\nAnnihilator 4 (Whenever this creature attacks, defending player sacrifices four permanents of their choice.)\nWhen Ulamog is put into a graveyard from anywhere, its owner shuffles their graveyard into their library.",
+   "mana_cost": "{11}",
+   "cmc": 11.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1383,
+   "set": "2x2",
+   "collector_number": "3",
+   "prices": {
+    "usd": "35.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/4/9464a820-65de-44f2-9895-46a35e8621a0.jpg?1783921939"
+   }
+  },
+  {
+   "id": "85e29bdc-938e-4132-813e-70c5e922efaf",
+   "name": "Electrodominance",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Electrodominance deals X damage to any target. You may cast a spell with mana value X or less from your hand without paying its mana cost.",
+   "mana_cost": "{X}{R}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1390,
+   "set": "tdc",
+   "collector_number": "212",
+   "prices": {
+    "usd": "0.78"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/5/85e29bdc-938e-4132-813e-70c5e922efaf.jpg?1783907070"
+   }
+  },
+  {
+   "id": "9d805499-0739-403e-8447-ed2707dc9eb2",
+   "name": "Butcher of Malakir",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Vampire Warrior",
+   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice.",
+   "mana_cost": "{5}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1411,
+   "set": "lcc",
+   "collector_number": "187",
+   "prices": {
+    "usd": "0.33"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/d/9d805499-0739-403e-8447-ed2707dc9eb2.jpg?1783913878"
+   }
+  },
+  {
+   "id": "edd7f08a-3baf-4fb0-921e-b0e7b4a1a545",
+   "name": "Contagion Clasp",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "When this artifact enters, put a -1/-1 counter on target creature.\n{4}, {T}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1416,
+   "set": "ecc",
+   "collector_number": "140",
+   "prices": {
+    "usd": "0.39"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/d/edd7f08a-3baf-4fb0-921e-b0e7b4a1a545.jpg?1783904529"
+   }
+  },
+  {
+   "id": "40cb22c8-cb03-45c9-bb0e-b8cabdcc43cd",
+   "name": "Chandra, Torch of Defiance",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Chandra",
+   "oracle_text": "+1: Exile the top card of your library. You may cast that card. If you don't, Chandra deals 2 damage to each opponent.\n+1: Add {R}{R}.\n\u22123: Chandra deals 4 damage to target creature.\n\u22127: You get an emblem with \"Whenever you cast a spell, this emblem deals 5 damage to any target.\"",
+   "mana_cost": "{2}{R}{R}",
+   "cmc": 4.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1417,
+   "set": "fra",
+   "collector_number": "244",
+   "prices": {
+    "usd": "2.39"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/0/40cb22c8-cb03-45c9-bb0e-b8cabdcc43cd.jpg?1788329325"
+   }
+  },
+  {
+   "id": "e59903e3-a344-4218-9d41-8b19a9bc8311",
+   "name": "Delayed Blast Fireball",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Delayed Blast Fireball deals 2 damage to each opponent and each creature they control. If this spell was cast from exile, it deals 5 damage to each opponent and each creature they control instead.\nForetell {4}{R}{R} (During your turn, you may pay {2} and exile this card from your hand face down. Cast it on a later turn for its foretell cost.)",
+   "mana_cost": "{1}{R}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1424,
+   "set": "clb",
+   "collector_number": "676",
+   "prices": {
+    "usd": "15.69"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/5/e59903e3-a344-4218-9d41-8b19a9bc8311.jpg?1783922501"
+   }
+  },
+  {
+   "id": "bc7239ea-f8aa-4a6f-87bd-c35359635673",
+   "name": "Shatterskull Smashing // Shatterskull, the Hammer Pass",
+   "layout": "modal_dfc",
+   "type_line": "Sorcery // Land",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1427,
+   "set": "znr",
+   "collector_number": "161",
+   "prices": {
+    "usd": "6.68"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Shatterskull Smashing",
+     "type_line": "Sorcery",
+     "oracle_text": "Shatterskull Smashing deals X damage divided as you choose among up to two target creatures and/or planeswalkers. If X is 6 or more, Shatterskull Smashing deals twice X damage divided as you choose among them instead.",
+     "mana_cost": "{X}{R}{R}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg?1783929355"
+     }
+    },
+    {
+     "name": "Shatterskull, the Hammer Pass",
+     "type_line": "Land",
+     "oracle_text": "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {R}.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/b/c/bc7239ea-f8aa-4a6f-87bd-c35359635673.jpg?1783929355"
+     }
+    }
+   ]
+  },
+  {
+   "id": "4821d865-2a46-4611-ab93-1a9fdde08302",
+   "name": "Rankle, Master of Pranks",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Faerie Rogue",
+   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number \u2014\n\u2022 Each player discards a card.\n\u2022 Each player loses 1 life and draws a card.\n\u2022 Each player sacrifices a creature of their choice.",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1432,
+   "set": "otc",
+   "collector_number": "148",
+   "prices": {
+    "usd": "2.71"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/8/4821d865-2a46-4611-ab93-1a9fdde08302.jpg?1783911926"
+   }
+  },
+  {
+   "id": "7cd21530-ca72-4986-a0f2-142b9f23c413",
+   "name": "Cathar Commando",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Soldier",
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1445,
+   "set": "inr",
+   "collector_number": "15",
+   "prices": {
+    "usd": "0.27"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/c/7cd21530-ca72-4986-a0f2-142b9f23c413.jpg?1783908185"
+   }
+  },
+  {
+   "id": "63c5e1dd-2fe6-4734-8406-7bcdf17aa60c",
+   "name": "No Mercy",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature deals damage to you, destroy it.",
+   "mana_cost": "{2}{B}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1447,
+   "set": "dmr",
+   "collector_number": "95",
+   "prices": {
+    "usd": "24.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/3/63c5e1dd-2fe6-4734-8406-7bcdf17aa60c.jpg?1783918474"
+   }
+  },
+  {
+   "id": "a8beb929-b502-4ed5-940a-d6de233c09a6",
+   "name": "Fling",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nFling deals damage equal to the sacrificed creature's power to any target.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1449,
+   "set": "j25",
+   "collector_number": "553",
+   "prices": {
+    "usd": "0.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/8/a8beb929-b502-4ed5-940a-d6de233c09a6.jpg?1783908686"
+   }
+  },
+  {
+   "id": "579e20e7-1395-4a6c-a836-ae3419fc8808",
+   "name": "Baleful Mastery",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "You may pay {1}{B} rather than pay this spell's mana cost.\nIf the {1}{B} cost was paid, an opponent draws a card.\nExile target creature or planeswalker.",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1453,
+   "set": "otc",
+   "collector_number": "126",
+   "prices": {
+    "usd": "3.10"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/7/579e20e7-1395-4a6c-a836-ae3419fc8808.jpg?1783911932"
+   }
+  },
+  {
+   "id": "bb5f586d-6bf0-4590-ad73-2d46b2a45b1a",
+   "name": "Comet Storm",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them.",
+   "mana_cost": "{X}{R}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1455,
+   "set": "cmr",
+   "collector_number": "411",
+   "prices": {
+    "usd": "2.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/b/bb5f586d-6bf0-4590-ad73-2d46b2a45b1a.jpg?1783928714"
+   }
+  },
+  {
+   "id": "4811072d-fac0-40dd-a5cf-9694d51b12cf",
+   "name": "Avatar's Wrath",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose up to one target creature, then airbend all other creatures. (Exile them. While each one is exiled, its owner may cast it for {2} rather than its mana cost.)\nUntil your next turn, your opponents can't cast spells from anywhere other than their hands.\nExile Avatar's Wrath.",
+   "mana_cost": "{2}{W}{W}",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1463,
+   "set": "tla",
+   "collector_number": "12",
+   "prices": {
+    "usd": "3.78"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/8/4811072d-fac0-40dd-a5cf-9694d51b12cf.jpg?1783905002"
+   }
+  },
+  {
+   "id": "bd594aeb-f5cc-4435-8ea8-c35c5824b58c",
+   "name": "Decree of Pain",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures. They can't be regenerated. Draw a card for each creature destroyed this way.\nCycling {3}{B}{B} ({3}{B}{B}, Discard this card: Draw a card.)\nWhen you cycle this card, all creatures get -2/-2 until end of turn.",
+   "mana_cost": "{6}{B}{B}",
+   "cmc": 8.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1495,
+   "set": "dsc",
+   "collector_number": "136",
+   "prices": {
+    "usd": "0.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/d/bd594aeb-f5cc-4435-8ea8-c35c5824b58c.jpg?1783909622"
+   }
+  },
+  {
+   "id": "e6bd7225-b39f-4b3b-8c36-dbc2c09f6e50",
+   "name": "Scourge of Valkas",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Dragon",
+   "oracle_text": "Flying\nWhenever this creature or another Dragon you control enters, it deals X damage to any target, where X is the number of Dragons you control.\n{R}: This creature gets +1/+0 until end of turn.",
+   "mana_cost": "{2}{R}{R}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1499,
+   "set": "afc",
+   "collector_number": "137",
+   "prices": {
+    "usd": "3.57"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/6/e6bd7225-b39f-4b3b-8c36-dbc2c09f6e50.jpg?1783926202"
+   }
+  },
+  {
+   "id": "57a6f727-8239-45e6-9dbb-67d2d3c9239d",
+   "name": "In Garruk's Wake",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures you don't control and all planeswalkers you don't control.",
+   "mana_cost": "{7}{B}{B}",
+   "cmc": 9.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1517,
+   "set": "clb",
+   "collector_number": "759",
+   "prices": {
+    "usd": "3.03"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/7/57a6f727-8239-45e6-9dbb-67d2d3c9239d.jpg?1783922445"
+   }
+  },
+  {
+   "id": "9519bb3a-bed3-48e8-93ae-9e9b2e7d646a",
+   "name": "Heliod's Intervention",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy X target artifacts and/or enchantments.\n\u2022 Target player gains twice X life.",
+   "mana_cost": "{X}{W}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1521,
+   "set": "otc",
+   "collector_number": "81",
+   "prices": {
+    "usd": "2.87"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/5/9519bb3a-bed3-48e8-93ae-9e9b2e7d646a.jpg?1783911947"
+   }
+  },
+  {
+   "id": "5a3e8132-6576-456c-8777-9e8cb52595fc",
+   "name": "Fell the Mighty",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures with power greater than target creature's power.",
+   "mana_cost": "{4}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1524,
+   "set": "mkc",
+   "collector_number": "65",
+   "prices": {
+    "usd": "0.33"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/a/5a3e8132-6576-456c-8777-9e8cb52595fc.jpg?1783913031"
+   }
+  },
+  {
+   "id": "8e259868-d29a-4c03-8ec3-49e914f849fb",
+   "name": "Null Elemental Blast",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Counter target multicolored spell.\n\u2022 Destroy target multicolored permanent.",
+   "mana_cost": "{C}",
+   "cmc": 1.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1540,
+   "set": "mh3",
+   "collector_number": "12",
+   "prices": {
+    "usd": "0.37"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/e/8e259868-d29a-4c03-8ec3-49e914f849fb.jpg?1783911305"
+   }
+  },
+  {
+   "id": "ca08b369-783d-4fe4-8fc8-9cd595638550",
+   "name": "It That Betrays",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Eldrazi",
+   "oracle_text": "Annihilator 2 (Whenever this creature attacks, defending player sacrifices two permanents of their choice.)\nWhenever an opponent sacrifices a nontoken permanent, put that card onto the battlefield under your control.",
+   "mana_cost": "{12}",
+   "cmc": 12.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1558,
+   "set": "cmm",
+   "collector_number": "805",
+   "prices": {
+    "usd": "14.69"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/a/ca08b369-783d-4fe4-8fc8-9cd595638550.jpg?1783915458"
+   }
+  },
+  {
+   "id": "fd00d56a-86bd-41d8-82b6-975404ef8067",
+   "name": "Ulamog, the Defiler",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Eldrazi",
+   "oracle_text": "When you cast this spell, target opponent exiles the top half of their library, rounded up.\nWard\u2014Sacrifice two permanents.\nUlamog enters with a number of +1/+1 counters on it equal to the greatest mana value among cards in exile.\nUlamog has annihilator X, where X is the number of +1/+1 counters on it.",
+   "mana_cost": "{10}",
+   "cmc": 10.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1566,
+   "set": "mh3",
+   "collector_number": "15",
+   "prices": {
+    "usd": "20.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/d/fd00d56a-86bd-41d8-82b6-975404ef8067.jpg?1783911305"
+   }
+  },
+  {
+   "id": "9c017fa9-7021-417a-9c2e-3df409644fcf",
+   "name": "Ugin, the Spirit Dragon",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Ugin",
+   "oracle_text": "+2: Ugin deals 3 damage to any target.\n\u2212X: Exile each permanent with mana value X or less that's one or more colors.\n\u221210: You gain 7 life, draw seven cards, then put up to seven permanent cards from your hand onto the battlefield.",
+   "mana_cost": "{8}",
+   "cmc": 8.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1573,
+   "set": "m21",
+   "collector_number": "1",
+   "prices": {
+    "usd": "15.02"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/c/9c017fa9-7021-417a-9c2e-3df409644fcf.jpg?1783930748"
+   }
+  },
+  {
+   "id": "0ec85db7-c8ec-4730-b692-c140977436aa",
+   "name": "Archfiend of Depravity",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Demon",
+   "oracle_text": "Flying\nAt the beginning of each opponent's end step, that player chooses up to two creatures they control, then sacrifices the rest.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1577,
+   "set": "e01",
+   "collector_number": "31",
+   "prices": {
+    "usd": "3.21"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/e/0ec85db7-c8ec-4730-b692-c140977436aa.jpg?1783936156"
+   }
+  },
+  {
+   "id": "11721b88-2654-482c-b9d4-80e54efdbf63",
+   "name": "Crux of Fate",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy all Dragon creatures.\n\u2022 Destroy all non-Dragon creatures.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1586,
+   "set": "c17",
+   "collector_number": "107",
+   "prices": {
+    "usd": "3.68"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/1/11721b88-2654-482c-b9d4-80e54efdbf63.jpg?1783935910"
+   }
+  },
+  {
+   "id": "32e670da-7563-4f6a-a7db-4c126a440eb8",
+   "name": "Erode",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Destroy target creature or planeswalker. Its controller may search their library for a basic land card, put it onto the battlefield tapped, then shuffle.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1591,
+   "set": "sos",
+   "collector_number": "15",
+   "prices": {
+    "usd": "8.71"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/2/32e670da-7563-4f6a-a7db-4c126a440eb8.jpg?1783903705"
+   }
+  },
+  {
+   "id": "40463be5-89e2-410b-9a4b-770f70d14293",
+   "name": "Ashling, Flame Dancer",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Elemental Shaman",
+   "oracle_text": "You don't lose unspent red mana as steps and phases end.\nMagecraft \u2014 Whenever you cast or copy an instant or sorcery spell, discard a card, then draw a card. If this is the second time this ability has resolved this turn, Ashling deals 2 damage to each opponent and each creature they control. If it's the third time, add {R}{R}{R}{R}.",
+   "mana_cost": "{2}{R}{R}",
+   "cmc": 4.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1592,
+   "set": "mh3",
+   "collector_number": "115",
+   "prices": {
+    "usd": "5.85"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/0/40463be5-89e2-410b-9a4b-770f70d14293.jpg?1783911273"
+   }
+  },
+  {
+   "id": "33965c48-a7ce-4a04-8251-8eeb2d908c0b",
+   "name": "Eldrazi Conscription",
+   "layout": "normal",
+   "type_line": "Kindred Enchantment \u2014 Eldrazi Aura",
+   "oracle_text": "Enchant creature\nEnchanted creature gets +10/+10 and has trample and annihilator 2. (Whenever it attacks, defending player sacrifices two permanents of their choice.)",
+   "mana_cost": "{8}",
+   "cmc": 8.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1594,
+   "set": "soc",
+   "collector_number": "131",
+   "prices": {
+    "usd": "1.58"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/3/33965c48-a7ce-4a04-8251-8eeb2d908c0b.jpg?1783903818"
+   }
+  },
+  {
+   "id": "14dc88ee-bba9-4625-af0d-89f3762a0ead",
+   "name": "Tergrid, God of Fright // Tergrid's Lantern",
+   "layout": "modal_dfc",
+   "type_line": "Legendary Creature \u2014 God // Legendary Artifact",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": true,
+   "edhrec_rank": 1600,
+   "set": "khm",
+   "collector_number": "112",
+   "prices": {
+    "usd": "19.35"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Tergrid, God of Fright",
+     "type_line": "Legendary Creature \u2014 God",
+     "oracle_text": "Menace\nWhenever an opponent sacrifices a nontoken permanent or discards a permanent card, you may put that card from a graveyard onto the battlefield under your control.",
+     "mana_cost": "{3}{B}{B}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/1/4/14dc88ee-bba9-4625-af0d-89f3762a0ead.jpg?1783928244"
+     }
+    },
+    {
+     "name": "Tergrid's Lantern",
+     "type_line": "Legendary Artifact",
+     "oracle_text": "{T}: Target player loses 3 life unless they sacrifice a nonland permanent of their choice or discard a card.\n{3}{B}: Untap Tergrid's Lantern.",
+     "mana_cost": "{3}{B}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/1/4/14dc88ee-bba9-4625-af0d-89f3762a0ead.jpg?1783928244"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ed2d62c2-85c9-4fd4-8a7e-0017640606be",
+   "name": "Shriekmaw",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Elemental",
+   "oracle_text": "Fear (This creature can't be blocked except by artifact creatures and/or black creatures.)\nWhen this creature enters, destroy target nonartifact, nonblack creature.\nEvoke {1}{B} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "mana_cost": "{4}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1609,
+   "set": "ecc",
+   "collector_number": "85",
+   "prices": {
+    "usd": "0.31"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/d/ed2d62c2-85c9-4fd4-8a7e-0017640606be.jpg?1783904559"
+   }
+  },
+  {
+   "id": "85d431c2-e4fa-426d-83cb-ecb782e7e87d",
+   "name": "Fiery Confluence",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n\u2022 Fiery Confluence deals 1 damage to each creature.\n\u2022 Fiery Confluence deals 2 damage to each opponent.\n\u2022 Destroy target artifact.",
+   "mana_cost": "{2}{R}{R}",
+   "cmc": 4.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1612,
+   "set": "tle",
+   "collector_number": "165",
+   "prices": {
+    "usd": "0.41"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/5/85d431c2-e4fa-426d-83cb-ecb782e7e87d.jpg?1783904804"
+   }
+  },
+  {
+   "id": "17cd920a-de09-454a-a9da-c84512e3aff1",
+   "name": "Goblin Welder",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Goblin Artificer",
+   "oracle_text": "{T}: Choose target artifact a player controls and target artifact card in that player's graveyard. If both targets are still legal as this ability resolves, that player simultaneously sacrifices the artifact and returns the artifact card to the battlefield.",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1614,
+   "set": "cm2",
+   "collector_number": "101",
+   "prices": {
+    "usd": "23.49"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/7/17cd920a-de09-454a-a9da-c84512e3aff1.jpg?1783934742"
+   }
+  },
+  {
+   "id": "7d67e614-03d2-4034-b82f-25962fc378d4",
+   "name": "Siege-Gang Commander",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Goblin",
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "mana_cost": "{3}{R}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1622,
+   "set": "plst",
+   "collector_number": "DMR-136",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/d/7d67e614-03d2-4034-b82f-25962fc378d4.jpg?1783903455"
+   }
+  },
+  {
+   "id": "1086e826-94b8-4398-8a38-d8eacca56a43",
+   "name": "Parting Gust",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Gift a tapped Fish (You may promise an opponent a gift as you cast this spell. If you do, they create a tapped 1/1 blue Fish creature token before its other effects.)\nExile target nontoken creature. If the gift wasn't promised, return that card to the battlefield under its owner's control with a +1/+1 counter on it at the beginning of the next end step.",
+   "mana_cost": "{W}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1627,
+   "set": "blb",
+   "collector_number": "24",
+   "prices": {
+    "usd": "1.52"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/0/1086e826-94b8-4398-8a38-d8eacca56a43.jpg?1783910858"
+   }
+  },
+  {
+   "id": "76b10977-64eb-4a50-a481-d67cc2950f56",
+   "name": "Urza's Ruinous Blast",
+   "layout": "normal",
+   "type_line": "Legendary Sorcery",
+   "oracle_text": "(You may cast a legendary sorcery only if you control a legendary creature or planeswalker.)\nExile all nonland permanents that aren't legendary.",
+   "mana_cost": "{4}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1628,
+   "set": "cmm",
+   "collector_number": "842",
+   "prices": {
+    "usd": "0.96"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/6/76b10977-64eb-4a50-a481-d67cc2950f56.jpg?1783915444"
+   }
+  },
+  {
+   "id": "75240bbc-adc7-48ff-9523-c79776d710d3",
+   "name": "Kazuul's Fury // Kazuul's Cliffs",
+   "layout": "modal_dfc",
+   "type_line": "Instant // Land",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1638,
+   "set": "znr",
+   "collector_number": "146",
+   "prices": {
+    "usd": "0.72"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Kazuul's Fury",
+     "type_line": "Instant",
+     "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nKazuul's Fury deals damage equal to the sacrificed creature's power to any target.",
+     "mana_cost": "{2}{R}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/7/5/75240bbc-adc7-48ff-9523-c79776d710d3.jpg?1783929363"
+     }
+    },
+    {
+     "name": "Kazuul's Cliffs",
+     "type_line": "Land",
+     "oracle_text": "This land enters tapped.\n{T}: Add {R}.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/7/5/75240bbc-adc7-48ff-9523-c79776d710d3.jpg?1783929363"
+     }
+    }
+   ]
+  },
+  {
+   "id": "64a5d494-efa1-446b-bebe-2ad36e154376",
+   "name": "Ugin, Eye of the Storms",
+   "layout": "normal",
+   "type_line": "Legendary Planeswalker \u2014 Ugin",
+   "oracle_text": "When you cast this spell, exile up to one target permanent that's one or more colors.\nWhenever you cast a colorless spell, exile up to one target permanent that's one or more colors.\n+2: You gain 3 life and draw a card.\n0: Add {C}{C}{C}.\n\u221211: Search your library for any number of colorless nonland cards, exile them, then shuffle. Until end of turn, you may cast those cards without paying their mana costs.",
+   "mana_cost": "{7}",
+   "cmc": 7.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1642,
+   "set": "tdm",
+   "collector_number": "1",
+   "prices": {
+    "usd": "39.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/4/64a5d494-efa1-446b-bebe-2ad36e154376.jpg?1783907421"
+   }
+  },
+  {
+   "id": "edc035ca-f0a3-4814-9405-d6dc6f048315",
+   "name": "Trumpeting Carnosaur",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Dinosaur",
+   "oracle_text": "Trample\nWhen this creature enters, discover 5.\n{2}{R}, Discard this card: It deals 3 damage to target creature or planeswalker.",
+   "mana_cost": "{4}{R}{R}",
+   "cmc": 6.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1662,
+   "set": "lci",
+   "collector_number": "171",
+   "prices": {
+    "usd": "2.15"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/d/edc035ca-f0a3-4814-9405-d6dc6f048315.jpg?1783913753"
+   }
+  },
+  {
+   "id": "3e8e99f7-749f-4270-8732-2bc27f27f339",
+   "name": "Return to Dust",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target artifact or enchantment. If you cast this spell during your main phase, you may exile up to one other target artifact or enchantment.",
+   "mana_cost": "{2}{W}{W}",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1663,
+   "set": "trc",
+   "collector_number": "427",
+   "prices": {
+    "usd": "0.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/e/3e8e99f7-749f-4270-8732-2bc27f27f339.jpg?1793021056"
+   }
+  },
+  {
+   "id": "cdad14f1-d541-4e58-af9f-f8e587fca05f",
+   "name": "Blast Zone",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters with a charge counter on it.\n{T}: Add {C}.\n{X}{X}, {T}: Put X charge counters on this land.\n{3}, {T}, Sacrifice this land: Destroy each nonland permanent with mana value equal to the number of charge counters on this land.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1676,
+   "set": "cmm",
+   "collector_number": "987",
+   "prices": {
+    "usd": "0.37"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/d/cdad14f1-d541-4e58-af9f-f8e587fca05f.jpg?1783915394"
+   }
+  },
+  {
+   "id": "bbbc5c9d-110a-44cd-a2c9-8bad7dac4b5f",
+   "name": "Blood Money",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures. For each nontoken creature destroyed this way, you create a tapped Treasure token.",
+   "mana_cost": "{5}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1695,
+   "set": "lcc",
+   "collector_number": "183",
+   "prices": {
+    "usd": "3.42"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/b/bbbc5c9d-110a-44cd-a2c9-8bad7dac4b5f.jpg?1783913879"
+   }
+  },
+  {
+   "id": "80fffad3-2486-4350-8dff-54a215ebfc28",
+   "name": "Murderous Rider // Swift End",
+   "layout": "adventure",
+   "type_line": "Creature \u2014 Zombie Knight // Instant \u2014 Adventure",
+   "mana_cost": "{1}{B}{B} // {1}{B}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1701,
+   "set": "moc",
+   "collector_number": "258",
+   "prices": {
+    "usd": "0.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/0/80fffad3-2486-4350-8dff-54a215ebfc28.jpg?1783917156"
+   },
+   "card_faces": [
+    {
+     "name": "Murderous Rider",
+     "type_line": "Creature \u2014 Zombie Knight",
+     "oracle_text": "Lifelink\nWhen this creature dies, put it on the bottom of its owner's library.",
+     "mana_cost": "{1}{B}{B}"
+    },
+    {
+     "name": "Swift End",
+     "type_line": "Instant \u2014 Adventure",
+     "oracle_text": "Destroy target creature or planeswalker. You lose 2 life. (Then exile this card. You may cast the creature later from exile.)",
+     "mana_cost": "{1}{B}{B}"
+    }
+   ]
+  },
+  {
+   "id": "8dee155b-1f06-4d74-afa8-a1244c254978",
+   "name": "Winds of Rath",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all creatures that aren't enchanted. They can't be regenerated.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1714,
+   "set": "soc",
+   "collector_number": "185",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/d/8dee155b-1f06-4d74-afa8-a1244c254978.jpg?1783903794"
+   }
+  },
+  {
+   "id": "572fb0dc-d876-4e1b-91d1-9c595f6f6f04",
+   "name": "Kaldra Compleat",
+   "layout": "normal",
+   "type_line": "Legendary Artifact \u2014 Equipment",
+   "oracle_text": "Living weapon\nIndestructible\nEquipped creature gets +5/+5 and has first strike, trample, indestructible, haste, and \"Whenever this creature deals combat damage to a creature, exile that creature.\"\nEquip {7}",
+   "mana_cost": "{7}",
+   "cmc": 7.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1718,
+   "set": "cmm",
+   "collector_number": "958",
+   "prices": {
+    "usd": "9.55"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/7/572fb0dc-d876-4e1b-91d1-9c595f6f6f04.jpg?1783915404"
+   }
+  },
+  {
+   "id": "1819a0af-0775-431d-9637-13f8f10830f5",
+   "name": "Utter End",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target nonland permanent.",
+   "mana_cost": "{2}{W}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1791,
+   "set": "dsc",
+   "collector_number": "91",
+   "prices": {
+    "usd": "0.27"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/8/1819a0af-0775-431d-9637-13f8f10830f5.jpg?1783909636"
+   }
+  },
+  {
+   "id": "81d6b979-251a-4736-86f0-35a6c8b492c9",
+   "name": "Call Forth the Tempest",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Cascade, cascade (When you cast this spell, exile cards from the top of your library until you exile a nonland card that costs less. You may cast it without paying its mana cost. Put the exiled cards on the bottom of your library in a random order. Then do it again.)\nCall Forth the Tempest deals damage to each creature your opponents control equal to the total mana value of other spells you've cast this turn.",
+   "mana_cost": "{5}{R}{R}{R}",
+   "cmc": 8.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1792,
+   "set": "ltc",
+   "collector_number": "509",
+   "prices": {
+    "usd": "21.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/1/81d6b979-251a-4736-86f0-35a6c8b492c9.jpg?1783914194"
+   }
+  },
+  {
+   "id": "59957c45-4672-4650-80b1-70e4a60b429e",
+   "name": "Massacre Girl",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Assassin",
+   "oracle_text": "Menace\nWhen Massacre Girl enters, each other creature gets -1/-1 until end of turn. Whenever a creature dies this turn, each creature other than Massacre Girl gets -1/-1 until end of turn.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1800,
+   "set": "dsc",
+   "collector_number": "146",
+   "prices": {
+    "usd": "0.48"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/9/59957c45-4672-4650-80b1-70e4a60b429e.jpg?1783909617"
+   }
+  }
+ ]
+}

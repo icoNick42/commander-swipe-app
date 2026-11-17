@@ -1,0 +1,97 @@
+1 Zurgo Stormrender (TDC) 10
+1 Adeline, Resplendent Cathar (MID) 312
+1 Ainok Strike Leader (TDC) 51
+1 Anim Pakal, Thousandth Moon (LCI) 300 *F*
+1 Arcane Signet (PIP) 356
+1 Arid Mesa (MH2) 244
+1 Ashnod's Altar (5ED) 349
+1 Badlands (3ED) 282
+1 Bastion of Remembrance (PLST) IKO-73
+1 Battle Angels of Tyr (PCLB) 9p
+1 Black Market (JMP) 204
+1 Black Market Connections (MSC) 155
+1 Blade of Selves (CM2) 174
+1 Blood Artist (SLD) 42
+1 Blood Crypt (ECL) 262
+1 Bloodstained Mire (KTK) 230
+1 Brimaz, King of Oreskos (J25) 58
+1 Caesar, Legion's Emperor (PIP) 1 *F*
+1 Carrion Feeder (PLST) MH1-81
+1 Cathars' Crusade (JMP) 95
+1 Command Tower (PIP) 259
+1 Crowded Crypt (DRC) 88
+1 Dalkovan Encampment (PTDM) 253p
+1 Dark Prophecy (M14) 93
+1 Dawn Charm (UMA) 13
+1 Deadly Dispute (SLD) IFIYW-6 *F*
+1 Deathgreeter (PLST) DDD-33
+1 Duty Beyond Death (SOA) 4
+1 Eiganjo, Seat of the Empire (PNEO) 268p
+1 Elas il-Kor, Sadistic Pilgrim (DMU) 198
+1 Elenda, the Dusk Rose (LCC) 268
+1 Emeritus of Woe / Demonic Tutor (SOS) 324
+1 Endless Foot Assault (TMC) 8
+1 Enduring Innocence (DSK) 368
+1 Esper Sentinel (MH2) 328
+1 Flooded Strand (KTK) 233
+1 Generous Plunderer (BIG) 76
+1 Goblin Bombardment (WOT) 43
+1 Godless Shrine (CLU) 276 *F*
+1 Grand Crescendo (FRC) 26
+1 Grim Hireling (PLST) AFC-25
+1 Gut, True Soul Zealot (CLB) 180
+1 Impact Tremors (WOT) 44
+1 Indulge / Excess (NCC) 46
+1 Jadar, Ghoulcaller of Nephalia (DBL) 108
+1 Lightning Greaves (SLD) IFIYW-9 *F*
+1 Luxury Suite (MSC) 252
+1 Mace of the Valiant (CMM) 41
+1 Mahadi, Emporium Master (CLB) 282
+1 Marsh Flats (SPG) 115 *F*
+1 Mentor of the Meek (SCD) 28
+2 Mountain (THB) 253 *F*
+1 Ocelot Pride (MH3) 38
+1 Ophiomancer (TDC) 193
+1 Phyrexian Altar (2X2) 563 *E*
+1 Phyrexian Tower (MH3) 303
+1 Pitiless Plunderer (PIP) 187
+2 Plains (THB) 250 *F*
+1 Plateau (3ED) 284
+1 Polluted Delta (KTK) 239
+1 Professional Face-Breaker (M3C) 216
+1 Reconnaissance (ACR) 179 *E*
+1 Ruinous Ultimatum (SPG) 108
+1 Sacred Foundry (PEOE) 256p
+1 Scalding Tarn (MH2) 254
+1 Scrubland (3ED) 286
+1 Sephiroth, Fabled SOLDIER / Sephiroth, One-Winged Angel (FIN) 115
+1 Shinka, the Bloodsoaked Keep (PLST) CHK-282
+1 Skullclamp (TDC) 103
+1 Sol Ring (PFDN) 1 *F*
+1 Soul Warden (MD1) 1
+1 Soul's Attendant (PLST) ROE-44
+1 Spectator Seating (MSC) 268
+1 Spirit Mantle (PLST) M12-35
+1 Stadium Headliner (PTDM) 122p
+1 Staff of the Storyteller (ONC) 48
+2 Swamp (THB) 252 *F*
+1 Swords to Plowshares (CMR) 627
+1 Takenuma, Abandoned Mire (NEO) 278
+1 Talisman of Conviction (M3C) 307
+1 Talisman of Hierarchy (PIP) 775 *F*
+1 Talisman of Indulgence (FRC) 63
+1 The Masamune (FIN) 264
+1 Trouble in Pairs (MKC) 326
+1 True Conviction (C14) 93
+1 Untimely Malfunction (DSK) 161
+1 Urborg, Tomb of Yawgmoth (TSR) 287
+1 Urza's Saga (MH2) 259
+1 Vault of Champions (CMR) 360 *F*
+1 Verdant Catacombs (SPG) 113
+1 Viscera Seer (SOC) 229
+1 Voice of Victory (PTDM) 33p
+1 Warleader's Call (MKM) 242
+1 Warren Soultrader (PMH3) 110p
+1 Windswept Heath (MH3) 235
+1 Woe Strider (NCC) 262
+1 Wooded Foothills (KTK) 249

@@ -1,0 +1,2451 @@
+{
+ "data": [
+  {
+   "id": "dc8eb325-75c9-4331-830d-3f7d62d77290",
+   "name": "Zurgo Stormrender",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Orc Warrior",
+   "oracle_text": "Mobilize 1 (Whenever this creature attacks, create a tapped and attacking 1/1 red Warrior creature token. Sacrifice it at the beginning of the next end step.)\nWhenever a creature token you control leaves the battlefield, draw a card if it was attacking. Otherwise, each opponent loses 1 life.",
+   "mana_cost": "{R}{W}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2900,
+   "set": "tdc",
+   "collector_number": "10",
+   "prices": {
+    "usd": "4.53"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/c/dc8eb325-75c9-4331-830d-3f7d62d77290.jpg?1783907186"
+   }
+  },
+  {
+   "id": "2f71585a-3ea8-40f8-8e02-e155477fd8b5",
+   "name": "Adeline, Resplendent Cathar",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Knight",
+   "oracle_text": "Vigilance\nAdeline's power is equal to the number of creatures you control.\nWhenever you attack, for each opponent, create a 1/1 white Human creature token that's tapped and attacking that player or a planeswalker they control.",
+   "mana_cost": "{1}{W}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 490,
+   "set": "mid",
+   "collector_number": "312",
+   "prices": {
+    "usd": "3.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/f/2f71585a-3ea8-40f8-8e02-e155477fd8b5.jpg?1783925516"
+   }
+  },
+  {
+   "id": "2d1102e4-447a-4b40-8131-5b36b8979fe0",
+   "name": "Ainok Strike Leader",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Dog Warrior",
+   "oracle_text": "Whenever you attack with this creature and/or your commander, for each opponent, create a 1/1 red Goblin creature token that's tapped and attacking that player.\nSacrifice this creature: Creature tokens you control gain indestructible until end of turn.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2047,
+   "set": "tdc",
+   "collector_number": "51",
+   "prices": {
+    "usd": "6.53"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/d/2d1102e4-447a-4b40-8131-5b36b8979fe0.jpg?1783907166"
+   }
+  },
+  {
+   "id": "7fc97d16-c54c-4a2b-9691-39e8a41c7777",
+   "name": "Anim Pakal, Thousandth Moon",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Soldier",
+   "oracle_text": "Whenever you attack with one or more non-Gnome creatures, put a +1/+1 counter on Anim Pakal, then create X 1/1 colorless Gnome artifact creature tokens that are tapped and attacking, where X is the number of +1/+1 counters on Anim Pakal.",
+   "mana_cost": "{1}{R}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1122,
+   "set": "lci",
+   "collector_number": "300",
+   "prices": {
+    "usd": "4.73"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/f/7fc97d16-c54c-4a2b-9691-39e8a41c7777.jpg?1783913707"
+   }
+  },
+  {
+   "id": "7a30b502-569b-49fc-9a9e-96fdeaab6ad6",
+   "name": "Arcane Signet",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add one mana of any color in your commander's color identity.",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 3,
+   "set": "pip",
+   "collector_number": "356",
+   "prices": {
+    "usd": "20.19"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/a/7a30b502-569b-49fc-9a9e-96fdeaab6ad6.jpg?1783912301"
+   }
+  },
+  {
+   "id": "25ac5405-df7b-4097-914a-022cb18e20d4",
+   "name": "Arid Mesa",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 55,
+   "set": "mh2",
+   "collector_number": "244",
+   "prices": {
+    "usd": "32.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/5/25ac5405-df7b-4097-914a-022cb18e20d4.jpg?1783926797"
+   }
+  },
+  {
+   "id": "eab611c3-3a24-4033-864f-084b71317320",
+   "name": "Ashnod's Altar",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "Sacrifice a creature: Add {C}{C}.",
+   "mana_cost": "{3}",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 135,
+   "set": "5ed",
+   "collector_number": "349",
+   "prices": {
+    "usd": "12.94"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/a/eab611c3-3a24-4033-864f-084b71317320.jpg?1783946884"
+   }
+  },
+  {
+   "id": "56058359-3c0b-49db-a0ce-9ded4c3f4372",
+   "name": "Badlands",
+   "layout": "normal",
+   "type_line": "Land \u2014 Swamp Mountain",
+   "oracle_text": "({T}: Add {B} or {R}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 377,
+   "set": "3ed",
+   "collector_number": "282",
+   "prices": {
+    "usd": "587.02"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/6/56058359-3c0b-49db-a0ce-9ded4c3f4372.jpg?1783948279"
+   }
+  },
+  {
+   "id": "7ad20d37-575d-490e-bf04-91323a35e89d",
+   "name": "Bastion of Remembrance",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "When this enchantment enters, create a 1/1 white Human Soldier creature token.\nWhenever a creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 327,
+   "set": "plst",
+   "collector_number": "IKO-73",
+   "prices": {
+    "usd": "0.28"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/a/7ad20d37-575d-490e-bf04-91323a35e89d.jpg?1783910296"
+   }
+  },
+  {
+   "id": "eae141d6-f4a7-4223-ae4f-217415be559a",
+   "name": "Battle Angels of Tyr",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Angel Knight",
+   "oracle_text": "Flying, myriad\nWhenever this creature deals combat damage to a player, draw a card if that player has more cards in hand than each other player. Then you create a Treasure token if that player controls more lands than each other player. Then you gain 3 life if that player has more life than each other player.",
+   "mana_cost": "{2}{W}{W}",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1798,
+   "set": "pclb",
+   "collector_number": "9p",
+   "prices": {
+    "usd": "33.81"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/a/eae141d6-f4a7-4223-ae4f-217415be559a.jpg?1783913667"
+   }
+  },
+  {
+   "id": "1f51ced8-9384-4b8d-aa60-efb281ac9439",
+   "name": "Black Market",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature dies, put a charge counter on this enchantment.\nAt the beginning of your first main phase, add {B} for each charge counter on this enchantment.",
+   "mana_cost": "{3}{B}{B}",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 685,
+   "set": "jmp",
+   "collector_number": "204",
+   "prices": {
+    "usd": "5.73"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/f/1f51ced8-9384-4b8d-aa60-efb281ac9439.jpg?1783930435"
+   }
+  },
+  {
+   "id": "9d9ca869-e68a-4f53-9f52-85c714dac6f3",
+   "name": "Black Market Connections",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "At the beginning of your first main phase, choose one or more \u2014\n\u2022 Sell Contraband \u2014 Create a Treasure token. You lose 1 life.\n\u2022 Buy Information \u2014 Draw a card. You lose 2 life.\n\u2022 Hire a Mercenary \u2014 Create a 3/2 colorless Shapeshifter creature token with changeling. You lose 3 life. (It is every creature type.)",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 128,
+   "set": "msc",
+   "collector_number": "155",
+   "prices": {
+    "usd": "14.56"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/d/9d9ca869-e68a-4f53-9f52-85c714dac6f3.jpg?1783903238"
+   }
+  },
+  {
+   "id": "55fcf1f3-f823-4017-ac43-4f76d4ad2e2a",
+   "name": "Blade of Selves",
+   "layout": "normal",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature has myriad. (Whenever it attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)\nEquip {4}",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 883,
+   "set": "cm2",
+   "collector_number": "174",
+   "prices": {
+    "usd": "3.45"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/5/55fcf1f3-f823-4017-ac43-4f76d4ad2e2a.jpg?1783934715"
+   }
+  },
+  {
+   "id": "8a5b65ed-250c-42a6-84c0-ac06662ca5ed",
+   "name": "Blood Artist",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Vampire",
+   "oracle_text": "Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 145,
+   "set": "sld",
+   "collector_number": "42",
+   "prices": {
+    "usd": "11.46"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/a/8a5b65ed-250c-42a6-84c0-ac06662ca5ed.jpg?1783930779"
+   }
+  },
+  {
+   "id": "6da63cc5-4624-4491-abd9-9b600c3fefe2",
+   "name": "Blood Crypt",
+   "layout": "normal",
+   "type_line": "Land \u2014 Swamp Mountain",
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 67,
+   "set": "ecl",
+   "collector_number": "262",
+   "prices": {
+    "usd": "7.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/d/6da63cc5-4624-4491-abd9-9b600c3fefe2.jpg?1783904396"
+   }
+  },
+  {
+   "id": "7f430794-0d86-4f6a-97e0-4bbb6716d613",
+   "name": "Bloodstained Mire",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 43,
+   "set": "ktk",
+   "collector_number": "230",
+   "prices": {
+    "usd": "19.96"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/f/7f430794-0d86-4f6a-97e0-4bbb6716d613.jpg?1783939046"
+   }
+  },
+  {
+   "id": "f2fd4bf5-7ed6-4a90-b0ba-ba886342859a",
+   "name": "Brimaz, King of Oreskos",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Cat Soldier",
+   "oracle_text": "Vigilance\nWhenever Brimaz attacks, create a 1/1 white Cat Soldier creature token with vigilance that's attacking.\nWhenever Brimaz blocks a creature, create a 1/1 white Cat Soldier creature token with vigilance that's blocking that creature.",
+   "mana_cost": "{1}{W}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 3052,
+   "set": "j25",
+   "collector_number": "58",
+   "prices": {
+    "usd": "7.65"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/2/f2fd4bf5-7ed6-4a90-b0ba-ba886342859a.jpg?1783908852"
+   }
+  },
+  {
+   "id": "246a7176-98bc-4f54-aa61-38747420f178",
+   "name": "Caesar, Legion's Emperor",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Soldier",
+   "oracle_text": "Whenever you attack, you may sacrifice another creature. When you do, choose two \u2014\n\u2022 Create two 1/1 red and white Soldier creature tokens with haste that are tapped and attacking.\n\u2022 You draw a card and you lose 1 life.\n\u2022 Caesar deals damage equal to the number of creature tokens you control to target opponent.",
+   "mana_cost": "{1}{R}{W}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B",
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2781,
+   "set": "pip",
+   "collector_number": "1",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/4/246a7176-98bc-4f54-aa61-38747420f178.jpg?1783912422"
+   }
+  },
+  {
+   "id": "22a77543-749a-49d8-96f4-3458ae5dcd38",
+   "name": "Carrion Feeder",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Zombie",
+   "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature.",
+   "mana_cost": "{B}",
+   "cmc": 1.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 605,
+   "set": "plst",
+   "collector_number": "MH1-81",
+   "prices": {
+    "usd": "4.17"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/2/22a77543-749a-49d8-96f4-3458ae5dcd38.jpg?1783931992"
+   }
+  },
+  {
+   "id": "fbb70e7b-2a68-436e-96a4-32a88fb87da0",
+   "name": "Cathars' Crusade",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control enters, put a +1/+1 counter on each creature you control.",
+   "mana_cost": "{3}{W}{W}",
+   "cmc": 5.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 557,
+   "set": "jmp",
+   "collector_number": "95",
+   "prices": {
+    "usd": "7.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/b/fbb70e7b-2a68-436e-96a4-32a88fb87da0.jpg?1783930476"
+   }
+  },
+  {
+   "id": "952cb8cb-633c-468f-8ef5-54ff91ddfb22",
+   "name": "Command Tower",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}: Add one mana of any color in your commander's color identity.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 2,
+   "set": "pip",
+   "collector_number": "259",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/5/952cb8cb-633c-468f-8ef5-54ff91ddfb22.jpg?1783912335"
+   }
+  },
+  {
+   "id": "d6539667-d082-4f8e-919a-c1882545baea",
+   "name": "Crowded Crypt",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add {B}.\nWhenever a creature you control dies, put a corpse counter on this artifact.\n{4}{B}{B}, {T}, Sacrifice this artifact: Create a 2/2 black Zombie creature token with decayed for each corpse counter on this artifact. (A creature with decayed can't block. When it attacks, sacrifice it at end of combat.)",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2425,
+   "set": "drc",
+   "collector_number": "88",
+   "prices": {
+    "usd": "0.42"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/6/d6539667-d082-4f8e-919a-c1882545baea.jpg?1783907725"
+   }
+  },
+  {
+   "id": "ae28dc70-b7fe-4528-a099-3ced1e4d9e25",
+   "name": "Dalkovan Encampment",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped unless you control a Swamp or a Mountain.\n{T}: Add {W}.\n{2}{W}, {T}: Whenever you attack this turn, create two 1/1 red Warrior creature tokens that are tapped and attacking. Sacrifice them at the beginning of the next end step.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 3372,
+   "set": "ptdm",
+   "collector_number": "253p",
+   "prices": {
+    "usd": "0.45"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/e/ae28dc70-b7fe-4528-a099-3ced1e4d9e25.jpg?1783906815"
+   }
+  },
+  {
+   "id": "ecf82c3b-7a35-43dd-8bf3-ebc68dc1b8fc",
+   "name": "Dark Prophecy",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control dies, you draw a card and you lose 1 life.",
+   "mana_cost": "{B}{B}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 4336,
+   "set": "m14",
+   "collector_number": "93",
+   "prices": {
+    "usd": "5.62"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/c/ecf82c3b-7a35-43dd-8bf3-ebc68dc1b8fc.jpg?1783939925"
+   }
+  },
+  {
+   "id": "aec653f1-32ce-4eb5-8d18-f56a7bbabac6",
+   "name": "Dawn Charm",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Prevent all combat damage that would be dealt this turn.\n\u2022 Regenerate target creature.\n\u2022 Counter target spell that targets you.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2080,
+   "set": "uma",
+   "collector_number": "13",
+   "prices": {
+    "usd": "1.89"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/e/aec653f1-32ce-4eb5-8d18-f56a7bbabac6.jpg?1783933868"
+   }
+  },
+  {
+   "id": "939e8322-e4be-48c4-9afc-90f8cc2ef802",
+   "name": "Deadly Dispute",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice an artifact or creature.\nDraw two cards and create a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 131,
+   "set": "sld",
+   "collector_number": "IFIYW-6",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/3/939e8322-e4be-48c4-9afc-90f8cc2ef802.jpg?1783903997"
+   }
+  },
+  {
+   "id": "448ad2d9-43c1-4889-9dc5-028fcd23fcb5",
+   "name": "Deathgreeter",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Shaman",
+   "oracle_text": "Whenever another creature dies, you may gain 1 life.",
+   "mana_cost": "{B}",
+   "cmc": 1.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 5504,
+   "set": "plst",
+   "collector_number": "DDD-33",
+   "prices": {
+    "usd": "0.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/4/448ad2d9-43c1-4889-9dc5-028fcd23fcb5.jpg?1783910400"
+   }
+  },
+  {
+   "id": "6f8f8183-d17a-41b8-b3b5-914f193fd964",
+   "name": "Duty Beyond Death",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nCreatures you control gain indestructible until end of turn. Put a +1/+1 counter on each creature you control. (Damage and effects that say \"destroy\" don't destroy those creatures.)",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2180,
+   "set": "soa",
+   "collector_number": "4",
+   "prices": {
+    "usd": "0.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/f/6f8f8183-d17a-41b8-b3b5-914f193fd964.jpg?1783903934"
+   }
+  },
+  {
+   "id": "67ca5dbb-d8f1-4d9a-9424-925774115b15",
+   "name": "Eiganjo, Seat of the Empire",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}: Add {W}.\nChannel \u2014 {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 375,
+   "set": "pneo",
+   "collector_number": "268p",
+   "prices": {
+    "usd": "6.43"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/7/67ca5dbb-d8f1-4d9a-9424-925774115b15.jpg?1783923628"
+   }
+  },
+  {
+   "id": "1c3f0ffe-cf51-4c30-8cd5-9e3c7e92c019",
+   "name": "Elas il-Kor, Sadistic Pilgrim",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Phyrexian Kor Cleric",
+   "oracle_text": "Deathtouch\nWhenever another creature you control enters, you gain 1 life.\nWhenever another creature you control dies, each opponent loses 1 life.",
+   "mana_cost": "{W}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 619,
+   "set": "dmu",
+   "collector_number": "198",
+   "prices": {
+    "usd": "2.44"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/c/1c3f0ffe-cf51-4c30-8cd5-9e3c7e92c019.jpg?1783921287"
+   }
+  },
+  {
+   "id": "e18feca3-1b1b-4456-8873-25a24849a917",
+   "name": "Elenda, the Dusk Rose",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Vampire Knight",
+   "oracle_text": "Lifelink\nWhenever another creature dies, put a +1/+1 counter on Elenda.\nWhen Elenda dies, create X 1/1 white Vampire creature tokens with lifelink, where X is Elenda's power.",
+   "mana_cost": "{2}{W}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1298,
+   "set": "lcc",
+   "collector_number": "268",
+   "prices": {
+    "usd": "6.65"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/1/e18feca3-1b1b-4456-8873-25a24849a917.jpg?1783913851"
+   }
+  },
+  {
+   "id": "26156da4-1ec3-4702-bded-9868af3026b5",
+   "name": "Emeritus of Woe // Demonic Tutor",
+   "layout": "prepare",
+   "type_line": "Creature \u2014 Vampire Warlock // Sorcery",
+   "mana_cost": "{3}{B} // {1}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2646,
+   "set": "sos",
+   "collector_number": "324",
+   "prices": {
+    "usd": "17.06"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/6/26156da4-1ec3-4702-bded-9868af3026b5.jpg?1783903596"
+   },
+   "card_faces": [
+    {
+     "name": "Emeritus of Woe",
+     "type_line": "Creature \u2014 Vampire Warlock",
+     "oracle_text": "This creature enters prepared. (While it's prepared, you may cast a copy of its spell. Doing so unprepares it.)\nAt the beginning of your end step, if two or more creatures died this turn, this creature becomes prepared.",
+     "mana_cost": "{3}{B}"
+    },
+    {
+     "name": "Demonic Tutor",
+     "type_line": "Sorcery",
+     "oracle_text": "Search your library for a card, put that card into your hand, then shuffle.",
+     "mana_cost": "{1}{B}"
+    }
+   ]
+  },
+  {
+   "id": "387f6f60-69da-4965-9ab9-57bdb763a013",
+   "name": "Endless Foot Assault",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Squad {1}{W} (As an additional cost to cast this spell, you may pay {1}{W} any number of times. When this enchantment enters, create that many tokens that are copies of it.)\nWhenever you attack, for each opponent, create a 1/1 black Ninja creature token that's tapped and attacking that player.",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 4490,
+   "set": "tmc",
+   "collector_number": "8",
+   "prices": {
+    "usd": "1.86"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/8/387f6f60-69da-4965-9ab9-57bdb763a013.jpg?1783904172"
+   }
+  },
+  {
+   "id": "6d908299-aac0-46a6-8fa5-780d5b3e0386",
+   "name": "Enduring Innocence",
+   "layout": "normal",
+   "type_line": "Enchantment Creature \u2014 Sheep Glimmer",
+   "oracle_text": "Lifelink\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.\nWhen Enduring Innocence dies, if it was a creature, return it to the battlefield under its owner's control. It's an enchantment. (It's not a creature.)",
+   "mana_cost": "{1}{W}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 734,
+   "set": "dsk",
+   "collector_number": "368",
+   "prices": {
+    "usd": "5.18"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/d/6d908299-aac0-46a6-8fa5-780d5b3e0386.jpg?1783909394"
+   }
+  },
+  {
+   "id": "676758ee-dac8-4c97-8a62-fff25bcbb6df",
+   "name": "Esper Sentinel",
+   "layout": "normal",
+   "type_line": "Artifact Creature \u2014 Human Soldier",
+   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 79,
+   "set": "mh2",
+   "collector_number": "328",
+   "prices": {
+    "usd": "53.38"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/6/7/676758ee-dac8-4c97-8a62-fff25bcbb6df.jpg?1783926764"
+   }
+  },
+  {
+   "id": "8c2996d9-3287-4480-8c04-7a378e37e3cf",
+   "name": "Flooded Strand",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 37,
+   "set": "ktk",
+   "collector_number": "233",
+   "prices": {
+    "usd": "15.58"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/c/8c2996d9-3287-4480-8c04-7a378e37e3cf.jpg?1783939046"
+   }
+  },
+  {
+   "id": "393bf5fc-0ad2-4116-83b4-346d61ac2911",
+   "name": "Generous Plunderer",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Rogue",
+   "oracle_text": "Menace\nAt the beginning of your upkeep, you may create a Treasure token. When you do, target opponent creates a tapped Treasure token.\nWhenever this creature attacks, it deals damage to defending player equal to the number of artifacts they control.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2039,
+   "set": "big",
+   "collector_number": "76",
+   "prices": {
+    "usd": "23.06"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/9/393bf5fc-0ad2-4116-83b4-346d61ac2911.jpg?1783911980"
+   }
+  },
+  {
+   "id": "e92af114-ad34-4106-a7fa-5676dbcd4960",
+   "name": "Goblin Bombardment",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 466,
+   "set": "wot",
+   "collector_number": "43",
+   "prices": {
+    "usd": "3.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/9/e92af114-ad34-4106-a7fa-5676dbcd4960.jpg?1783914925"
+   }
+  },
+  {
+   "id": "e221e498-d9b1-47f0-b4dd-05e1105ce9f1",
+   "name": "Godless Shrine",
+   "layout": "normal",
+   "type_line": "Land \u2014 Plains Swamp",
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 59,
+   "set": "clu",
+   "collector_number": "276",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/2/e221e498-d9b1-47f0-b4dd-05e1105ce9f1.jpg?1783912492"
+   }
+  },
+  {
+   "id": "a60834b0-38ab-40c9-9fd9-db3a23b13076",
+   "name": "Grand Crescendo",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Create X 1/1 green and white Citizen creature tokens. Creatures you control gain indestructible until end of turn.",
+   "mana_cost": "{X}{W}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1172,
+   "set": "frc",
+   "collector_number": "26",
+   "prices": {
+    "usd": "0.50"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/6/a60834b0-38ab-40c9-9fd9-db3a23b13076.jpg?1789599802"
+   }
+  },
+  {
+   "id": "b4fe104c-34ff-4b17-a703-98e7dedcb518",
+   "name": "Grim Hireling",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Tiefling Rogue",
+   "oracle_text": "Whenever one or more creatures you control deal combat damage to a player, create two Treasure tokens.\n{B}, Sacrifice X Treasures: Target creature gets -X/-X until end of turn. Activate only as a sorcery.",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 913,
+   "set": "plst",
+   "collector_number": "AFC-25",
+   "prices": {
+    "usd": "10.98"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/4/b4fe104c-34ff-4b17-a703-98e7dedcb518.jpg?1783910427"
+   }
+  },
+  {
+   "id": "3d8ca18d-9099-4f1e-95c1-f04da58a26bd",
+   "name": "Gut, True Soul Zealot",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Goblin Shaman",
+   "oracle_text": "Whenever you attack, you may sacrifice another creature or an artifact. If you do, create a 4/1 black Skeleton creature token with menace that's tapped and attacking. (It can't be blocked except by two or more creatures.)\nChoose a Background (You can have a Background as a second commander.)",
+   "mana_cost": "{2}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 7132,
+   "set": "clb",
+   "collector_number": "180",
+   "prices": {
+    "usd": "0.14"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/d/3d8ca18d-9099-4f1e-95c1-f04da58a26bd.jpg?1783922736"
+   }
+  },
+  {
+   "id": "e23cf8e0-0983-4495-ad3e-8b0c3e706115",
+   "name": "Impact Tremors",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Whenever a creature you control enters, this enchantment deals 1 damage to each opponent.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 204,
+   "set": "wot",
+   "collector_number": "44",
+   "prices": {
+    "usd": "3.25"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/2/e23cf8e0-0983-4495-ad3e-8b0c3e706115.jpg?1783914921"
+   }
+  },
+  {
+   "id": "d653b755-1e09-45c4-8d44-8a950151ca51",
+   "name": "Indulge // Excess",
+   "layout": "split",
+   "type_line": "Sorcery // Sorcery",
+   "mana_cost": "{2}{R} // {1}{R}",
+   "cmc": 5.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 11434,
+   "set": "ncc",
+   "collector_number": "46",
+   "prices": {
+    "usd": "0.49"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/6/d653b755-1e09-45c4-8d44-8a950151ca51.jpg?1783923360"
+   },
+   "card_faces": [
+    {
+     "name": "Indulge",
+     "type_line": "Sorcery",
+     "oracle_text": "Whenever a creature you control attacks this turn, create a 1/1 green and white Citizen creature token that's tapped and attacking.",
+     "mana_cost": "{2}{R}"
+    },
+    {
+     "name": "Excess",
+     "type_line": "Sorcery",
+     "oracle_text": "Aftermath (Cast this spell only from your graveyard. Then exile it.)\nCreate a Treasure token for each creature you controlled that dealt combat damage to a player this turn.",
+     "mana_cost": "{1}{R}"
+    }
+   ]
+  },
+  {
+   "id": "92218f51-5b3f-4c4f-b472-7c03daaccc03",
+   "name": "Jadar, Ghoulcaller of Nephalia",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Human Wizard",
+   "oracle_text": "At the beginning of your end step, if you control no creatures with decayed, create a 2/2 black Zombie creature token with decayed. (It can't block. When it attacks, sacrifice it at end of combat.)",
+   "mana_cost": "{1}{B}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1320,
+   "set": "dbl",
+   "collector_number": "108",
+   "prices": {
+    "usd": "5.99"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/2/92218f51-5b3f-4c4f-b472-7c03daaccc03.jpg?1783924414"
+   }
+  },
+  {
+   "id": "4eac3ed8-5f23-4244-941c-ac42e3fbe191",
+   "name": "Lightning Greaves",
+   "layout": "normal",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 13,
+   "set": "sld",
+   "collector_number": "IFIYW-9",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/e/4eac3ed8-5f23-4244-941c-ac42e3fbe191.jpg?1783903996"
+   }
+  },
+  {
+   "id": "3c409d1e-f634-44a2-8fcf-dcdcb0babc3f",
+   "name": "Luxury Suite",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped unless you have two or more opponents.\n{T}: Add {B} or {R}.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 161,
+   "set": "msc",
+   "collector_number": "252",
+   "prices": {
+    "usd": "9.09"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/c/3c409d1e-f634-44a2-8fcf-dcdcb0babc3f.jpg?1783903199"
+   }
+  },
+  {
+   "id": "88a08aff-3a50-4f2e-97a1-f1d79d5c4ade",
+   "name": "Mace of the Valiant",
+   "layout": "normal",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature gets +1/+1 for each charge counter on this Equipment and has vigilance. (Attacking doesn't cause it to tap.)\nWhenever a creature you control enters, put a charge counter on this Equipment.\nEquip {3}",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 9097,
+   "set": "cmm",
+   "collector_number": "41",
+   "prices": {
+    "usd": "0.20"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/8/88a08aff-3a50-4f2e-97a1-f1d79d5c4ade.jpg?1783915716"
+   }
+  },
+  {
+   "id": "c3da2b1a-76c5-4d36-bdf8-025b86f61eb5",
+   "name": "Mahadi, Emporium Master",
+   "layout": "normal",
+   "type_line": "Legendary Creature \u2014 Devil",
+   "oracle_text": "At the beginning of your end step, create a Treasure token for each creature that died this turn. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "mana_cost": "{1}{B}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1310,
+   "set": "clb",
+   "collector_number": "282",
+   "prices": {
+    "usd": "1.13"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/3/c3da2b1a-76c5-4d36-bdf8-025b86f61eb5.jpg?1783922689"
+   }
+  },
+  {
+   "id": "2e2d59f5-369c-4f16-b0b9-3850d769d1f9",
+   "name": "Marsh Flats",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 51,
+   "set": "spg",
+   "collector_number": "115",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/e/2e2d59f5-369c-4f16-b0b9-3850d769d1f9.jpg?1783907423"
+   }
+  },
+  {
+   "id": "ef899443-579e-48df-b933-e0058173f8f6",
+   "name": "Mentor of the Meek",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Soldier",
+   "oracle_text": "Whenever another creature you control with power 2 or less enters, you may pay {1}. If you do, draw a card.",
+   "mana_cost": "{2}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 680,
+   "set": "scd",
+   "collector_number": "28",
+   "prices": {
+    "usd": "0.17"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/f/ef899443-579e-48df-b933-e0058173f8f6.jpg?1783918732"
+   }
+  },
+  {
+   "id": "53fb7b99-9e47-46a6-9c8a-88e28b5197f1",
+   "name": "Mountain",
+   "layout": "normal",
+   "type_line": "Basic Land \u2014 Mountain",
+   "oracle_text": "({T}: Add {R}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "set": "thb",
+   "collector_number": "253",
+   "prices": {
+    "usd": "1.24"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/3/53fb7b99-9e47-46a6-9c8a-88e28b5197f1.jpg?1783931511"
+   }
+  },
+  {
+   "id": "89cf6f57-230f-497e-a14e-ad1e8737fd42",
+   "name": "Ocelot Pride",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Cat",
+   "oracle_text": "First strike, lifelink\nAscend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nAt the beginning of your end step, if you gained life this turn, create a 1/1 white Cat creature token. Then if you have the city's blessing, for each token you control that entered this turn, create a token that's a copy of it.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1093,
+   "set": "mh3",
+   "collector_number": "38",
+   "prices": {
+    "usd": "43.73"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/9/89cf6f57-230f-497e-a14e-ad1e8737fd42.jpg?1783911298"
+   }
+  },
+  {
+   "id": "7da2511d-f5ae-4c51-a9b2-dffd581243b6",
+   "name": "Ophiomancer",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Shaman",
+   "oracle_text": "At the beginning of each upkeep, if you control no Snakes, create a 1/1 black Snake creature token with deathtouch.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 621,
+   "set": "tdc",
+   "collector_number": "193",
+   "prices": {
+    "usd": "1.25"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/d/7da2511d-f5ae-4c51-a9b2-dffd581243b6.jpg?1783907081"
+   }
+  },
+  {
+   "id": "49141090-f3b0-4748-a7ee-800093fcf29d",
+   "name": "Phyrexian Altar",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "Sacrifice a creature: Add one mana of any color.",
+   "mana_cost": "{3}",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 305,
+   "set": "2x2",
+   "collector_number": "563",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/9/49141090-f3b0-4748-a7ee-800093fcf29d.jpg?1783921688"
+   }
+  },
+  {
+   "id": "0b47f6d2-9f65-47a4-bfc4-15619befe53d",
+   "name": "Phyrexian Tower",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}: Add {C}.\n{T}, Sacrifice a creature: Add {B}{B}.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 195,
+   "set": "mh3",
+   "collector_number": "303",
+   "prices": {
+    "usd": "32.46"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0b47f6d2-9f65-47a4-bfc4-15619befe53d.jpg?1783911207"
+   }
+  },
+  {
+   "id": "47255b76-2c77-4e94-938d-b9d3497798ec",
+   "name": "Pitiless Plunderer",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Pirate",
+   "oracle_text": "Whenever another creature you control dies, create a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "mana_cost": "{3}{B}",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 225,
+   "set": "pip",
+   "collector_number": "187",
+   "prices": {
+    "usd": "3.61"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/7/47255b76-2c77-4e94-938d-b9d3497798ec.jpg?1783912362"
+   }
+  },
+  {
+   "id": "a9891b7b-fc52-470c-9f74-292ae665f378",
+   "name": "Plains",
+   "layout": "normal",
+   "type_line": "Basic Land \u2014 Plains",
+   "oracle_text": "({T}: Add {W}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "set": "thb",
+   "collector_number": "250",
+   "prices": {
+    "usd": "1.37"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/9/a9891b7b-fc52-470c-9f74-292ae665f378.jpg?1783931510"
+   }
+  },
+  {
+   "id": "c6ae9cff-8646-4069-8761-df734e067beb",
+   "name": "Plateau",
+   "layout": "normal",
+   "type_line": "Land \u2014 Mountain Plains",
+   "oracle_text": "({T}: Add {R} or {W}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 433,
+   "set": "3ed",
+   "collector_number": "284",
+   "prices": {
+    "usd": "404.63"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/6/c6ae9cff-8646-4069-8761-df734e067beb.jpg?1783948277"
+   }
+  },
+  {
+   "id": "ff2f5f58-9a95-4ca6-93a0-813738f0072f",
+   "name": "Polluted Delta",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 36,
+   "set": "ktk",
+   "collector_number": "239",
+   "prices": {
+    "usd": "21.90"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/f/ff2f5f58-9a95-4ca6-93a0-813738f0072f.jpg?1783939045"
+   }
+  },
+  {
+   "id": "5d6789ac-934f-4591-a009-13faa453be05",
+   "name": "Professional Face-Breaker",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Warrior",
+   "oracle_text": "Menace\nWhenever one or more creatures you control deal combat damage to a player, create a Treasure token.\nSacrifice a Treasure: Exile the top card of your library. You may play that card this turn.",
+   "mana_cost": "{2}{R}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 206,
+   "set": "m3c",
+   "collector_number": "216",
+   "prices": {
+    "usd": "6.01"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/5/d/5d6789ac-934f-4591-a009-13faa453be05.jpg?1783911373"
+   }
+  },
+  {
+   "id": "d0e9c27c-d73a-4c8e-a396-4348a2695edb",
+   "name": "Reconnaissance",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "{0}: Remove target attacking creature you control from combat and untap it. (If you activate during end of combat, the creature will untap after it deals combat damage.)",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 879,
+   "set": "acr",
+   "collector_number": "179",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/0/d0e9c27c-d73a-4c8e-a396-4348a2695edb.jpg?1783910929"
+   }
+  },
+  {
+   "id": "eddf05f8-9dcf-4e63-a411-6c2fc262f9c9",
+   "name": "Ruinous Ultimatum",
+   "layout": "normal",
+   "type_line": "Sorcery",
+   "oracle_text": "Destroy all nonland permanents your opponents control.",
+   "mana_cost": "{R}{R}{W}{W}{W}{B}{B}",
+   "cmc": 7.0,
+   "color_identity": [
+    "B",
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 655,
+   "set": "spg",
+   "collector_number": "108",
+   "prices": {
+    "usd": "15.15"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/d/eddf05f8-9dcf-4e63-a411-6c2fc262f9c9.jpg?1783907428"
+   }
+  },
+  {
+   "id": "b268d5c5-3f70-4693-94e6-d5993b672d6b",
+   "name": "Sacred Foundry",
+   "layout": "normal",
+   "type_line": "Land \u2014 Mountain Plains",
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 73,
+   "set": "peoe",
+   "collector_number": "256p",
+   "prices": {
+    "usd": "10.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/2/b268d5c5-3f70-4693-94e6-d5993b672d6b.jpg?1783905699"
+   }
+  },
+  {
+   "id": "71e491c5-8c07-449b-b2f1-ffa052e6d311",
+   "name": "Scalding Tarn",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 50,
+   "set": "mh2",
+   "collector_number": "254",
+   "prices": {
+    "usd": "34.94"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/1/71e491c5-8c07-449b-b2f1-ffa052e6d311.jpg?1783926793"
+   }
+  },
+  {
+   "id": "472034a2-0ba9-4876-ab7a-aa7013d603bb",
+   "name": "Scrubland",
+   "layout": "normal",
+   "type_line": "Land \u2014 Plains Swamp",
+   "oracle_text": "({T}: Add {W} or {B}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 378,
+   "set": "3ed",
+   "collector_number": "286",
+   "prices": {
+    "usd": "452.96"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/7/472034a2-0ba9-4876-ab7a-aa7013d603bb.jpg?1783948277"
+   }
+  },
+  {
+   "id": "85eaf5e7-77dc-4842-a70c-ce4ac7f724df",
+   "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
+   "layout": "transform",
+   "type_line": "Legendary Creature \u2014 Human Avatar Soldier // Legendary Creature \u2014 Angel Nightmare Avatar",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1206,
+   "set": "fin",
+   "collector_number": "115",
+   "prices": {
+    "usd": "26.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "card_faces": [
+    {
+     "name": "Sephiroth, Fabled SOLDIER",
+     "type_line": "Legendary Creature \u2014 Human Avatar Soldier",
+     "oracle_text": "Whenever Sephiroth enters or attacks, you may sacrifice another creature. If you do, draw a card.\nWhenever another creature dies, target opponent loses 1 life and you gain 1 life. If this is the fourth time this ability has resolved this turn, transform Sephiroth.",
+     "mana_cost": "{2}{B}",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/front/8/5/85eaf5e7-77dc-4842-a70c-ce4ac7f724df.jpg?1783906617"
+     }
+    },
+    {
+     "name": "Sephiroth, One-Winged Angel",
+     "type_line": "Legendary Creature \u2014 Angel Nightmare Avatar",
+     "oracle_text": "Flying\nSuper Nova \u2014 As this creature transforms into Sephiroth, One-Winged Angel, you get an emblem with \"Whenever a creature dies, target opponent loses 1 life and you gain 1 life.\"\nWhenever Sephiroth attacks, you may sacrifice any number of other creatures. If you do, draw that many cards.",
+     "mana_cost": "",
+     "image_uris": {
+      "normal": "https://cards.scryfall.io/normal/back/8/5/85eaf5e7-77dc-4842-a70c-ce4ac7f724df.jpg?1783906617"
+     }
+    }
+   ]
+  },
+  {
+   "id": "eb444c1e-0655-4251-9ecf-ad03473c6bb5",
+   "name": "Shinka, the Bloodsoaked Keep",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}: Add {R}.\n{R}, {T}: Target legendary creature gains first strike until end of turn.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1964,
+   "set": "plst",
+   "collector_number": "CHK-282",
+   "prices": {
+    "usd": "14.53"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/b/eb444c1e-0655-4251-9ecf-ad03473c6bb5.jpg?1783925017"
+   }
+  },
+  {
+   "id": "b5bb89dd-9d31-49d9-ba54-4a04798e515e",
+   "name": "Skullclamp",
+   "layout": "normal",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature gets +1/-1.\nWhenever equipped creature dies, draw two cards.\nEquip {1}",
+   "mana_cost": "{1}",
+   "cmc": 1.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 38,
+   "set": "tdc",
+   "collector_number": "103",
+   "prices": {
+    "usd": "6.02"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/5/b5bb89dd-9d31-49d9-ba54-4a04798e515e.jpg?1783907135"
+   }
+  },
+  {
+   "id": "120e2b4b-afc7-4bf0-a09f-568e08f6bd8f",
+   "name": "Sol Ring",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add {C}{C}.",
+   "mana_cost": "{1}",
+   "cmc": 1.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1,
+   "set": "pfdn",
+   "collector_number": "1",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/2/120e2b4b-afc7-4bf0-a09f-568e08f6bd8f.jpg?1783908554"
+   }
+  },
+  {
+   "id": "d563249e-7203-4d54-af5a-82d2f1a584cb",
+   "name": "Soul Warden",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 453,
+   "set": "md1",
+   "collector_number": "1",
+   "prices": {
+    "usd": "6.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/5/d563249e-7203-4d54-af5a-82d2f1a584cb.jpg?1783939389"
+   }
+  },
+  {
+   "id": "819219bd-1364-4032-ab5b-6f5ac73b394a",
+   "name": "Soul's Attendant",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "Whenever another creature enters, you may gain 1 life.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 779,
+   "set": "plst",
+   "collector_number": "ROE-44",
+   "prices": {
+    "usd": "7.40"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/1/819219bd-1364-4032-ab5b-6f5ac73b394a.jpg?1783931276"
+   }
+  },
+  {
+   "id": "4c62dcfc-4bc8-4551-b3c7-9eec26be3362",
+   "name": "Spectator Seating",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped unless you have two or more opponents.\n{T}: Add {R} or {W}.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 168,
+   "set": "msc",
+   "collector_number": "268",
+   "prices": {
+    "usd": "6.06"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/c/4c62dcfc-4bc8-4551-b3c7-9eec26be3362.jpg?1783903192"
+   }
+  },
+  {
+   "id": "30840f4d-f856-4417-9dd3-ef418ed4f835",
+   "name": "Spirit Mantle",
+   "layout": "normal",
+   "type_line": "Enchantment \u2014 Aura",
+   "oracle_text": "Enchant creature\nEnchanted creature gets +1/+1 and has protection from creatures.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1708,
+   "set": "plst",
+   "collector_number": "M12-35",
+   "prices": {
+    "usd": "0.31"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/0/30840f4d-f856-4417-9dd3-ef418ed4f835.jpg?1783909983"
+   }
+  },
+  {
+   "id": "d7bcb227-f1ef-49d7-98e6-bac65f49c18b",
+   "name": "Stadium Headliner",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Goblin Warrior",
+   "oracle_text": "Mobilize 1 (Whenever this creature attacks, create a tapped and attacking 1/1 red Warrior creature token. Sacrifice it at the beginning of the next end step.)\n{1}{R}, Sacrifice this creature: It deals damage equal to the number of creatures you control to target creature.",
+   "mana_cost": "{R}",
+   "cmc": 1.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 4880,
+   "set": "ptdm",
+   "collector_number": "122p",
+   "prices": {
+    "usd": "0.60"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/7/d7bcb227-f1ef-49d7-98e6-bac65f49c18b.jpg?1783906882"
+   }
+  },
+  {
+   "id": "17be11f2-f2db-40c4-8fc1-2ed7173f9a1a",
+   "name": "Staff of the Storyteller",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "When this artifact enters, create a 1/1 white Spirit creature token with flying.\nWhenever you create one or more creature tokens, put a story counter on this artifact.\n{W}, {T}, Remove a story counter from this artifact: Draw a card.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2619,
+   "set": "onc",
+   "collector_number": "48",
+   "prices": {
+    "usd": "1.83"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/1/7/17be11f2-f2db-40c4-8fc1-2ed7173f9a1a.jpg?1783918144"
+   }
+  },
+  {
+   "id": "02cb5cfd-018e-4c5e-bef1-166262aa5f1d",
+   "name": "Swamp",
+   "layout": "normal",
+   "type_line": "Basic Land \u2014 Swamp",
+   "oracle_text": "({T}: Add {B}.)",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "set": "thb",
+   "collector_number": "252",
+   "prices": {
+    "usd": "1.39"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/2/02cb5cfd-018e-4c5e-bef1-166262aa5f1d.jpg?1783931508"
+   }
+  },
+  {
+   "id": "cd33c0f5-5545-477a-9185-53c707983795",
+   "name": "Swords to Plowshares",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power.",
+   "mana_cost": "{W}",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 11,
+   "set": "cmr",
+   "collector_number": "627",
+   "prices": {
+    "usd": "3.80"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/d/cd33c0f5-5545-477a-9185-53c707983795.jpg?1783928628"
+   }
+  },
+  {
+   "id": "499037cc-a577-41cb-8ca2-5e117945634f",
+   "name": "Takenuma, Abandoned Mire",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "{T}: Add {B}.\nChannel \u2014 {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 246,
+   "set": "neo",
+   "collector_number": "278",
+   "prices": {
+    "usd": "11.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/9/499037cc-a577-41cb-8ca2-5e117945634f.jpg?1783923812"
+   }
+  },
+  {
+   "id": "76f14077-b398-44ad-bf05-408c0bcf138b",
+   "name": "Talisman of Conviction",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. This artifact deals 1 damage to you.",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 151,
+   "set": "m3c",
+   "collector_number": "307",
+   "prices": {
+    "usd": "0.37"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/6/76f14077-b398-44ad-bf05-408c0bcf138b.jpg?1783911344"
+   }
+  },
+  {
+   "id": "77e890d8-6542-4d8e-9782-94fb5a74e244",
+   "name": "Talisman of Hierarchy",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {W} or {B}. This artifact deals 1 damage to you.",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 134,
+   "set": "pip",
+   "collector_number": "775",
+   "prices": {
+    "usd": null
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/7/7/77e890d8-6542-4d8e-9782-94fb5a74e244.jpg?1783912145"
+   }
+  },
+  {
+   "id": "36bd614f-ab3b-4ad1-ab5c-a7ca0a641f32",
+   "name": "Talisman of Indulgence",
+   "layout": "normal",
+   "type_line": "Artifact",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. This artifact deals 1 damage to you.",
+   "mana_cost": "{2}",
+   "cmc": 2.0,
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 127,
+   "set": "frc",
+   "collector_number": "63",
+   "prices": {
+    "usd": "1.34"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/3/6/36bd614f-ab3b-4ad1-ab5c-a7ca0a641f32.jpg?1789599847"
+   }
+  },
+  {
+   "id": "fc408575-8ef7-4043-b6b7-b38cef7c97d1",
+   "name": "The Masamune",
+   "layout": "normal",
+   "type_line": "Legendary Artifact \u2014 Equipment",
+   "oracle_text": "As long as equipped creature is attacking, it has first strike and must be blocked if able.\nEquipped creature has \"If a creature dying causes a triggered ability of this creature or an emblem you own to trigger, that ability triggers an additional time.\"\nEquip {2}",
+   "mana_cost": "{3}",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 3580,
+   "set": "fin",
+   "collector_number": "264",
+   "prices": {
+    "usd": "1.17"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/c/fc408575-8ef7-4043-b6b7-b38cef7c97d1.jpg?1783906555"
+   }
+  },
+  {
+   "id": "0dd4d070-38cf-4517-8152-84c9fcf2c984",
+   "name": "Trouble in Pairs",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "If an opponent would begin an extra turn, that player skips that turn instead.\nWhenever an opponent attacks you with two or more creatures, draws their second card each turn, or casts their second spell each turn, you draw a card.",
+   "mana_cost": "{2}{W}{W}",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 617,
+   "set": "mkc",
+   "collector_number": "326",
+   "prices": {
+    "usd": "31.29"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/d/0dd4d070-38cf-4517-8152-84c9fcf2c984.jpg?1783912940"
+   }
+  },
+  {
+   "id": "9e5dc58b-f486-4b9f-9138-33efa31a05e4",
+   "name": "True Conviction",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Creatures you control have double strike and lifelink.",
+   "mana_cost": "{3}{W}{W}{W}",
+   "cmc": 6.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1859,
+   "set": "c14",
+   "collector_number": "93",
+   "prices": {
+    "usd": "4.24"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9e5dc58b-f486-4b9f-9138-33efa31a05e4.jpg?1783938854"
+   }
+  },
+  {
+   "id": "857bfb0e-17dc-4dda-bc37-3df927a9eae6",
+   "name": "Untimely Malfunction",
+   "layout": "normal",
+   "type_line": "Instant",
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Change the target of target spell or ability with a single target.\n\u2022 One or two target creatures can't block this turn.",
+   "mana_cost": "{1}{R}",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 266,
+   "set": "dsk",
+   "collector_number": "161",
+   "prices": {
+    "usd": "7.71"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/8/5/857bfb0e-17dc-4dda-bc37-3df927a9eae6.jpg?1783909463"
+   }
+  },
+  {
+   "id": "9e1a9e38-6ffc-490f-b0be-23ba4e8204c6",
+   "name": "Urborg, Tomb of Yawgmoth",
+   "layout": "normal",
+   "type_line": "Legendary Land",
+   "oracle_text": "Each land is a Swamp in addition to its other land types.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 76,
+   "set": "tsr",
+   "collector_number": "287",
+   "prices": {
+    "usd": "56.30"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9e1a9e38-6ffc-490f-b0be-23ba4e8204c6.jpg?1783927747"
+   }
+  },
+  {
+   "id": "c1e0f201-42cb-46a1-901a-65bb4fc18f6c",
+   "name": "Urza's Saga",
+   "layout": "saga",
+   "type_line": "Enchantment Land \u2014 Urza's Saga",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI \u2014 This Saga gains \"{T}: Add {C}.\"\nII \u2014 This Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token with 'This token gets +1/+1 for each artifact you control.'\"\nIII \u2014 Search your library for an artifact card with mana cost {0} or {1}, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 116,
+   "set": "mh2",
+   "collector_number": "259",
+   "prices": {
+    "usd": "39.47"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/c/1/c1e0f201-42cb-46a1-901a-65bb4fc18f6c.jpg?1783926791"
+   }
+  },
+  {
+   "id": "0e144ae1-500d-4485-b476-5783b14380d9",
+   "name": "Vault of Champions",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped unless you have two or more opponents.\n{T}: Add {W} or {B}.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 169,
+   "set": "cmr",
+   "collector_number": "360",
+   "prices": {
+    "usd": "14.68"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/0/e/0e144ae1-500d-4485-b476-5783b14380d9.jpg?1783928738"
+   }
+  },
+  {
+   "id": "ed36429e-ec50-4bdf-9d07-03b4e4861661",
+   "name": "Verdant Catacombs",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 48,
+   "set": "spg",
+   "collector_number": "113",
+   "prices": {
+    "usd": "44.99"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/e/d/ed36429e-ec50-4bdf-9d07-03b4e4861661.jpg?1783907425"
+   }
+  },
+  {
+   "id": "f511830b-1c1f-4d30-aa5d-4314726d142e",
+   "name": "Viscera Seer",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Vampire Wizard",
+   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "mana_cost": "{B}",
+   "cmc": 1.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 257,
+   "set": "soc",
+   "collector_number": "229",
+   "prices": {
+    "usd": "0.69"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/f/5/f511830b-1c1f-4d30-aa5d-4314726d142e.jpg?1783903780"
+   }
+  },
+  {
+   "id": "4f67aa6c-6dce-47f7-9a8e-b8970b3c121e",
+   "name": "Voice of Victory",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Human Bard",
+   "oracle_text": "Mobilize 2 (Whenever this creature attacks, create two tapped and attacking 1/1 red Warrior creature tokens. Sacrifice them at the beginning of the next end step.)\nYour opponents can't cast spells during your turn.",
+   "mana_cost": "{1}{W}",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 483,
+   "set": "ptdm",
+   "collector_number": "33p",
+   "prices": {
+    "usd": "17.58"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/4/f/4f67aa6c-6dce-47f7-9a8e-b8970b3c121e.jpg?1783906905"
+   }
+  },
+  {
+   "id": "b3e8f8bd-1c8b-4a7c-96c4-57a247ce9ccc",
+   "name": "Warleader's Call",
+   "layout": "normal",
+   "type_line": "Enchantment",
+   "oracle_text": "Creatures you control get +1/+1.\nWhenever a creature you control enters, this enchantment deals 1 damage to each opponent.",
+   "mana_cost": "{1}{R}{W}",
+   "cmc": 3.0,
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 919,
+   "set": "mkm",
+   "collector_number": "242",
+   "prices": {
+    "usd": "8.24"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/3/b3e8f8bd-1c8b-4a7c-96c4-57a247ce9ccc.jpg?1783912831"
+   }
+  },
+  {
+   "id": "2ce1df32-37c8-45d3-8da1-b8d0d80d5d52",
+   "name": "Warren Soultrader",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Zombie Goblin Wizard",
+   "oracle_text": "Pay 1 life, Sacrifice another creature: Create a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 414,
+   "set": "pmh3",
+   "collector_number": "110p",
+   "prices": {
+    "usd": "20.87"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/2/c/2ce1df32-37c8-45d3-8da1-b8d0d80d5d52.jpg?1783904276"
+   }
+  },
+  {
+   "id": "bd1d13f7-fd38-4f0b-a8e0-1eac78668117",
+   "name": "Windswept Heath",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 45,
+   "set": "mh3",
+   "collector_number": "235",
+   "prices": {
+    "usd": "12.04"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/b/d/bd1d13f7-fd38-4f0b-a8e0-1eac78668117.jpg?1783911233"
+   }
+  },
+  {
+   "id": "dbe6790c-638b-4eb5-832f-900e221b5dd4",
+   "name": "Woe Strider",
+   "layout": "normal",
+   "type_line": "Creature \u2014 Horror",
+   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape\u2014{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "mana_cost": "{2}{B}",
+   "cmc": 3.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1675,
+   "set": "ncc",
+   "collector_number": "262",
+   "prices": {
+    "usd": "0.32"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/d/b/dbe6790c-638b-4eb5-832f-900e221b5dd4.jpg?1783923262"
+   }
+  },
+  {
+   "id": "a8503cca-7e7d-44c4-8587-81376b396398",
+   "name": "Wooded Foothills",
+   "layout": "normal",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
+   "mana_cost": "",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 47,
+   "set": "ktk",
+   "collector_number": "249",
+   "prices": {
+    "usd": "17.48"
+   },
+   "legalities": {
+    "commander": "legal"
+   },
+   "image_uris": {
+    "normal": "https://cards.scryfall.io/normal/front/a/8/a8503cca-7e7d-44c4-8587-81376b396398.jpg?1783939042"
+   }
+  }
+ ],
+ "not_found": []
+}

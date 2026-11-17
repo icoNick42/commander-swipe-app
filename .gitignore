@@ -1,0 +1,7 @@
+# Full copy of an EDHREC page, used only by local tests. Not ours to publish.
+tests/fixtures/edhrec_zurgo.json
+
+# Windows and Mac clutter
+Thumbs.db
+desktop.ini
+.DS_Store
