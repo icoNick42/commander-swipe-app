@@ -597,6 +597,240 @@
     return { key: role.key, label: role.label, cards: onE.concat(offE) };
   };
 
+  // ---------------------------------------------------------------- combos
+
+  /*
+   * Combos come from Commander Spellbook (commanderspellbook.com). Its API
+   * doesn't let web pages read it, so a helper script asks it about one
+   * deck and saves a trimmed copy as combos/<commander slug>.json, which
+   * the page reads from its own site. The page then works out, for the
+   * deck pasted now, which combos are already in it and which are one card
+   * away. Combos are shown as information, with Spellbook's bracket tag, so
+   * a deck can stay at the table's power level.
+   */
+
+  /** Spellbook's bracket tags and the Commander bracket each one points to. */
+  CS.COMBO_BRACKETS = {
+    E: { n: 1, label: "Exhibition" },
+    C: { n: 2, label: "Core" },
+    O: { n: 2, label: "Oddball" },
+    P: { n: 3, label: "Powerful" },
+    S: { n: 3, label: "Spicy" },
+    R: { n: 4, label: "Ruthless" },
+    B: { n: 5, label: "Banned" },
+  };
+
+  /** {n, label} for a bracket tag; an unknown tag counts as bracket 4, to be safe. */
+  CS.comboBracket = function (tag) {
+    return CS.COMBO_BRACKETS[tag] || { n: 4, label: "Unknown" };
+  };
+
+  /** Where the page finds a commander's combo file (on its own site). */
+  CS.comboFileUrl = function (commanderName) {
+    var slug = CS.commanderSlug(commanderName);
+    return slug ? "combos/" + slug + ".json" : null;
+  };
+
+  /** A combo's page on Commander Spellbook. */
+  CS.comboLink = function (id) {
+    return "https://commanderspellbook.com/combo/" + encodeURIComponent(id) + "/";
+  };
+
+  var NOTE_MAX = 200;
+
+  /**
+   * Trims a find-my-combos reply to what the page uses: the combos already
+   * in the deck and those one card away in the deck's colors (Spellbook's
+   * "included" and "almostIncluded"). Each combo is {id, cards, identity,
+   * produces (up to 3), bracket, popularity, needs (other pieces described,
+   * not named), note (Spellbook's notable prerequisites, cut to 200
+   * characters), commanderOnly (cards that must be the commander)}.
+   * Most popular first.
+   */
+  CS.trimSpellbook = function (reply, commanderName, made) {
+    var r = (reply && reply.results) || {};
+    var seen = {};
+    var combos = [];
+    ["included", "almostIncluded"].forEach(function (k) {
+      (Array.isArray(r[k]) ? r[k] : []).forEach(function (v) {
+        if (!v || v.id == null || seen[v.id] || !Array.isArray(v.uses)) return;
+        var cards = v.uses
+          .map(function (u) {
+            return u && u.card && u.card.name;
+          })
+          .filter(Boolean);
+        if (!cards.length || cards.length !== v.uses.length) return;
+        seen[v.id] = true;
+        var note =
+          typeof v.notablePrerequisites === "string"
+            ? v.notablePrerequisites.replace(/\s+/g, " ").trim()
+            : "";
+        if (note.length > NOTE_MAX) note = note.slice(0, NOTE_MAX - 3) + "...";
+        combos.push({
+          id: String(v.id),
+          cards: cards,
+          identity: typeof v.identity === "string" ? v.identity : "",
+          produces: (Array.isArray(v.produces) ? v.produces : [])
+            .map(function (p) {
+              return p && p.feature && p.feature.name;
+            })
+            .filter(Boolean)
+            .slice(0, 3),
+          bracket: typeof v.bracketTag === "string" ? v.bracketTag : "",
+          popularity: typeof v.popularity === "number" ? v.popularity : 0,
+          needs: (Array.isArray(v.requires) ? v.requires : [])
+            .map(function (q) {
+              return q && q.template && q.template.name;
+            })
+            .filter(Boolean),
+          note: note,
+          commanderOnly: v.uses
+            .filter(function (u) {
+              return u.mustBeCommander === true;
+            })
+            .map(function (u) {
+              return u.card.name;
+            }),
+        });
+      });
+    });
+    combos.sort(function (a, b) {
+      return b.popularity - a.popularity || (a.id < b.id ? -1 : 1);
+    });
+    return {
+      v: 1,
+      source: "Commander Spellbook (commanderspellbook.com)",
+      commander: String(commanderName || ""),
+      identity: typeof r.identity === "string" ? r.identity : "",
+      made: String(made || ""),
+      combos: combos,
+    };
+  };
+
+  /** True when every color in a Spellbook identity ("RWB", "C") is in the commander's colors. */
+  CS.identityFits = function (identity, colorIdentity) {
+    var have = {};
+    (colorIdentity || []).forEach(function (c) {
+      have[String(c).toUpperCase()] = true;
+    });
+    return String(identity || "")
+      .toUpperCase()
+      .split("")
+      .every(function (c) {
+        return c === "C" || have[c] === true;
+      });
+  };
+
+  /**
+   * Which combos the pasted deck has, and which are one card away.
+   * deckNames is CS.deckNameSet of the deck (commander included).
+   * Returns {inDeck, needsPiece, oneAway}. inDeck: combos whose cards are
+   * all in the deck. needsPiece: all its named cards are in, but Spellbook
+   * says it also needs a kind of card ("Persist Creature"). oneAway:
+   * [{name, key, best, combos}], one per missing card. Each combo entry is
+   * the combo plus {bracketN, bracketLabel, others: the pieces already in
+   * the deck}. oneAway is sorted lowest bracket first,
+   * then more combos, then popularity. Combos outside the commander's
+   * colors, or whose missing card would have to be the commander, are left
+   * out. Anything malformed gives empty lists.
+   */
+  CS.deckCombos = function (file, deckNames, colorIdentity) {
+    var out = { inDeck: [], needsPiece: [], oneAway: [] };
+    if (!file || file.v !== 1 || !Array.isArray(file.combos)) return out;
+    var byKey = {};
+    file.combos.forEach(function (c) {
+      if (!c || !Array.isArray(c.cards) || !c.cards.length) return;
+      if (!CS.identityFits(c.identity, colorIdentity)) return;
+      var missing = c.cards.filter(function (n) {
+        return deckNames[CS.nameKey(n)] !== true;
+      });
+      if (missing.length > 1) return;
+      var b = CS.comboBracket(c.bracket);
+      var entry = Object.assign({}, c, {
+        bracketN: b.n,
+        bracketLabel: b.label,
+        others: c.cards.filter(function (n) {
+          return missing.indexOf(n) === -1;
+        }),
+      });
+      if (!missing.length) {
+        if (entry.needs && entry.needs.length) out.needsPiece.push(entry);
+        else out.inDeck.push(entry);
+        return;
+      }
+      var name = missing[0];
+      if ((c.commanderOnly || []).indexOf(name) !== -1) return;
+      if (CS.isBasicLand(name)) return;
+      var key = CS.nameKey(name);
+      if (!byKey[key]) byKey[key] = { name: name, key: key, combos: [] };
+      byKey[key].combos.push(entry);
+    });
+    var rank = function (a, b) {
+      return a.bracketN - b.bracketN || b.popularity - a.popularity;
+    };
+    out.inDeck.sort(rank);
+    out.needsPiece.sort(rank);
+    out.oneAway = Object.keys(byKey).map(function (k) {
+      var g = byKey[k];
+      g.combos.sort(rank);
+      g.best = g.combos[0].bracketN;
+      g.popularity = g.combos[0].popularity; // of its lowest-bracket combo
+      return g;
+    });
+    out.oneAway.sort(function (a, b) {
+      return (
+        a.best - b.best ||
+        b.combos.length - a.combos.length ||
+        b.popularity - a.popularity ||
+        (a.key < b.key ? -1 : 1)
+      );
+    });
+    return out;
+  };
+
+  /**
+   * The Combos pile: one card per oneAway entry, in that order, from the
+   * Scryfall cards looked up by name. A card EDHREC also recommends keeps
+   * its EDHREC numbers and id (matched by id, then by name), so it's never
+   * offered twice under two printings. Cards Scryfall didn't find, and
+   * cards already in the deck, are left out.
+   */
+  CS.buildComboPile = function (oneAway, scryCards, edhrecMap, deckNames) {
+    var byName = {};
+    (scryCards || []).forEach(function (sc) {
+      if (sc && sc.id && sc.name && !byName[CS.nameKey(sc.name)])
+        byName[CS.nameKey(sc.name)] = sc;
+    });
+    var edhrecByName = {};
+    Object.keys(edhrecMap || {}).forEach(function (id) {
+      var rec = edhrecMap[id];
+      if (rec && rec.name) edhrecByName[CS.nameKey(rec.name)] = rec;
+    });
+    var seen = {};
+    var cards = [];
+    (oneAway || []).forEach(function (g) {
+      var sc = byName[g.key];
+      if (!sc || seen[g.key] || skipCard(sc.name, deckNames || {})) return;
+      seen[g.key] = true;
+      var rec = (edhrecMap && edhrecMap[sc.id]) || edhrecByName[g.key];
+      cards.push(
+        rec
+          ? Object.assign({}, rec, { section: "combos" })
+          : {
+              id: sc.id,
+              name: sc.name,
+              synergy: 0,
+              inclusion: 0,
+              numDecks: 0,
+              potentialDecks: 0,
+              section: "combos",
+              onEdhrec: false,
+            },
+      );
+    });
+    return { key: "combos", label: "Combos", cards: cards };
+  };
+
   // ---------------------------------------------------------------- synergy
 
   /*

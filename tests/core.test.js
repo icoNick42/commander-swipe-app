@@ -828,3 +828,171 @@ test("synergy: the deck's own score, plan, weakest links and staples", () => {
     assert.ok(d.weakest[i - 1].score <= d.weakest[i].score, "weakest first");
   assert.ok(d.weakest.length <= 5 && d.scored > 30);
 });
+
+// ------------------------------------------------------------------ combos
+
+// The combo file for Zurgo (made by tools/spellbook_combos.js from Commander
+// Spellbook). It's in the public repo, since the page reads it.
+const comboFile = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "combos", "zurgo-stormrender.json"), "utf8"),
+);
+const MARDU = ["R", "W", "B"];
+
+// A small find-my-combos reply, shaped like Spellbook's.
+function spellbookVariant(id, names, extra) {
+  return Object.assign(
+    {
+      id: id,
+      uses: names.map((n) => ({ card: { name: n }, mustBeCommander: false })),
+      identity: "B",
+      produces: [1, 2, 3, 4].map((i) => ({ feature: { name: "Result " + i } })),
+      bracketTag: "E",
+      popularity: 10,
+      requires: [],
+      notablePrerequisites: "",
+      description: "Long steps we don't keep.",
+    },
+    extra || {},
+  );
+}
+
+test("combos: trimming a Spellbook reply", () => {
+  const reply = {
+    results: {
+      identity: "RWB",
+      included: [spellbookVariant("1-2", ["A Card", "B Card"], { popularity: 5 })],
+      almostIncluded: [
+        spellbookVariant("1-3", ["A Card", "C Card"], {
+          popularity: 50,
+          notablePrerequisites: "x".repeat(300),
+          requires: [{ template: { name: "Persist Creature" } }],
+        }),
+        spellbookVariant("1-2", ["A Card", "B Card"]), // already seen
+        spellbookVariant("9", ["Broken", null].map((n) => n)), // a use without a card
+        { id: "8", uses: "nope" },
+        null,
+      ],
+      almostIncludedByAddingColors: [spellbookVariant("7", ["Off Color"])],
+    },
+  };
+  reply.results.almostIncluded[2].uses[1] = {};
+  const t = CS.trimSpellbook(reply, "Test Commander", "2026-11-17");
+  assert.equal(t.v, 1);
+  assert.equal(t.identity, "RWB");
+  assert.equal(t.commander, "Test Commander");
+  assert.deepEqual(
+    t.combos.map((c) => c.id),
+    ["1-3", "1-2"],
+    "most popular first; duplicates, broken and off-color combos left out",
+  );
+  const c = t.combos[0];
+  assert.deepEqual(c.cards, ["A Card", "C Card"]);
+  assert.equal(c.produces.length, 3);
+  assert.deepEqual(c.needs, ["Persist Creature"]);
+  assert.equal(c.note.length, 200);
+  assert.ok(c.note.endsWith("..."));
+  assert.equal(c.description, undefined, "Spellbook's steps aren't copied");
+  assert.deepEqual(CS.trimSpellbook(null, "X", "").combos, []);
+});
+
+test("combos: brackets, colors and the file address", () => {
+  assert.deepEqual(CS.comboBracket("E"), { n: 1, label: "Exhibition" });
+  assert.equal(CS.comboBracket("R").n, 4);
+  assert.equal(CS.comboBracket("?").n, 4, "unknown counts as bracket 4");
+  assert.ok(CS.identityFits("RB", MARDU));
+  assert.ok(CS.identityFits("C", MARDU));
+  assert.ok(CS.identityFits("", MARDU));
+  assert.ok(!CS.identityFits("G", MARDU));
+  assert.ok(CS.identityFits("w", MARDU));
+  assert.equal(CS.comboFileUrl("Zurgo Stormrender"), "combos/zurgo-stormrender.json");
+  assert.equal(CS.comboFileUrl(""), null);
+  assert.equal(CS.comboLink("2577-4050"), "https://commanderspellbook.com/combo/2577-4050/");
+});
+
+test("combos: what the deck has and what's one card away", () => {
+  const file = {
+    v: 1,
+    combos: [
+      { id: "a", cards: ["Altar", "Engine"], identity: "B", bracket: "E", popularity: 1, needs: [], commanderOnly: [] },
+      { id: "b", cards: ["Altar", "Engine"], identity: "B", bracket: "E", popularity: 2, needs: ["Persist Creature"], commanderOnly: [] },
+      { id: "c", cards: ["Altar", "Zombie"], identity: "B", bracket: "S", popularity: 99, needs: [], commanderOnly: [] },
+      { id: "d", cards: ["Engine", "Loop"], identity: "B", bracket: "E", popularity: 3, needs: [], commanderOnly: [] },
+      { id: "e", cards: ["Altar", "Loop"], identity: "RB", bracket: "C", popularity: 4, needs: [], commanderOnly: [] },
+      { id: "f", cards: ["Altar", "Zombie"], identity: "B", bracket: "E", popularity: 5, needs: [], commanderOnly: [] },
+      { id: "g", cards: ["Altar", "Elf"], identity: "G", bracket: "E", popularity: 50, needs: [], commanderOnly: [] },
+      { id: "h", cards: ["Altar", "Boss"], identity: "B", bracket: "E", popularity: 50, needs: [], commanderOnly: ["Boss"] },
+      { id: "i", cards: ["Two", "Away"], identity: "B", bracket: "E", popularity: 50, needs: [], commanderOnly: [] },
+      { id: "j", cards: ["Altar", "Swamp"], identity: "B", bracket: "E", popularity: 50, needs: [], commanderOnly: [] },
+      null,
+      { id: "k", cards: [] },
+    ],
+  };
+  const names = CS.deckNameSet([{ name: "Altar" }, { name: "Engine" }]);
+  const d = CS.deckCombos(file, names, ["R", "B"]);
+  assert.deepEqual(d.inDeck.map((c) => c.id), ["a"]);
+  assert.deepEqual(d.needsPiece.map((c) => c.id), ["b"]);
+  // Zombie and Loop each complete 2, best bracket 1; Zombie's bracket-1 combo is more popular
+  assert.deepEqual(d.oneAway.map((g) => g.name), ["Zombie", "Loop"]);
+  const loop = d.oneAway[1];
+  assert.equal(loop.best, 1);
+  assert.deepEqual(loop.combos.map((c) => c.id), ["d", "e"], "lowest bracket first");
+  assert.deepEqual(loop.combos[0].others, ["Engine"]);
+  assert.equal(loop.combos[1].bracketLabel, "Core");
+  const zombie = d.oneAway[0];
+  assert.deepEqual(zombie.combos.map((c) => c.id), ["f", "c"]);
+  // nothing for the wrong file version or junk
+  assert.deepEqual(CS.deckCombos({ v: 2, combos: file.combos }, names, MARDU).oneAway, []);
+  assert.deepEqual(CS.deckCombos(null, names, MARDU).inDeck, []);
+});
+
+test("combos: the real Zurgo file against the sample deck", () => {
+  assert.equal(comboFile.v, 1);
+  assert.equal(comboFile.commander, "Zurgo Stormrender");
+  const d = CS.deckCombos(comboFile, deckNames, MARDU);
+  assert.equal(d.inDeck.length, 0);
+  assert.equal(d.needsPiece.length, 6, "the Cathars' Crusade loops that need a persist creature");
+  assert.ok(d.oneAway.length >= 30, "one card away: " + d.oneAway.length);
+  assert.equal(d.oneAway[0].name, "Gravecrawler");
+  d.oneAway.forEach((g) => {
+    assert.ok(!deckNames[g.key], g.name + " is already in the deck");
+    g.combos.forEach((c) => assert.ok(CS.identityFits(c.identity, MARDU)));
+  });
+  for (let i = 1; i < d.oneAway.length; i++)
+    assert.ok(d.oneAway[i - 1].best <= d.oneAway[i].best, "lowest bracket first");
+});
+
+test("combos: the Combos pile", () => {
+  const oneAway = [
+    { name: "Loop", key: "loop" },
+    { name: "Nowhere", key: "nowhere" },
+    { name: "Zombie", key: "zombie" },
+    { name: "Altar", key: "altar" },
+  ];
+  const scry = [
+    { id: "s-loop", name: "Loop" },
+    { id: "s-zombie", name: "Zombie" },
+    { id: "s-altar", name: "Altar" },
+  ];
+  const edhrecMap = {
+    "s-loop": { id: "s-loop", name: "Loop", synergy: 0.3, inclusion: 0.2, onEdhrec: true },
+    "e-zombie": { id: "e-zombie", name: "Zombie", synergy: 0.1, inclusion: 0.1, onEdhrec: true },
+  };
+  const pile = CS.buildComboPile(oneAway, scry, edhrecMap, CS.deckNameSet([{ name: "Altar" }]));
+  assert.equal(pile.key, "combos");
+  assert.deepEqual(pile.cards.map((c) => c.id), ["s-loop", "e-zombie"], "EDHREC's id wins, even by name");
+  assert.equal(pile.cards[0].synergy, 0.3);
+  assert.ok(pile.cards.every((c) => c.section === "combos"));
+  const plain = CS.buildComboPile(oneAway, scry, {}, {});
+  assert.equal(plain.cards.length, 3);
+  assert.equal(plain.cards[0].onEdhrec, false);
+  assert.deepEqual(CS.buildComboPile(null, null, null, null).cards, []);
+});
+
+test("combos: the Zurgo Combos pile from real Scryfall cards", () => {
+  const scry = JSON.parse(read("scryfall_combos.json")).data;
+  const d = CS.deckCombos(comboFile, deckNames, MARDU);
+  const pile = CS.buildComboPile(d.oneAway, scry, CS.edhrecById(edhrec || {}), deckNames);
+  assert.equal(pile.cards.length, d.oneAway.length, "every one-away card found on Scryfall");
+  assert.equal(pile.cards[0].name, "Gravecrawler");
+  assert.equal(new Set(pile.cards.map((c) => c.id)).size, pile.cards.length);
+});

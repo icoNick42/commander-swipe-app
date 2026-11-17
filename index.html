@@ -415,6 +415,53 @@
         border-color: #a26ef0;
         color: #cbb0ff;
       }
+      /* Card name and its badges on one line (the name shortens to fit) */
+      .meta .namerow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+      }
+      .meta .namerow .cardname {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .meta .namerow .badge {
+        flex: none;
+      }
+      /* Combo badge: a button that shows the combos under the card */
+      button.badge {
+        background: transparent;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.75rem;
+        min-height: 0;
+      }
+      .badge.combo {
+        border-color: var(--add);
+        color: #9be3b4;
+      }
+      .badge.combo.strong {
+        border-color: var(--maybe);
+        color: #f0d68a;
+      }
+      .combolist {
+        text-align: left;
+        font-size: 0.85rem;
+        max-width: 420px;
+        margin: 4px auto 0;
+      }
+      .combolist ul,
+      .deckfit .combos {
+        margin: 4px 0;
+        padding-left: 18px;
+      }
+      .combolist li,
+      .deckfit .combos li {
+        margin-bottom: 4px;
+      }
       .empty {
         margin-top: 40px;
         text-align: center;
@@ -661,7 +708,8 @@
         <h2><label for="exportText">Paste your Moxfield Export</label></h2>
         <p class="muted">
           On your deck in Moxfield: More &rarr; Export &rarr; Copy for Moxfield.
-          Then paste it here.
+          Then come back and press Paste and load. Pasting a whole deck into
+          the box also replaces what's there and loads it.
         </p>
         <textarea
           id="exportText"
@@ -669,7 +717,11 @@
           placeholder="1 Zurgo Stormrender (TDM) 233&#10;1 Sol Ring (C21) 263&#10;..."
         ></textarea>
         <div class="row">
-          <button id="loadBtn" class="primary" type="button">Load deck</button>
+          <button id="pasteBtn" class="primary" type="button">
+            Paste and load
+          </button>
+          <button id="loadBtn" type="button">Load deck</button>
+          <button id="clearBtn" type="button">Clear</button>
           <button id="sampleBtn" type="button">Try a sample deck</button>
           <span
             id="setupMsg"
@@ -851,6 +903,8 @@
           deckFit: null, // CS.deckSynergy result
           userPicked: false, // the user chose a pile (don't move them on)
           whyOpen: false, // keep the Fit reasons open from card to card
+          combos: null, // {file, deck: CS.deckCombos result, byKey} for this commander
+          comboNote: "", // "none" (no combo file) or why the combo file didn't load
         };
 
         // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
@@ -1301,6 +1355,8 @@
           S.state = CS.loadDeckState(store, S.deckId, cmd.name);
           S.edhrecMap = {};
           S.edhrecNote = "";
+          S.combos = null;
+          S.comboNote = "";
           var slims = deckSlims();
           S.profile = CS.deckProfile(slims, cmd.name);
           S.fitCache = {};
@@ -1361,6 +1417,10 @@
                 err.message +
                 "). The Scryfall piles still work: Everything in your colors, and the role piles.";
             });
+          // Combos wait for EDHREC, so a combo card EDHREC knows keeps its numbers.
+          edhrecP.then(function () {
+            if (token === S.token) loadCombos(cmd, token);
+          });
           Promise.all([namesP, edhrecP]).then(
             function () {
               if (token !== S.token) return;
@@ -1376,6 +1436,88 @@
               settleFirstPile();
             },
           );
+        }
+
+        /**
+         * Combos from Commander Spellbook: the page reads combos/<slug>.json
+         * from its own site (made by tools/spellbook_combos.js, since
+         * Spellbook's API can't be read from a web page). No file for this
+         * commander: no Combos pile, and the Your deck panel says so.
+         */
+        function loadCombos(cmd, token) {
+          var url = CS.comboFileUrl(cmd.name);
+          if (!url) return;
+          fetch(url, { headers: { Accept: "application/json" } })
+            .then(function (res) {
+              if (res.status === 404) return null;
+              if (!res.ok) throw new Error("the site answered " + res.status);
+              return res.json();
+            })
+            .then(function (file) {
+              if (token !== S.token) return;
+              if (!file) {
+                S.comboNote = "none";
+                renderDeckFit();
+                return;
+              }
+              var d = CS.deckCombos(file, S.deckNames, cmd.colorIdentity);
+              var byKey = {};
+              d.oneAway.forEach(function (g) {
+                byKey[g.key] = g;
+              });
+              S.combos = { file: file, deck: d, byKey: byKey };
+              renderDeckFit();
+              if (!d.oneAway.length) return;
+              var pile = {
+                key: "combos",
+                label: "Combos",
+                group: "main",
+                kind: "combo",
+                cards: [],
+                loaded: false,
+                error: "",
+              };
+              var at = S.piles.indexOf(pileByKey("all"));
+              S.piles.splice(at === -1 ? S.piles.length : at, 0, pile);
+              render();
+              return collection(
+                d.oneAway.map(function (g) {
+                  return { name: CS.frontName(g.name) }; // Scryfall finds "A // B" by its front face
+                }),
+              ).then(function (r) {
+                if (token !== S.token) return;
+                r.data.forEach(function (sc) {
+                  if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
+                });
+                var built = CS.buildComboPile(
+                  d.oneAway,
+                  r.data,
+                  S.edhrecMap,
+                  S.deckNames,
+                );
+                return loadCardInfo(
+                  built.cards.map(function (c) {
+                    return c.id;
+                  }),
+                ).then(function () {
+                  if (token !== S.token) return;
+                  pile.cards = built.cards;
+                  pile.loaded = true;
+                  render();
+                });
+              });
+            })
+            .catch(function (err) {
+              if (token !== S.token) return;
+              S.comboNote = "The combo list didn't load (" + err.message + ").";
+              var pile = pileByKey("combos");
+              if (pile) {
+                pile.error = S.comboNote + " The other piles still work.";
+                pile.loaded = true;
+              }
+              renderDeckFit();
+              render();
+            });
         }
 
         /**
@@ -2009,7 +2151,6 @@
           attachDrag(card);
           stage.appendChild(card);
 
-          var bits = [el("div", { class: "cardname", text: info.name })];
           var line = [money(info.usd)];
           if (rec.onEdhrec) {
             line.push(
@@ -2023,7 +2164,6 @@
               (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + " synergy",
             );
           }
-          bits.push(el("div", { text: line.join(" \u00b7 ") }));
           var badges = [];
           if (!rec.onEdhrec)
             badges.push(el("span", { class: "badge", text: "not on EDHREC" }));
@@ -2031,9 +2171,21 @@
             badges.push(
               el("span", { class: "badge gc", text: "Game Changer" }),
             );
-          if (badges.length) bits.push(el("div", null, badges));
+          var combo = S.combos && S.combos.byKey[CS.nameKey(info.name)];
+          var comboBox = combo ? comboList(combo) : null;
+          if (combo) badges.push(comboButton(combo, comboBox));
+          // Badges share the name's line, so they don't push the buttons down.
+          var bits = [
+            el(
+              "div",
+              { class: "namerow" },
+              [el("div", { class: "cardname", text: info.name })].concat(badges),
+            ),
+            el("div", { text: line.join(" \u00b7 ") }),
+          ];
           var f = fitFor(rec.id);
           if (f) bits.push(fitDetails(f));
+          if (comboBox) bits.push(comboBox);
           stage.appendChild(el("div", { class: "meta" }, bits));
 
           // Load the next two images ahead.
@@ -2044,6 +2196,159 @@
             img.src = i.image;
             return img;
           });
+        }
+
+        /** One combo as a line: its other pieces, what it does, its bracket and a link. */
+        function comboLine(c, withOthers) {
+          var what = c.produces.length
+            ? c.produces.join("; ")
+            : "see Spellbook for what it does";
+          var parts = [];
+          if (withOthers) {
+            var pieces = c.others.slice();
+            c.needs.forEach(function (n) {
+              pieces.push("a " + n.toLowerCase());
+            });
+            parts.push("With " + pieces.join(" + ") + ": ");
+          }
+          parts.push(what + " ");
+          return el("li", null, [
+            parts.join(""),
+            el("span", {
+              class: "muted",
+              text: "(bracket " + c.bracketN + ", " + c.bracketLabel + ") ",
+            }),
+            el("a", {
+              href: CS.comboLink(c.id),
+              target: "_blank",
+              rel: "noopener",
+              text: "steps",
+            }),
+            c.note
+              ? el("div", { class: "muted small", text: "Needs: " + c.note })
+              : null,
+          ]);
+        }
+
+        /** The combos a card would complete: a list under the card, hidden until its badge is pressed. */
+        function comboList(g) {
+          var n = g.combos.length;
+          var shown = g.combos.slice(0, 5);
+          return el("div", { class: "combolist", id: "comboList", hidden: "" }, [
+            el(
+              "ul",
+              null,
+              shown.map(function (c) {
+                return comboLine(c, true);
+              }),
+            ),
+            n > shown.length
+              ? el("div", {
+                  class: "muted small",
+                  text: "and " + (n - shown.length) + " more.",
+                })
+              : null,
+            el("div", {
+              class: "muted small",
+              text: "From Commander Spellbook. The bracket is Spellbook's estimate for the combo; check it fits your table before adding it.",
+            }),
+          ]);
+        }
+
+        /** "Combo: completes 3": a badge that shows or hides the combo list. */
+        function comboButton(g, box) {
+          var n = g.combos.length;
+          var b = el("button", {
+            type: "button",
+            class: "badge combo" + (g.best >= 3 ? " strong" : ""),
+            "aria-expanded": "false",
+            "aria-controls": "comboList",
+            title: "Combos from Commander Spellbook",
+            text:
+              "Combo: completes " +
+              n +
+              (g.best >= 3 ? " (bracket " + g.best + "+)" : ""),
+          });
+          b.addEventListener("click", function () {
+            box.hidden = !box.hidden;
+            b.setAttribute("aria-expanded", String(!box.hidden));
+          });
+          return b;
+        }
+
+        /** The combo part of the Your deck panel. */
+        function renderDeckCombos(body) {
+          body.appendChild(el("p", { text: "Combos" }));
+          if (!S.combos) {
+            body.appendChild(
+              el("div", {
+                class: "muted small",
+                text:
+                  S.comboNote === "none"
+                    ? "No combo list for this commander yet. Combo lists come from Commander Spellbook and are made ahead of time, one commander at a time."
+                    : S.comboNote || "Loading the combo list...",
+              }),
+            );
+            return;
+          }
+          var d = S.combos.deck;
+          var list = function (items, withOthers) {
+            return el(
+              "ul",
+              { class: "combos" },
+              items.slice(0, 8).map(function (c) {
+                return comboLine(c, withOthers);
+              }),
+            );
+          };
+          body.appendChild(
+            el("div", {
+              text:
+                "In your deck: " +
+                d.inDeck.length +
+                ". One card away: " +
+                d.oneAway.length +
+                (d.oneAway.length ? " cards (the Combos pile)." : "."),
+            }),
+          );
+          if (d.inDeck.length) {
+            body.appendChild(
+              list(
+                d.inDeck.map(function (c) {
+                  return Object.assign({}, c, { others: c.cards });
+                }),
+                true,
+              ),
+            );
+          }
+          if (d.needsPiece.length) {
+            body.appendChild(
+              el("div", {
+                class: "small",
+                text:
+                  "You have the named cards for " +
+                  d.needsPiece.length +
+                  " more, but each also needs a kind of card:",
+              }),
+            );
+            body.appendChild(
+              list(
+                d.needsPiece.map(function (c) {
+                  return Object.assign({}, c, { others: c.cards });
+                }),
+                true,
+              ),
+            );
+          }
+          body.appendChild(
+            el("div", {
+              class: "muted small",
+              text:
+                "From Commander Spellbook" +
+                (S.combos.file.made ? ", list made " + S.combos.file.made : "") +
+                ". Brackets are Spellbook's estimates.",
+            }),
+          );
         }
 
         /** "Fit 84 - first reason", opening to all the reasons. */
@@ -2144,6 +2449,7 @@
                   " role cards that tie in to little (ramp, removal and the like) aren't counted as weak links.",
               }),
             );
+          renderDeckCombos(body);
         }
 
         function renderList(choice, listId, countId) {
@@ -2288,6 +2594,66 @@
           $("exportText").value = SAMPLE_DECK;
           loadDeck("");
         });
+
+        // A pasted list this long is a whole deck, not a line or two.
+        var DECK_PASTE_MIN = 10;
+
+        function looksLikeDeck(text) {
+          return CS.parseExport(text).cards.length >= DECK_PASTE_MIN;
+        }
+
+        /** Empties the box and asks for a paste (when the page can't read the clipboard). */
+        function askForPaste(msg) {
+          $("exportText").value = "";
+          setupError("");
+          $("exportText").focus();
+          setupMsg(msg);
+        }
+
+        // Paste and load: read the clipboard, replace the box, load.
+        $("pasteBtn").addEventListener("click", function () {
+          setupError("");
+          if (!navigator.clipboard || !navigator.clipboard.readText) {
+            askForPaste(
+              "This browser doesn't let pages read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste); it loads on its own.",
+            );
+            return;
+          }
+          navigator.clipboard.readText().then(
+            function (text) {
+              if (!String(text || "").trim()) {
+                setupError(
+                  "The clipboard is empty. In Moxfield: More, Export, Copy for Moxfield, then try again.",
+                );
+                return;
+              }
+              $("exportText").value = text;
+              loadDeck("");
+            },
+            function () {
+              askForPaste(
+                "The browser didn't let the page read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste); it loads on its own.",
+              );
+            },
+          );
+        });
+
+        $("clearBtn").addEventListener("click", function () {
+          $("exportText").value = "";
+          setupError("");
+          setupMsg("");
+          $("exportText").focus();
+        });
+
+        // Pasting a whole deck replaces what's in the box and loads it.
+        $("exportText").addEventListener("paste", function (e) {
+          var text = e.clipboardData && e.clipboardData.getData("text/plain");
+          if (!text || !looksLikeDeck(text)) return; // a line or two: paste as usual
+          e.preventDefault();
+          this.value = text;
+          setupMsg("");
+          loadDeck("");
+        });
         $("commanderSelect").addEventListener("change", function () {
           var id = this.value;
           var cmd = S.candidates.filter(function (c) {
@@ -2307,6 +2673,7 @@
           $("copyBox").hidden = true;
           $("copyMsg").textContent = "";
           $("exportText").focus();
+          $("exportText").select(); // typing or pasting replaces the old deck
         });
         Array.prototype.forEach.call(
           document.querySelectorAll("#actions [data-choice]"),

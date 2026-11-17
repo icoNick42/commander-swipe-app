@@ -25,6 +25,8 @@ The look and layout rules for `index.html`. Written in PM cycle 4 (2026-11-17). 
 | `--skip` | `#e0575b` | skip |
 | `--maybe` | `#e3b341` | maybe |
 | (literal) | `#a26ef0` / `#cbb0ff` | Game Changer badge |
+| (literal) | `--add` border, `#9be3b4` text | Combo badge, brackets 1-2 |
+| (literal) | `--maybe` border, `#f0d68a` text | Combo badge, bracket 3 and up |
 
 Action buttons use their color as the border plus a see-through fill of the same color (12% for Skip and Maybe, 22% for Add, so Add reads as the main action).
 
@@ -49,6 +51,10 @@ Checked in cycle 4 (Chrome, fixtures): buttons in view at 375x667, 390x844, 412x
 - **Your deck panel (cycle 6):** a closed panel in the side column, between Maybe and Filters, titled "Your deck: synergy N/100".
 
 Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view at all seven sizes above (now part of `tools/page_check.py`).
+
+- **Name line (cycle 7):** the card name and its badges (not on EDHREC, Game Changer, Combo) share one line; the name shortens with an ellipsis to make room. Before this, badges took their own line, which pushed the buttons 8 px off a 375x667 screen on any badged card. `--chrome` didn't change.
+- **Combo badge (cycle 7):** a small button styled as a badge, "Combo: completes N". Pressing it shows the combo list under the Fit line (and hides it again); it starts hidden on every card, so it never pushes the buttons down on its own. Green border for brackets 1-2, amber with "(bracket N+)" for 3 and up.
+- **First screen (cycle 7):** Paste and load is the main button, then Load deck, Clear and Try a sample deck.
 
 ## Known gaps
 
