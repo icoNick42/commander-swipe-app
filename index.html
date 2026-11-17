@@ -1024,6 +1024,20 @@
         var LAST_MAX = 200000; // don't save a pasted export bigger than this
 
         var store = CS.makeStore();
+        // The last loaded deck is kept only for this tab (sessionStorage), so a
+        // reload keeps your place but closing the tab or browser forgets it.
+        // Swipes per deck still live in localStorage and come back when the
+        // same deck is pasted again.
+        var tabStore = CS.makeStore(
+          (function () {
+            try {
+              return window.sessionStorage;
+            } catch (e) {
+              return null;
+            }
+          })()
+        );
+        store.remove("last"); // older versions kept it in localStorage
         var settings = CS.loadSettings(store);
         var reduceMotion =
           window.matchMedia &&
@@ -1276,13 +1290,13 @@
           );
         }
 
-        /** Remembers the loaded deck so the next visit opens it again. */
+        /** Remembers the loaded deck for this tab, so a reload opens it again. */
         function saveLast() {
           if (!S.text || S.text.length > LAST_MAX) {
-            store.remove("last");
+            tabStore.remove("last");
             return;
           }
-          store.set("last", {
+          tabStore.set("last", {
             v: 1,
             text: S.text,
             commander: S.commander ? S.commander.name : "",
@@ -1290,7 +1304,7 @@
         }
 
         function loadLast() {
-          var last = store.get("last", null);
+          var last = tabStore.get("last", null);
           if (
             !last ||
             typeof last !== "object" ||
@@ -3417,7 +3431,7 @@
 
         buildFilters();
 
-        // Coming back: reload the last deck so swipes pick up where they left off.
+        // Reloading this tab: open the deck again so swipes pick up where they left off.
         var last = loadLast();
         if (last && last.text.trim()) {
           $("exportText").value = last.text;
