@@ -26,6 +26,32 @@ No deck handy? **Try a sample deck** loads a Zurgo Stormrender list.
 
 Game Changers are hidden by default. You can change that, set a max price, or pick card types under Filters.
 
+## Synergy data
+
+The research behind the Fit score is published as one file anyone can load:
+
+- **Load it (JSON):** https://iconick42.github.io/commander-swipe-app/data/synergy-taxonomy.json
+- **Read it (report):** [docs/interaction-research.md](docs/interaction-research.md)
+
+It lists the kinds of card interactions in Commander as text patterns you can run on Scryfall card data:
+
+- **Themes** (tokens, aristocrats, landfall, spellslinger and about 50 more), each split into enablers (cards that make the resource) and payoffs (cards that reward it).
+- **Events and doublers:** which cards cause something to happen (a creature dies, a token is made) and which react to it, plus the cards that double those reactions.
+- **Creature types:** an inventory of every creature type with how many cards pay it off.
+- **Other links between cards:** card types and keywords.
+- **Power and pairings:** cards that work against each other, and bracket flags (Game Changers, mass land destruction, extra turns).
+- **Scoring settings** for suggesting additions, cuts and one-for-one swaps.
+
+It's built for any commander, not one deck. Checked on 2026-11-17 against Scryfall's whole Commander-legal pool (32,643 cards, 3,704 possible commanders):
+
+- **Commanders recognized:** 91% have at least one theme, creature type, doubler, card-type link or keyword link, and 93% once broad trigger matches are counted. The rest are mostly vanilla or keyword-only commanders (Zetalpa, Akroma) with no plan to detect.
+- **Most-played commanders:** themes or creature types alone recognize 462 of the 500 most-played.
+- **Seed cards:** the themes match 92% of their own example cards.
+- **No catch-all themes:** no theme matches more than a fifth of the 350 most-played cards.
+- **Creature types:** all 377 are inventoried. 13 have strong support (40+ payoff cards), 21 are playable (15-39), 29 thin and 99 minimal; 215 have no payoff cards.
+
+`meta.how_to_use` in the file explains the text format. The scoring weights are starting guesses, not tested values. Fetch it with `fetch("https://iconick42.github.io/commander-swipe-app/data/synergy-taxonomy.json").then(r => r.json())`.
+
 ## Good to know
 
 - No account, no server and no cost. Everything runs in your browser.
@@ -37,6 +63,7 @@ Game Changers are hidden by default. You can change that, set a max price, or pi
 - Plain HTML, CSS and JavaScript, with no build step and no libraries. `index.html` holds the page; `core.js` holds the logic that doesn't touch the page.
 - Run it locally: from this folder, `python -m http.server 8000`, then open http://localhost:8000.
 - Combo lists live in `combos/<commander-slug>.json`: a trimmed copy of Commander Spellbook's answer for one deck (combos already in it and combos one card away). The page reads the file from its own site; it never calls Spellbook.
+- Synergy data: `data/synergy-taxonomy.json` is built from the YAML blocks in `docs/interaction-research.md` plus the tested fixes in `docs/taxonomy-additions.yaml`. `node tests/taxonomy.test.js` checks that every pattern compiles, that no theme is too broad, and that the sample deck reads as tokens and aristocrats.
 - Tests: `node tests/core.test.js` (Node 18 or newer). A few tests need a saved EDHREC page that isn't in this repo; they're skipped without it.
 - `AGENTS.md` has the rules for AI coding assistants; `DESIGN.md` has the colors, sizes and layout rules.
 

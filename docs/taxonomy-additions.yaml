@@ -1,0 +1,176 @@
+# Pattern fixes added after testing the research report's patterns against
+# its own seed cards on live Scryfall text (2026-11-17). The build merges these
+# into data/synergy-taxonomy.json: each list here is appended to the matching
+# list in the report's theme (themes are matched by id).
+# Same rules as the report: single quotes, '' for an apostrophe, JavaScript
+# regex run with flags "iu" on text where the card's own name is "~".
+
+normalization_extra:
+  - 'legendary cards: also replace the first word of the name with "~" when it is 4+ letters and not a creature type (e.g. "Kaalia", "Carth", "Acererak"; not "Sliver" in Sliver Legion)'
+
+themes:
+  tokens:
+    payoffs:
+      regex: ['creatures you control %ANY%get \+(?:\d+|x)/\+(?:\d+|x)', 'whenever a creature you control %ENTERS%, put a \+1/\+1 counter on each creature you control']
+  aristocrats:
+    payoffs:
+      regex: ['whenever (?:~ or )?(?:a|another|one or more) (?:nontoken )?creatures? or planeswalkers? (?:you control )?dies?']
+  lifedrain:
+    enablers:
+      regex: ['target (?:player|opponent) loses %NUM% life', 'deals damage equal to its power to any target']
+    payoffs:
+      regex: ['whenever you gain life, (?:target|each) opponent loses', 'deals? (?:double|triple) that damage', 'that much damage plus \d']
+  goad:
+    enablers:
+      regex: ['\bis goaded\b', 'attack a player other than you']
+    payoffs:
+      regex: ['whenever (?:a player|an opponent) attacks (?:one of your|another one of your) opponents', 'whenever an attacking creature dies']
+  keyword-soup:
+    enablers:
+      regex: ['creatures you control have (?:[a-z ]+, ){3,}']
+    payoffs:
+      regex: ['the same is true for', 'repeat this process for']
+  minus-1-minus-1-counters:
+    payoffs:
+      regex: ['whenever you put one or more -1/-1 counters', 'with a -1/-1 counter on it']
+  superfriends:
+    payoffs:
+      regex: ['planeswalkers? you control dies?']
+  infect:
+    enablers:
+      regex: ['(?:gains?|has|have) %ANY%\binfect\b']
+    payoffs:
+      regex: ['poison counters?']
+  self-mill:
+    enablers:
+      regex: ['(?:^|[.\n,] ?)mill %NUM% cards?', 'put the rest into your graveyard']
+    payoffs:
+      regex: ['creature cards? in your graveyard', 'cards? (?:are|is) put into (?:your|a) graveyard from anywhere', 'put into a graveyard from anywhere other than the battlefield']
+  reanimator:
+    payoffs:
+      regex: ['creature cards? (?:in|from) your graveyard', 'puts? all cards they exiled this way onto the battlefield']
+  discard:
+    enablers:
+      regex: ['\bdiscard (?:a|two|three|x) cards?']
+    payoffs:
+      regex: ['whenever you discard']
+  cycling:
+    payoffs:
+      regex: ['whenever you cycle', 'cycling (?:ability|cost)', 'whenever you draw (?:a|your second) card']
+  mill:
+    enablers:
+      regex: ['mills? half their library', '(?:target player|target opponent|each opponent|each player) mills? (?:x|that many) cards']
+    payoffs:
+      regex: ['that player mills that many cards', 'cards in the chosen player''s graveyard']
+  cascade:
+    enablers:
+      regex: ['(?:has|have|gains?) "?cascade']
+    payoffs:
+      regex: ['as you cascade']
+  extra-turns:
+    enablers:
+      regex: ['takes? an extra turn']
+  artifacts:
+    enablers:
+      regex: ['artifact creature tokens?', 'create %ANY%\bartifact\b']
+    payoffs:
+      regex: ['artifacts you control (?:have|get)', 'artifact with the greatest mana value']
+  artifact-tokens:
+    payoffs:
+      regex: ['treasure tokens?, instead create', 'tokens would be created under your control']
+  vehicles:
+    payoffs:
+      regex: ['each vehicle you control', 'target vehicle card', 'crews? vehicles']
+  legends:
+    payoffs:
+      regex: ['legendary spells you cast', 'historic spells', 'legendary cards? (?:in|from) your graveyard']
+  snow:
+    payoffs:
+      regex: ['snow permanents?']
+  face-down:
+    payoffs:
+      regex: ['face-down creature']
+  activated-abilities:
+    payoffs:
+      regex: ['abilities you activate', 'whenever an ability of %ANY%is activated']
+  ramp:
+    enablers:
+      regex: ['add (?:one|two|three) mana', 'search your library for %ANY%(?:forest|plains|island|swamp|mountain) cards?%ANY%onto the battlefield', 'produces? (?:twice|three times) as much']
+  group-hug:
+    enablers:
+      regex: ['that player draws an additional card', 'each player may (?:play|put) an additional land', 'each player (?:searches|may pay)']
+    payoffs:
+      regex: ['its controller may draw a card', 'permanents you own that your opponents control']
+  stax:
+    enablers:
+      regex: ['players can''t untap more than']
+  pillow-fort:
+    payoffs:
+      regex: ['no more than (?:one|two) creatures can attack you']
+  theft:
+    enablers:
+      regex: ['you control enchanted (?:creature|permanent)', 'you may cast (?:that card|it) for as long as it remains exiled']
+    payoffs:
+      regex: ['search that player''s library %ANY%exile it']
+  control:
+    enablers:
+      regex: ['whenever an opponent casts a noncreature spell']
+  x-spells:
+    payoffs:
+      regex: ['\{x\} in its mana cost', 'costs that contain \{x\}']
+  clones:
+    payoffs:
+      regex: ['tokens that are copies of', 'becomes? a copy of']
+
+# Type filters (added after a breadth check on 350 popular cards): a side with
+# only_type_line counts a card only if its type line has one of these words; a
+# side with not_type_line skips cards whose type line has any of them.
+type_filters:
+  blink:
+    payoffs: {only_type_line: [Creature]}
+  clones:
+    payoffs: {only_type_line: [Creature]}
+  ramp:
+    enablers: {not_type_line: [Land]}
+  activated-abilities:
+    enablers: {only_type_line: [Creature]}
+
+# Second round, after running every theme against all 3,704 legal commanders:
+# fixes for commanders no layer recognized (see README > Synergy data).
+more_themes:
+  stax:
+    enablers:
+      regex: ['(?:creatures|artifacts|permanents|nonbasic lands)%ANY%your opponents control enter tapped', 'activated abilities of %ANY%your opponents control can''t be activated', 'each player''s upkeep, that player sacrifices']
+  power-matters:
+    payoffs:
+      regex: ['total power of creatures you control']
+  spellslinger:
+    payoffs:
+      regex: ['copy that spell', 'the second spell you cast each turn']
+  lifedrain:
+    payoffs:
+      regex: ['twice that much damage']
+
+doubler_regex:
+  doubler:counter-replacement: ['twice that many of each of those kinds of counters', 'that many plus one of each of those kinds of counters']
+
+new_themes:
+- id: group-slug
+  name: Group Slug / Everyone Suffers
+  edhrec_tag: [Group Slug]
+  enablers:
+    regex: ['each player''s upkeep, that player loses %NUM% life', 'whenever a player casts %ANY%(?:they|that player) loses? %NUM% life', 'each player loses %NUM% life', 'whenever an opponent (?:draws|casts|activates)%ANY%loses? %NUM% life']
+  payoffs:
+    regex: ['your opponents can''t gain life', 'whenever an opponent loses life']
+  scryfall: {enabler: 'o:"each player loses"', payoff: 'o:"opponents can''t gain life"'}
+  seeds: {enabler: [Seizan, Perverter of Truth, Mai, Scornful Striker, Sulfuric Vortex, Havoc Festival], payoff: [The Lord of Pain, Erebos, God of the Dead]}
+- id: ninjutsu
+  name: Ninjutsu / Unblockable Damage
+  edhrec_tag: [Ninjas, Unblockable]
+  enablers:
+    regex: ['can''t be blocked', 'return an unblocked (?:attacking )?creature you control']
+    keywords: [Ninjutsu, Commander ninjutsu, Sneak]
+  payoffs:
+    regex: ['whenever you activate a ninjutsu ability', 'whenever (?:one or more )?(?:ninjas?|creatures you control|a creature you control) deals? combat damage to a player']
+  scryfall: {enabler: 'o:"can''t be blocked"', payoff: 'o:"deals combat damage to a player"'}
+  seeds: {enabler: [Yuriko, the Tiger's Shadow, Ingenious Infiltrator, Changeling Outcast], payoff: [Satoru Umezawa, Fallen Shinobi, Sakashima's Student]}
