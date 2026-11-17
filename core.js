@@ -891,6 +891,9 @@
   }
 
   var NUM = "(?:a|an|one|two|three|four|five|x|that many|\\d+)";
+  // "land", or a basic land type: fetch lands and Farseek name the type ("a
+  // Forest or Island card"), not the word land
+  var LAND_WORD = "(lands?|forests?|islands?|plains|swamps?|mountains?|wastes)";
 
   // [label, regex] pairs. Order doesn't matter.
   var GIVES = [
@@ -926,7 +929,9 @@
     // blink
     ["blink", /\bexile\b[^.]*\breturn (it|them|that card|those cards) to the battlefield\b/],
     // landfall enablers
-    ["landfall", /\bsearch your library for [^.]*\bland\b[^.]*(onto|put)[^.]*battlefield\b|\bput [^.]*\blands? cards? [^.]*onto the battlefield\b|\bplay an additional land\b/],
+    ["landfall", new RegExp("\\bsearch your library for [^.]*\\b" + LAND_WORD + "\\b[^.]*(onto|put)[^.]*battlefield\\b")],
+    ["landfall", /\bput [^.]*\blands? cards? [^.]*onto the battlefield\b|\bplay (an|up to (two|three)|two|three|any number of) additional lands?\b|\bplay lands from (your graveyard|the top of your library)\b/],
+    ["landfall", new RegExp("\\breturn (a|an) " + LAND_WORD + "[^.]* you control to (its|their) owner('s|s'|s)? hands?\\b")],
   ];
 
   var WANTS = [
@@ -957,7 +962,7 @@
     // blink payoffs: the card's own enter trigger
     ["blink", /\bwhen ~ enters\b/],
     // landfall payoffs
-    ["landfall", /\bwhenever a land (you control )?enters\b|\blandfall\b/],
+    ["landfall", /\bwhenever (a land|one or more lands) (you control )?enters?\b|\blandfall\b|\ba land entering\b/],
   ];
 
   /**
@@ -979,6 +984,9 @@
     landfall: { g: "Puts extra lands out", w: "Pays off lands entering", b: "Ramps lands and pays it off", short: "landfall" },
     gear: { g: "Equipment or Aura", w: "Pays off Equipment and Auras", b: "Equipment payoff", short: "Equipment" },
     spells: { g: "Instant or sorcery", w: "Pays off instants and sorceries", b: "Spell payoff", short: "spells" },
+    facedown: { g: "Puts cards face down", w: "Turns face-down cards up or pays them off", b: "Puts cards face down and pays it off", short: "face-down cards" },
+    top: { g: "Sets up the top of your library", w: "Uses the top of your library", b: "Sets up and uses the top of your library", short: "top of library" },
+    big: { g: "Big card worth putting into play for free", w: "Puts cards into play without paying for them", b: "Big card that also cheats others into play", short: "big cards for free" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -998,15 +1006,35 @@
    * tutors 2, protection 3.
    */
   CS.SYN_ROLES = [
-    { key: "ramp", label: "Ramp", target: 10, re: /\{t\}[^:]*: add \{|\badd (one|two|three) mana\b|\badd \{[wubrgc]\}|\bsearch your library for [^.]*\blands? cards?\b[^.]*battlefield|\bcreate (a|two|x|that many) treasure|\bplay an additional land\b/ },
+    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b") },
     { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|x|that many|\d+) cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b/ },
-    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target (creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x/ },
+    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target (creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
     { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b/ },
-    { key: "tutors", label: "Tutors", target: 2, re: /\bsearch your library for (a|an|up to (one|two)) (?![^.]*\bland\b)[^.]*\bcards?\b/ },
+    { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b") },
     { key: "protection", label: "Protection", target: 3, re: /\b(creatures|permanents) you control (gain|have|get)[^.]*\b(indestructible|hexproof|shroud|protection)\b|\bequipped creature has[^.]*\b(shroud|hexproof|indestructible|protection)\b|\btarget (creature|permanent) you control gains[^.]*\b(indestructible|hexproof|protection)\b|\b(enchanted|equipped) creature (gets [^.]*and )?has [^.]*\b(shroud|hexproof|indestructible|protection)\b|\bprevent all combat damage\b|\bphase out\b/ },
   ];
 
   var COMMON_TYPES = { human: true }; // too common to count as a tribe
+
+  // Labels read from the text without reminder text (the part in
+  // parentheses), since morph and manifest reminders say "turn it face up"
+  // and scry's says "look at the top card" on every card that has them.
+  var BARE_GIVES = [
+    // face-down cards: manifest, cloak, morph, disguise, "put it face down"
+    ["facedown", /\bmanifest\b|\bmanifest dread\b|\bcloak\b|\b(mega)?morph\b|\bdisguise\b|\bface down\b/],
+    // arranging the top of the library
+    ["top", /\bscry (\d+|x)\b|\bsurveil (\d+|x)\b|\bon top of (your|its owner's|their owner's) library\b|\bput (them|those cards) back in any order\b/],
+    // manifest dread puts the other card in the graveyard
+    ["graveyard", /\bmanifest dread\b/],
+  ];
+  var BARE_WANTS = [
+    ["facedown", /\bface-down (creatures?|permanents?|spells?)\b|\bturn(s|ed)? [^.]*\bface up\b|\bwhenever you (manifest|cloak)\b/],
+    ["top", /\b(look at|play with) the top card of your library (any time|revealed)\b|\b(play|cast) [^.]*\bfrom the top of your library\b|\bmanifest (dread|the top card)\b|\breveal the top card of your library\b|\bmiracle\b/],
+    // cheat effects: free casting, putting a permanent card into play,
+    // reanimation, and flipping a face-down card without paying for it
+    ["big", /\bwithout paying (its|their|the) mana costs?\b|\bput (a|an|target|that|up to one) [^.]*?\b(creature|permanent|artifact) cards? [^.]*\bonto the battlefield\b|\breturn target creature card from (your|a) graveyard to the battlefield\b|\byou may turn [^.]*\bface up\b|\bturn target [^.]*\bface up\b/],
+  ];
+  var BIG_CMC = 7; // a permanent card this costly is worth cheating into play
 
   /**
    * Reads one card: its gives/wants labels, roles, creature types and the
@@ -1023,11 +1051,23 @@
     WANTS.forEach(function (w) {
       if (w[1].test(text)) wants[w[0]] = true;
     });
+    var bare = text.replace(/\([^)]*\)/g, "");
+    // "whenever you manifest dread" pays off manifesting; it doesn't do it
+    var bareGive = bare.replace(/\bwhenever you (manifest|cloak)[^,.]*/g, "");
+    BARE_GIVES.forEach(function (g) {
+      if (g[1].test(bareGive)) gives[g[0]] = true;
+    });
+    BARE_WANTS.forEach(function (w) {
+      if (w[1].test(bare)) wants[w[0]] = true;
+    });
     var isLand = /\bland\b/.test(types.split("\u2014")[0]) && !/\bcreature\b/.test(types);
     if (/\b(equipment|aura)\b/.test(types)) gives.gear = true;
     else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b/.test(text))
       wants.gear = true;
     if (/\b(instant|sorcery)\b/.test(types)) gives.spells = true;
+    var permanentCard = /\b(creature|artifact|enchantment|planeswalker|battle)\b/.test(types);
+    if (!isLand && permanentCard && typeof slim.cmc === "number" && slim.cmc >= BIG_CMC)
+      gives.big = true;
     if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b/.test(text))
       wants.spells = true;
     // a card only pays off its own label when it says so for others too
@@ -1251,6 +1291,18 @@
   };
 
   /**
+   * True when `traits` (a deck card from CS.deckProfile) is a big card and
+   * another card in the deck puts cards into play without paying for them
+   * (Zimone flipping a face-down card, Omniscience, Sneak Attack, reanimation).
+   */
+  CS.isCheatPayload = function (traits, profile) {
+    if (!traits || !traits.gives || !traits.gives.big) return false;
+    return ((profile && profile.cards) || []).some(function (d) {
+      return d.id !== traits.id && d.wants && d.wants.big;
+    });
+  };
+
+  /**
    * The deck's own synergy: each nonland card scored against the rest
    * (commander included, not scored itself). Cards that are mostly a role
    * (ramp, draw, removal...) and tie in to little (Fit under 50) are
@@ -1271,7 +1323,9 @@
       if (c.commander || c.land || !byId[c.id]) return;
       var f = CS.fitScore(byId[c.id], profile, c.id);
       fits[c.id] = f.score;
-      var isRole = Object.keys(c.roles).length > 0;
+      // a big card the deck cheats into play is a payload: its one job is
+      // the commander's plan, so it's judged like a role card
+      var isRole = Object.keys(c.roles).length > 0 || CS.isCheatPayload(c, profile);
       if (isRole && f.score < 50) staples.push(c.name);
       else scored.push({ name: c.name, id: c.id, score: f.score });
     });
@@ -1380,16 +1434,17 @@
       });
       var slim = byId[c.id] || {};
       var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
-      var offCurve = cmc != null && cmc >= 6 && fit < 60 ? 1 : 0;
+      var payload = CS.isCheatPayload(c, profile);
+      var offCurve = cmc != null && cmc >= 6 && fit < 60 && !payload ? 1 : 0;
       var gc = slim.gameChanger ? 1 : 0;
       // Staples: a role card most decks run (high on EDHREC) is kept;
       // other role cards count weak Fit for less, since ramp and removal
       // rarely tie in to a theme (taxonomy "staple damping").
       var rank = typeof slim.edhrecRank === "number" ? slim.edhrecRank : null;
       if (roles.length && rank != null && rank <= STAPLE_RANK) return;
-      var lowFit = (1 - fit / 100) * (roles.length ? 0.4 : 1);
+      var lowFit = (1 - fit / 100) * (roles.length || payload ? 0.4 : 1);
       var score = 0.5 * lowFit + 0.25 * surplus + 0.15 * offCurve + 0.1 * gc;
-      if (fit < 40 && !roles.length)
+      if (fit < 40 && !roles.length && !payload)
         reasons.push("Weak fit (Fit " + fit + "): ties in to little else here");
       if (surplusRole)
         reasons.push(

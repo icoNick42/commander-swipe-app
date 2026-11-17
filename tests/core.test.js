@@ -1487,3 +1487,79 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
     [],
   );
 });
+
+// ---------------------------------------------------------------- a second commander: Zimone
+// Zimone, Mystery Unraveler puts cards face down (manifest dread) on the first
+// land each turn and flips one up for free on the next. A deck built around her
+// reads as nothing to a scorer that only knows tokens and sacrifice, so these
+// tests pin down the face-down, top-of-library, free-cheat and landfall reading.
+const zimoneParsed = CS.parseExport(read("zimone_export.txt"));
+const zimoneSlims = CS.matchCollection(
+  zimoneParsed.cards,
+  JSON.parse(read("scryfall_deck_zimone.json")).data,
+)
+  .filter((m) => m.card)
+  .map((m) => CS.slimCard(m.card));
+const zimoneRecs = JSON.parse(read("scryfall_zimone_recs.json")).data.map(CS.slimCard);
+const zimoneProfile = CS.deckProfile(zimoneSlims, "Zimone, Mystery Unraveler");
+const zimoneSyn = CS.deckSynergy(zimoneProfile, zimoneSlims);
+
+test("synergy (Zimone): face-down, top of library, free cheats and landfall are read", () => {
+  const t = (n) => CS.cardTraits(byName(zimoneSlims, n) || byName(zimoneRecs, n));
+  const z = t("Zimone, Mystery Unraveler");
+  assert.ok(z.gives.facedown && z.wants.facedown, "manifests dread and turns cards face up");
+  assert.ok(z.wants.landfall && z.wants.top && z.wants.big, "landfall, looks at the top, flips for free");
+  assert.ok(t("Misty Rainforest").gives.landfall, "a fetch land that names land types");
+  assert.ok(t("Quirion Ranger").gives.landfall, "returns a Forest to replay it");
+  assert.ok(t("Azusa, Lost but Seeking").gives.landfall && t("Azusa, Lost but Seeking").roles.ramp, "up to two additional lands");
+  assert.ok(t("Ancient Greenwarden").wants.landfall, "'a land entering' doubles landfall");
+  assert.ok(t("Farseek").roles.ramp && !t("Farseek").roles.tutors, "fetching a Mountain card is ramp, not a tutor");
+  assert.ok(t("Counterspell").roles.removal && t("Snap").roles.removal, "counters and bounce count as removal");
+  assert.ok(!CS.cardTraits({ id: "s", name: "Self", types: "Instant", text: "Return target creature you control to its owner's hand." }).roles.removal, "bouncing your own creature isn't removal");
+  assert.ok(t("Scroll Rack").gives.top && t("Sensei's Divining Top").gives.top);
+  assert.ok(t("The Reality Chip").wants.top);
+  assert.ok(t("Blightsteel Colossus").gives.big && t("Omniscience").gives.big && t("Omniscience").wants.big);
+  assert.ok(!t("Koma, World-Eater").gives.big || byName(zimoneSlims, "Koma, World-Eater").cmc >= 7);
+  assert.ok(t("Scroll of Fate").gives.facedown && t("Vannifar, Evolved Enigma").gives.facedown, "manifest and cloak from hand");
+  // reminder text alone doesn't make a card a payoff
+  const plainMorph = CS.cardTraits({ id: "m", name: "Plain Morph", types: "Creature \u2014 Beast", text: "Morph {2}{G} (You may cast this card face down as a 2/2 creature for {3}. Turn it face up any time for its morph cost.)" });
+  assert.ok(plainMorph.gives.facedown && !plainMorph.wants.facedown);
+  const scryLand = CS.cardTraits({ id: "l", name: "Scry Land", types: "Land", text: "When this land enters, scry 1. (Look at the top card of your library. You may put that card on the bottom.)" });
+  assert.ok(scryLand.gives.top && !scryLand.wants.top);
+  const payoff = CS.cardTraits({ id: "p", name: "Payoff", types: "Enchantment", text: "Whenever you manifest dread, draw a card." });
+  assert.ok(payoff.wants.facedown && !payoff.gives.facedown, "a manifest payoff doesn't manifest");
+});
+
+test("synergy (Zimone): the deck's plan and score reflect the engine", () => {
+  const plan = zimoneSyn.plan.map((p) => p.label);
+  for (const l of ["landfall", "facedown", "top", "big"]) assert.ok(plan.includes(l), "plan has " + l);
+  assert.equal(plan[0], "landfall");
+  assert.ok(zimoneSyn.score >= 40, "Zimone deck score " + zimoneSyn.score);
+  assert.ok(zimoneProfile.roleCount.removal >= 8, "counters and bounce counted");
+  assert.ok(!zimoneProfile.roleCount.tutors, "land fetching isn't tutoring");
+});
+
+test("synergy (Zimone): big cards she flips for free aren't cut ideas", () => {
+  const bs = zimoneProfile.cards.find((c) => c.name === "Blightsteel Colossus");
+  assert.ok(CS.isCheatPayload(bs, zimoneProfile));
+  // without a card that cheats, a big card is just expensive
+  const alone = CS.deckProfile([byName(zimoneSlims, "Blightsteel Colossus")], "");
+  assert.ok(!CS.isCheatPayload(alone.cards[0], alone));
+  assert.ok(zimoneSyn.staples.includes("Blightsteel Colossus") && zimoneSyn.staples.includes("Omniscience"));
+  const ideas = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {});
+  const top = ideas.slice(0, 8).map((i) => i.name);
+  for (const n of ["Blightsteel Colossus", "Darksteel Colossus", "Omniscience", "Quirion Ranger"])
+    assert.ok(!top.includes(n), n + " isn't a top cut idea: " + top.join(", "));
+  const bsIdea = ideas.find((i) => i.name === "Blightsteel Colossus");
+  if (bsIdea) assert.ok(!bsIdea.reasons.some((r) => /isn't part of the deck's plan|Weak fit/.test(r)), bsIdea.reasons.join("; "));
+});
+
+test("synergy (Zimone): recommendations that feed the engine beat generic good cards", () => {
+  const fit = (n) => CS.fitScore(byName(zimoneRecs, n), zimoneProfile);
+  assert.ok(fit("Ancient Greenwarden").score >= 60, "Greenwarden " + fit("Ancient Greenwarden").score);
+  assert.ok(fit("Ugin's Mastery").score > fit("Displacer Kitten").score);
+  assert.ok(fit("Ancient Greenwarden").score > fit("Displacer Kitten").score);
+  assert.match(fit("Ugin's Mastery").reasons[0], /^Works with Zimone: face-down cards/);
+  assert.ok(fit("Cryptic Coat").score > 30 && fit("Azusa, Lost but Seeking").score > 30);
+  assert.ok(fit("Craterhoof Behemoth").reasons.some((r) => /big cards for free|Big card/.test(r)));
+});

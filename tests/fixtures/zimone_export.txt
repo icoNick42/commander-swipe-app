@@ -1,0 +1,90 @@
+1 Zimone, Mystery Unraveler (DSC) 8
+1 Abhorrent Oculus (PDSK) 42p
+1 Aesi, Tyrant of Gyre Strait (PLST) CMR-365
+1 An Offer You Can't Refuse (FDN) 160
+1 Arboreal Grazer (RVR) 131
+1 Arcane Denial (SOC) 187
+1 Arcane Signet (PIP) 356
+1 Birds of Paradise (DMR) 151
+1 Blightsteel Colossus (PLST) 2XM-235
+1 Boseiju, Who Endures (PNEO) 266p
+1 Brainstorm (MB2) 155
+1 Breeding Pool (EOE) 251
+1 Brine Elemental (A25) 47
+1 Burgeoning (SPG) 126
+1 Command Tower (PIP) 259
+1 Counterspell (DSC) 114
+1 Crop Rotation (DMR) 154
+1 Crucible of Worlds (SLD) 7162
+1 Dark Depths (M3C) 334
+1 Darksteel Colossus (FDN) 671
+1 Deadeye Navigator (INR) 492 *F*
+1 Dryad of the Ilysian Grove (PLST) THB-169
+1 Elvish Reclaimer (MB2) 205
+1 Escape Tunnel (EOC) 157
+1 Essence Flux (SOI) 61
+1 Evolving Wilds (EOC) 158
+1 Exploration (DMR) 339
+1 Exploration Broodship (EOC) 14
+1 Fabled Passage (SOC) 130
+1 Farseek (MSC) 815
+1 Flooded Strand (KTK) 233
+6 Forest (THB) 254 *F*
+1 Gaea's Cradle (USG) 321
+1 Growth Spiral (M3C) 265
+1 Guardian Project (PRNA) 130s *F*
+1 Hauntwoods Shrieker (DSK) 182
+1 Hedge Maze (MKM) 262
+1 Heroic Intervention (PIP) 202
+1 Into the Flood Maw (BLB) 52
+6 Island (THB) 251 *F*
+1 It That Betrays (DDP) 43
+1 Koma, World-Eater (FDN) 121
+1 Kozilek, Butcher of Truth (MM2) 5
+1 Lightning Greaves (SLD) IFIYW-4
+1 Lotus Cobra (J25) 685
+1 Mana Drain (CMR) 80
+1 Mirri's Guile (MB2) 209
+1 Misty Rainforest (MH2) 250
+1 Nature's Lore (MSC) 177
+1 Noxious Revival (MB2) 70
+1 Oboro, Palace in the Clouds (SOK) 164
+1 Omniscience (M19) 65
+1 Polluted Delta (MH3) 224
+1 Prismatic Vista (SLD) 2699
+1 Quirion Ranger (MH2) 285
+1 Rampant Growth (10E) 288
+1 Ramunap Excavator (PHOU) 129 *F*
+1 Retreat to Coralhelm (DSC) 126
+1 Rhystic Study (PCY) 45
+1 Roil Elemental (ZEN) 62
+1 Sakura-Tribe Elder (DSC) 194
+1 Scalding Tarn (MH2) 254
+1 Scroll of Fate (MKC) 235
+1 Scroll Rack (CMR) 337
+1 Sensei's Divining Top (MB2) 231
+1 Shifting Woodland (MH3) 228
+1 Simic Signet (MM3) 227
+1 Snap (PLST) ULG-43
+1 Sol Ring (PIP) 359
+1 Stratus Dancer (C19) 96
+1 Sylvan Library (DMR) 179
+1 Talisman of Curiosity (DRC) 140
+1 Talon Gates of Madara (M3C) 134
+1 Temple of Mystery (FIC) 436
+1 Terramorphic Expanse (M11) 229
+1 The Reality Chip (PNEO) 74p
+1 Three Visits (CMR) 686
+1 Tireless Provisioner (J25) 728
+1 Tropical Island (3ED) 288
+1 Ulamog, the Infinite Gyre (MM2) 6
+1 Urza's Saga (MH2) 259
+1 Valgavoth's Onslaught (PDSK) 204p
+1 Vannifar, Evolved Enigma (MKM) 241
+1 Verdant Catacombs (MH2) 260
+1 Vesuvan Shapeshifter (A25) 77
+1 Windswept Heath (MH3) 235
+1 Wooded Foothills (MH3) 236
+1 Yavimaya, Cradle of Growth (MH2) 261
+1 Yedora, Grave Gardener (MKC) 197
+1 Zhalfirin Void (DOM) 249
