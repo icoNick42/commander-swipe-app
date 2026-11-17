@@ -27,7 +27,7 @@
         --space-4: 16px;
         --space-5: 24px;
         /* Height of everything around the card, used to size the card to the screen. */
-        --chrome: 430px;
+        --chrome: 454px;
         color-scheme: dark;
       }
       * {
@@ -377,6 +377,31 @@
         color: var(--text);
         font-weight: 600;
       }
+      /* Fit line under the card: one line, opens to the reasons */
+      .why summary {
+        display: block;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .why .fit {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .why ul,
+      .deckfit ul {
+        text-align: left;
+        margin: 4px 0;
+        padding-left: 18px;
+        font-size: 0.85rem;
+      }
+      .small {
+        font-size: 0.8rem;
+      }
+      .deckfit p {
+        margin: 8px 0 2px;
+      }
       .badge {
         display: inline-block;
         font-size: 0.75rem;
@@ -543,7 +568,7 @@
       }
       @media (max-width: 899px) {
         :root {
-          --chrome: 340px;
+          --chrome: 364px;
         }
         main {
           padding: var(--space-3);
@@ -645,6 +670,7 @@
         ></textarea>
         <div class="row">
           <button id="loadBtn" class="primary" type="button">Load deck</button>
+          <button id="sampleBtn" type="button">Try a sample deck</button>
           <span
             id="setupMsg"
             class="muted"
@@ -732,6 +758,10 @@
               <h2 id="maybeHead">Maybe (<span id="maybeCount">0</span>)</h2>
               <ul class="list" id="maybeList"></ul>
             </section>
+            <details class="deckfit" id="deckFit">
+              <summary id="deckFitHead">Your deck</summary>
+              <div id="deckFitBody"></div>
+            </details>
             <details class="filters" id="filters">
               <summary>Filters</summary>
               <label
@@ -816,7 +846,15 @@
           shown: null, // the card on screen
           text: "", // the export text that was loaded
           saveFailed: false,
+          profile: null, // the deck read for the Fit score (CS.deckProfile)
+          fitCache: {}, // Scryfall id -> CS.fitScore result
+          deckFit: null, // CS.deckSynergy result
+          userPicked: false, // the user chose a pile (don't move them on)
+          whyOpen: false, // keep the Fit reasons open from card to card
         };
+
+        // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
+        var SAMPLE_DECK = "1 Zurgo Stormrender (TDC) 10\n1 Adeline, Resplendent Cathar (MID) 312\n1 Ainok Strike Leader (TDC) 51\n1 Anim Pakal, Thousandth Moon (LCI) 300 *F*\n1 Arcane Signet (PIP) 356\n1 Arid Mesa (MH2) 244\n1 Ashnod's Altar (5ED) 349\n1 Badlands (3ED) 282\n1 Bastion of Remembrance (PLST) IKO-73\n1 Battle Angels of Tyr (PCLB) 9p\n1 Black Market (JMP) 204\n1 Black Market Connections (MSC) 155\n1 Blade of Selves (CM2) 174\n1 Blood Artist (SLD) 42\n1 Blood Crypt (ECL) 262\n1 Bloodstained Mire (KTK) 230\n1 Brimaz, King of Oreskos (J25) 58\n1 Caesar, Legion's Emperor (PIP) 1 *F*\n1 Carrion Feeder (PLST) MH1-81\n1 Cathars' Crusade (JMP) 95\n1 Command Tower (PIP) 259\n1 Crowded Crypt (DRC) 88\n1 Dalkovan Encampment (PTDM) 253p\n1 Dark Prophecy (M14) 93\n1 Dawn Charm (UMA) 13\n1 Deadly Dispute (SLD) IFIYW-6 *F*\n1 Deathgreeter (PLST) DDD-33\n1 Duty Beyond Death (SOA) 4\n1 Eiganjo, Seat of the Empire (PNEO) 268p\n1 Elas il-Kor, Sadistic Pilgrim (DMU) 198\n1 Elenda, the Dusk Rose (LCC) 268\n1 Emeritus of Woe / Demonic Tutor (SOS) 324\n1 Endless Foot Assault (TMC) 8\n1 Enduring Innocence (DSK) 368\n1 Esper Sentinel (MH2) 328\n1 Flooded Strand (KTK) 233\n1 Generous Plunderer (BIG) 76\n1 Goblin Bombardment (WOT) 43\n1 Godless Shrine (CLU) 276 *F*\n1 Grand Crescendo (FRC) 26\n1 Grim Hireling (PLST) AFC-25\n1 Gut, True Soul Zealot (CLB) 180\n1 Impact Tremors (WOT) 44\n1 Indulge / Excess (NCC) 46\n1 Jadar, Ghoulcaller of Nephalia (DBL) 108\n1 Lightning Greaves (SLD) IFIYW-9 *F*\n1 Luxury Suite (MSC) 252\n1 Mace of the Valiant (CMM) 41\n1 Mahadi, Emporium Master (CLB) 282\n1 Marsh Flats (SPG) 115 *F*\n1 Mentor of the Meek (SCD) 28\n2 Mountain (THB) 253 *F*\n1 Ocelot Pride (MH3) 38\n1 Ophiomancer (TDC) 193\n1 Phyrexian Altar (2X2) 563 *E*\n1 Phyrexian Tower (MH3) 303\n1 Pitiless Plunderer (PIP) 187\n2 Plains (THB) 250 *F*\n1 Plateau (3ED) 284\n1 Polluted Delta (KTK) 239\n1 Professional Face-Breaker (M3C) 216\n1 Reconnaissance (ACR) 179 *E*\n1 Ruinous Ultimatum (SPG) 108\n1 Sacred Foundry (PEOE) 256p\n1 Scalding Tarn (MH2) 254\n1 Scrubland (3ED) 286\n1 Sephiroth, Fabled SOLDIER / Sephiroth, One-Winged Angel (FIN) 115\n1 Shinka, the Bloodsoaked Keep (PLST) CHK-282\n1 Skullclamp (TDC) 103\n1 Sol Ring (PFDN) 1 *F*\n1 Soul Warden (MD1) 1\n1 Soul's Attendant (PLST) ROE-44\n1 Spectator Seating (MSC) 268\n1 Spirit Mantle (PLST) M12-35\n1 Stadium Headliner (PTDM) 122p\n1 Staff of the Storyteller (ONC) 48\n2 Swamp (THB) 252 *F*\n1 Swords to Plowshares (CMR) 627\n1 Takenuma, Abandoned Mire (NEO) 278\n1 Talisman of Conviction (M3C) 307\n1 Talisman of Hierarchy (PIP) 775 *F*\n1 Talisman of Indulgence (FRC) 63\n1 The Masamune (FIN) 264\n1 Trouble in Pairs (MKC) 326\n1 True Conviction (C14) 93\n1 Untimely Malfunction (DSK) 161\n1 Urborg, Tomb of Yawgmoth (TSR) 287\n1 Urza's Saga (MH2) 259\n1 Vault of Champions (CMR) 360 *F*\n1 Verdant Catacombs (SPG) 113\n1 Viscera Seer (SOC) 229\n1 Voice of Victory (PTDM) 33p\n1 Warleader's Call (MKM) 242\n1 Warren Soultrader (PMH3) 110p\n1 Windswept Heath (MH3) 235\n1 Woe Strider (NCC) 262\n1 Wooded Foothills (KTK) 249";
         var edhrecCache = {}; // URL -> EDHREC page (or null if it failed); each page fetched at most once per visit
         var preloaded = [];
 
@@ -1263,8 +1301,14 @@
           S.state = CS.loadDeckState(store, S.deckId, cmd.name);
           S.edhrecMap = {};
           S.edhrecNote = "";
-          S.piles = searchPiles(cmd);
+          var slims = deckSlims();
+          S.profile = CS.deckProfile(slims, cmd.name);
+          S.fitCache = {};
+          S.deckFit = CS.deckSynergy(S.profile, slims);
+          renderDeckFit();
+          S.piles = [fitPileShell()].concat(searchPiles(cmd));
           S.current = null;
+          S.userPicked = false;
           S.detailsLoading = true;
           saveLast();
           status("");
@@ -1321,8 +1365,7 @@
             function () {
               if (token !== S.token) return;
               S.detailsLoading = false;
-              if (!S.current) openPile(S.piles[0].key);
-              else render();
+              settleFirstPile();
             },
             function () {
               if (token !== S.token) return;
@@ -1330,10 +1373,106 @@
               status(
                 "Some card details didn't load. Try Change deck, then Load deck again.",
               );
-              if (!S.current) openPile(S.piles[0].key);
-              else render();
+              settleFirstPile();
             },
           );
+        }
+
+        /**
+         * Once the first details are in: open a pile that has cards. If the
+         * pile opened on its own (Best, say) is used up, move on to the next
+         * main pile with cards left, or to Everything in your colors.
+         */
+        function settleFirstPile() {
+          var cur = pileByKey(S.current);
+          if (cur && cur.kind === "fit") rebuildFitPile(cur);
+          if (cur && (S.userPicked || !cur.loaded || remaining(cur) > 0)) {
+            render();
+            return;
+          }
+          var next = S.piles.filter(function (p) {
+            return (
+              p.group === "main" &&
+              p.kind !== "fit" &&
+              p.loaded &&
+              remaining(p) > 0
+            );
+          })[0];
+          var key = next ? next.key : "all";
+          if (cur && key !== cur.key)
+            status(cur.label + " is used up, so " + pileByKey(key).label + " is open.");
+          openPile(key, true);
+        }
+
+        /** The deck's cards as slim cards (for the Fit score). */
+        function deckSlims() {
+          return S.matched
+            .filter(function (m) {
+              return m.card;
+            })
+            .map(function (m) {
+              return CS.slimCard(m.card);
+            });
+        }
+
+        /** Fit score for a card, worked out once per commander. */
+        function fitFor(id) {
+          if (!S.profile || !S.cardInfo[id]) return null;
+          if (!S.fitCache[id])
+            S.fitCache[id] = CS.fitScore(S.cardInfo[id], S.profile);
+          return S.fitCache[id];
+        }
+
+        /**
+         * Highest Fit: every card the other piles have loaded so far (EDHREC's
+         * page, plus any search pages opened), ranked by our Fit score.
+         */
+        function fitPileShell() {
+          return {
+            key: "fit",
+            label: "Highest Fit",
+            group: "main",
+            kind: "fit",
+            cards: [],
+            loaded: false,
+            error: "",
+          };
+        }
+
+        function rebuildFitPile(pile) {
+          var recs = {};
+          Object.keys(S.edhrecMap).forEach(function (id) {
+            recs[id] = S.edhrecMap[id];
+          });
+          S.piles.forEach(function (p) {
+            if (p.kind === "fit") return;
+            (p.cards || []).forEach(function (c) {
+              if (!recs[c.id] || (c.onEdhrec && !recs[c.id].onEdhrec))
+                recs[c.id] = c;
+            });
+          });
+          var list = [];
+          Object.keys(recs).forEach(function (id) {
+            var info = S.cardInfo[id];
+            if (
+              !info ||
+              S.deckNames[CS.nameKey(info.name)] ||
+              CS.isBasicLand(info.name)
+            )
+              return;
+            list.push({ rec: recs[id], fit: fitFor(id).score });
+          });
+          list.sort(function (a, b) {
+            return (
+              b.fit - a.fit ||
+              b.rec.inclusion - a.rec.inclusion ||
+              (a.rec.name < b.rec.name ? -1 : 1)
+            );
+          });
+          pile.cards = list.map(function (x) {
+            return Object.assign({}, x.rec, { section: "fit" });
+          });
+          pile.loaded = true;
         }
 
         /** Makes sure every Added or Maybe card has its name loaded (role-pile cards after a reload). */
@@ -1352,11 +1491,20 @@
           );
         }
 
-        function openPile(key) {
+        function openPile(key, auto) {
           var pile = pileByKey(key);
           if (!pile) return;
           S.current = key;
-          if (!pile.loaded && !pile.loading) {
+          if (!auto) S.userPicked = true;
+          if (pile.kind === "fit") {
+            // rank what's loaded now; also load Everything's first page to rank
+            var all = pileByKey("all");
+            if (all && !all.loaded && !all.loading) {
+              all.rebuildFit = true;
+              loadSearchPage(all, CS.searchUrl(all.query), true);
+            }
+            if (!S.detailsLoading) rebuildFitPile(pile);
+          } else if (!pile.loaded && !pile.loading) {
             if (pile.kind === "search")
               loadSearchPage(pile, CS.searchUrl(pile.query), true);
             else if (pile.kind === "edhrec-page") loadEdhrecPagePile(pile);
@@ -1421,6 +1569,12 @@
             .then(function () {
               if (token !== S.token) return;
               pile.loading = false;
+              if (pile.rebuildFit) {
+                pile.rebuildFit = false;
+                var fit = pileByKey("fit");
+                if (fit && S.current === "fit" && !S.detailsLoading)
+                  rebuildFitPile(fit);
+              }
               render();
             });
         }
@@ -1667,7 +1821,10 @@
         }
 
         function pileCount(p) {
-          if (!p.loaded || (p.kind === "edhrec" && S.detailsLoading))
+          if (
+            !p.loaded ||
+            ((p.kind === "edhrec" || p.kind === "fit") && S.detailsLoading)
+          )
             return "\u2026";
           return String(remaining(p)) + (p.next ? "+" : "");
         }
@@ -1762,7 +1919,10 @@
             stage.appendChild(el("p", { class: "empty", text: pile.error }));
             return;
           }
-          if (!pile.loaded || (pile.kind === "edhrec" && S.detailsLoading)) {
+          if (
+            (!pile.loaded && pile.kind !== "fit") ||
+            ((pile.kind === "edhrec" || pile.kind === "fit") && S.detailsLoading)
+          ) {
             setButtons(false);
             stage.appendChild(
               el("p", { class: "empty", text: "Loading cards..." }),
@@ -1790,6 +1950,13 @@
                     onclick: loadMoreNow,
                   }),
                 ]),
+              );
+            } else if (pile.kind === "fit" && !pile.cards.length) {
+              stage.appendChild(
+                el("p", {
+                  class: "empty",
+                  text: "No cards to rank yet. Highest Fit ranks the cards the other piles have loaded, so open one or two of them first.",
+                }),
               );
             } else {
               stage.appendChild(
@@ -1865,6 +2032,8 @@
               el("span", { class: "badge gc", text: "Game Changer" }),
             );
           if (badges.length) bits.push(el("div", null, badges));
+          var f = fitFor(rec.id);
+          if (f) bits.push(fitDetails(f));
           stage.appendChild(el("div", { class: "meta" }, bits));
 
           // Load the next two images ahead.
@@ -1875,6 +2044,106 @@
             img.src = i.image;
             return img;
           });
+        }
+
+        /** "Fit 84 - first reason", opening to all the reasons. */
+        function fitDetails(f) {
+          var first = f.reasons[0] || "No tie-ins with your deck found in its text";
+          var d = el("details", { class: "why" }, [
+            el("summary", { title: f.reasons.join("\n") }, [
+              el("span", { class: "fit", text: "Fit " + f.score }),
+              " \u00b7 " + first,
+            ]),
+            f.reasons.length
+              ? el(
+                  "ul",
+                  null,
+                  f.reasons.map(function (r) {
+                    return el("li", { text: r });
+                  }),
+                )
+              : null,
+            el("div", {
+              class: "small",
+              text: "Fit (0-100) is how well the card's rules text ties into your deck's plan, not how strong the card is.",
+            }),
+          ]);
+          d.open = S.whyOpen;
+          d.addEventListener("toggle", function () {
+            S.whyOpen = d.open;
+          });
+          return d;
+        }
+
+        /** The Your deck panel: the deck's own Fit, its plan, weakest links and roles. */
+        function renderDeckFit() {
+          var d = S.deckFit;
+          var body = $("deckFitBody");
+          body.textContent = "";
+          if (!d) {
+            $("deckFitHead").textContent = "Your deck";
+            return;
+          }
+          $("deckFitHead").textContent = "Your deck: synergy " + d.score + "/100";
+          body.appendChild(
+            el("div", {
+              class: "muted small",
+              text:
+                "The average Fit of " +
+                d.scored +
+                " of your nonland cards, each scored against the rest of the deck (your commander counts three times).",
+            }),
+          );
+          if (d.plan.length) {
+            body.appendChild(el("p", { text: "Your deck's plan" }));
+            body.appendChild(
+              el(
+                "ul",
+                null,
+                d.plan.slice(0, 4).map(function (x) {
+                  var name = x.noun.charAt(0).toUpperCase() + x.noun.slice(1);
+                  return el("li", {
+                    text: name + ": " + x.gives + " cards set it up, " + x.wants + " pay it off",
+                  });
+                }),
+              ),
+            );
+          }
+          if (d.weakest.length) {
+            body.appendChild(el("p", { text: "Least connected (ideas to cut)" }));
+            body.appendChild(
+              el(
+                "ul",
+                null,
+                d.weakest.map(function (w) {
+                  return el("li", { text: w.name + ": Fit " + w.score });
+                }),
+              ),
+            );
+          }
+          body.appendChild(el("p", { text: "Roles" }));
+          body.appendChild(
+            el(
+              "ul",
+              null,
+              CS.SYN_ROLES.map(function (r) {
+                var have = d.roleCount[r.key] || 0;
+                return el("li", {
+                  text: r.label + ": " + have + " (about " + r.target + " is typical)",
+                });
+              }),
+            ),
+          );
+          if (d.staples.length)
+            body.appendChild(
+              el("div", {
+                class: "muted small",
+                title: d.staples.join("\n"),
+                text:
+                  d.staples.length +
+                  " role cards that tie in to little (ramp, removal and the like) aren't counted as weak links.",
+              }),
+            );
         }
 
         function renderList(choice, listId, countId) {
@@ -2013,6 +2282,10 @@
         // ------------------------------------------------------------ wiring
 
         $("loadBtn").addEventListener("click", function () {
+          loadDeck("");
+        });
+        $("sampleBtn").addEventListener("click", function () {
+          $("exportText").value = SAMPLE_DECK;
           loadDeck("");
         });
         $("commanderSelect").addEventListener("change", function () {

@@ -15,6 +15,13 @@ From Scryfall, searched in your commander's colors:
 
 The Scryfall piles still work if EDHREC is down or has no page for your commander.
 
+**Fit score.** Every card also gets a Fit score from 0 to 100, worked out in your browser from the rules text of your deck and the card. A card scores when it feeds what your deck's cards want (a token maker for your sacrifice outlets) or wants what they make (a death trigger for a deck that sacrifices a lot). Your commander counts three times, creature types count a little, and so do roles your deck is short on. Tap the Fit line under a card to see why. Fit says how well a card ties into your deck's plan, not how strong it is: Swords to Plowshares scores low, and it's still great.
+
+- **Highest Fit:** every card the other piles have loaded, best Fit first.
+- **Your deck:** your deck's own score (the average Fit of its cards against each other), its main plans, its five least-connected cards, and how many cards it has in each role.
+
+No deck handy? **Try a sample deck** loads a Zurgo Stormrender list.
+
 Game Changers are hidden by default. You can change that, set a max price, or pick card types under Filters.
 
 ## Good to know

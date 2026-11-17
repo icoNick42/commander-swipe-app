@@ -711,3 +711,120 @@ test("more search cards: only new ones, no deck cards, EDHREC numbers kept", nee
   assert.ok(onE.length > 0 && onE.every((c) => c.numDecks > 0));
   assert.ok(pile.cards.some((c) => !c.onEdhrec));
 });
+
+// ------------------------------------------------------------- synergy (Fit)
+
+const deckSlims = deckScry.data.map(CS.slimCard);
+const recSlims = recScry.data.map(CS.slimCard);
+const byName = (list, n) => list.find((c) => c.name === n);
+const zurgoProfile = CS.deckProfile(deckSlims, "Zurgo Stormrender");
+
+test("synergy: reads what cards give and want", () => {
+  const t = (n) => CS.cardTraits(byName(deckSlims, n) || byName(recSlims, n));
+  const zurgo = t("Zurgo Stormrender");
+  assert.ok(zurgo.gives.bodies && zurgo.gives.attacks && zurgo.gives.deaths, "mobilize tokens attack and die");
+  assert.ok(zurgo.wants.deaths, "draws when an attacking token leaves");
+  const seer = t("Viscera Seer");
+  assert.ok(seer.wants.fodder && seer.gives.deaths, "sacrifice outlet");
+  assert.ok(t("Blood Artist").wants.deaths, "'this creature or another creature dies'");
+  assert.ok(t("Mahadi, Emporium Master").wants.deaths, "'each creature that died this turn'");
+  assert.ok(t("The Masamune").wants.deaths, "'a creature dying'");
+  assert.ok(t("Grim Hireling").wants.treasure && t("Grim Hireling").gives.treasure, "makes Treasure and sacrifices it");
+  assert.ok(!t("Viscera Seer").gives.treasure, "no Treasure in its text");
+  assert.ok(t("Pitiless Plunderer").gives.treasure);
+  assert.ok(t("Skullclamp").gives.gear);
+  assert.ok(t("Cathars' Crusade").wants.bodies && t("Cathars' Crusade").gives.counters);
+  assert.ok(t("Sol Ring").roles.ramp);
+  assert.ok(t("Swords to Plowshares").roles.removal);
+  assert.ok(t("Ruinous Ultimatum").roles.wipes);
+  assert.ok(t("Lightning Greaves").roles.protection);
+  assert.ok(t("Emeritus of Woe // Demonic Tutor").roles.tutors, "both faces are read");
+  const mesa = t("Arid Mesa");
+  assert.ok(mesa.land && Object.keys(mesa.roles).length === 0, "lands get no roles");
+  assert.ok(t("Stadium Headliner").tokenTypes.warrior, "mobilize makes Warriors");
+});
+
+test("synergy: the card's own name never counts as text", () => {
+  const fake = { id: "x", name: "Soul Warden", text: "Whenever another creature enters, you gain 1 life." };
+  assert.equal(CS.synText(fake), "whenever another creature enters, you gain 1 life.");
+  const named = { id: "y", name: "Grim Hireling", text: "Grim Hireling attacks. This creature dies." };
+  assert.equal(CS.synText(named), "~ attacks. ~ dies.");
+});
+
+test("synergy: deck profile finds the commander, skips basics, counts tribes and roles", () => {
+  const p = zurgoProfile;
+  assert.equal(p.commander.name, "Zurgo Stormrender");
+  assert.ok(p.cards.every((c) => !CS.isBasicLand(c.name)));
+  assert.equal(p.cards.length, deckSlims.filter((s) => !CS.isBasicLand(s.name)).length);
+  assert.ok(p.typeCount.warrior >= 10, "Warrior creatures plus Warrior tokens, commander counted x3");
+  assert.ok(p.roleCount.ramp >= 8 && p.roleCount.removal >= 1);
+});
+
+test("synergy: Fit is 0-100 with at most 3 reasons, for every recommendation", () => {
+  for (const r of recSlims) {
+    const f = CS.fitScore(r, zurgoProfile);
+    assert.ok(Number.isInteger(f.score) && f.score >= 0 && f.score <= 100, r.name);
+    assert.ok(Array.isArray(f.reasons) && f.reasons.length <= 3, r.name);
+    if (f.score === 0) assert.equal(f.reasons.length, 0, r.name + ": no score, no reasons");
+    for (const why of f.reasons) assert.ok(!/undefined|NaN/.test(why), r.name + ": " + why);
+  }
+});
+
+test("synergy: Zurgo's real picks rank the way a player would expect", () => {
+  const fit = (n) => CS.fitScore(byName(recSlims, n), zurgoProfile).score;
+  // token makers that attack beat plain lands and plain removal
+  assert.ok(fit("Legion Warboss") >= 75);
+  assert.ok(fit("Legion Warboss") > fit("Path to Exile"));
+  assert.equal(fit("Evolving Wilds"), 0);
+  // a sacrifice outlet that makes its own fodder ties into the deck's sacrifice plan
+  assert.ok(fit("Chittering Witch") >= 75);
+  const w = CS.fitScore(byName(recSlims, "War Effort"), zurgoProfile);
+  assert.match(w.reasons[0], /^Works with Zurgo Stormrender: /, "commander reason comes first");
+  // a role the deck is short on is named
+  const path = CS.fitScore(byName(recSlims, "Path to Exile"), zurgoProfile);
+  assert.match(path.reasons.join(" "), /Removal: your deck has \d+ \(about 8 is typical\)/);
+  // Warrior payoff: Kor names Warriors, and the deck has plenty
+  const kor = CS.cardTraits(byName(recSlims, "Kor, Cause of Vengeance"));
+  assert.ok(/warriors you control/.test(kor.text));
+});
+
+test("synergy: the commander counts three times; one card can be left out", () => {
+  const cmd = { id: "c", name: "Test Commander", types: "Legendary Creature \u2014 Elf", text: "Whenever a creature you control dies, draw a card." };
+  const other = { id: "o", name: "Other Payoff", types: "Enchantment", text: "Whenever a creature you control dies, you gain 1 life." };
+  const outlet = { id: "s", name: "Altar", types: "Artifact", text: "Sacrifice a creature: Add {C}{C}." };
+  const vanilla = { id: "v", name: "Bear", types: "Creature \u2014 Bear", text: "" };
+  const withCmd = CS.deckProfile([cmd, other], "Test Commander");
+  const noCmd = CS.deckProfile([cmd, other], "Nobody");
+  const a = CS.fitScore(outlet, withCmd);
+  const b = CS.fitScore(outlet, noCmd);
+  assert.ok(a.raw > b.raw, "linking to the commander is worth more");
+  assert.ok(Math.abs(a.raw - (Math.sqrt(4) + 1)) < 1e-9 || a.raw > b.raw);
+  assert.match(a.reasons[0], /^Works with Test Commander: death triggers/);
+  assert.equal(CS.fitScore(vanilla, withCmd).score, 0);
+  // leaving the payoff out drops the link to it
+  assert.ok(CS.fitScore(outlet, withCmd, "o").raw < a.raw);
+  // the biggest tie-in is named first
+  const payoffs = [1, 2, 3, 4].map((i) => ({ id: "p" + i, name: "Payoff " + i, types: "Enchantment", text: "Whenever a creature you control dies, you gain 1 life." }));
+  const lifer = { id: "l", name: "Lifer", types: "Enchantment", text: "Whenever you gain life, draw a card." };
+  const both = { id: "b", name: "Both", types: "Artifact", text: "Sacrifice a creature: You gain 1 life." };
+  const r = CS.fitScore(both, CS.deckProfile(payoffs.concat([lifer]), "")).reasons;
+  assert.match(r[0], /^Makes creatures die; 4 of your cards use that/);
+  assert.match(r[1], /^Gains life; 1 of your cards uses that/);
+  // empty or broken input doesn't throw
+  assert.equal(CS.fitScore({ id: "z", name: "" }, CS.deckProfile([], "")).score, 0);
+  assert.equal(CS.deckSynergy(CS.deckProfile([], ""), []).score, 0);
+});
+
+test("synergy: the deck's own score, plan, weakest links and staples", () => {
+  const d = CS.deckSynergy(zurgoProfile, deckSlims);
+  assert.ok(d.score >= 50 && d.score <= 95, "Zurgo deck score " + d.score);
+  const top = d.plan.slice(0, 4).map((p) => p.label).sort();
+  assert.deepEqual(top, ["attacks", "bodies", "deaths", "fodder"]);
+  assert.ok(d.staples.includes("Sol Ring") && d.staples.includes("Swords to Plowshares"));
+  const weakNames = d.weakest.map((w) => w.name);
+  assert.ok(!weakNames.includes("Sol Ring"), "role cards aren't weak links");
+  assert.ok(!weakNames.includes("Zurgo Stormrender"), "the commander isn't scored");
+  for (let i = 1; i < d.weakest.length; i++)
+    assert.ok(d.weakest[i - 1].score <= d.weakest[i].score, "weakest first");
+  assert.ok(d.weakest.length <= 5 && d.scored > 30);
+});
