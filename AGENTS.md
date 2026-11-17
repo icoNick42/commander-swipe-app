@@ -13,7 +13,7 @@ If something I ask conflicts with this file, do what I asked and mention the con
 
 ## Data sources
 - Scryfall API (card data, images, role searches): send `Accept: application/json`, keep at least 100 ms between requests, and show card images whole (don't crop them or cover the artist and copyright line).
-- EDHREC (`json.edhrec.com/pages/commanders/<slug>.json`): unofficial and undocumented. At most one fetch per commander per visit. Nothing may depend on it alone; the Scryfall role piles must work without it.
+- EDHREC (`json.edhrec.com/pages/commanders/<slug>.json`, plus `<slug>/budget.json` and `<slug>/<theme>.json`): unofficial and undocumented. At most one fetch per EDHREC page per visit; the budget and theme pages only when that pile is opened. Nothing may depend on it alone; the Scryfall piles (Everything in your colors, roles) must work without it.
 - Moxfield: never call its API or scrape it. Input is pasted Export text.
 - Anything that costs money (a paid API, a service, a purchase) needs my yes first.
 

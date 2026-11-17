@@ -203,25 +203,66 @@
     return out;
   };
 
-  /** Scryfall's search for a role pile, inside the commander's colors. */
+  /**
+   * Role piles: Scryfall Tagger tags (otag:), searched inside the
+   * commander's colors. `extra` narrows a noisy tag (fetch lands count as
+   * "tutors"). Tags checked on Scryfall 2026-11-17.
+   */
   CS.ROLES = [
     { key: "removal", label: "Removal", tag: "removal" },
     { key: "ramp", label: "Ramp", tag: "ramp" },
     { key: "draw", label: "Card draw", tag: "draw" },
     { key: "protection", label: "Protection", tag: "protection" },
     { key: "wipes", label: "Board wipes", tag: "board-wipe" },
+    { key: "tutors", label: "Tutors", tag: "tutor", extra: "-t:land" },
+    { key: "recursion", label: "Recursion", tag: "recursion" },
+    { key: "sac", label: "Sacrifice outlets", tag: "sacrifice-outlet" },
+    { key: "tokens", label: "Token makers", tag: "repeatable-token-generator" },
+    { key: "haste", label: "Haste", tag: "gives-haste" },
+    { key: "anthems", label: "Anthems", tag: "anthem" },
+    { key: "combats", label: "Extra combats", tag: "extra-combat" },
   ];
 
-  CS.roleQuery = function (tag, colorIdentity) {
-    var colors = (colorIdentity || []).join("").toLowerCase() || "c";
-    return "id<=" + colors + " f:commander otag:" + tag + " order:edhrec";
+  function colorsFor(colorIdentity) {
+    return (colorIdentity || []).join("").toLowerCase() || "c";
+  }
+
+  CS.roleQuery = function (tag, colorIdentity, extra) {
+    return (
+      "id<=" +
+      colorsFor(colorIdentity) +
+      " f:commander otag:" +
+      tag +
+      (extra ? " " + extra : "") +
+      " order:edhrec"
+    );
   };
 
-  CS.roleSearchUrl = function (tag, colorIdentity) {
+  /** Every Commander-legal card in the colors, most played first (basics left out). */
+  CS.everythingQuery = function (colorIdentity) {
     return (
-      "https://api.scryfall.com/cards/search?q=" +
-      encodeURIComponent(CS.roleQuery(tag, colorIdentity))
+      "id<=" + colorsFor(colorIdentity) + " f:commander -t:basic order:edhrec"
     );
+  };
+
+  CS.searchUrl = function (query) {
+    return "https://api.scryfall.com/cards/search?q=" + encodeURIComponent(query);
+  };
+
+  CS.roleSearchUrl = function (tag, colorIdentity, extra) {
+    return CS.searchUrl(CS.roleQuery(tag, colorIdentity, extra));
+  };
+
+  /**
+   * Scryfall's next_page link, only if it really is a Scryfall search URL
+   * (it's fetched as-is, so nothing else gets through). Otherwise null.
+   */
+  CS.safeNextPage = function (res) {
+    var u = res && res.has_more ? res.next_page : null;
+    return typeof u === "string" &&
+      u.indexOf("https://api.scryfall.com/cards/search?") === 0
+      ? u
+      : null;
   };
 
   CS.edhrecUrl = function (commanderName) {
@@ -230,6 +271,56 @@
       CS.commanderSlug(commanderName) +
       ".json"
     );
+  };
+
+  var SUB_OK = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+  /**
+   * One of a commander's extra EDHREC pages: "budget", or a theme slug from
+   * the main page ("tokens"). `slug` is the commander's page slug. Returns
+   * null for anything that isn't a plain slug.
+   */
+  CS.edhrecSubUrl = function (slug, sub) {
+    if (!SUB_OK.test(String(slug)) || !SUB_OK.test(String(sub))) return null;
+    return (
+      "https://json.edhrec.com/pages/commanders/" + slug + "/" + sub + ".json"
+    );
+  };
+
+  /**
+   * Themes EDHREC lists for the commander (its "taglinks"), most decks
+   * first: [{slug, label, count}]. Themes with fewer than `minDecks` decks
+   * (default 20) are left out, as are odd slugs; at most `max` (default 15).
+   */
+  CS.edhrecThemes = function (edhrecJson, minDecks, max) {
+    var min = minDecks == null ? 20 : minDecks;
+    var cap = max == null ? 15 : max;
+    var links =
+      edhrecJson && edhrecJson.panels && edhrecJson.panels.taglinks;
+    if (!Array.isArray(links)) return [];
+    var seen = {};
+    return links
+      .filter(function (t) {
+        var good =
+          t &&
+          typeof t.slug === "string" &&
+          SUB_OK.test(t.slug) &&
+          t.slug !== "budget" &&
+          typeof t.value === "string" &&
+          t.value.trim() &&
+          typeof t.count === "number" &&
+          t.count >= min &&
+          !seen[t.slug];
+        if (good) seen[t.slug] = true;
+        return good;
+      })
+      .sort(function (a, b) {
+        return b.count - a.count;
+      })
+      .slice(0, cap)
+      .map(function (t) {
+        return { slug: t.slug, label: t.value.trim(), count: t.count };
+      });
   };
 
   // ---------------------------------------------------------------- piles
@@ -383,6 +474,82 @@
     return Object.keys(CS.edhrecById(edhrecJson)).map(function (id) {
       return { id: id };
     });
+  };
+
+  var BEST_TAGS = ["topcards", "highliftcards"];
+
+  /**
+   * One pile from a whole EDHREC page (a theme page or the budget page):
+   * its Top and High Lift cards first, in that order, then every other card
+   * by synergy (highest first; New Cards go here, since they have few decks
+   * behind them yet). Deck cards and basics are left out; each card once.
+   * Returns {key, label, cards}.
+   */
+  CS.buildEdhrecPagePile = function (key, label, edhrecJson, deckNames) {
+    var seen = {};
+    var best = [];
+    var rest = [];
+    CS.edhrecLists(edhrecJson).forEach(function (cl) {
+      var tag = cl.tag || "";
+      (Array.isArray(cl.cardviews) ? cl.cardviews : []).forEach(function (cv) {
+        if (
+          !cv ||
+          !cv.id ||
+          !cv.name ||
+          seen[cv.id] ||
+          skipCard(cv.name, deckNames)
+        )
+          return;
+        seen[cv.id] = true;
+        var rec = recFrom(cv, key);
+        var at = BEST_TAGS.indexOf(tag);
+        if (at === -1) rest.push(rec);
+        else best.push([at, best.length, rec]);
+      });
+    });
+    best.sort(function (a, b) {
+      return a[0] - b[0] || a[1] - b[1];
+    });
+    best = best.map(function (x) {
+      return x[2];
+    });
+    rest.sort(function (a, b) {
+      return b.synergy - a.synergy;
+    });
+    return { key: key, label: label, cards: best.concat(rest) };
+  };
+
+  /**
+   * More Scryfall search results for a pile already on screen: the cards
+   * not in it yet, in Scryfall's order. Cards EDHREC also recommends keep
+   * their EDHREC numbers. Deck cards and basics are left out.
+   */
+  CS.moreSearchCards = function (pile, scryCards, edhrecMap, deckNames) {
+    var have = {};
+    ((pile && pile.cards) || []).forEach(function (c) {
+      have[c.id] = true;
+    });
+    var out = [];
+    (scryCards || []).forEach(function (sc) {
+      if (!sc || !sc.id || have[sc.id] || skipCard(sc.name, deckNames)) return;
+      have[sc.id] = true;
+      var rec = edhrecMap && edhrecMap[sc.id];
+      out.push(
+        rec
+          ? Object.assign({}, rec, { section: pile.key })
+          : {
+              id: sc.id,
+              name: sc.name,
+              synergy: 0,
+              inclusion: 0,
+              numDecks: 0,
+              potentialDecks: 0,
+              section: pile.key,
+              onEdhrec: false,
+            },
+      );
+    });
+    return out;
   };
 
   /**

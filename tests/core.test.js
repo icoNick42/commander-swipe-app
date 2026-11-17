@@ -20,6 +20,19 @@ const edhrec = fs.existsSync(EDHREC_FILE)
 const needsEdhrec = {
   skip: edhrec ? false : "needs tests/fixtures/edhrec_zurgo.json (not in the public repo)",
 };
+// Two more EDHREC copies (Zurgo's budget and Tokens pages), also kept out of the repo.
+const readOptional = (f) =>
+  fs.existsSync(path.join(FIX, f)) ? JSON.parse(read(f)) : null;
+const edhrecBudget = readOptional("edhrec_zurgo_budget.json");
+const edhrecTokens = readOptional("edhrec_zurgo_tokens.json");
+const needsSubPages = {
+  skip:
+    edhrec && edhrecBudget && edhrecTokens
+      ? false
+      : "needs the EDHREC copies in tests/fixtures (not in the public repo)",
+};
+const searchAll1 = JSON.parse(read("scryfall_search_all_p1.json"));
+const searchAll2 = JSON.parse(read("scryfall_search_all_p2.json"));
 const deckScry = JSON.parse(read("scryfall_deck.json"));
 const recScry = JSON.parse(read("scryfall_recs.json"));
 const removalSearch = JSON.parse(read("scryfall_search_removal.json"));
@@ -578,4 +591,123 @@ test("saved state: junk history ids named like built-in properties are dropped",
   });
   assert.deepEqual(s.history, ["abc"]);
   assert.deepEqual(Object.keys(s.decisions), ["abc"]);
+});
+
+// ------------------------------------------------------------- cycle 5: deeper data
+
+test("role piles: 12 roles, unique keys, tutors leave lands out", () => {
+  assert.equal(CS.ROLES.length, 12);
+  assert.equal(new Set(CS.ROLES.map((r) => r.key)).size, 12);
+  const tutors = CS.ROLES.find((r) => r.key === "tutors");
+  assert.equal(
+    CS.roleQuery(tutors.tag, ["R", "W", "B"], tutors.extra),
+    "id<=rwb f:commander otag:tutor -t:land order:edhrec",
+  );
+  // the first five are unchanged
+  assert.deepEqual(
+    CS.ROLES.slice(0, 5).map((r) => r.tag),
+    ["removal", "ramp", "draw", "protection", "board-wipe"],
+  );
+});
+
+test("everything query: colors, Commander-legal, no basics, most played first", () => {
+  assert.equal(
+    CS.everythingQuery(["R", "W", "B"]),
+    "id<=rwb f:commander -t:basic order:edhrec",
+  );
+  assert.equal(CS.everythingQuery([]), "id<=c f:commander -t:basic order:edhrec");
+  assert.equal(
+    CS.searchUrl("a b"),
+    "https://api.scryfall.com/cards/search?q=a%20b",
+  );
+});
+
+test("next page: only Scryfall search links get through", () => {
+  assert.equal(CS.safeNextPage(searchAll1), searchAll1.next_page);
+  assert.equal(CS.safeNextPage({ has_more: false, next_page: searchAll1.next_page }), null);
+  assert.equal(CS.safeNextPage({ has_more: true, next_page: "https://evil.example/cards/search?q=x" }), null);
+  assert.equal(CS.safeNextPage({ has_more: true, next_page: "https://api.scryfall.com/cards/collection" }), null);
+  assert.equal(CS.safeNextPage(null), null);
+});
+
+test("EDHREC page URLs: budget and themes; odd slugs refused", () => {
+  assert.equal(
+    CS.edhrecSubUrl("zurgo-stormrender", "budget"),
+    "https://json.edhrec.com/pages/commanders/zurgo-stormrender/budget.json",
+  );
+  assert.equal(CS.edhrecSubUrl("zurgo-stormrender", "../x"), null);
+  assert.equal(CS.edhrecSubUrl("zurgo-stormrender", "a/b"), null);
+  assert.equal(CS.edhrecSubUrl("Zurgo", "tokens"), null);
+  assert.equal(CS.edhrecSubUrl("zurgo-stormrender", ""), null);
+});
+
+test("EDHREC themes: most decks first, small and odd ones left out", needsEdhrec, () => {
+  const themes = CS.edhrecThemes(edhrec);
+  assert.ok(themes.length > 0 && themes.length <= 15);
+  assert.equal(themes[0].slug, "tokens");
+  assert.equal(themes[0].label, "Tokens");
+  for (let i = 1; i < themes.length; i++)
+    assert.ok(themes[i - 1].count >= themes[i].count);
+  assert.ok(themes.every((t) => t.count >= 20));
+  const made = CS.edhrecThemes({
+    panels: {
+      taglinks: [
+        { slug: "ok", value: "OK", count: 50 },
+        { slug: "../bad", value: "Bad", count: 99 },
+        { slug: "budget", value: "Budget", count: 99 },
+        { slug: "ok", value: "Twice", count: 40 },
+        { slug: "few", value: "Few", count: 3 },
+        { slug: "noname", count: 70 },
+      ],
+    },
+  });
+  assert.deepEqual(made, [{ slug: "ok", label: "OK", count: 50 }]);
+  assert.deepEqual(CS.edhrecThemes({}), []);
+  assert.deepEqual(CS.edhrecThemes(null), []);
+});
+
+test("theme and budget piles: no deck cards or basics, each card once, best first", needsSubPages, () => {
+  for (const [key, page] of [["edhrec:budget", edhrecBudget], ["theme:tokens", edhrecTokens]]) {
+    const pile = CS.buildEdhrecPagePile(key, "x", page, deckNames);
+    assert.ok(pile.cards.length > 100, key + " has cards");
+    assert.equal(new Set(pile.cards.map((c) => c.id)).size, pile.cards.length);
+    for (const c of pile.cards) {
+      assert.ok(!deckNames[CS.nameKey(c.name)], key + ": " + c.name + " is in the deck");
+      assert.ok(!CS.isBasicLand(c.name));
+      assert.equal(c.section, key);
+      assert.equal(c.onEdhrec, true);
+    }
+  }
+  // Top cards lead; New Cards (few decks yet) don't
+  const top = CS.edhrecLists(edhrecBudget)
+    .find((cl) => cl.tag === "topcards")
+    .cardviews.find((cv) => !deckNames[CS.nameKey(cv.name)]);
+  assert.equal(CS.buildEdhrecPagePile("b", "B", edhrecBudget, deckNames).cards[0].id, top.id);
+  // the pages add cards the main page doesn't have
+  const main = CS.edhrecById(edhrec);
+  const budget = CS.buildEdhrecPagePile("b", "B", edhrecBudget, deckNames);
+  assert.ok(budget.cards.filter((c) => !main[c.id]).length >= 10);
+  assert.deepEqual(CS.buildEdhrecPagePile("k", "K", {}, deckNames).cards, []);
+});
+
+test("more search cards: only new ones, no deck cards, EDHREC numbers kept", needsEdhrec, () => {
+  const edMap = CS.edhrecById(edhrec);
+  const pile = { key: "all", cards: [] };
+  pile.cards = CS.moreSearchCards(pile, searchAll1.data, edMap, deckNames);
+  const n1 = pile.cards.length;
+  assert.ok(n1 > 50);
+  // page 1 again adds nothing
+  assert.deepEqual(CS.moreSearchCards(pile, searchAll1.data, edMap, deckNames), []);
+  const more = CS.moreSearchCards(pile, searchAll2.data, edMap, deckNames);
+  assert.ok(more.length > 50);
+  pile.cards = pile.cards.concat(more);
+  assert.equal(new Set(pile.cards.map((c) => c.id)).size, pile.cards.length);
+  for (const c of pile.cards) {
+    assert.ok(!deckNames[CS.nameKey(c.name)], c.name + " is in the deck");
+    assert.ok(!CS.isBasicLand(c.name));
+    assert.equal(c.section, "all");
+  }
+  const onE = pile.cards.filter((c) => c.onEdhrec);
+  assert.ok(onE.length > 0 && onE.every((c) => c.numDecks > 0));
+  assert.ok(pile.cards.some((c) => !c.onEdhrec));
 });

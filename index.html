@@ -263,6 +263,25 @@
       .piles button[aria-pressed="true"] .count {
         color: #cfe0ff;
       }
+      #pileChips {
+        display: contents;
+      }
+      .piles select {
+        flex: none;
+        max-width: 15rem;
+        padding: 5px 10px;
+        font-size: 0.88rem;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .piles select.active {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      .empty .more {
+        display: block;
+        margin: var(--space-3) auto 0;
+      }
 
       /* card stage */
       .stage {
@@ -546,6 +565,10 @@
           scrollbar-width: thin;
           scroll-padding: 0 var(--space-3);
         }
+        .piles select {
+          order: -1; /* the dropdowns first, where a phone shows them */
+          max-width: 8.5rem;
+        }
         .actions {
           max-width: 440px;
           margin-left: auto;
@@ -647,7 +670,11 @@
 
         <div class="layout">
           <div>
-            <nav class="piles" id="piles" aria-label="Piles"></nav>
+            <nav class="piles" id="piles" aria-label="Piles">
+              <span id="pileChips"></span>
+              <select id="roleSelect" aria-label="Role piles"></select>
+              <select id="themeSelect" aria-label="Theme piles" hidden></select>
+            </nav>
             <div class="stage" id="stage"></div>
             <div class="actions" id="actions">
               <button type="button" class="skip" data-choice="skip">
@@ -790,7 +817,7 @@
           text: "", // the export text that was loaded
           saveFailed: false,
         };
-        var edhrecCache = {}; // slug -> EDHREC page (or null if it failed); one fetch per visit
+        var edhrecCache = {}; // URL -> EDHREC page (or null if it failed); each page fetched at most once per visit
         var preloaded = [];
 
         function $(id) {
@@ -929,40 +956,49 @@
           );
         }
 
-        /** The commander's EDHREC page, fetched at most once per visit. */
-        function edhrecPage(name) {
-          var slug = CS.commanderSlug(name);
-          if (Object.prototype.hasOwnProperty.call(edhrecCache, slug)) {
-            var hit = edhrecCache[slug];
+        /** An EDHREC page, fetched at most once per visit (a failure isn't retried). */
+        function edhrecCached(url) {
+          if (Object.prototype.hasOwnProperty.call(edhrecCache, url)) {
+            var hit = edhrecCache[url];
             return hit
               ? Promise.resolve(hit)
               : Promise.reject(new Error("EDHREC didn't answer earlier"));
           }
-          return fetchEdhrecJson(CS.edhrecUrl(name))
-            .then(function (j) {
-              // Some EDHREC pages are a pointer to the real page.
-              if (
-                j &&
-                typeof j.redirect === "string" &&
-                /^\/commanders\/[a-z0-9-]+$/.test(j.redirect) &&
-                !CS.edhrecLists(j).length
-              ) {
-                return fetchEdhrecJson(
-                  "https://json.edhrec.com/pages" + j.redirect + ".json",
-                );
-              }
+          return fetchEdhrecJson(url).then(
+            function (j) {
+              edhrecCache[url] = j;
               return j;
-            })
-            .then(
-              function (j) {
-                edhrecCache[slug] = j;
-                return j;
-              },
-              function (e) {
-                edhrecCache[slug] = null;
-                throw e;
-              },
-            );
+            },
+            function (e) {
+              edhrecCache[url] = null;
+              throw e;
+            },
+          );
+        }
+
+        /**
+         * The commander's EDHREC page. Returns {page, slug}; slug is the
+         * page's own slug (it differs when EDHREC points to another page),
+         * used for the budget and theme pages.
+         */
+        function edhrecPage(name) {
+          var slug = CS.commanderSlug(name);
+          return edhrecCached(CS.edhrecUrl(name)).then(function (j) {
+            // Some EDHREC pages are a pointer to the real page.
+            if (
+              j &&
+              typeof j.redirect === "string" &&
+              /^\/commanders\/[a-z0-9-]+$/.test(j.redirect) &&
+              !CS.edhrecLists(j).length
+            ) {
+              return edhrecCached(
+                "https://json.edhrec.com/pages" + j.redirect + ".json",
+              ).then(function (p) {
+                return { page: p, slug: j.redirect.slice(12) };
+              });
+            }
+            return { page: j, slug: slug };
+          });
         }
 
         // ------------------------------------------------------------ saved data
@@ -1166,13 +1202,54 @@
             );
         }
 
-        function rolePileShell(role) {
+        /** A pile filled from Scryfall searches, a page (175 cards) at a time. */
+        function searchPileShell(key, label, group, query, role) {
           return {
-            key: "role:" + role.key,
-            label: role.label,
+            key: key,
+            label: label,
+            group: group,
+            kind: "search",
+            query: query,
+            role: role || null,
             cards: [],
-            kind: "role",
-            role: role,
+            loaded: false,
+            error: "",
+            next: null, // Scryfall's next page, if there is one
+            moreError: "",
+            autoPages: 0, // pages fetched on their own since the last swipe
+          };
+        }
+
+        function searchPiles(cmd) {
+          return [
+            searchPileShell(
+              "all",
+              "Everything in your colors",
+              "main",
+              CS.everythingQuery(cmd.colorIdentity),
+            ),
+          ].concat(
+            CS.ROLES.map(function (role) {
+              return searchPileShell(
+                "role:" + role.key,
+                role.label,
+                "role",
+                CS.roleQuery(role.tag, cmd.colorIdentity, role.extra),
+                role,
+              );
+            }),
+          );
+        }
+
+        /** A pile from one more EDHREC page (budget or a theme), fetched when opened. */
+        function edhrecPageShell(key, label, group, url) {
+          return {
+            key: key,
+            label: label,
+            group: group,
+            kind: "edhrec-page",
+            url: url,
+            cards: [],
             loaded: false,
             error: "",
           };
@@ -1186,7 +1263,7 @@
           S.state = CS.loadDeckState(store, S.deckId, cmd.name);
           S.edhrecMap = {};
           S.edhrecNote = "";
-          S.piles = CS.ROLES.map(rolePileShell);
+          S.piles = searchPiles(cmd);
           S.current = null;
           S.detailsLoading = true;
           saveLast();
@@ -1195,11 +1272,13 @@
 
           var namesP = loadDecidedNames();
           var edhrecP = edhrecPage(cmd.name)
-            .then(function (page) {
+            .then(function (found) {
               if (token !== S.token) return;
+              var page = found.page;
               var piles = CS.buildEdhrecPiles(page, S.deckNames).map(
                 function (p) {
                   p.kind = "edhrec";
+                  p.group = "main";
                   p.loaded = true;
                   return p;
                 },
@@ -1207,7 +1286,20 @@
               if (!piles.length)
                 throw new Error("no recommendations on the page");
               S.edhrecMap = CS.edhrecById(page);
-              S.piles = piles.concat(S.piles);
+              var budgetUrl = CS.edhrecSubUrl(found.slug, "budget");
+              if (budgetUrl)
+                piles.push(
+                  edhrecPageShell("edhrec:budget", "Budget", "main", budgetUrl),
+                );
+              var themes = CS.edhrecThemes(page)
+                .map(function (t) {
+                  var url = CS.edhrecSubUrl(found.slug, t.slug);
+                  return url
+                    ? edhrecPageShell("theme:" + t.slug, t.label, "theme", url)
+                    : null;
+                })
+                .filter(Boolean);
+              S.piles = piles.concat(S.piles, themes);
               S.current = S.current || piles[0].key;
               render();
               return loadCardInfo(
@@ -1223,7 +1315,7 @@
                 cmd.name +
                 " (" +
                 err.message +
-                "). The role piles below still work, from Scryfall only.";
+                "). The Scryfall piles still work: Everything in your colors, and the role piles.";
             });
           Promise.all([namesP, edhrecP]).then(
             function () {
@@ -1264,50 +1356,142 @@
           var pile = pileByKey(key);
           if (!pile) return;
           S.current = key;
-          if (pile.kind === "role" && !pile.loaded && !pile.loading) {
-            var token = S.token;
-            pile.loading = true;
-            pile.error = "";
-            scryfall(CS.roleSearchUrl(pile.role.tag, S.commander.colorIdentity))
-              .catch(function (err) {
-                if (err.status === 404) return { data: [] };
-                throw err;
-              })
-              .then(function (res) {
-                if (token !== S.token) return;
-                var list = res.data || [];
-                list.forEach(function (sc) {
-                  if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
-                });
-                var built = CS.buildRolePile(
-                  pile.role,
-                  list,
-                  S.edhrecMap,
-                  S.deckNames,
-                );
-                pile.cards = built.cards;
-                pile.loaded = true;
-                // EDHREC cards in this pile that weren't on page 1 of Scryfall's answer
-                return loadCardInfo(
-                  built.cards.map(function (c) {
-                    return c.id;
-                  }),
-                );
-              })
-              .catch(function (err) {
-                if (token !== S.token) return;
+          if (!pile.loaded && !pile.loading) {
+            if (pile.kind === "search")
+              loadSearchPage(pile, CS.searchUrl(pile.query), true);
+            else if (pile.kind === "edhrec-page") loadEdhrecPagePile(pile);
+          }
+          render();
+        }
+
+        /**
+         * One page of a search pile from Scryfall. The first page builds the
+         * pile (for a role pile, cards EDHREC also recommends come first);
+         * later pages add the cards not in it yet.
+         */
+        function loadSearchPage(pile, url, first) {
+          var token = S.token;
+          pile.loading = true;
+          if (first) pile.error = "";
+          pile.moreError = "";
+          scryfall(url)
+            .catch(function (err) {
+              if (err.status === 404) return { data: [] };
+              throw err;
+            })
+            .then(function (res) {
+              if (token !== S.token) return;
+              var list = res.data || [];
+              list.forEach(function (sc) {
+                if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
+              });
+              var add =
+                first && pile.role
+                  ? CS.buildRolePile(
+                      pile.role,
+                      list,
+                      S.edhrecMap,
+                      S.deckNames,
+                      Infinity,
+                    ).cards
+                  : CS.moreSearchCards(pile, list, S.edhrecMap, S.deckNames);
+              pile.cards = pile.cards.concat(add);
+              pile.next = CS.safeNextPage(res);
+              pile.loaded = true;
+              // EDHREC cards in a role pile that weren't in Scryfall's answer
+              return loadCardInfo(
+                add.map(function (c) {
+                  return c.id;
+                }),
+              );
+            })
+            .catch(function (err) {
+              if (token !== S.token) return;
+              if (first && !pile.loaded)
                 pile.error =
                   "Couldn't load this pile from Scryfall (" +
                   err.message +
                   "). Open it again to retry.";
-              })
-              .then(function () {
-                if (token !== S.token) return;
-                pile.loading = false;
-                render();
-              });
-          }
+              else
+                pile.moreError =
+                  "Couldn't load more cards from Scryfall (" +
+                  err.message +
+                  ").";
+            })
+            .then(function () {
+              if (token !== S.token) return;
+              pile.loading = false;
+              render();
+            });
+        }
+
+        /**
+         * Keeps a search pile topped up: when fewer than 15 cards are left,
+         * the next page loads. At most 3 pages load on their own between
+         * swipes (strict filters can hide most of a page); after that a
+         * "Load more" button asks first.
+         */
+        function maybeLoadMore() {
+          var pile = pileByKey(S.current);
+          if (
+            !pile ||
+            pile.kind !== "search" ||
+            !pile.loaded ||
+            pile.loading ||
+            !pile.next ||
+            pile.moreError ||
+            pile.autoPages >= 3 ||
+            remaining(pile) >= 15
+          )
+            return;
+          pile.autoPages++;
+          loadSearchPage(pile, pile.next, false);
+        }
+
+        function loadMoreNow() {
+          var pile = pileByKey(S.current);
+          if (!pile || !pile.next || pile.loading) return;
+          pile.autoPages = 0;
+          loadSearchPage(pile, pile.next, false);
           render();
+        }
+
+        /** A budget or theme pile: its EDHREC page, fetched once, when first opened. */
+        function loadEdhrecPagePile(pile) {
+          var token = S.token;
+          pile.loading = true;
+          pile.error = "";
+          edhrecCached(pile.url)
+            .then(function (page) {
+              if (token !== S.token) return;
+              var built = CS.buildEdhrecPagePile(
+                pile.key,
+                pile.label,
+                page,
+                S.deckNames,
+              );
+              return loadCardInfo(
+                built.cards.map(function (c) {
+                  return c.id;
+                }),
+              ).then(function () {
+                if (token !== S.token) return;
+                pile.cards = built.cards;
+                pile.loaded = true;
+              });
+            })
+            .catch(function (err) {
+              if (token !== S.token) return;
+              pile.error =
+                "EDHREC didn't send this page (" +
+                err.message +
+                "). The other piles still work.";
+            })
+            .then(function () {
+              if (token !== S.token) return;
+              pile.loading = false;
+              render();
+            });
         }
 
         // ------------------------------------------------------------ swiping
@@ -1334,6 +1518,8 @@
           // deck change or a closed tab.
           S.state = CS.decide(latestState(), rec.id, choice, Date.now());
           persist();
+          var cur = pileByKey(S.current);
+          if (cur) cur.autoPages = 0;
           var info = S.cardInfo[rec.id];
           status(VERB[choice] + ": " + (info ? info.name : rec.name));
           var card = document.querySelector("#stage .card");
@@ -1457,6 +1643,7 @@
           renderPiles();
           renderStage();
           renderLists();
+          maybeLoadMore();
         }
 
         function renderNotices() {
@@ -1479,15 +1666,18 @@
             .length;
         }
 
+        function pileCount(p) {
+          if (!p.loaded || (p.kind === "edhrec" && S.detailsLoading))
+            return "\u2026";
+          return String(remaining(p)) + (p.next ? "+" : "");
+        }
+
         function renderPiles() {
-          var nav = $("piles");
-          nav.textContent = "";
+          var chips = $("pileChips");
+          chips.textContent = "";
           S.piles.forEach(function (p) {
-            var count =
-              p.loaded && !(p.kind === "edhrec" && S.detailsLoading)
-                ? String(remaining(p))
-                : "\u2026";
-            nav.appendChild(
+            if (p.group === "role" || p.group === "theme") return;
+            chips.appendChild(
               el(
                 "button",
                 {
@@ -1497,10 +1687,49 @@
                     openPile(p.key);
                   },
                 },
-                [p.label, el("span", { class: "count", text: count })],
+                [p.label, el("span", { class: "count", text: pileCount(p) })],
               ),
             );
           });
+          fillPileSelect($("roleSelect"), "role", "Roles\u2026");
+          fillPileSelect($("themeSelect"), "theme", "Themes\u2026");
+        }
+
+        /**
+         * Role and theme piles sit in two dropdowns, so the pile row stays
+         * short. Options are rebuilt only when the set of piles changes, so
+         * a dropdown in use keeps its focus.
+         */
+        function fillPileSelect(sel, group, placeholder) {
+          var list = S.piles.filter(function (p) {
+            return p.group === group;
+          });
+          sel.hidden = !list.length;
+          var want = [""].concat(
+            list.map(function (p) {
+              return p.key;
+            }),
+          );
+          var have = Array.prototype.map.call(sel.options, function (o) {
+            return o.value;
+          });
+          if (want.join("\n") !== have.join("\n")) {
+            sel.textContent = "";
+            sel.appendChild(el("option", { value: "", text: placeholder }));
+            list.forEach(function (p) {
+              sel.appendChild(el("option", { value: p.key }));
+            });
+          }
+          list.forEach(function (p, i) {
+            var text = p.loaded ? p.label + " (" + pileCount(p) + ")" : p.label;
+            if (sel.options[i + 1].textContent !== text)
+              sel.options[i + 1].textContent = text;
+          });
+          var active = list.some(function (p) {
+            return p.key === S.current;
+          });
+          sel.value = active ? S.current : "";
+          sel.classList.toggle("active", active);
         }
 
         function cardAlt(info) {
@@ -1543,12 +1772,33 @@
           var next = CS.nextCards(pile, S.state, settings, S.cardInfo, 3);
           if (!next.length) {
             setButtons(false);
-            stage.appendChild(
-              el("p", {
-                class: "empty",
-                text: "Nothing left in this pile with the current filters. Try another pile, or loosen the filters.",
-              }),
-            );
+            if (pile.next && pile.loading) {
+              stage.appendChild(
+                el("p", { class: "empty", text: "Loading more cards..." }),
+              );
+            } else if (pile.next) {
+              stage.appendChild(
+                el("p", { class: "empty" }, [
+                  pile.moreError ||
+                    "None of the " +
+                      pile.cards.length +
+                      " cards loaded so far pass the current filters.",
+                  el("button", {
+                    type: "button",
+                    class: "more primary",
+                    text: pile.moreError ? "Try again" : "Load more",
+                    onclick: loadMoreNow,
+                  }),
+                ]),
+              );
+            } else {
+              stage.appendChild(
+                el("p", {
+                  class: "empty",
+                  text: "Nothing left in this pile with the current filters. Try another pile, or loosen the filters.",
+                }),
+              );
+            }
             return;
           }
           setButtons(true);
@@ -1794,6 +2044,19 @@
           },
         );
         $("undoBtn").addEventListener("click", undo);
+        // Picked with the mouse or a finger: move focus off the dropdown, so the
+        // arrow keys swipe again instead of changing the pile.
+        ["roleSelect", "themeSelect"].forEach(function (id) {
+          var byPointer = false;
+          $(id).addEventListener("mousedown", function () {
+            byPointer = true;
+          });
+          $(id).addEventListener("change", function () {
+            if (this.value) openPile(this.value);
+            if (byPointer) this.blur();
+            byPointer = false;
+          });
+        });
         $("copyBtn").addEventListener("click", copyForMoxfield);
 
         document.addEventListener("keydown", function (e) {

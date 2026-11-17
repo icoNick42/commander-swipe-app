@@ -6,7 +6,14 @@ Swipe through card ideas for a Magic: The Gathering Commander deck.
 2. **Swipe.** Right adds a card, left skips it, up puts it on a "maybe" list. On a computer, the arrow keys do the same, and Z undoes.
 3. **Copy back.** "Copy for Moxfield" copies your picks as `1 Card Name` lines, ready for Moxfield's bulk edit.
 
-Recommendations come from EDHREC's page for your commander, sorted into piles (best cards, creatures, lands and so on). Role piles (removal, ramp, card draw, protection, board wipes) come from Scryfall searches in your commander's colors, so they still work if EDHREC is down or has no page for your commander.
+Recommendations come from EDHREC's page for your commander, sorted into piles (best cards, creatures, lands and so on), plus its Budget page and its theme pages (Tokens, Aristocrats and the like, under Themes).
+
+From Scryfall, searched in your commander's colors:
+
+- **Everything in your colors:** every Commander-legal card, most played first. It loads more as you swipe.
+- **Roles:** removal, ramp, card draw, protection, board wipes, tutors, recursion, sacrifice outlets, token makers, haste, anthems and extra combats. These load more as you swipe, too.
+
+The Scryfall piles still work if EDHREC is down or has no page for your commander.
 
 Game Changers are hidden by default. You can change that, set a max price, or pick card types under Filters.
 
