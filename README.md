@@ -4,7 +4,9 @@ Swipe through card ideas for a Magic: The Gathering Commander deck.
 
 1. **Paste your deck.** In Moxfield, open your deck, then More > Export > Copy for Moxfield. Back on this page, press **Paste and load**. (If your browser won't let the page read the clipboard, paste into the box instead: a whole deck replaces whatever is there and loads on its own. **Clear** empties the box.)
 2. **Swipe.** Right adds a card, left skips it, up puts it on a "maybe" list. On a computer, the arrow keys do the same, and Z undoes.
-3. **Copy back.** "Copy for Moxfield" copies your picks as `1 Card Name` lines, ready for Moxfield's bulk edit.
+3. **Copy back.** **Copy picks** copies your picks as `1 Card Name` lines, ready for Moxfield's bulk edit. If you also cut cards, **Copy whole deck** copies the full list with your cuts taken out and your picks added (your printings kept): in Moxfield's Bulk Edit, select all and paste over it.
+
+**Changing your deck.** Cut cards right on the page (Your deck > Cut ideas, or Your deck > All cards), and the Deck total line keeps count against 100. When an Add takes the deck over 100, a line under the buttons offers a card to cut for it, with the reason one tap away. After you update the deck in Moxfield, press **Change deck** and paste the new export: your swipes, picks and cuts carry over (picks that are in the deck now leave the Added list, and cuts you made in Moxfield are done). If it picked up the wrong deck, **Start fresh instead** is under the deck line until you make a change (the earlier version keeps its own copy either way). **Back to swiping** returns you to where you were.
 
 Recommendations come from EDHREC's page for your commander, sorted into piles (best cards, creatures, lands and so on), plus its Budget page and its theme pages (Tokens, Aristocrats and the like, under Themes).
 
@@ -18,7 +20,9 @@ The Scryfall piles still work if EDHREC is down or has no page for your commande
 **Fit score.** Every card also gets a Fit score from 0 to 100, worked out in your browser from the rules text of your deck and the card. A card scores when it feeds what your deck's cards want (a token maker for your sacrifice outlets) or wants what they make (a death trigger for a deck that sacrifices a lot). Your commander counts three times, creature types count a little, and so do roles your deck is short on. Tap the Fit line under a card to see why. Fit says how well a card ties into your deck's plan, not how strong it is: Swords to Plowshares scores low, and it's still great.
 
 - **Highest Fit:** every card the other piles have loaded, best Fit first.
-- **Your deck:** your deck's own score (the average Fit of its cards against each other), its main plans, its five least-connected cards, and how many cards it has in each role.
+- **Your deck:** your deck's own score (the average Fit of its cards against each other), its main plans, cut ideas with the reason for each, how many cards it has in each role, and every card with a Cut button.
+
+**Cut ideas.** Weak Fit, a role the deck has more of than usual, costing 6 or more without being part of the plan, and Game Changers push a card up the list. Never suggested: your commander, lands, staples (role cards most decks run), pieces of a combo you already have, and a card whose cut would drop your ramp, card draw, removal or board wipes below the usual count. When you add a card, the cut it suggests does the same job when it can (removal for removal); a land pairs with a basic land.
 
 **Combos.** For commanders with a combo list, a **Combos** pile shows cards that would complete a combo with cards already in your deck, lowest bracket first. A "Combo" badge on any card opens the combos it completes: the other pieces, what the combo does, its bracket and a link to the steps on Commander Spellbook. Combos in the bracket 3+ range get an amber badge, so you can keep your deck at your table's power level. The Your deck panel counts the combos you already have. Combo lists are made ahead of time, one commander at a time (Commander Spellbook's site can't be read from another web page), so for now only Zurgo Stormrender has one.
 

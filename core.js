@@ -68,16 +68,21 @@
   var MARKERS = /\s\*[A-Z]+\*/g; // *F* foil, *E* etched, and the like
   var SECTION_WORDS =
     /^(commanders?|companions?|deck|main ?deck|mainboard|sideboard|maybeboard|considering|tokens?)$/i;
+  // Sections that aren't part of the 100 (cycle 8: counts, cuts and the whole-deck copy skip them).
+  var SIDE_WORDS = /^(sideboard|maybeboard|considering|tokens?)$/i;
 
   /**
    * Reads a Moxfield Export.
-   * Returns {cards: [{qty, name, set, number, lineNo}], unread: [{lineNo, text}]}.
+   * Returns {cards: [{qty, name, set, number, lineNo, side}], unread: [{lineNo, text}]}.
    * Blank lines, // comments and section headers ("SIDEBOARD:") are skipped
-   * quietly; any other line that isn't a card goes in `unread`.
+   * quietly; any other line that isn't a card goes in `unread`. `side` is
+   * true for cards under a sideboard, maybeboard, considering or tokens
+   * header (not part of the 100).
    */
   CS.parseExport = function (text) {
     var cards = [];
     var unread = [];
+    var side = false;
     String(text || "")
       .replace(/^\uFEFF/, "")
       .split(/\r?\n/)
@@ -92,11 +97,15 @@
             set: m[3] ? m[3].toLowerCase() : null,
             number: m[4] || null,
             lineNo: i + 1,
+            side: side,
           });
           return;
         }
         var bare = line.replace(/:$/, "").trim();
-        if (/:$/.test(line) || SECTION_WORDS.test(bare)) return; // section header
+        if (/:$/.test(line) || SECTION_WORDS.test(bare)) {
+          side = SIDE_WORDS.test(bare); // section header
+          return;
+        }
         unread.push({ lineNo: i + 1, text: raw });
       });
     return { cards: cards, unread: unread };
@@ -185,6 +194,7 @@
       gameChanger: sc.game_changer === true,
       colorIdentity: sc.color_identity || [],
       edhrecRank: sc.edhrec_rank != null ? sc.edhrec_rank : null,
+      cmc: typeof sc.cmc === "number" ? sc.cmc : null,
     };
   };
 
@@ -1256,9 +1266,11 @@
     });
     var scored = [];
     var staples = [];
+    var fits = {};
     profile.cards.forEach(function (c) {
       if (c.commander || c.land || !byId[c.id]) return;
       var f = CS.fitScore(byId[c.id], profile, c.id);
+      fits[c.id] = f.score;
       var isRole = Object.keys(c.roles).length > 0;
       if (isRole && f.score < 50) staples.push(c.name);
       else scored.push({ name: c.name, id: c.id, score: f.score });
@@ -1303,7 +1315,179 @@
       staples: staples,
       scored: scored.length,
       roleCount: profile.roleCount,
+      fits: fits,
     };
+  };
+
+  // ---------------------------------------------------------------- cut suggestions
+
+  // Roles a deck shouldn't drop below (taxonomy: ramp, card advantage,
+  // targeted and mass disruption). A card that keeps one of these at or
+  // under its typical count isn't suggested as a cut.
+  var KEEP_ROLES = { ramp: true, draw: true, removal: true, wipes: true };
+  var STAPLE_RANK = 500; // EDHREC rank at or under which a role card counts as a staple
+
+  /**
+   * Cards worth cutting, best idea first (from data/synergy-taxonomy.json
+   * cut_score, simplified): weak Fit, a role the deck has more of than
+   * usual, costing 6+ while not part of the plan, and Game Changers (for an
+   * LGS-friendly deck). Never suggested: the commander, lands, cards in a
+   * combo the deck already has, cards with Fit 75+, and a card whose cut
+   * would drop ramp, card draw, removal or board wipes below the typical
+   * count.
+   * `syn`: CS.deckSynergy result; `slims`: the deck's slim cards;
+   * opts: {protect: {nameKey: true}, cuts: {name: n}}.
+   * Returns [{id, name, score (0-100), fit, reasons: [string], roles: [key], cmc}].
+   */
+  CS.cutSuggestions = function (profile, syn, slims, opts) {
+    var o = opts || {};
+    var protect = o.protect || {};
+    var cutKeys = {};
+    Object.keys(o.cuts || {}).forEach(function (n) {
+      cutKeys[CS.nameKey(n)] = true;
+    });
+    var byId = {};
+    (slims || []).forEach(function (s) {
+      if (s) byId[s.id] = s;
+    });
+    var roleCount = profile.roleCount || {};
+    var roleInfo = {};
+    CS.SYN_ROLES.forEach(function (r) {
+      roleInfo[r.key] = r;
+    });
+    var out = [];
+    profile.cards.forEach(function (c) {
+      if (c.commander || c.land) return;
+      var key = CS.nameKey(c.name);
+      if (protect[key] || cutKeys[key]) return;
+      var fit = syn && syn.fits && typeof syn.fits[c.id] === "number" ? syn.fits[c.id] : null;
+      if (fit == null || fit >= 75) return;
+      var roles = Object.keys(c.roles);
+      var keeps = roles.filter(function (r) {
+        return KEEP_ROLES[r] && (roleCount[r] || 0) <= roleInfo[r].target;
+      });
+      if (keeps.length) return;
+      var reasons = [];
+      var surplus = 0;
+      var surplusRole = null;
+      roles.forEach(function (r) {
+        var t = roleInfo[r].target;
+        var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - t) / t));
+        if (x > surplus) {
+          surplus = x;
+          surplusRole = r;
+        }
+      });
+      var slim = byId[c.id] || {};
+      var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
+      var offCurve = cmc != null && cmc >= 6 && fit < 60 ? 1 : 0;
+      var gc = slim.gameChanger ? 1 : 0;
+      // Staples: a role card most decks run (high on EDHREC) is kept;
+      // other role cards count weak Fit for less, since ramp and removal
+      // rarely tie in to a theme (taxonomy "staple damping").
+      var rank = typeof slim.edhrecRank === "number" ? slim.edhrecRank : null;
+      if (roles.length && rank != null && rank <= STAPLE_RANK) return;
+      var lowFit = (1 - fit / 100) * (roles.length ? 0.4 : 1);
+      var score = 0.5 * lowFit + 0.25 * surplus + 0.15 * offCurve + 0.1 * gc;
+      if (fit < 40 && !roles.length)
+        reasons.push("Weak fit (Fit " + fit + "): ties in to little else here");
+      if (surplusRole)
+        reasons.push(
+          roleInfo[surplusRole].label + ": " + roleCount[surplusRole] +
+            " in the deck, about " + roleInfo[surplusRole].target + " is typical",
+        );
+      if (offCurve) reasons.push("Costs " + cmc + " and isn't part of the deck's plan");
+      if (gc) reasons.push("Game Changer (raises the deck's bracket)");
+      if (!reasons.length) reasons.push("Fit " + fit + ", lower than most of the deck");
+      out.push({
+        id: c.id,
+        name: c.name,
+        score: Math.round(score * 100),
+        fit: fit,
+        reasons: reasons,
+        roles: roles,
+        cmc: cmc,
+      });
+    });
+    out.sort(function (a, b) {
+      return b.score - a.score || a.fit - b.fit || (a.name < b.name ? -1 : 1);
+    });
+    return out;
+  };
+
+  /**
+   * What to cut for a card just added (taxonomy swap_pairing, simplified):
+   * a cut idea scores higher when it does the same job, works the same theme,
+   * or costs about the same. A land pairs with a basic land.
+   * `added`: the added card (slim); `ideas`: CS.cutSuggestions result;
+   * `deckCards`: parsed export lines (for basics); `cuts`: current cuts.
+   * Returns up to 3 [{name, id (null for a basic), why}].
+   */
+  CS.swapSuggestions = function (added, ideas, profile, deckCards, cuts) {
+    if (!added) return [];
+    var me = CS.cardTraits(added);
+    if (me.land) {
+      var cutLeft = cuts || {};
+      var basics = {};
+      (deckCards || []).forEach(function (c) {
+        if (!CS.isBasicLand(c.name)) return;
+        var cutN = 0;
+        Object.keys(cutLeft).forEach(function (n) {
+          if (CS.nameKey(n) === CS.nameKey(c.name)) cutN += cutLeft[n];
+        });
+        var have = (basics[c.name] ? basics[c.name].have : 0) + (c.qty || 1);
+        basics[c.name] = { name: c.name, have: have, cut: cutN };
+      });
+      return Object.keys(basics)
+        .map(function (n) {
+          return basics[n];
+        })
+        .filter(function (b) {
+          return b.have - b.cut > 0;
+        })
+        .sort(function (a, b) {
+          return b.have - b.cut - (a.have - a.cut) || (a.name < b.name ? -1 : 1);
+        })
+        .slice(0, 3)
+        .map(function (b) {
+          return { name: b.name, id: null, why: "a basic land, for a land" };
+        });
+    }
+    var traits = {};
+    profile.cards.forEach(function (c) {
+      traits[c.id] = c;
+    });
+    var myRoles = Object.keys(me.roles);
+    var myLabels = Object.keys(me.gives).concat(Object.keys(me.wants));
+    var cmc = typeof added.cmc === "number" ? added.cmc : null;
+    var roleLabel = {};
+    CS.SYN_ROLES.forEach(function (r) {
+      roleLabel[r.key] = r.label.toLowerCase();
+    });
+    return (ideas || [])
+      .map(function (y) {
+        var t = traits[y.id] || { gives: {}, wants: {}, roles: {} };
+        var sameRole = myRoles.filter(function (r) {
+          return t.roles[r];
+        })[0];
+        var sameTheme = myLabels.some(function (l) {
+          return t.gives[l] || t.wants[l];
+        });
+        var mvClose =
+          cmc != null && y.cmc != null ? 1 - Math.min(Math.abs(cmc - y.cmc), 4) / 4 : 0;
+        var pair = y.score / 100 + (sameRole ? 0.5 : 0) + (sameTheme ? 0.3 : 0) + 0.1 * mvClose;
+        var why = sameRole
+          ? "does the same job (" + roleLabel[sameRole] + "), weaker fit"
+          : y.reasons[0].charAt(0).toLowerCase() + y.reasons[0].slice(1);
+        return { name: y.name, id: y.id, why: why, pair: pair };
+      })
+      .sort(function (a, b) {
+        return b.pair - a.pair || (a.name < b.name ? -1 : 1);
+      })
+      .slice(0, 3)
+      .map(function (x) {
+        return { name: x.name, id: x.id, why: x.why };
+      });
   };
 
   // ---------------------------------------------------------------- filters
@@ -1401,15 +1585,57 @@
     return CS.commanderSlug(commanderName) + "-" + CS.hash(names.join("\n"));
   };
 
-  CS.newDeckState = function (commanderName, now) {
+  /**
+   * Saved swipes for one deck. Format v2 (cycle 8) adds `cards` (the deck's
+   * sorted name keys, so an edited version of the deck can find this save),
+   * `cuts` ({card name as in the export: copies to cut}) and `removed`
+   * (name keys of cards that left the deck in an edit, so a pick that was
+   * added and later cut doesn't come back as a pick). v2 saves are kept
+   * under `cs:deck2:<id>`; v1 saves stay under `cs:deck:<id>` untouched.
+   */
+  CS.newDeckState = function (commanderName, now, cards) {
     return {
-      v: 1,
+      v: 2,
       commander: commanderName,
+      cards: Array.isArray(cards) ? cards.slice() : null,
       decisions: {},
       history: [],
+      cuts: {},
+      removed: [],
       updated: now || 0,
     };
   };
+
+  /** Storage key (without "cs:") of a deck's v2 save, and of its v1 save. */
+  CS.deckKey = function (deckId) {
+    return "deck2:" + deckId;
+  };
+  CS.oldDeckKey = function (deckId) {
+    return "deck:" + deckId;
+  };
+
+  /** The deck's names as sorted keys (what a v2 save keeps in `cards`). */
+  CS.deckKeys = function (cards) {
+    return Object.keys(CS.deckNameSet(cards || [])).sort();
+  };
+
+  function cleanCuts(src) {
+    var out = {};
+    if (!src || typeof src !== "object" || Array.isArray(src)) return out;
+    Object.keys(src).forEach(function (name) {
+      var n = src[name];
+      if (
+        typeof name === "string" &&
+        name.trim() &&
+        typeof n === "number" &&
+        n >= 1 &&
+        n <= 99 &&
+        Math.floor(n) === n
+      )
+        out[name] = n;
+    });
+    return out;
+  }
 
   /**
    * Checks a saved deck state. Returns a clean v1 state, or null if it
@@ -1417,7 +1643,12 @@
    * format changes, convert older versions here.
    */
   CS.migrateDeckState = function (saved) {
-    if (!saved || typeof saved !== "object" || saved.v !== 1) return null;
+    if (
+      !saved ||
+      typeof saved !== "object" ||
+      (saved.v !== 1 && saved.v !== 2)
+    )
+      return null;
     var decisions = {};
     var src =
       saved.decisions && typeof saved.decisions === "object"
@@ -1434,21 +1665,40 @@
           );
         })
       : [];
+    // v1 saves (before cycle 8) have no card list and no cuts.
+    var cards =
+      saved.v === 2 && Array.isArray(saved.cards)
+        ? saved.cards.filter(function (k) {
+            return typeof k === "string";
+          })
+        : null;
+    var removed =
+      saved.v === 2 && Array.isArray(saved.removed)
+        ? saved.removed.filter(function (k) {
+            return typeof k === "string";
+          })
+        : [];
     return {
-      v: 1,
+      v: 2,
       commander: typeof saved.commander === "string" ? saved.commander : "",
+      cards: cards,
       decisions: decisions,
       history: history,
+      cuts: saved.v === 2 ? cleanCuts(saved.cuts) : {},
+      removed: removed,
       updated: typeof saved.updated === "number" ? saved.updated : 0,
     };
   };
 
   function copyState(state) {
     return {
-      v: 1,
+      v: 2,
       commander: state.commander,
+      cards: state.cards ? state.cards.slice() : null,
       decisions: Object.assign({}, state.decisions),
       history: state.history.slice(),
+      cuts: Object.assign({}, state.cuts || {}),
+      removed: (state.removed || []).slice(),
       updated: state.updated,
     };
   }
@@ -1497,7 +1747,7 @@
   };
 
   /**
-   * "Copy for Moxfield" text: one "1 Card Name" per line, nothing else.
+   * "Copy picks" text: one "1 Card Name" per line, nothing else.
    * Takes card names (Scryfall's full names, "Front // Back" for
    * double-faced cards).
    */
@@ -1507,6 +1757,220 @@
         return "1 " + String(n).trim();
       })
       .join("\n");
+  };
+
+  // ---------------------------------------------------------------- edited decks
+
+  var CARRY_MIN = 0.6; // share of cards two versions of a deck must have in common
+
+  /**
+   * Finds the save to carry over when a deck is pasted again after edits
+   * (picks added, cards cut), so the swipes aren't lost.
+   * `entries`: [{key: "deck2:<id>", state: migrated state}] from storage;
+   * `slug`: the commander's slug; `newKeys`: CS.deckKeys of the new paste.
+   * Only saves for the same commander that know their cards count (v1
+   * saves don't, so they're never carried), and they must share at least
+   * 60% of their cards. Most shared wins, then the most recent. Empty
+   * saves are ignored. Returns {key, state, overlap (0-1)} or null.
+   */
+  CS.findCarrySource = function (entries, slug, newKeys, minOverlap) {
+    var min = typeof minOverlap === "number" ? minOverlap : CARRY_MIN;
+    var prefix = CS.deckKey(slug + "-");
+    var newSet = {};
+    (newKeys || []).forEach(function (k) {
+      newSet[k] = true;
+    });
+    var best = null;
+    (entries || []).forEach(function (e) {
+      if (!e || !e.state || typeof e.key !== "string") return;
+      if (e.key.indexOf(prefix) !== 0) return;
+      if (!/^[0-9a-f]{8}$/.test(e.key.slice(prefix.length))) return; // another commander whose slug starts the same
+      var s = e.state;
+      if (!Object.keys(s.decisions).length && !Object.keys(s.cuts || {}).length)
+        return;
+      if (!s.cards) return;
+      var shared = s.cards.filter(function (k) {
+        return newSet[k];
+      }).length;
+      var size = Math.max(s.cards.length, (newKeys || []).length);
+      var overlap = size ? shared / size : 0;
+      if (overlap < min) return;
+      var cand = { key: e.key, state: s, overlap: overlap };
+      if (
+        !best ||
+        overlap > best.overlap ||
+        (overlap === best.overlap && (s.updated || 0) > (best.state.updated || 0))
+      )
+        best = cand;
+    });
+    return best;
+  };
+
+  /**
+   * Cuts still to make: drops cuts for cards no longer in the deck (done in
+   * Moxfield) and caps each at the copies the deck has.
+   * `cards`: parsed export lines.
+   */
+  CS.liveCuts = function (cuts, cards) {
+    var have = {};
+    var label = {};
+    (cards || []).forEach(function (c) {
+      if (c.side) return;
+      var k = CS.nameKey(c.name);
+      have[k] = (have[k] || 0) + (c.qty || 1);
+      if (!label[k]) label[k] = c.name;
+    });
+    var out = {};
+    Object.keys(cuts || {}).forEach(function (name) {
+      var k = CS.nameKey(name);
+      if (!have[k]) return;
+      var n = Math.min(cuts[name], have[k]);
+      if (n >= 1) out[label[k]] = (out[label[k]] || 0) + n;
+    });
+    Object.keys(out).forEach(function (n) {
+      out[n] = Math.min(out[n], have[CS.nameKey(n)]);
+    });
+    return out;
+  };
+
+  /**
+   * A carried-over save made fit for the new paste: the new card list, cuts
+   * trimmed to what's still in the deck, and the cards that left the deck
+   * added to `removed` (cards back in the deck come off it). Swipes stay
+   * as they were.
+   */
+  CS.carryOver = function (state, newKeys, cards, now) {
+    var s = copyState(state);
+    var keys = (newKeys || []).slice();
+    var inNew = {};
+    keys.forEach(function (k) {
+      inNew[k] = true;
+    });
+    var removed = {};
+    s.removed.forEach(function (k) {
+      if (!inNew[k]) removed[k] = true;
+    });
+    (s.cards || []).forEach(function (k) {
+      if (!inNew[k]) removed[k] = true;
+    });
+    s.removed = Object.keys(removed).sort();
+    s.cards = keys;
+    s.cuts = CS.liveCuts(s.cuts, cards);
+    s.updated = now || s.updated;
+    return s;
+  };
+
+  /** Cuts one more copy of a deck card (up to `max` copies). Returns a new state. */
+  CS.cutOne = function (state, name, max, now) {
+    var s = copyState(state);
+    var cur = Object.prototype.hasOwnProperty.call(s.cuts, name) ? s.cuts[name] : 0;
+    var cap = typeof max === "number" && max >= 1 ? max : 1;
+    if (cur < cap) s.cuts[name] = cur + 1;
+    s.updated = now || s.updated;
+    return s;
+  };
+
+  /** Takes back one cut copy. Returns a new state. */
+  CS.uncutOne = function (state, name, now) {
+    var s = copyState(state);
+    if (Object.prototype.hasOwnProperty.call(s.cuts, name)) {
+      if (s.cuts[name] > 1) s.cuts[name] -= 1;
+      else delete s.cuts[name];
+    }
+    s.updated = now || s.updated;
+    return s;
+  };
+
+  /** Number of cut copies in all. */
+  CS.cutCount = function (cuts) {
+    return Object.keys(cuts || {}).reduce(function (a, n) {
+      return a + cuts[n];
+    }, 0);
+  };
+
+  /**
+   * Splits Added cards into picks still to add, picks already in the deck
+   * (added in Moxfield and pasted back), and picks that were in the deck and
+   * were cut from it since (`removed`: name keys from the save).
+   * `nameOf(id)` gives a card's name or null while it loads; unknown names
+   * count as still to add.
+   */
+  CS.splitAdded = function (ids, nameOf, deckNames, removed) {
+    var gone = {};
+    (removed || []).forEach(function (k) {
+      gone[k] = true;
+    });
+    var out = { pending: [], inDeck: [], gone: [] };
+    (ids || []).forEach(function (id) {
+      var n = nameOf(id);
+      var k = n ? CS.nameKey(n) : null;
+      if (k && deckNames[k] === true) out.inDeck.push(id);
+      else if (k && gone[k]) out.gone.push(id);
+      else out.pending.push(id);
+    });
+    return out;
+  };
+
+  /** Copies in the deck: every card line's count added up (sideboard and the like left out). */
+  CS.deckSize = function (cards) {
+    return (cards || []).reduce(function (a, c) {
+      return c.side ? a : a + (c.qty || 1);
+    }, 0);
+  };
+
+  /**
+   * The whole deck with the changes made, for Moxfield's Bulk Edit (which
+   * replaces the list): the export's own lines kept as they are (printings,
+   * foil marks, section headers), cut copies taken off the main list, and
+   * one "1 Card Name" line per pick right after the main list's last card
+   * (before a sideboard or maybeboard section, if there is one).
+   */
+  CS.updatedDeckText = function (exportText, cuts, pickNames) {
+    var left = {};
+    Object.keys(cuts || {}).forEach(function (n) {
+      var k = CS.nameKey(n);
+      left[k] = (left[k] || 0) + cuts[n];
+    });
+    var lines = [];
+    var side = false;
+    var lastMain = -1; // index in `lines` of the main list's last card line
+    String(exportText || "")
+      .replace(/^\uFEFF/, "")
+      .split(/\r?\n/)
+      .forEach(function (raw) {
+        var line = raw.replace(MARKERS, "").trim();
+        var m = line && line.indexOf("//") !== 0 ? CARD_LINE.exec(line) : null;
+        if (!m) {
+          var bare = line.replace(/:$/, "").trim();
+          if (line && (/:$/.test(line) || SECTION_WORDS.test(bare)))
+            side = SIDE_WORDS.test(bare);
+          lines.push(raw);
+          return;
+        }
+        if (side) {
+          lines.push(raw);
+          return;
+        }
+        var k = CS.nameKey(m[2]);
+        var qty = parseInt(m[1], 10);
+        var take = Math.min(left[k] || 0, qty);
+        if (take) left[k] -= take;
+        if (qty - take > 0) {
+          lines.push(take ? raw.replace(/^(\s*)\d+/, "$1" + (qty - take)) : raw);
+          lastMain = lines.length - 1;
+        }
+      });
+    var picks = CS.copyOutText(pickNames || []);
+    if (picks) {
+      var at = lastMain + 1;
+      if (lastMain === -1) {
+        at = lines.length; // no main card left: after everything
+        while (at > 0 && !lines[at - 1].trim()) at--;
+      }
+      lines = lines.slice(0, at).concat(picks.split("\n"), lines.slice(at));
+    }
+    while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+    return lines.join("\n");
   };
 
   // ---------------------------------------------------------------- storage
@@ -1549,6 +2013,21 @@
         return false;
       }
     };
+    /** Every cs: key in storage, without the prefix ([] if storage can't be listed). */
+    store.keys = function () {
+      if (!s) return [];
+      try {
+        var out = [];
+        for (var i = 0; i < s.length; i++) {
+          var k = s.key(i);
+          if (typeof k === "string" && k.indexOf(PREFIX) === 0)
+            out.push(k.slice(PREFIX.length));
+        }
+        return out;
+      } catch (e) {
+        return [];
+      }
+    };
     store.remove = function (key) {
       if (!s) return false;
       try {
@@ -1561,16 +2040,41 @@
     return store;
   };
 
-  /** Loads a deck's saved swipes, or a fresh state. */
+  /** A deck's v2 save, or null. */
+  CS.readDeckState = function (store, deckId) {
+    return CS.migrateDeckState(store.get(CS.deckKey(deckId), null));
+  };
+
+  /**
+   * Loads a deck's saved swipes: its v2 save, else its v1 save converted
+   * (the v1 save is left where it is), else a fresh state.
+   */
   CS.loadDeckState = function (store, deckId, commanderName) {
     return (
-      CS.migrateDeckState(store.get("deck:" + deckId, null)) ||
+      CS.readDeckState(store, deckId) ||
+      CS.migrateDeckState(store.get(CS.oldDeckKey(deckId), null)) ||
       CS.newDeckState(commanderName)
     );
   };
 
   CS.saveDeckState = function (store, deckId, state) {
-    return store.set("deck:" + deckId, state);
+    return store.set(CS.deckKey(deckId), state);
+  };
+
+  /** Saved v2 decks for one commander: [{key, state}] (unreadable saves left out). */
+  CS.savedDecksFor = function (store, slug) {
+    var prefix = CS.deckKey(slug + "-");
+    return store
+      .keys()
+      .filter(function (k) {
+        return k.indexOf(prefix) === 0;
+      })
+      .map(function (k) {
+        return { key: k, state: CS.migrateDeckState(store.get(k, null)) };
+      })
+      .filter(function (e) {
+        return e.state;
+      });
   };
 
   /** Loads the filters, falling back to defaults for anything missing or odd. */

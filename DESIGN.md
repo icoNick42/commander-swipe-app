@@ -56,6 +56,12 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Combo badge (cycle 7):** a small button styled as a badge, "Combo: completes N". Pressing it shows the combo list under the Fit line (and hides it again); it starts hidden on every card, so it never pushes the buttons down on its own. Green border for brackets 1-2, amber with "(bracket N+)" for 3 and up.
 - **First screen (cycle 7):** Paste and load is the main button, then Load deck, Clear and Try a sample deck.
 
+- **Changing the deck (cycle 8):** the side column runs Added, Cuts (only when there are cuts), Deck total (only when there are picks or cuts; amber when over 100), Maybe, Your deck, Filters. Cut buttons use the skip red as their border; a cut card in All cards is struck through with a pressed Keep button.
+- **Swap prompt (cycle 8):** after an Add that takes the deck over 100, one line takes the keys line's place under the buttons: "N over 100. Cut [card] [Why? More] [x]". It never wraps (the card name shortens), so the buttons don't move; Why? More opens the reasons below it.
+- **Progress link (cycle 8):** under 900 px, once there are picks, maybes or cuts, the keys line shows "2 added · 1 maybe · 1 cut ↓" instead of the drag hint; it scrolls to the lists.
+- **Deck line (cycle 8):** one line that cuts off with an ellipsis: "100 cards", plus problems or "swipes kept from your last version" when there are any. The details (lines read, Start fresh) are behind it.
+- **Change deck (cycle 8):** opens the first screen with Back to swiping and a line saying an updated paste keeps your swipes; the how-it-works steps are hidden then.
+
 ## Known gaps
 
 - Short laptop screens (about 700 px tall) get a small card (200 px wide), because the pile chips take three rows there. A side column for piles would fix it.

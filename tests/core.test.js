@@ -53,6 +53,11 @@ function memoryStorage() {
       m.delete(k);
     },
     keys: () => [...m.keys()],
+    // what the page's localStorage offers for listing keys
+    get length() {
+      return m.size;
+    },
+    key: (i) => [...m.keys()][i] ?? null,
     raw: m,
   };
 }
@@ -502,7 +507,7 @@ test("store: cs: prefix only, round trip, and other apps' keys untouched", () =>
   assert.ok(CS.saveDeckState(store, deckId, s));
   assert.ok(CS.saveSettings(store, { ...CS.defaultSettings(), maxPrice: 5 }));
   assert.deepEqual(mem.keys().sort(), [
-    "cs:deck:" + deckId,
+    "cs:deck2:" + deckId,
     "cs:settings",
     "tb:settings",
   ]);
@@ -545,7 +550,7 @@ test("saved data: broken or unknown saves start fresh; bad entries are dropped",
   const store = CS.makeStore(mem);
   mem.setItem("cs:deck:d", "not json{");
   assert.deepEqual(CS.loadDeckState(store, "d", "Z"), CS.newDeckState("Z"));
-  mem.setItem("cs:deck:d", JSON.stringify({ v: 2, decisions: { a: "add" } }));
+  mem.setItem("cs:deck:d", JSON.stringify({ v: 3, decisions: { a: "add" } }));
   assert.deepEqual(CS.loadDeckState(store, "d", "Z"), CS.newDeckState("Z"));
   mem.setItem(
     "cs:deck:d",
@@ -557,11 +562,15 @@ test("saved data: broken or unknown saves start fresh; bad entries are dropped",
       updated: 3,
     }),
   );
+  // a v1 save (before cycle 8) comes back as v2: no card list, no cuts
   assert.deepEqual(CS.loadDeckState(store, "d", "Z"), {
-    v: 1,
+    v: 2,
     commander: "Z",
+    cards: null,
     decisions: { a: "add", c: "maybe" },
     history: ["a", "c"],
+    cuts: {},
+    removed: [],
     updated: 3,
   });
   mem.setItem(
@@ -995,4 +1004,486 @@ test("combos: the Zurgo Combos pile from real Scryfall cards", () => {
   assert.equal(pile.cards.length, d.oneAway.length, "every one-away card found on Scryfall");
   assert.equal(pile.cards[0].name, "Gravecrawler");
   assert.equal(new Set(pile.cards.map((c) => c.id)).size, pile.cards.length);
+});
+// ------------------------------------------------------------- cycle 8: edited decks and cuts
+
+const zurgoSlims = deckSlims; // zurgoProfile (above) is built from these
+const zurgoSyn = CS.deckSynergy(zurgoProfile, zurgoSlims);
+const BOM = String.fromCharCode(0xfeff);
+
+/** The Zurgo export with some lines dropped and some added (an edited deck). */
+function editedExport(drop, add) {
+  const lines = exportText
+    .split(/\r?\n/)
+    .filter((l) => !drop.some((d) => l.startsWith("1 " + d + " ")));
+  return lines.concat(add.map((n) => "1 " + n)).join("\n");
+}
+
+test("deck state v2: new state, migration from v1, cuts and removed cleaned", () => {
+  const keys = CS.deckKeys(parsed.cards);
+  assert.equal(keys.length, new Set(keys).size);
+  assert.deepEqual(keys, keys.slice().sort());
+  const fresh = CS.newDeckState("Zurgo Stormrender", 5, keys);
+  assert.equal(fresh.v, 2);
+  assert.deepEqual(fresh.cards, keys);
+  assert.notEqual(fresh.cards, keys, "a copy, not the caller's array");
+  assert.deepEqual(fresh.cuts, {});
+  assert.deepEqual(fresh.removed, []);
+  const m = CS.migrateDeckState({
+    v: 2,
+    commander: "Z",
+    cards: ["a", 7, "b"],
+    decisions: { x: "add" },
+    history: ["x"],
+    cuts: { "Sol Ring": 1, Bad: 0, Worse: 1.5, Huge: 500, Text: "1", "": 1 },
+    removed: ["gone", 3],
+    updated: 4,
+  });
+  assert.deepEqual(m.cards, ["a", "b"]);
+  assert.deepEqual(m.cuts, { "Sol Ring": 1 });
+  assert.deepEqual(m.removed, ["gone"]);
+  const arr = CS.migrateDeckState({
+    v: 2,
+    commander: "Z",
+    decisions: {},
+    history: [],
+    cuts: ["x"],
+    removed: "x",
+  });
+  assert.deepEqual(arr.cuts, {});
+  assert.deepEqual(arr.removed, []);
+  assert.equal(arr.cards, null);
+  // swipes keep cards and cuts; Undo is for swipes only
+  const s = CS.decide(CS.cutOne(fresh, "Spirit Mantle", 1, 6), "id1", "add", 7);
+  assert.deepEqual(s.cuts, { "Spirit Mantle": 1 });
+  assert.deepEqual(s.cards, keys);
+  assert.deepEqual(CS.undo(s, 8).state.cuts, { "Spirit Mantle": 1 });
+});
+
+test("saved data: v2 saves use their own key; v1 saves are read, never changed", () => {
+  const mem = memoryStorage();
+  const store = CS.makeStore(mem);
+  const id = CS.deckId("Zurgo Stormrender", parsed.cards);
+  assert.equal(CS.deckKey(id), "deck2:" + id);
+  assert.equal(CS.oldDeckKey(id), "deck:" + id);
+  const v1 = JSON.stringify({
+    v: 1,
+    commander: "Zurgo Stormrender",
+    decisions: { a: "add" },
+    history: ["a"],
+    updated: 2,
+  });
+  mem.setItem("cs:deck:" + id, v1);
+  const loaded = CS.loadDeckState(store, id, "Zurgo Stormrender");
+  assert.equal(loaded.v, 2);
+  assert.deepEqual(loaded.decisions, { a: "add" });
+  assert.equal(CS.readDeckState(store, id), null, "no v2 save yet");
+  CS.saveDeckState(store, id, CS.decide(loaded, "b", "skip", 3));
+  assert.equal(
+    mem.getItem("cs:deck:" + id),
+    v1,
+    "the v1 save is left exactly as it was",
+  );
+  // a page from before cycle 8 writing its v1 key can't touch the v2 save
+  mem.setItem(
+    "cs:deck:" + id,
+    JSON.stringify({
+      v: 1,
+      commander: "Zurgo Stormrender",
+      decisions: { z: "skip" },
+      history: ["z"],
+      updated: 9,
+    }),
+  );
+  assert.deepEqual(CS.loadDeckState(store, id, "Zurgo Stormrender").decisions, {
+    a: "add",
+    b: "skip",
+  });
+});
+
+test("cuts: one copy at a time, capped, taken back, counted", () => {
+  const s0 = CS.newDeckState("Z", 1, []);
+  const s1 = CS.cutOne(s0, "Mountain", 2, 2);
+  const s2 = CS.cutOne(s1, "Mountain", 2, 3);
+  const s3 = CS.cutOne(s2, "Mountain", 2, 4);
+  assert.deepEqual(s0.cuts, {}, "the old state is unchanged");
+  assert.deepEqual(s2.cuts, { Mountain: 2 });
+  assert.deepEqual(s3.cuts, { Mountain: 2 }, "no more cuts than copies");
+  assert.equal(CS.cutCount(CS.cutOne(s3, "Sol Ring", 1).cuts), 3);
+  const back = CS.uncutOne(s3, "Mountain", 5);
+  assert.deepEqual(back.cuts, { Mountain: 1 });
+  assert.deepEqual(CS.uncutOne(back, "Mountain").cuts, {});
+  assert.deepEqual(
+    CS.uncutOne(s0, "constructor").cuts,
+    {},
+    "unknown names do nothing",
+  );
+  assert.deepEqual(CS.cutOne(s0, "constructor", 1).cuts, { constructor: 1 });
+});
+
+test("cuts: liveCuts drops cards no longer in the main deck and caps at copies", () => {
+  const cards = CS.parseExport(
+    "1 Sol Ring (C21) 263\n2 Mountain (THB) 253 *F*\n1 Emeritus of Woe / Demonic Tutor (SOS) 324\n\nSIDEBOARD:\n1 Spirit Mantle",
+  ).cards;
+  const live = CS.liveCuts(
+    {
+      "Sol Ring": 1,
+      Mountain: 5,
+      "Spirit Mantle": 1,
+      "Emeritus of Woe // Demonic Tutor": 1,
+    },
+    cards,
+  );
+  assert.deepEqual(
+    live,
+    { "Sol Ring": 1, Mountain: 2, "Emeritus of Woe / Demonic Tutor": 1 },
+    "a sideboard card isn't in the deck",
+  );
+  assert.deepEqual(CS.liveCuts(null, cards), {});
+});
+
+test("export sections: sideboard and maybeboard cards are marked and not counted", () => {
+  const p = CS.parseExport(
+    "Commander:\n1 Zurgo Stormrender\nDeck:\n1 Sol Ring\n\nSIDEBOARD:\n2 Shock\nMaybeboard\n1 Bolt",
+  );
+  assert.deepEqual(
+    p.cards.map((c) => c.side),
+    [false, false, true, true],
+  );
+  assert.equal(CS.deckSize(p.cards), 2);
+  assert.ok(parsed.cards.every((c) => c.side === false));
+});
+
+test("edited deck: the old save is found and carried over", () => {
+  const oldKeys = CS.deckKeys(parsed.cards);
+  const edited = CS.parseExport(
+    editedExport(
+      ["Spirit Mantle", "Dawn Charm"],
+      ["Teysa Karlov", "Zulaport Cutthroat", "Mondrak, Glory Dominus"],
+    ),
+  );
+  const newKeys = CS.deckKeys(edited.cards);
+  assert.notEqual(
+    CS.deckId("Zurgo Stormrender", edited.cards),
+    CS.deckId("Zurgo Stormrender", parsed.cards),
+  );
+  let old = CS.newDeckState("Zurgo Stormrender", 1, oldKeys);
+  old = CS.decide(old, "teysa", "add", 2);
+  old = CS.decide(old, "x", "skip", 3);
+  old = CS.cutOne(old, "Spirit Mantle", 1, 4);
+  old = CS.cutOne(old, "Ashnod's Altar", 1, 5);
+  const oldKey = CS.deckKey(CS.deckId("Zurgo Stormrender", parsed.cards));
+  const found = CS.findCarrySource(
+    [{ key: oldKey, state: old }],
+    "zurgo-stormrender",
+    newKeys,
+  );
+  assert.equal(found.key, oldKey);
+  assert.ok(found.overlap > 0.9 && found.overlap < 1, found.overlap);
+  const carried = CS.carryOver(found.state, newKeys, edited.cards, 9);
+  assert.deepEqual(carried.decisions, old.decisions, "swipes come along");
+  assert.deepEqual(carried.history, old.history);
+  assert.deepEqual(carried.cards, newKeys);
+  assert.deepEqual(
+    carried.cuts,
+    { "Ashnod's Altar": 1 },
+    "Spirit Mantle was cut in Moxfield: done",
+  );
+  assert.deepEqual(carried.removed, ["dawn charm", "spirit mantle"]);
+  assert.equal(carried.updated, 9);
+  assert.equal(old.cuts["Spirit Mantle"], 1, "the old state is unchanged");
+  // a card put back in the deck comes off `removed`
+  const again = CS.carryOver(carried, oldKeys, parsed.cards, 10);
+  // and the cards that left this time are added (Dawn Charm and Spirit Mantle are back)
+  assert.deepEqual(again.removed, ["mondrak, glory dominus", "teysa karlov", "zulaport cutthroat"]);
+});
+
+test("edited deck: which saves can be carried over", () => {
+  const keys = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+  const st = (cards, updated, swiped = true) => {
+    let s = CS.newDeckState("Z", updated, cards);
+    if (swiped) s = CS.decide(s, "id" + updated, "skip", updated);
+    return s;
+  };
+  const k = (h) => "deck2:zurgo-stormrender-" + h;
+  const v1 = CS.migrateDeckState({
+    v: 1,
+    commander: "Z",
+    decisions: { a: "add" },
+    history: ["a"],
+    updated: 99,
+  });
+  // another commander, a commander whose slug only starts the same, an empty
+  // save, too different, a v1 save (no card list), a v1 key name
+  assert.equal(
+    CS.findCarrySource(
+      [
+        {
+          key: "deck2:adeline-resplendent-cathar-0000000a",
+          state: st(keys, 1),
+        },
+        {
+          key: "deck2:zurgo-stormrender-the-second-0000000b",
+          state: st(keys, 2),
+        },
+        { key: k("0000000c"), state: st(keys, 3, false) },
+        { key: k("0000000d"), state: st(["a", "b", "c", "x", "y", "z"], 4) },
+        { key: k("0000000e"), state: v1 },
+        { key: "deck:zurgo-stormrender-0000000f", state: st(keys, 5) },
+      ],
+      "zurgo-stormrender",
+      keys,
+    ),
+    null,
+  );
+  // 60% shared is enough; more shared wins over more recent
+  const six = keys.slice(0, 6).concat(["p", "q", "r", "s"]);
+  const nine = keys.slice(0, 9).concat(["p"]);
+  const r = CS.findCarrySource(
+    [
+      { key: k("00000002"), state: st(six, 50) },
+      { key: k("00000003"), state: st(nine, 10) },
+    ],
+    "zurgo-stormrender",
+    keys,
+  );
+  assert.equal(r.key, k("00000003"));
+  assert.equal(r.overlap, 0.9);
+  assert.equal(
+    CS.findCarrySource(
+      [{ key: k("00000002"), state: st(six, 50) }],
+      "zurgo-stormrender",
+      keys,
+    ).overlap,
+    0.6,
+  );
+  // same overlap: the most recent
+  const tie = CS.findCarrySource(
+    [
+      { key: k("00000004"), state: st(nine, 10) },
+      { key: k("00000005"), state: st(nine, 20) },
+    ],
+    "zurgo-stormrender",
+    keys,
+  );
+  assert.equal(tie.key, k("00000005"));
+  // a save with only cuts still counts
+  const cutsOnly = CS.cutOne(CS.newDeckState("Z", 1, nine), "a", 1, 2);
+  assert.ok(
+    CS.findCarrySource(
+      [{ key: k("00000006"), state: cutsOnly }],
+      "zurgo-stormrender",
+      keys,
+    ),
+  );
+  assert.equal(CS.findCarrySource(null, "x", null), null);
+});
+
+test("store: keys() and savedDecksFor list v2 decks only, and survive broken storage", () => {
+  const mem = memoryStorage();
+  const store = CS.makeStore(mem);
+  mem.setItem("tb:deck2:zurgo-stormrender-00000001", "{}");
+  mem.setItem("cs:deck2:zurgo-stormrender-00000002", "not json{");
+  mem.setItem(
+    "cs:deck:zurgo-stormrender-00000007",
+    JSON.stringify({ v: 1, commander: "Z", decisions: {}, history: [] }),
+  );
+  store.set("deck2:zurgo-stormrender-00000003", CS.newDeckState("Z", 1, ["a"]));
+  store.set(
+    "deck2:adeline-resplendent-cathar-00000004",
+    CS.newDeckState("A", 1, ["a"]),
+  );
+  store.set("settings", CS.defaultSettings());
+  assert.deepEqual(store.keys().sort(), [
+    "deck2:adeline-resplendent-cathar-00000004",
+    "deck2:zurgo-stormrender-00000002",
+    "deck2:zurgo-stormrender-00000003",
+    "deck:zurgo-stormrender-00000007",
+    "settings",
+  ]);
+  const saved = CS.savedDecksFor(store, "zurgo-stormrender");
+  assert.deepEqual(
+    saved.map((e) => e.key),
+    ["deck2:zurgo-stormrender-00000003"],
+    "unreadable and v1 saves left out",
+  );
+  assert.deepEqual(CS.makeStore(null).keys(), []);
+  const throwing = CS.makeStore({
+    get length() {
+      throw new Error("blocked");
+    },
+    getItem() {
+      throw new Error("blocked");
+    },
+  });
+  assert.deepEqual(throwing.keys(), []);
+  assert.deepEqual(CS.savedDecksFor(throwing, "z"), []);
+});
+
+test("Added list: picks in the deck now, and picks cut from it since, come off", () => {
+  const names = {
+    a: "Teysa Karlov",
+    b: "Sol Ring",
+    c: null,
+    d: "Mondrak, Glory Dominus",
+    e: "Zulaport Cutthroat",
+  };
+  const split = CS.splitAdded(
+    ["a", "b", "c", "d", "e"],
+    (id) => names[id],
+    deckNames,
+    ["zulaport cutthroat"],
+  );
+  assert.deepEqual(split.inDeck, ["b"]);
+  assert.deepEqual(
+    split.gone,
+    ["e"],
+    "added, put in the deck, cut later: not a pick again",
+  );
+  assert.deepEqual(
+    split.pending,
+    ["a", "c", "d"],
+    "a name still loading counts as still to add",
+  );
+  assert.deepEqual(CS.splitAdded(["e"], (id) => names[id], deckNames).pending, [
+    "e",
+  ]);
+});
+
+test("whole-deck copy: cuts come off, printings and marks stay, picks after the main list", () => {
+  assert.equal(CS.deckSize(parsed.cards), 100);
+  const text = CS.updatedDeckText(
+    exportText,
+    { "Spirit Mantle": 1, Mountain: 1, "Emeritus of Woe // Demonic Tutor": 1 },
+    ["Teysa Karlov", "Fell the Profane // Fell Mire"],
+  );
+  const lines = text.split("\n");
+  assert.ok(!lines.some((l) => l.startsWith("1 Spirit Mantle")));
+  assert.ok(
+    !lines.some((l) => l.includes("Emeritus of Woe")),
+    "a '/' card is matched by its front face",
+  );
+  assert.ok(
+    lines.includes("1 Mountain (THB) 253 *F*"),
+    "2 Mountains become 1, printing and foil kept",
+  );
+  assert.ok(
+    lines.includes("1 Sol Ring (PFDN) 1 *F*"),
+    "untouched lines stay as they were",
+  );
+  assert.deepEqual(lines.slice(-2), [
+    "1 Teysa Karlov",
+    "1 Fell the Profane // Fell Mire",
+  ]);
+  assert.equal(CS.deckSize(CS.parseExport(text).cards), 100 - 3 + 2);
+  // section headers, comments and blank lines stay; a BOM is dropped
+  const odd = CS.updatedDeckText(
+    BOM +
+      "// my deck\nCommander:\n1 Zurgo Stormrender\n\nDeck:\n3 Plains\n1 Sol Ring\n\n",
+    { Plains: 5, "Sol Ring": 1 },
+    [],
+  );
+  assert.equal(odd, "// my deck\nCommander:\n1 Zurgo Stormrender\n\nDeck:");
+  assert.equal(
+    CS.updatedDeckText(exportText, {}, []),
+    exportText.replace(/\s+$/, ""),
+  );
+  // picks go before a sideboard; sideboard cards are never cut
+  const sb = CS.updatedDeckText(
+    "1 Zurgo Stormrender\n1 Sol Ring\n\nSIDEBOARD:\n1 Shock\n1 Sol Ring",
+    { "Sol Ring": 2 },
+    ["Bolt"],
+  );
+  assert.equal(
+    sb,
+    "1 Zurgo Stormrender\n1 Bolt\n\nSIDEBOARD:\n1 Shock\n1 Sol Ring",
+  );
+});
+
+test("cut ideas: never the commander, lands, staples, role keepers or combo pieces", () => {
+  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const names = ideas.map((x) => x.name);
+  assert.ok(ideas.length >= 6, ideas.length);
+  assert.ok(!names.includes("Zurgo Stormrender"));
+  assert.ok(
+    !names.some((n) => /Badlands|Command Tower|Arid Mesa|Urza's Saga/.test(n)),
+    "no lands",
+  );
+  assert.ok(
+    !names.includes("Sol Ring") && !names.includes("Arcane Signet"),
+    "staples are kept",
+  );
+  assert.ok(
+    !names.includes("Swords to Plowshares"),
+    "removal is under its typical count, so it's kept",
+  );
+  // not staples (EDHREC rank over 500), kept only because removal (4) and
+  // board wipes (1) are under their typical counts
+  assert.ok(
+    !names.includes("Grim Hireling") && !names.includes("Ruinous Ultimatum"),
+  );
+  assert.ok(ideas.every((x) => x.reasons.length && x.fit < 75));
+  for (let i = 1; i < ideas.length; i++)
+    assert.ok(ideas[i - 1].score >= ideas[i].score);
+  // what's protected or already cut drops out
+  const first = ideas[0].name;
+  const fewer = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {
+    protect: { [CS.nameKey(first)]: true },
+    cuts: { [ideas[1].name]: 1 },
+  }).map((x) => x.name);
+  assert.ok(!fewer.includes(first) && !fewer.includes(ideas[1].name));
+  assert.equal(fewer.length, ideas.length - 2);
+  assert.deepEqual(
+    CS.cutSuggestions({ cards: [], roleCount: {} }, null, [], null),
+    [],
+  );
+});
+
+test("swap ideas: same job first; a land pairs with a basic", () => {
+  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const protCut = ideas.find((x) => x.roles.includes("protection"));
+  assert.ok(
+    protCut,
+    "the Zurgo deck has a protection card among its cut ideas",
+  );
+  const shield = {
+    id: "test-shield",
+    name: "Test Shield",
+    typeLine: "Instant",
+    frontType: "Instant",
+    types: "Instant",
+    oracle: "Creatures you control gain indestructible until end of turn.",
+    text: "Creatures you control gain indestructible until end of turn.",
+    manaCost: "{1}{W}",
+    cmc: 2,
+  };
+  const swaps = CS.swapSuggestions(
+    shield,
+    ideas,
+    zurgoProfile,
+    parsed.cards,
+    {},
+  );
+  assert.ok(swaps.length >= 1 && swaps.length <= 3);
+  assert.match(swaps[0].why, /same job \(protection\)/);
+  const land = recScry.data
+    .map(CS.slimCard)
+    .find((c) => /^Land/.test(c.typeLine));
+  const landSwaps = CS.swapSuggestions(
+    land,
+    ideas,
+    zurgoProfile,
+    parsed.cards,
+    { Mountain: 2 },
+  );
+  assert.ok(landSwaps.length >= 1);
+  assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null));
+  assert.ok(
+    !landSwaps.some((x) => x.name === "Mountain"),
+    "both Mountains are cut already",
+  );
+  assert.deepEqual(
+    CS.swapSuggestions(null, ideas, zurgoProfile, parsed.cards, {}),
+    [],
+  );
 });

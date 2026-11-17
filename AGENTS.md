@@ -21,7 +21,8 @@ If something I ask conflicts with this file, do what I asked and mention the con
 ## Don't break these
 - Saved data lives in localStorage under `cs:` keys only, read and written through the `store` helper. Never use another prefix (other apps on the same github.io address share storage, such as the Trestleboard's `tb:`). Never rename keys or change a saved format without a `v` bump and code that converts old saves.
 - The page must keep working when storage is missing or throws.
-- "Copy for Moxfield" output is one `1 Card Name` per line, nothing else.
+- "Copy picks" output is one `1 Card Name` per line, nothing else. "Copy whole deck" keeps the pasted export's own lines as they are (minus cut copies) and adds the picks as `1 Card Name` lines at the end.
+- Carrying swipes over to an edited deck never uses another commander's saves, and Start fresh must put the earlier save back.
 
 ## Working rules
 - Plan first only when a decision needs me (direction, scope, money). Otherwise build and say what you chose.
