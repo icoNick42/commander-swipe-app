@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Light-Paws, Emperor's Voice",
+  "identity": "W",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"6843-6899","cards":["Anti-Venom, Horrifying Healer","With Great Power . . ."],"identity":"W","produces":["Prevent all damage that would be dealt to you","Lock"],"bracket":"S","popularity":16979,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"4740-5089","cards":["Karn, the Great Creator","Aetherflux Reservoir"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":10046,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51.","commanderOnly":[]},
+    {"id":"3031-3903","cards":["Drannith Magistrate","Knowledge Pool"],"identity":"W","produces":["Opponents can't cast spells","Lock"],"bracket":"S","popularity":6257,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3799-6899","cards":["Stuffy Doll","With Great Power . . ."],"identity":"W","produces":["Draw the game"],"bracket":"S","popularity":6231,"needs":[],"note":"You have a way to deal damage to Stuffy Doll if it has summoning sickness.","commanderOnly":[]},
+    {"id":"5739-6899","cards":["Caduceus, Staff of Hermes","With Great Power . . ."],"identity":"W","produces":["Prevent all damage that would be dealt to you","Lock"],"bracket":"S","popularity":3487,"needs":[],"note":"Your life total is 30 or higher.","commanderOnly":[]},
+    {"id":"3903-5151","cards":["Deafening Silence","Knowledge Pool"],"identity":"W","produces":["Lock","Exile all noncreature spells players cast from their hand","Players can only cast one noncreature spell per turn"],"bracket":"S","popularity":3018,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3031-5201","cards":["Uba Mask","Drannith Magistrate"],"identity":"W","produces":["Players can't draw cards","Lock","Opponents can only cast the remaining spells in their hand"],"bracket":"S","popularity":2587,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1725-3031","cards":["Omen Machine","Drannith Magistrate"],"identity":"W","produces":["Opponents can only cast the remaining spells in their hand","Lock"],"bracket":"S","popularity":2440,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"132-4740","cards":["Aetherflux Reservoir","Myr Welder"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":1142,"needs":[],"note":"You have a way to give Myr Welder lifelink. Your life total is at least 51. Myr Welder does not have summoning sickness.","commanderOnly":[]},
+    {"id":"4241-4740","cards":["Karn, Silver Golem","Aetherflux Reservoir"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":973,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51.","commanderOnly":[]},
+    {"id":"816-6899","cards":["Rune-Tail, Kitsune Ascendant // Rune-Tail's Essence","With Great Power . . ."],"identity":"W","produces":["Prevent all damage that would be dealt to you","Prevent all damage that would be dealt to creatures you control","Lock"],"bracket":"S","popularity":627,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"6899-7407","cards":["Inviolability","With Great Power . . ."],"identity":"W","produces":["Lock","Prevent all damage that would be dealt to you"],"bracket":"S","popularity":499,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3263-4246","cards":["Null Rod","Mycosynth Lattice"],"identity":"C","produces":["Nobody can activate the abilites of any permanent on the battlefield","Activated abilities can't be activated","Lock"],"bracket":"R","popularity":472,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3263-4325","cards":["Stony Silence","Mycosynth Lattice"],"identity":"W","produces":["Activated abilities can't be activated","Lock","Mass Land Denial"],"bracket":"R","popularity":323,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2335-3807","cards":["Swift Reconfiguration","Barrenton Medic"],"identity":"W","produces":["Prevent all damage that would be dealt to permanents you control","Prevent all damage that would be dealt to you","Lock"],"bracket":"S","popularity":267,"needs":[],"note":"Swift Reconfiguration attached to Barrenton Medic.","commanderOnly":[]},
+    {"id":"6899-7637","cards":["Cho-Manno, Revolutionary","With Great Power . . ."],"identity":"W","produces":["Lock","Prevent all damage that would be dealt to you"],"bracket":"S","popularity":251,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3007-4740","cards":["Aetherflux Reservoir","Toymaker"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":234,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51. You have at least one card in hand. Toymaker does not have summoning sickness.","commanderOnly":[]}
+  ]
+}

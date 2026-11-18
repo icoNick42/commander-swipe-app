@@ -1,0 +1,19 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Teysa Karlov",
+  "identity": "WB",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"2842-6215","cards":["Tombstone Stairwell","Blood Artist"],"identity":"B","produces":["Near-infinite lifeloss","Near-infinite creature ETB","Near-infinite creature LTB"],"bracket":"R","popularity":6805,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"598-2292-5173","cards":["Liliana, Untouched by Death","Shambling Ghast","Viscera Seer"],"identity":"B","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":420,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2292-2947-4881","cards":["Vesperlark","Activated Sleeper","Viscera Seer"],"identity":"WB","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":132,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"598-5173-6798","cards":["Liliana, Untouched by Death","Shambling Ghast","Umbral Collar Zealot"],"identity":"B","produces":["Infinite death triggers","Infinite creature sacrifice triggers","Infinite storm count"],"bracket":"E","popularity":109,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"598-997-5173","cards":["Liliana, Untouched by Death","Shambling Ghast","Woe Strider"],"identity":"B","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":73,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2292-2781-2947","cards":["Felidar Guardian","Vesperlark","Viscera Seer"],"identity":"WB","produces":["Infinite creature LTB","Infinite creature ETB","Infinite creature sacrifice triggers"],"bracket":"E","popularity":53,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"678-2292-5173","cards":["Shambling Ghast","Enduring Renewal","Viscera Seer"],"identity":"WB","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":34,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"598-4247-5173","cards":["Liliana, Untouched by Death","Shambling Ghast","Bloodthrone Vampire"],"identity":"B","produces":["Infinite creature ETB","Infinite creature LTB","Infinite creature sacrifice triggers"],"bracket":"E","popularity":17,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"997-2781-2947","cards":["Felidar Guardian","Vesperlark","Woe Strider"],"identity":"WB","produces":["Infinite creature LTB","Infinite creature ETB","Infinite creature sacrifice triggers"],"bracket":"E","popularity":15,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2781-2947-4247","cards":["Felidar Guardian","Vesperlark","Bloodthrone Vampire"],"identity":"WB","produces":["Infinite creature ETB","Infinite creature LTB","Infinite creature sacrifice triggers"],"bracket":"E","popularity":6,"needs":[],"note":"","commanderOnly":[]}
+  ]
+}

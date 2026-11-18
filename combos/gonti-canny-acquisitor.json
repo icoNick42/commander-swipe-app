@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Gonti, Canny Acquisitor",
+  "identity": "BGU",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"513-5034--46","cards":["Hullbreaker Horror","Sol Ring"],"identity":"U","produces":["Infinite colorless mana","Infinite storm count"],"bracket":"E","popularity":369814,"needs":["Permanent Castable for {C}"],"note":"","commanderOnly":[]},
+    {"id":"542-5034","cards":["Tidespout Tyrant","Sol Ring"],"identity":"U","produces":["Infinite colorless mana","Infinite storm count"],"bracket":"S","popularity":38160,"needs":[],"note":"You control a nontoken permanent that can be cast using {C}.","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"1432-2719","cards":["Sakashima of a Thousand Faces","Ioreth of the Healing House"],"identity":"U","produces":["Infinite mana legendary creatures you control can produce","Infinite untap of legendary creatures you control"],"bracket":"S","popularity":3163,"needs":[],"note":"All permanents do not have summoning sickness. You control at least one additional legendary creature.","commanderOnly":[]},
+    {"id":"2581-5065","cards":["Helm of Obedience","Dauthi Voidwalker"],"identity":"B","produces":["Exile target opponent's library"],"bracket":"R","popularity":2877,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"876-2904","cards":["Cephalid Illusionist","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":2284,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"141-4493","cards":["Naru Meha, Master Wizard","Irenicus's Vile Duplication"],"identity":"U","produces":["Infinite creature ETB","Infinite magecraft triggers","Infinite creature tokens"],"bracket":"S","popularity":1215,"needs":[],"note":"You control at least one creature. You have enough mana to cast Irenicus's Vile Duplication","commanderOnly":[]},
+    {"id":"141-5362","cards":["Naru Meha, Master Wizard","Quantum Misalignment"],"identity":"U","produces":["Infinite creature ETB","Infinite magecraft triggers","Infinite creature tokens"],"bracket":"S","popularity":537,"needs":[],"note":"You control at least one creature. You have enough mana to cast Quantum Misalignment","commanderOnly":[]},
+    {"id":"2084-3908","cards":["Mirror-Mad Phantasm","Spark Double"],"identity":"U","produces":["Infinite self-mill"],"bracket":"S","popularity":444,"needs":[],"note":"Spark Double is a copy of Mirror-Mad Phantasm.","commanderOnly":[]},
+    {"id":"2920-3908","cards":["Garruk Relentless // Garruk, the Veil-Cursed","Spark Double"],"identity":"BGU","produces":["Draw the game"],"bracket":"R","popularity":280,"needs":[],"note":"Three loyalty counters on Spark Double. Any creature on the battlefield has 1 or 2 power.","commanderOnly":[]},
+    {"id":"1965-3908","cards":["Omarthis, Ghostfire Initiate","Spark Double"],"identity":"U","produces":["Infinite +1/+1 counters on certain creatures"],"bracket":"S","popularity":255,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2084-2719","cards":["Mirror-Mad Phantasm","Sakashima of a Thousand Faces"],"identity":"U","produces":["Infinite self-mill"],"bracket":"S","popularity":209,"needs":[],"note":"Sakashima of a Thousand Faces is a copy of Mirror-Mad Phantasm.","commanderOnly":[]},
+    {"id":"876-2796","cards":["Cephalid Aristocrat","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":208,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2084-4493","cards":["Mirror-Mad Phantasm","Irenicus's Vile Duplication"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":121,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2084-5362","cards":["Mirror-Mad Phantasm","Quantum Misalignment"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":69,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"4067-5745","cards":["Mind Over Matter","Staff of Eden, Vault's Key"],"identity":"U","produces":["Infinite self-discard triggers","Infinite draw triggers","Infinite looting"],"bracket":"S","popularity":48,"needs":[],"note":"You control a permanent that you don't own.","commanderOnly":[]},
+    {"id":"876-2581-2882","cards":["Dauthi Voidwalker","Infinite Reflection","Lightning Greaves"],"identity":"UB","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":30,"needs":[],"note":"Infinite Reflection attached to Dauthi Voidwalker. You control at least one additional nontoken creature. An opponent has a creature card in exile with a void counter on it.","commanderOnly":[]}
+  ]
+}

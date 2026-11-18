@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Isshin, Two Heavens as One",
+  "identity": "RWB",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"2067-5960","cards":["Arabella, Abandoned Doll","Storm Herd"],"identity":"RW","produces":["Near-infinite damage","Near-infinite lifegain","Near-infinite creature ETB"],"bracket":"E","popularity":3236,"needs":[],"note":"Arabella does not have summoning sickness.","commanderOnly":[]},
+    {"id":"335-6793","cards":["Ad Nauseam","Flare of Fortitude"],"identity":"WB","produces":["Infinite card draw"],"bracket":"R","popularity":1764,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1645-3809","cards":["Goldspan Dragon","Crown of Flames"],"identity":"R","produces":["Infinite storm count"],"bracket":"E","popularity":765,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2440-8159","cards":["Ingris Stingerquill","Mana Echoes"],"identity":"BR","produces":["Infinite colorless mana","Infinite creature ETB","Infinite creature tokens with haste"],"bracket":"S","popularity":513,"needs":[],"note":"You control three in any combination of Wizards and/or Soldiers.","commanderOnly":[]},
+    {"id":"5035-8159","cards":["Ingris Stingerquill","Plague of Vermin"],"identity":"BR","produces":["Near-infinite creature ETB","Near-infinite creature tokens with haste","Near-infinite damage"],"bracket":"E","popularity":189,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3389-3809","cards":["Goldspan Dragon","Flickering Ward"],"identity":"RW","produces":["Infinite storm count"],"bracket":"E","popularity":174,"needs":[],"note":"","commanderOnly":[]}
+  ]
+}

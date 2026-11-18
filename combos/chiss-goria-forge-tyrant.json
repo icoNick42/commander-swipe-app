@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Chiss-Goria, Forge Tyrant",
+  "identity": "R",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"3263-5089","cards":["Karn, the Great Creator","Mycosynth Lattice"],"identity":"C","produces":["Activated abilities of permanents your opponents control can't be activated","Activated abilities can't be activated","Lock"],"bracket":"R","popularity":23056,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2552-3263","cards":["Mycosynth Lattice","Vandalblast"],"identity":"R","produces":["Destroy all permanents opponents control","Mass Land Denial"],"bracket":"R","popularity":22257,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"523-3263","cards":["Mycosynth Lattice","Hellkite Tyrant"],"identity":"R","produces":["Gain control of all permanents an opponent controls during each of your turns","Lock","Win the game at the beginning of your next upkeep"],"bracket":"S","popularity":12023,"needs":[],"note":"An opponent cannot block Hellkite Tyrant.","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"3263-7259","cards":["Mycosynth Lattice","Anzrag's Rampage"],"identity":"R","produces":["Destroy all permanents opponents control","Mass Land Denial"],"bracket":"R","popularity":1766,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3263-7277","cards":["Mycosynth Lattice","Broadcast Takeover"],"identity":"R","produces":["Gain control of all permanents until end of turn"],"bracket":"E","popularity":749,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3263-4246","cards":["Null Rod","Mycosynth Lattice"],"identity":"C","produces":["Nobody can activate the abilites of any permanent on the battlefield","Activated abilities can't be activated","Lock"],"bracket":"R","popularity":472,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2751-3737","cards":["Strionic Resonator","Sands of Time"],"identity":"C","produces":["Infinite untap of permanents you control","Infinite mana permanents you control can produce"],"bracket":"S","popularity":209,"needs":[],"note":"Permanents you control can tap to produce at least {3}.","commanderOnly":[]},
+    {"id":"3094-3737","cards":["Lithoform Engine","Sands of Time"],"identity":"C","produces":["Infinite untap of permanents you control","Infinite mana permanents you control can produce"],"bracket":"S","popularity":152,"needs":[],"note":"Permanents you control can tap to produce at least {3}.","commanderOnly":[]}
+  ]
+}

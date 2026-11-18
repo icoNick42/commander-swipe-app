@@ -1,0 +1,19 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Tergrid, God of Fright",
+  "identity": "B",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"4475-4794","cards":["Fraying Omnipotence","Wound Reflection"],"identity":"B","produces":["Each opponent loses the game","Near-infinite lifeloss"],"bracket":"R","popularity":3534,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"4794-5342","cards":["Bloodletter of Aclazotz","Fraying Omnipotence"],"identity":"B","produces":["Each opponent loses the game","Infinite lifeloss"],"bracket":"S","popularity":3427,"needs":[],"note":"Your life total is at least 2.","commanderOnly":[]},
+    {"id":"5342-7450","cards":["Pox Plague","Bloodletter of Aclazotz"],"identity":"B","produces":["Near-infinite lifeloss for all players"],"bracket":"R","popularity":2694,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2607-4794","cards":["Fraying Omnipotence","Archfiend of Despair"],"identity":"B","produces":["Near-infinite lifeloss"],"bracket":"S","popularity":1412,"needs":[],"note":"You control at least one additional creature.","commanderOnly":[]},
+    {"id":"1642-4794","cards":["Fraying Omnipotence","Warlock Class"],"identity":"B","produces":["Near-infinite lifeloss"],"bracket":"S","popularity":1370,"needs":[],"note":"Warlock Class is level three.","commanderOnly":[]},
+    {"id":"4475-7450","cards":["Pox Plague","Wound Reflection"],"identity":"B","produces":["Near-infinite lifeloss for all players"],"bracket":"R","popularity":907,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2607-7450","cards":["Pox Plague","Archfiend of Despair"],"identity":"B","produces":["Near-infinite lifeloss for all players"],"bracket":"R","popularity":753,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"4794-5008","cards":["Blitzwing, Cruel Tormentor // Blitzwing, Adaptive Assailant","Fraying Omnipotence"],"identity":"B","produces":["Near-infinite lifeloss","Target opponent loses the game"],"bracket":"S","popularity":478,"needs":[],"note":"Your life total is at least 2. You control at least one additional creature.","commanderOnly":[]},
+    {"id":"1642-7450","cards":["Pox Plague","Warlock Class"],"identity":"B","produces":["Near-infinite lifeloss for all players"],"bracket":"R","popularity":416,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"5008-7450","cards":["Pox Plague","Blitzwing, Cruel Tormentor // Blitzwing, Adaptive Assailant"],"identity":"B","produces":["Near-infinite lifeloss for all players"],"bracket":"R","popularity":133,"needs":[],"note":"","commanderOnly":[]}
+  ]
+}

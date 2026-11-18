@@ -1,0 +1,24 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Giada, Font of Hope",
+  "identity": "W",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"2919-3693","cards":["Archangel of Thune","Walking Ballista"],"identity":"W","produces":["Infinite damage","Infinite lifegain","Infinite lifegain triggers"],"bracket":"S","popularity":12989,"needs":[],"note":"Walking Ballista has at least two +1/+1 counters on it. You have a way to give Walking Ballista lifelink.","commanderOnly":[]},
+    {"id":"4740-5089","cards":["Karn, the Great Creator","Aetherflux Reservoir"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":10046,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51.","commanderOnly":[]},
+    {"id":"1050-3149","cards":["Avacyn, Angel of Hope","Nevinyrral's Disk"],"identity":"W","produces":["Destroy all creatures, artifacts, and enchantments opponents control on each of your turns"],"bracket":"E","popularity":4662,"needs":[],"note":"Nevinyrral's Disk untapped.","commanderOnly":[]},
+    {"id":"3149-3981","cards":["Avacyn, Angel of Hope","Worldslayer"],"identity":"W","produces":["Destroy all permanents opponents control each turn","Lock","Mass Land Denial"],"bracket":"R","popularity":4641,"needs":[],"note":"Worldslayer attached to Avacyn. An opponent is unable to block Avacyn. Avacyn does not have summoning sickness.","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"1495-2919","cards":["Archangel of Thune","Triskelion"],"identity":"W","produces":["Infinite damage","Infinite lifegain","Infinite lifegain triggers"],"bracket":"S","popularity":2092,"needs":[],"note":"Triskelion has at least one +1/+1 counter on it. You have a way to give Triskelion lifelink.","commanderOnly":[]},
+    {"id":"876-3168-7070","cards":["Monk Gyatso","Lightning Greaves","Urza's Incubator"],"identity":"W","produces":["Infinite creature LTB","Infinite creature ETB","Infinite storm count"],"bracket":"E","popularity":1957,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"810-3149","cards":["Avacyn, Angel of Hope","Magus of the Disk"],"identity":"W","produces":["Destroy all creatures, artifacts, and enchantments opponents control on each of your turns"],"bracket":"E","popularity":1828,"needs":[],"note":"Magus of the Disk without summoning sickness.","commanderOnly":[]},
+    {"id":"1328-5141","cards":["Teferi's Protection","Spellbinder"],"identity":"W","produces":["Permanents you control phase out during your opponents' turns","You have protection from everything during your opponents' turns","Your life total can't change during your opponents' turns"],"bracket":"S","popularity":1436,"needs":[],"note":"Spellbinder attached to a creature that can attack this turn and that cannot be blocked and killed by an opponent.","commanderOnly":[]},
+    {"id":"132-4740","cards":["Aetherflux Reservoir","Myr Welder"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":1142,"needs":[],"note":"You have a way to give Myr Welder lifelink. Your life total is at least 51. Myr Welder does not have summoning sickness.","commanderOnly":[]},
+    {"id":"4241-4740","cards":["Karn, Silver Golem","Aetherflux Reservoir"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":973,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51.","commanderOnly":[]},
+    {"id":"70-5141","cards":["Balancing Act","Teferi's Protection"],"identity":"W","produces":["Each opponent sacrifices all permanents they control","Mass Land Denial"],"bracket":"R","popularity":769,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3473-6036","cards":["Transcendence","The Book of Exalted Deeds"],"identity":"W","produces":["Draw the game"],"bracket":"S","popularity":386,"needs":[],"note":"You control an Angel","commanderOnly":[]},
+    {"id":"2745-2988-4740","cards":["Aetherflux Reservoir","Purity","Angel of Vitality"],"identity":"W","produces":["Infinite damage","Infinite lifegain","Infinite lifegain triggers"],"bracket":"E","popularity":368,"needs":[],"note":"Your life total is at least 51.","commanderOnly":[]},
+    {"id":"3007-4740","cards":["Aetherflux Reservoir","Toymaker"],"identity":"C","produces":["Infinite damage","Infinite lifegain triggers"],"bracket":"S","popularity":234,"needs":[],"note":"You have a way to give Aetherflux Reservoir lifelink. Your life total is at least 51. You have at least one card in hand. Toymaker does not have summoning sickness.","commanderOnly":[]}
+  ]
+}

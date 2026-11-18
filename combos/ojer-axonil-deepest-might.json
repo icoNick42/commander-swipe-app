@@ -1,0 +1,17 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Ojer Axonil, Deepest Might",
+  "identity": "R",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"2484-4083","cards":["Blasphemous Act","Repercussion"],"identity":"R","produces":["Near-infinite damage to all players"],"bracket":"C","popularity":40385,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1775-2484","cards":["Toralf, God of Fury // Toralf's Hammer","Blasphemous Act"],"identity":"R","produces":["Near-infinite damage"],"bracket":"P","popularity":22479,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1823-2484","cards":["Fall of Cair Andros","Blasphemous Act"],"identity":"R","produces":["Infinite +1/+1 counters on a creature","Near-infinite damage to creatures"],"bracket":"O","popularity":14479,"needs":[],"note":"An opponent controls a creature with toughness less than 13.","commanderOnly":[]},
+    {"id":"2868-4629","cards":["Ojer Axonil, Deepest Might // Temple of Power","Pyrohemia"],"identity":"R","produces":["Each opponent loses the game","Near-infinite damage"],"bracket":"S","popularity":12784,"needs":[],"note":"Your life total is equal to or greater than the highest life total among your opponents divided by Ojer Axonil's power, rounded up. You have a way to give Ojer Axonil indestructible or protection f...","commanderOnly":[]},
+    {"id":"4083-5871","cards":["Chandra's Incinerator","Repercussion"],"identity":"R","produces":["Near-infinite damage to one opponent","Destroy all creatures target opponent controls"],"bracket":"E","popularity":10463,"needs":[],"note":"You have a way to deal noncombat damage to an opponent who controls at least one creature.","commanderOnly":[]},
+    {"id":"2484-7502","cards":["Expedited Inheritance","Blasphemous Act"],"identity":"R","produces":["Each player may exile a portion of their library with the ability to play the exiled cards until the end of their next turn","Exile your library with the ability to play the exiled cards until the end of your next turn"],"bracket":"O","popularity":5275,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"4629-7283","cards":["Raphael, Ninja Destroyer","Pyrohemia"],"identity":"R","produces":["Near-infinite damage to all players"],"bracket":"S","popularity":1739,"needs":[],"note":"Raphael is indestructible.","commanderOnly":[]}
+  ]
+}

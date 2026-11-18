@@ -1406,7 +1406,9 @@ test("whole-deck copy: cuts come off, printings and marks stay, picks after the 
 test("cut ideas: never the commander, lands, staples, role keepers or combo pieces", () => {
   const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
   const names = ideas.map((x) => x.name);
-  assert.ok(ideas.length >= 6, ideas.length);
+  // cycle 11: wider labels raised the deck's average Fit (Impact Tremors and
+  // Warleader's Call now pay off creatures entering), so fewer weak-fit ideas
+  assert.ok(ideas.length >= 4, ideas.length);
   assert.ok(!names.includes("Zurgo Stormrender"));
   assert.ok(
     !names.some((n) => /Badlands|Command Tower|Arid Mesa|Urza's Saga/.test(n)),
@@ -1757,4 +1759,123 @@ test("cycle 10: cut ideas", () => {
   for (const n of ["Burgeoning", "Quirion Ranger", "Sylvan Library"])
     assert.ok(!zIdeas.some((i) => i.name === n), n + " feeds Zimone (or is card draw)");
   assert.ok(zIdeas.every((i) => i.fit < zimoneSyn.score || !/lower than most/.test(i.reasons[0])));
+});
+
+// ---------------------------------------------------------------- cycle 11: 20 strategies, 47 decks
+// Real cards from the cycle 11 benchmark where the hand review and the app disagreed.
+const c11 = JSON.parse(read("scryfall_c11_strategies.json")).data.map(CS.slimCard);
+const card11 = (n) => {
+  const c = c11.find((x) => x.name === n || x.name.startsWith(n + ",") || x.name.split(" // ")[0] === n);
+  assert.ok(c, "fixture has " + n);
+  return c;
+};
+const t11 = (n) => CS.cardTraits(card11(n));
+const prof11 = (cmd, names) => CS.deckProfile([cmd].concat(names).map(card11), card11(cmd).name);
+
+test("cycle 11: death payoffs, tokens you make, self-mill", () => {
+  assert.ok(t11("Zulaport Cutthroat").wants.deaths, "~ or another creature you control dies");
+  assert.ok(t11("Massacre Wurm").wants.deaths, "a creature an opponent controls dies");
+  assert.ok(t11("Plague of Vermin").gives.bodies, "each player creates");
+  assert.ok(!t11("Beast Within").gives.fodder, "its controller creates: not your token");
+  assert.ok(t11("Grisly Salvage").gives.graveyard && t11("Mesmeric Orb").gives.graveyard);
+});
+
+test("cycle 11: opponents drawing, drawing, draining", () => {
+  const sh = t11("Sheoldred, the Apocalypse");
+  assert.ok(sh.wants.drawing && sh.wants.oppdraw && sh.gives.drain);
+  assert.ok(t11("Howling Mine").gives.oppdraw && t11("Nekusar, the Mindrazer").gives.oppdraw);
+  assert.ok(t11("Exquisite Blood").wants.drain && t11("Bloodchief Ascension").wants.drain);
+  // card draw is Sheoldred's plan, so a pile of draw isn't a surplus
+  const names = ["Howling Mine", "Bloodchief Ascension", "Exquisite Blood", "Sol Ring", "Mesmeric Orb"];
+  const slims = ["Sheoldred, the Apocalypse"].concat(names).map(card11);
+  const prof = CS.deckProfile(slims, "Sheoldred, the Apocalypse");
+  prof.roleCount.draw = 30;
+  const ideas = CS.cutSuggestions(prof, CS.deckSynergy(prof, slims), slims, {});
+  assert.ok(!ideas.some((i) => i.reasons.some((r) => /^Card draw:/.test(r))), "no draw surplus");
+});
+
+test("cycle 11: opponents sacrificing or discarding (Tergrid)", () => {
+  assert.ok(t11("Tergrid").wants.oppsac);
+  assert.ok(t11("Smallpox").gives.oppsac && t11("Divest").gives.oppsac);
+  const fit = CS.fitScore(card11("Smallpox"), prof11("Tergrid", ["Divest"]));
+  assert.ok(fit.score >= 30 && /^Works with Tergrid/.test(fit.reasons[0]), fit.score + " " + fit.reasons.join("; "));
+});
+
+test("cycle 11: commander hooks for big artifacts and enchantments (Bello)", () => {
+  assert.deepEqual(CS.commanderHooks(card11("Bello")), { permMin: 4, permTypes: "both" });
+  const p = prof11("Bello", ["Chimil, the Inner Sun", "Sol Ring"]);
+  assert.ok(p.commander.wants.animate);
+  assert.ok(p.cards.find((c) => c.name === "Chimil, the Inner Sun").gives.animate, "MV 6 artifact");
+  assert.ok(!p.cards.find((c) => c.name === "Sol Ring").gives.animate, "MV 1 artifact");
+});
+
+test("cycle 11: spells, targeting, X spells, dungeons, Sagas, planeswalker-type labels", () => {
+  assert.ok(t11("Ms. Bumbleflower").wants.spells, "whenever you cast a spell");
+  assert.ok(t11("Ms. Bumbleflower").gives.targets && t11("Willbreaker").wants.targets && t11("Kros, Defense Contractor").wants.targets);
+  assert.ok(t11("Zaxara, the Exemplary").wants.xspells && t11("Torment of Hailfire").gives.xspells);
+  assert.ok(t11("Hama Pashar, Ruin Seeker").wants.dungeon && t11("Nadaar, Selfless Paladin").gives.dungeon);
+  const saga = t11("The Eldest Reborn");
+  assert.ok(saga.gives.sagas && !saga.wants.sagas, "a Saga's own chapters aren't a payoff");
+  assert.ok(t11("Tom Bombadil").wants.sagas);
+});
+
+test("cycle 11: card types count (artifacts), but not on the commander", () => {
+  assert.ok(t11("Sol Ring").gives.artifacts, "an artifact card is an artifact");
+  assert.ok(t11("Chiss-Goria, Forge Tyrant").wants.artifacts);
+  const g = prof11("Giada, Font of Hope", ["Cathars' Crusade"]);
+  assert.ok(!g.commander.gives.etb, "the commander being a creature doesn't feed 'creatures entering'");
+  assert.ok(t11("Panharmonicon").wants.blink && t11("Panharmonicon").wants.etb);
+});
+
+test("cycle 11: noncombat damage, evasion, attack triggers", () => {
+  assert.ok(t11("Ojer Axonil").wants.burn && t11("Firebrand Archer").gives.burn);
+  assert.ok(t11("Slither Blade").gives.attacks, "can't be blocked");
+  const rv = t11("Rottenmouth Viper");
+  assert.ok(rv.gives.attacks && rv.wants.attacks, "whenever ~ enters or attacks");
+  assert.ok(t11("Satoru Umezawa").wants.attacks && t11("Satoru Umezawa").wants.big, "grants ninjutsu");
+  assert.ok(t11("Reyav, Master Smith").wants.gear && t11("Reyav, Master Smith").wants.attacks);
+  assert.ok(t11("Isshin, Two Heavens as One").wants.attacks, "a creature attacking causes");
+});
+
+test("cycle 11: kindred: land types, changelings, choose-a-type, cut ideas", () => {
+  const hz = prof11("Hazezon, Shaper of Sand", ["Sol Ring"]);
+  assert.ok(CS.fitScore(card11("Mirage Mesa"), hz).score > 0, "a Desert for a Desert commander");
+  const rin = prof11("Rin and Seri, Inseparable", ["Elvish Mystic"]);
+  const me = CS.fitScore(card11("Mirror Entity"), rin);
+  assert.ok(me.reasons.some((r) => /your deck cares about (Cats|Dogs)/.test(r)), "a changeling is a Cat and a Dog: " + me.reasons.join("; "));
+  const elves = ["Elvish Mystic", "Elvish Archdruid", "Llanowar Elves", "Wood Elves"].filter((n) => c11.some((x) => x.name === n));
+  const lp = CS.deckProfile(["Lathril, Blade of the Elves"].concat(elves).map(card11), "Lathril, Blade of the Elves");
+  for (let i = 0; i < 6; i++) lp.typeCount.elf = (lp.typeCount.elf || 0) + 1; // stand in for a full elf deck
+  const vb = CS.fitScore(card11("Vanquisher's Banner"), lp);
+  assert.ok(vb.reasons.some((r) => /^Cares about El/.test(r)), "choose a creature type: " + vb.reasons.join("; "));
+  // a Dragon in a Dragon commander's deck isn't "off the plan" for costing 6
+  const ms = ["Miirym, Sentinel Wyrm", "Lathliss, Dragon Queen", "Dragon Tempest", "Scourge of Valkas", "Sol Ring"].map(card11);
+  const mp = CS.deckProfile(ms, "Miirym, Sentinel Wyrm");
+  const lath = CS.cutSuggestions(mp, CS.deckSynergy(mp, ms), ms, {}).find((i) => i.name === "Lathliss, Dragon Queen");
+  assert.ok(!lath || !lath.reasons.some((r) => /isn't part of the deck's plan/.test(r)), lath && lath.reasons.join("; "));
+});
+
+test("cycle 11: token doublers, lands from hand, protection wordings", () => {
+  assert.ok(t11("Parallel Lives").wants.bodies);
+  assert.ok(t11("Burgeoning").wants.landhand && t11("Hakbal of the Surging Soul").gives.landhand, "explore puts lands in hand");
+  assert.ok(t11("Loran's Escape").roles.protection, "target artifact or creature gains hexproof");
+  assert.ok(t11("Meren of Clan Nel Toth").gives.blink, "returning a creature card re-uses its enter trigger");
+});
+
+test("cycle 11: the deck panel lists the commander's own plan first", () => {
+  const names = ["Smallpox", "Divest", "Plague of Vermin", "Zulaport Cutthroat", "Massacre Wurm", "Grisly Salvage"];
+  const slims = ["Tergrid, God of Fright // Tergrid's Lantern"].concat(names).map(card11);
+  const prof = CS.deckProfile(slims, slims[0].name);
+  const plan = CS.deckSynergy(prof, slims).plan.map((p) => p.label);
+  assert.ok(plan.indexOf("oppsac") !== -1, plan.join(","));
+  const firstOther = plan.findIndex((l) => !prof.commander.wants[l]);
+  assert.ok(firstOther === -1 || plan.indexOf("oppsac") < firstOther, plan.join(","));
+  // a smaller plan the commander wants still comes before a bigger one it doesn't
+  // a bigger plan the commander doesn't want (attacking, 4 and 4) still comes after it
+  prof.cards.filter((c) => !c.commander).slice(0, 4).forEach((c) => {
+    c.gives.attacks = true;
+    c.wants.attacks = true;
+  });
+  const plan2 = CS.deckSynergy(prof, slims).plan.map((p) => p.label);
+  assert.ok(plan2.indexOf("oppsac") < plan2.indexOf("attacks"), plan2.join(","));
 });

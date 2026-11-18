@@ -939,11 +939,11 @@
   // [label, regex] pairs. Order doesn't matter.
   var GIVES = [
     // creature bodies: tokens and anything that makes extra creatures
-    ["bodies", /\bcreate\b[^.]*\bcreature tokens?\b/],
+    ["bodies", /\bcreates?\b[^.]*\bcreature tokens?\b/],
     ["bodies", /\b(myriad|mobilize|squad|populate|amass|incubate|afterlife|fabricate|embalm|eternalize|encore)\b/],
     ["bodies", /\bcreate\b[^.]*\btokens? that'?s? (are |is )?(a )?cop(y|ies)\b/],
     // fodder: bodies, plus creatures that are worth sacrificing
-    ["fodder", /\bcreate\b[^.]*\bcreature tokens?\b/],
+    ["fodder", /\bcreates?\b[^.]*\bcreature tokens?\b/],
     ["fodder", /\b(myriad|mobilize|squad|populate|amass|afterlife|fabricate|persist|undying|escape)\b/],
     ["fodder", /\bwhen ~ dies\b/],
     // deaths: sacrifice outlets and wipes
@@ -955,10 +955,11 @@
     // attacks: attack triggers and things that make attacking better
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
     ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b/],
+    ["attacks", /\bwhenever ~ (enters|blocks) or attacks\b|\bwhenever ~ attacks or blocks\b/],
     ["attacks", /\b(have|has|gains?|gets?)\b[^.]*\bhaste\b/],
     ["attacks", /\badditional combat phase\b/],
     ["attacks", /\bcreatures you control (have|gain) [^.]*(menace|trample|flying|double strike|can't be blocked)/],
-    ["attacks", /\bcreatures? can't block\b/],
+    ["attacks", /\bcreatures? can't block\b|~ can't be blocked\b|\bshadow\b/],
     // treasure and other artifact tokens
     ["treasure", /\bcreates? [^.]*\btreasure\b/],
     ["artifacts", /\bcreate\b[^.]*\b(treasure|clue|food|blood|map|powerstone|gold|incubator)\b|\bartifact creature tokens?\b|\bartifact token\b/],
@@ -968,15 +969,29 @@
     // life gain
     ["lifegain", /\byou gain (\d+|x|that much|life)\b|\bgain (\d+|x|that much) life\b|\blifelink\b|\byou gain [^.]*\blife\b/],
     // graveyard fillers
-    ["graveyard", /\bmill\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b|\bdiscards? (their|your) hands?\b/],
+    ["graveyard", /\brad counters?\b/],
+    ["graveyard", /\bput (the rest|all other cards revealed this way|all other revealed cards|the other cards?|those cards|them|that card) [^.]*\binto your graveyard\b/],
+    ["graveyard", /\bmills?\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b|\bdiscards? (their|your) hands?\b/],
     // blink
     ["blink", /\bexile\b[^.]*\breturn (it|them|that card|those cards) to the battlefield\b/],
     ["blink", /\breturn (another )?target (creature|nonland permanent|permanent) you control to (its owner's|your) hand\b/],
+    ["blink", /\bexile (any number of |x |up to (one|two|three) )?(other )?target (creatures?|nonland permanents?|permanents?|artifacts? or creatures?) you control\b|\bdies, return (that card|it) to the battlefield\b/],
+    ["blink", /\bcreature card in your graveyard\b[^.]*\.[^.]*\breturn it to the battlefield\b|\breturn target creature card from your graveyard to the battlefield\b/],
     // landfall enablers
     ["landfall", new RegExp("\\bsearch your library for [^.]*\\b" + LAND_WORD + "\\b[^.]*(onto|put)[^.]*battlefield\\b")],
     ["landfall", /\bput [^.]*\blands? cards? [^.]*onto the battlefield\b|\bplay (an|up to (two|three)|two|three|any number of) additional lands?\b|\bplay lands from (your graveyard|the top of your library)\b/],
     ["landfall", new RegExp("\\breturn (a|an) " + LAND_WORD + "[^.]* you control to (its|their) owner('s|s'|s)? hands?\\b")],
     ["landfall", /\bcreatures you control are [^.]*\blands?\b|\bare (forest |plains |island |swamp |mountain )?lands in addition\b/],
+    ["drain", /\b(each opponent|target opponent|target player|that player|each player|they) loses? (\d+|x|that much|half their) life\b|\b(each opponent|target opponent|target player|that player|they) lose (\d+|x|that much|half their) life\b/],
+    ["lifegain", /\bdouble (target player's|your) life total\b/],
+    ["lifeloss", /\byou lose (\d+|x|half your|that much) life\b|\bpays? (\d+|x) life\b|\bpay life equal\b/],
+    // cycle 11: dungeons, opponents drawing, opponents sacrificing or discarding,
+    // noncombat damage, targeting what opponents control, casting from exile
+    ["dungeon", /\bventure into (the dungeon|undercity)\b|\b(take|takes|have|has) the initiative\b/],
+    ["oppdraw", /\beach player draws\b|\b(each|target) (opponent|player) draws\b|\bdraws? (an|one|two) additional cards?\b|\beach player (discards|shuffles) [^.]*\bthen draws\b/],
+    ["oppsac", /\b(each|target) (opponent|player)\b[^.]*\b(sacrifices|discards)\b|\bthat player (sacrifices|discards)\b|\bunless (they|that player) (sacrifices?|discards?)\b|\bsacrifices? [^.]*\bor discards?\b/],
+    ["targets", /\btarget (creature|permanent|nonland permanent|artifact|enchantment|planeswalker|player|opponent|spell|creature or planeswalker)\b(?! you control)/],
+    ["exile", /\bexile the top [^.]*\.\s*(until [^,]*, )?you may (play|cast)\b|\byou may (play|cast) (that card|those cards|it|them|cards exiled)[^.]*\b(this turn|for as long as|until)\b|\bexile it face down\. you may play\b/],
   ];
 
   var WANTS = [
@@ -984,33 +999,54 @@
     ["bodies", /\bcreature tokens? you control\b|\bwhenever you create (one or more )?(creature )?tokens?\b/],
     ["bodies", /\bfor each (other )?creature you control\b(?! with)|\bnumber of (other )?creatures you control\b(?! with)|\bcreatures you control get \+\d/],
     ["bodies", /\bwhenever (a|an|one or more|another)( other)?( nontoken)? creatures?( you control)?( with power \d or less)? enters?\b/],
-    ["bodies", /\bconvoke\b/],
+    ["bodies", /\bwould create one or more (creature )?tokens\b/],
+    ["bodies", /\bconvoke\b|\b(twenty|ten|\d+) or more (other )?creatures\b/],
     // sacrifice outlets want fodder
     ["fodder", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? (nontoken )?(creatures?|artifact or creature|creature or artifact)\b/],
     // death payoffs
     ["deaths", /\bwhenever (a|an|another|one or more)( other)?( nontoken)? creatures?( you control)?( or planeswalkers?)? (dies|die)\b/],
     ["deaths", /\bwhenever (a|an|another)( other)?( nontoken)? creature you control (with|without) [a-z ]{1,20}? dies\b/],
-    ["deaths", /\bwhenever ~ or another creature dies\b|\ba creature dying\b|\bcreatures? (that )?(died|have died) this turn\b|\bwhenever equipped creature dies\b|\bput into a graveyard from the battlefield\b/],
+    ["deaths", /\bwhenever ~ or another (nontoken )?creature( or planeswalker)?( you control)? dies\b|\bwhenever a creature an opponent controls dies\b|\ba creature dying\b|\bcreatures? (that )?(died|have died) this turn\b|\bwhenever equipped creature dies\b|\bput into a graveyard from the battlefield\b/],
     ["deaths", /\bcreature cards? [^.]*from your graveyard\b|\bfrom your graveyard to the battlefield\b/],
     ["deaths", /\bcreature cards? from (their|all|each player's|a) graveyards?\b|\ball creature cards from\b/],
     ["deaths", /\bwhenever a creature token you control leaves\b/],
     // attack payoffs
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
-    ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b|\battacking creatures?\b|\bdeals? combat damage to (a player|an opponent)\b|\bif it was attacking\b|\b(equipped|enchanted) creature is attacking\b/],
+    ["attacks", /\bwhenever ~ (enters|blocks) or attacks\b|\bwhenever ~ attacks or blocks\b/],
+    ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b|\battacking creatures?\b|\bcreature attacking causes\b|\bwhenever a creature you control that's [^.]*\battacks\b|\bdeals? combat damage to (a player|an opponent)\b|\bif it was attacking\b|\b(equipped|enchanted) creature is attacking\b/],
     // treasure and artifact payoffs
-    ["treasure", /\bsacrifice (a|an|x|one or more|two) (treasures?|artifacts?)\b|\bsacrifice an artifact\b|\bwhenever you sacrifice\b/],
+    ["treasure", /\bsacrifice (a|an|x|one or more|two) (treasures?|artifacts?|clues?|foods?)\b|\bsacrifice an artifact\b|\bwhenever you sacrifice\b/],
     ["artifacts", /\bartifacts? you control\b|\bwhenever (an|one or more) artifacts? (you control )?enters?\b|\bfor each artifact\b|\baffinity for artifacts\b|\bimprovise\b|\bmetalcraft\b/],
     // counters payoffs
-    ["counters", /\bwith (a|one or more) \+1\/\+1 counters?\b|\bwhenever one or more \+1\/\+1 counters\b|\bproliferate\b|\bfor each \+1\/\+1 counter\b|\bnumber of \+1\/\+1 counters\b/],
-    ["counters", /\bwith (a|one or more) counters? on (it|them)\b|\bif it had counters on it\b|\+1\/\+1 counters? would be put on\b|\bwhenever you put one or more \+1\/\+1 counters\b/],
+    ["counters", /\bwith (a|one or more) \+1\/\+1 counters?\b|\bwith \+1\/\+1 counters on (it|them)\b|\bwhenever one or more \+1\/\+1 counters\b|\bproliferate\b|\bfor each \+1\/\+1 counter\b|\bnumber of \+1\/\+1 counters\b/],
+    ["counters", /\bwith (a|one or more) counters? on (it|them)\b|\bif it had (one or more )?counters on it\b|\+1\/\+1 counters? would be put on\b|\bwhenever you put one or more \+1\/\+1 counters\b/],
     // life gain payoffs
     ["lifegain", /\bwhenever you gain life\b|\bif you gained life\b|\bgained life this turn\b|\bamount of life you gained\b|\bif you would gain life\b|\b(\d+|thirty|forty|fifty) or more life\b/],
     // graveyard payoffs
+    ["graveyard", /\bleaves? your graveyard\b|\bcards? (are|is) milled\b|\bcards? (are )?in your graveyard\b/],
     ["graveyard", /\bfrom your graveyard\b|\bfrom a graveyard\b|\b(escape|flashback|unearth|aftermath|embalm|eternalize|disturb|delve|jump-start|retrace)\b/],
     // blink payoffs: the card's own enter trigger
-    ["blink", /\bwhen ~ enters\b/],
+    ["blink", /\bwhen ~ enters\b|\bentering( the battlefield)? causes a triggered ability\b/],
     // landfall payoffs
     ["landfall", /\bwhenever (a land|one or more lands) (you control )?enters?\b|\blandfall\b|\ba land entering\b/],
+    // cycle 11 payoffs
+    ["dungeon", /\broom abilit(y|ies)\b|\bcompleted? (a|that) dungeon\b|\bdungeons? you own\b/],
+    ["oppdraw", /\bwhenever (an opponent|a player) draws\b/],
+    ["drawing", /\bwhenever you draw (a|your second|one or more) cards?\b/],
+    ["oppsac", /\bwhenever (an opponent|a player|one or more opponents) (sacrifices|discards)\b/],
+    ["burn", /\bnoncombat damage\b|\bif a source you control would deal damage\b|\bwould deal damage to an opponent\b|\bwhenever an opponent is dealt damage\b|\bwhenever (a|another) (red )?source you control deals damage\b/],
+    ["targets", /\bbecomes the target of a spell or ability you control\b|\bcommit a crime\b|\bcounters? on (a |one or more )?(creatures?|permanents?) you don't control\b/],
+    ["exile", /\b(plays? a land|casts? a spell|cast spells?|play lands?) from exile\b|\bspells? you cast from exile\b|\bspells you cast but don't own\b|\bwhenever you cast a spell from anywhere other than your hand\b/],
+    ["etb", /\bwhenever (a|an|another|one or more)( other)?( nontoken)? creatures?( you control)? enters?\b|\b(creature|permanent) entering( the battlefield)? causes a triggered ability\b/],
+    ["walkers", /\bwould put one or more counters on a permanent you control\b|\bplaneswalkers? you control\b|\bloyalty abilit(y|ies)\b|\bproliferate\b/],
+    ["enchantments", /\bwhenever you cast an? enchantment spell\b|\benchantments? you control\b|\bfor each enchantment\b|\bconstellation\b|\bwhenever an(other)? enchantment (you control )?enters\b/],
+    ["xspells", /\bwith \{x\} in (its|their) mana costs?\b|\bspells? with \{x\}\b/],
+    ["devotion", /\bdevotion to (white|blue|black|red|green|that color|the chosen color)\b|\byour devotion\b/],
+    ["drain", /\bwhenever (an opponent|a player|one or more opponents|each opponent) loses? (\d+ or more )?life\b|\bwhenever an opponent is dealt damage or loses life\b|\bif an opponent lost (\d+ or more )?life\b/],
+    ["lifeloss", /\blife you('ve)? lost this turn\b|\bwhenever you lose life\b|\bif you('ve)? lost life\b/],
+    ["instant", /\bwhenever you cast a spell (while|during)\b|\bwhenever you cast a spell during an opponent's turn\b/],
+    ["enchantments", /\benchantment cards? (from|in) your graveyard\b|\benchantment spells? you cast\b/],
+    ["artifacts", /\bartifact cards?\b|\bartifact spells? you cast\b/],
   ];
 
   /**
@@ -1024,7 +1060,7 @@
     deaths: { g: "Makes creatures die", w: "Pays off creatures dying", b: "Makes creatures die and pays it off", short: "death triggers" },
     attacks: { g: "Rewards attacking", w: "Rewards attacking", b: "Rewards attacking", short: "attacking" },
     treasure: { g: "Makes Treasure", w: "Uses Treasure", b: "Makes and uses Treasure", short: "Treasure" },
-    artifacts: { g: "Makes artifacts", w: "Pays off artifacts", b: "Makes and pays off artifacts", short: "artifacts" },
+    artifacts: { g: "Is or makes an artifact", w: "Pays off artifacts", b: "Artifact that pays off artifacts", short: "artifacts" },
     counters: { g: "Adds +1/+1 counters", w: "Uses +1/+1 counters", b: "Adds and uses +1/+1 counters", short: "+1/+1 counters" },
     lifegain: { g: "Gains life", w: "Pays off life gain", b: "Gains life and pays it off", short: "life gain" },
     graveyard: { g: "Fills your graveyard", w: "Uses your graveyard", b: "Fills and uses your graveyard", short: "graveyard" },
@@ -1043,6 +1079,23 @@
     stax: { g: "Taxes or slows opponents", w: "Taxes or slows opponents", b: "Taxes or slows opponents", short: "taxing opponents" },
     oneturn: { g: "Does something when it enters, attacks or dies", w: "Gives creatures one turn (blitz or dash)", b: "One-turn creature that pays off", short: "one-turn creatures" },
     cast: { g: "A big creature your commander helps you cast", w: "Helps you cast big creatures", b: "Helps cast big creatures, and is one", short: "big creature spells" },
+    animate: { g: "A big artifact or enchantment your commander animates", w: "Turns big artifacts or enchantments into creatures", b: "Animates big permanents, and is one", short: "big artifacts and enchantments" },
+    dungeon: { g: "Ventures into the dungeon", w: "Pays off dungeons", b: "Ventures and pays off dungeons", short: "dungeons" },
+    oppdraw: { g: "Makes opponents draw", w: "Punishes or taxes opponents' draws", b: "Makes opponents draw and pays it off", short: "opponents drawing" },
+    drawing: { g: "Draws cards", w: "Pays off drawing cards", b: "Draws cards and pays it off", short: "drawing cards" },
+    oppsac: { g: "Makes opponents sacrifice or discard", w: "Pays off opponents sacrificing or discarding", b: "Makes opponents sacrifice or discard and pays it off", short: "opponents sacrificing or discarding" },
+    burn: { g: "Deals damage to opponents", w: "Boosts noncombat damage", b: "Deals and boosts damage", short: "noncombat damage" },
+    targets: { g: "Targets things", w: "Pays off targeting opponents' things", b: "Targets and pays it off", short: "targeting opponents' things" },
+    exile: { g: "Lets you play cards from exile", w: "Pays off casting from exile", b: "Casts from exile and pays it off", short: "casting from exile" },
+    etb: { g: "A creature", w: "Pays off creatures entering", b: "A creature that pays off creatures entering", short: "creatures entering" },
+    walkers: { g: "A planeswalker", w: "Pays off planeswalkers", b: "Planeswalker payoff", short: "planeswalkers" },
+    enchantments: { g: "An enchantment", w: "Pays off enchantments", b: "Enchantment that pays off enchantments", short: "enchantments" },
+    sagas: { g: "A Saga", w: "Pays off Sagas", b: "Saga payoff", short: "Sagas" },
+    xspells: { g: "A spell with X in its cost", w: "Pays off X spells", b: "X spell payoff", short: "X spells" },
+    devotion: { g: "Adds devotion (two or more pips of one color)", w: "Counts devotion", b: "Adds and counts devotion", short: "devotion" },
+    drain: { g: "Makes opponents lose life", w: "Pays off opponents losing life", b: "Drains and pays it off", short: "draining opponents" },
+    lifeloss: { g: "Costs you life", w: "Pays off losing life", b: "Costs life and pays it off", short: "paying life" },
+    instant: { g: "Can be cast at instant speed", w: "Pays off spells cast at the right moment", b: "Instant-speed payoff", short: "instant-speed spells" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -1068,7 +1121,7 @@
     { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) sacrifices (a|an|one) (creature|nonland permanent|attacking creature)\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
     { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
     { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b") },
-    { key: "protection", label: "Protection", target: 3, re: /\b(creatures|permanents) you control (gain|have|get)[^.]*\b(indestructible|hexproof|shroud|protection)\b|\bequipped creature has[^.]*\b(shroud|hexproof|indestructible|protection)\b|\btarget (creature|permanent) you control gains[^.]*\b(indestructible|hexproof|protection)\b|\b(enchanted|equipped) creature (gets [^.]*and )?has [^.]*\b(shroud|hexproof|indestructible|protection)\b|\bprevent all combat damage\b|\bphase out\b/ },
+    { key: "protection", label: "Protection", target: 3, re: /\b(creatures|permanents) you control (gain|have|get)[^.]*\b(indestructible|hexproof|shroud|protection)\b|\bequipped creature has[^.]*\b(shroud|hexproof|indestructible|protection)\b|\btarget (creature|permanent|artifact or creature)( you control)? (becomes [^.]*and )?gains?[^.]*\b(indestructible|hexproof|protection)\b|\ball creatures gain protection\b|\b(enchanted|equipped) creature (gets [^.]*and )?has [^.]*\b(shroud|hexproof|indestructible|protection)\b|\bprevent all combat damage\b|\bphases? out\b/ },
   ];
 
   /**
@@ -1104,6 +1157,7 @@
     // lands into the graveyard: sacrificing or discarding lands (fetch lands are added below)
     ["landyard", /\bsacrifice (a|an|two|x|one or more) (lands?|forests?|plains|islands?|swamps?|mountains?)\b|\bdiscard (a|x|two|one or more) land cards?\b|\bdiscarding a land card\b/],
     // land cards into hand: Life from the Loam, Kodama's Reach, Borborygmos
+    ["landhand", /\bexplores?\b/],
     ["landhand", /\bland cards?\b[^.]*\binto your hand\b|\breturn [^.]*\blands?\b[^.]*\bto (your|its owner's|their owners'|their owner's) hands?\b|\bland cards? [^.]*\bto your hand\b|\bwhenever a land is tapped for mana, return it to its owner's hand\b/],
     // discarding as a cost or an effect (Borborygmos, Mox Diamond, cycling)
     ["discard", /\bdiscard (a|x|two|one or more|that) (land )?cards?\b|\bdiscarding a (land )?card\b|\b(cycling|channel)\b|\bdiscards? (their|your) hands?\b/],
@@ -1120,7 +1174,7 @@
     // discard payoffs: Glint-Horn Buccaneer, madness
     ["discard", /\bwhenever you (discard|cycle or discard|cycle)\b|\bmadness\b/],
     // wants land cards in hand: discarding lands as a cost or for value
-    ["landhand", /\bdiscard (a|x|two|one or more) land cards?\b|\bdiscarding a land card\b/],
+    ["landhand", /\bdiscard (a|x|two|one or more) land cards?\b|\bdiscarding a land card\b|\bput a land card from your hand onto the battlefield\b/],
     // cares about colors: color hosers and color protection (with a color changer, these hit or dodge anything)
     ["color", /\b(non)?(white|blue|black|red|green|multicolored|monocolored) (source|permanent|creature|spell)s?\b|\bprotection from (white|blue|black|red|green|the color of your choice|the chosen color|each color|all colors|its colors|their colors|each of (its|their) colors)\b|\bsource of the color of your choice\b|\bof the chosen color\b|\bshares a color\b/],
     ["big", /\bwithout paying (its|their|the) mana costs?\b|\bput (a|an|target|that|up to one) [^.]*?\b(creature|permanent|artifact) cards? [^.]*\bonto the battlefield\b|\breturn target creature card from (your|a) graveyard to the battlefield\b|\byou may turn [^.]*\bface up\b|\bturn target [^.]*\bface up\b/],
@@ -1131,7 +1185,7 @@
   // Linvala). A pile-on theme: each piece is better next to the others, so
   // a card with it both gives and wants the label.
   var STAX =
-    /\b(spells|abilities)[^.]*\bcost \{\d+\} more\b|\bcost \{\d+\} more to (cast|activate)\b|\bactivated abilities of [^.]*can't be activated\b|\bwhenever an opponent (casts|draws|searches)\b|\bunless (that player|its controller|they) pays? \{|\bcan't attack you\b[^.]*\bunless\b|\byour opponents can't (cast|search|draw|gain|activate)\b|\beach opponent can't\b|\bif no mana was spent to cast it, counter\b|\bopponents? (draws?|casts?) (their|a) second\b|\bdon't untap during\b|\bnonbasic lands are\b|\bif an opponent would (search|draw)\b/;
+    /\b(spells|abilities)[^.]*\bcost \{\d+\} more\b|\bcost \{\d+\} more to (cast|activate)\b|\bactivated abilities of [^.]*can't be activated\b|\bwhenever an opponent (casts|draws|searches)\b|\bwhenever a player casts [^.]*\bloses? \d+ life\b|\bunless (that player|its controller|they) pays? \{|\bcan't attack you\b[^.]*\bunless\b|\byour opponents can't (cast|search|draw|gain|activate)\b|\beach opponent can't\b|\bif no mana was spent to cast it, counter\b|\bopponents? (draws?|casts?) (their|a) second\b|\bdon't untap during\b|\bnonbasic lands are\b|\bif an opponent would (search|draw)\b/;
 
   /**
    * What a commander does for one kind of card, read from its text, for
@@ -1148,13 +1202,26 @@
     // blitz or dash (read with reminder text): the creature stays one turn,
     // so the best ones do something when they enter, attack or die
     if (hooks.castMin && /\b(blitz|dash)\b/.test(CS.synText(slim))) hooks.oneTurn = true;
+    // cycle 11: commanders that make big noncreature artifacts or enchantments
+    // into creatures (Bello: "... with mana value 4 or greater is a 4/4")
+    var pm = /\b(artifacts?|enchantments?)\b[^.]*\byou control with (mana value|converted mana cost) (\d+) or greater (is|are|becomes?)\b/.exec(t);
+    if (pm) {
+      hooks.permMin = parseInt(pm[3], 10);
+      hooks.permTypes = /artifact/.test(pm[0]) && /enchantment/.test(pm[0]) ? "both" : /artifact/.test(pm[1]) ? "artifact" : "enchantment";
+    }
     return hooks;
   };
 
   /** Adds the labels a commander's hooks give a card (a creature it helps cast). */
   function applyHooks(traits, slim, hooks) {
-    if (!hooks || !hooks.castMin || traits.land) return;
+    if (!hooks || traits.land) return;
     var front = String((slim && (slim.frontType || slim.typeLine || slim.types)) || "").toLowerCase();
+    if (hooks.permMin && typeof slim.cmc === "number" && slim.cmc >= hooks.permMin) {
+      var f0 = front.split("//")[0];
+      var kind = /\bartifact\b/.test(f0) && !/\bequipment\b/.test(f0) ? "artifact" : /\benchantment\b/.test(f0) && !/\baura\b/.test(f0) ? "enchantment" : null;
+      if (kind && !/\bcreature\b/.test(f0) && (hooks.permTypes === "both" || hooks.permTypes === kind)) traits.gives.animate = true;
+    }
+    if (!hooks.castMin) return;
     if (/\bcreature\b/.test(front.split("//")[0]) && typeof slim.cmc === "number" && slim.cmc >= hooks.castMin) {
       traits.gives.cast = true;
       if (hooks.oneTurn && /\bwhen(ever)? ~ (enters|dies|attacks)\b|\bwhen ~ enters or (dies|attacks)\b/.test(traits.text))
@@ -1171,8 +1238,11 @@
     var types = synTypes(slim);
     var gives = {};
     var wants = {};
+    // cycle 11: Beast Within's "its controller creates a 3/3 Beast" makes a
+    // token for someone else, so it isn't fodder or a body for you
+    var ownText = text.replace(/\b(its controller|that player|that creature's controller|target opponent|each opponent|its owner) creates?\b[^.]*/g, "");
     GIVES.forEach(function (g) {
-      if (g[1].test(text)) gives[g[0]] = true;
+      if (g[1].test(ownText)) gives[g[0]] = true;
     });
     WANTS.forEach(function (w) {
       if (w[1].test(text)) wants[w[0]] = true;
@@ -1201,13 +1271,58 @@
         wants.protect = true; // the creature wearing it has to survive
     }
     if (/\b(as long as|if) you control a creature\b/.test(bare)) wants.protect = true;
-    else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b|\bsearch your library for an? (equipment|aura)\b|\b(equipment|aura) cards?\b|\bas long as ~ is (equipped|enchanted)\b/.test(text))
+    else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b|\bsearch your library for an? (equipment|aura)\b|\b(equipment|aura)( and vehicle)? spells?\b|\b(enchanted or equipped|equipped or enchanted)\b|\b(equipment|aura) cards?\b|\bas long as ~ is (equipped|enchanted)\b/.test(text))
       wants.gear = true;
     if (/\b(instant|sorcery)\b/.test(types)) gives.spells = true;
+    // cycle 11: what a card is (its card types), for payoffs that count them
+    var mainTypes = types
+      .split("//")
+      .map(function (f) {
+        return f.split("\u2014")[0];
+      })
+      .join(" ");
+    var subLine = types
+      .split("//")
+      .map(function (f) {
+        return f.split("\u2014")[1] || "";
+      })
+      .join(" ");
+    var before = Object.assign({}, gives);
+    if (/\bartifact\b/.test(mainTypes)) gives.artifacts = true;
+    if (/\binstant\b/.test(mainTypes) || /\bflash\b/.test(bare)) gives.instant = true;
+    if (/\benchantment\b/.test(mainTypes) && !isLand) gives.enchantments = true;
+    if (/\bplaneswalker\b/.test(mainTypes)) gives.walkers = true;
+    if (/\bcreature\b/.test(mainTypes.split(" ")[0] + " " + mainTypes) && !isLand) gives.etb = true;
+    if (/\bsaga\b/.test(subLine)) gives.sagas = true;
+    if (/\bsagas?\b|\blore counters?\b|\bfinal chapter\b|\bproliferate\b/.test(bare.replace(/\bsaga\b[^.]*\benters\b[^.]*\./, ""))) wants.sagas = true;
+    if (gives.sagas) delete wants.sagas; // a Saga's own chapters aren't a payoff
+    if (/\{x\}/.test(String(slim.manaCost || "").toLowerCase()) && !isLand) gives.xspells = true;
+    var typeOnly = {};
+    Object.keys(gives).forEach(function (l) {
+      if (!before[l]) typeOnly[l] = true;
+    });
+    if (!isLand && /\b(creature|artifact|enchantment|planeswalker)\b/.test(mainTypes)) {
+      var pips = {};
+      (String(slim.manaCost || "").toLowerCase().match(/\{[wubrg]\}/g) || []).forEach(function (p) {
+        pips[p] = (pips[p] || 0) + 1;
+      });
+      if (Object.keys(pips).some(function (p) {
+        return pips[p] >= 2;
+      }))
+        gives.devotion = true;
+    }
+    // noncombat damage to opponents (combat damage is the "attacks" label)
+    if (/\bdamage to (each opponent|each player|any target|target player|target opponent|each of your opponents|that player|target player or planeswalker)\b/.test(text.replace(/\bcombat damage\b/g, "")))
+      gives.burn = true;
+    // grants ninjutsu to creature cards: big creatures come in without being cast
+    if (/\b(has|have) ninjutsu\b/.test(bare)) {
+      wants.big = true;
+      wants.attacks = true;
+    }
     var permanentCard = /\b(creature|artifact|enchantment|planeswalker|battle)\b/.test(types);
     if (!isLand && permanentCard && typeof slim.cmc === "number" && slim.cmc >= BIG_CMC)
       gives.big = true;
-    if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b/.test(text))
+    if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b|\bwhenever you cast a spell\b(?! with)(?! that)/.test(text))
       wants.spells = true;
     // a card only pays off its own label when it says so for others too
     var roles = {};
@@ -1216,6 +1331,7 @@
         if (r.re.test(r.key === "ramp" ? CS.rampText(bare) : bare)) roles[r.key] = true;
       });
     if (roles.protection) gives.protect = true;
+    if (roles.draw) gives.drawing = true; // cycle 11: for "whenever you draw a card" payoffs
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
     types.split("//").forEach(function (face) {
@@ -1223,6 +1339,13 @@
       if (parts.length > 1 && /\bcreature\b/.test(parts[0]))
         parts[1].trim().split(/\s+/).forEach(function (s) {
           if (s) subtypes[s] = true;
+        });
+    });
+    types.split("//").forEach(function (face) {
+      var parts = face.split("\u2014");
+      if (parts.length > 1 && /\bland\b/.test(parts[0]))
+        parts[1].trim().split(/\s+/).forEach(function (s) {
+          if (s && !/^(plains|island|swamp|mountain|forest)$/.test(s)) subtypes[s] = true;
         });
     });
     var tokenTypes = {};
@@ -1240,6 +1363,7 @@
       tokenTypes: tokenTypes,
       text: text,
       land: isLand,
+      typeOnly: typeOnly,
     };
   };
 
@@ -1266,7 +1390,11 @@
       t.name = s.name;
       t.commander = cmdKey !== "" && CS.nameKey(s.name) === cmdKey;
       if (t.commander) {
+        Object.keys(t.typeOnly || {}).forEach(function (l) {
+          delete t.gives[l];
+        });
         if (hooks.castMin) t.wants.cast = true;
+        if (hooks.permMin) t.wants.animate = true;
         if (hooks.oneTurn) t.wants.oneturn = true;
       } else applyHooks(t, s, hooks);
       cards.push(t);
@@ -1364,13 +1492,18 @@
       var short = cmdName.split(",")[0].trim();
       if (me.text.indexOf(cmdName) !== -1 || (short.length > 3 && me.text.indexOf(short) !== -1))
         cmdTie = "Names " + CS.frontName(profile.commander.name).split(",")[0];
-      else if (/\blieutenant\b|\byou control your commander\b|\byour commander\b/.test(me.text.replace(/\([^)]*\)/g, "")))
+      else if (/\blieutenant\b|\byou control your commander\b|\byour commander\b|\bcommander creatures you own\b/.test(me.text.replace(/\([^)]*\)/g, "")))
         cmdTie = "Better while your commander is out";
       if (cmdTie) raw += CMD_BONUS;
     }
     // tribal: shares a type the deck cares about, or cares about a type the deck has
     var tribal = null;
     var cares = {};
+    // cycle 11: a changeling (or "gains all creature types") is every type the deck has
+    if (/\bchangeling\b|\bis every creature type\b|\bgain all creature types\b/.test(me.text))
+      Object.keys(profile.typeCount).forEach(function (t) {
+        me.subtypes[t] = true;
+      });
     profile.cards.forEach(function (c) {
       if (c.id === slim.id || c.id === skipId) return;
       namedTypes(c.text, me.subtypes).forEach(function (t) {
@@ -1388,6 +1521,19 @@
         if (!tribal || v > tribal[0]) tribal = [v, t, "card"];
       }
     });
+    // cycle 11: a card that names whatever type you choose works with the
+    // deck's main creature type (at least 8 cards of it)
+    if (/\bchoose a creature type\b|\bshares a creature type\b|\bof the chosen (creature )?type\b/.test(me.text)) {
+      var mainT = null;
+      Object.keys(profile.typeCount).forEach(function (t) {
+        if (COMMON_TYPES[t] || t.length < 3) return;
+        if (!mainT || profile.typeCount[t] > profile.typeCount[mainT]) mainT = t;
+      });
+      if (mainT && profile.typeCount[mainT] >= 8) {
+        var cv = Math.sqrt(profile.typeCount[mainT]) * 0.8;
+        if (!tribal || cv > tribal[0]) tribal = [cv, mainT, "card"];
+      }
+    }
     if (tribal) raw += tribal[0];
     // roles the deck is short on
     var role = null;
@@ -1529,7 +1675,11 @@
         };
       })
       .sort(function (a, b) {
-        return Math.min(b.gives, b.wants) - Math.min(a.gives, a.wants) ||
+        // cycle 11: the commander's own plan first (Tergrid: opponents
+        // sacrificing), then the deck's biggest two-sided plans
+        var cw = profile.commander ? profile.commander.wants : {};
+        return (cw[b.label] ? 1 : 0) - (cw[a.label] ? 1 : 0) ||
+          Math.min(b.gives, b.wants) - Math.min(a.gives, a.wants) ||
           b.gives + b.wants - (a.gives + a.wants);
       });
     scored.sort(function (a, b) {
@@ -1601,6 +1751,7 @@
     // to protect (it protects itself, like Eight-and-a-Half-Tails, or wants
     // Equipment and Auras). More tutors is never counted as waste.
     var cmdT = profile.commander;
+    var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount) : [];
     var protectPlan = !!(cmdT && (cmdT.gives.protect || cmdT.wants.protect || cmdT.wants.gear));
     var gcCount = 0;
     profile.cards.forEach(function (c) {
@@ -1623,6 +1774,10 @@
       var surplusRole = null;
       roles.forEach(function (r) {
         if (!KEEP_ROLES[r] && !(r === "protection" && !protectPlan)) return;
+        // cycle 11: no surplus of what the commander feeds on (draw for
+        // Sheoldred or Nekusar, edicts for Tergrid)
+        if (cmd && r === "draw" && (cmd.wants.drawing || cmd.wants.oppdraw)) return;
+        if (cmd && r === "removal" && cmd.wants.oppsac) return;
         var t = roleInfo[r].target;
         // a card or two over the usual count isn't a surplus; a quarter over is
         var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t));
@@ -1636,6 +1791,8 @@
       var payload = CS.isCheatPayload(c, profile);
       var inPlan = planLabels.some(function (l) {
         return c.gives[l] || c.wants[l];
+      }) || cmdTypes.some(function (t) {
+        return c.subtypes[t]; // a Dragon in a Dragon commander's deck is the plan
       });
       var offCurve = cmc != null && cmc >= 6 && fit < 60 && !payload && !inPlan ? 1 : 0;
       var gc = slim.gameChanger ? 1 : 0;
