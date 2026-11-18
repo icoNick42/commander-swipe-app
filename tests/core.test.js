@@ -604,14 +604,17 @@ test("saved state: junk history ids named like built-in properties are dropped",
 
 // ------------------------------------------------------------- cycle 5: deeper data
 
-test("role piles: 12 roles, unique keys, tutors leave lands out", () => {
-  assert.equal(CS.ROLES.length, 12);
-  assert.equal(new Set(CS.ROLES.map((r) => r.key)).size, 12);
+test("role piles: 13 roles, unique keys, tutors leave lands out", () => {
+  assert.equal(CS.ROLES.length, 13);
+  assert.equal(new Set(CS.ROLES.map((r) => r.key)).size, 13);
   const tutors = CS.ROLES.find((r) => r.key === "tutors");
   assert.equal(
     CS.roleQuery(tutors.tag, ["R", "W", "B"], tutors.extra),
-    "id<=rwb f:commander otag:tutor -t:land order:edhrec",
+    "id<=rwb f:commander otag:tutor -t:land -otag:land-ramp order:edhrec",
   );
+  const gy = CS.ROLES.find((r) => r.key === "gyhate");
+  assert.equal(gy.label, "Graveyard hate");
+  assert.equal(CS.roleQuery(gy.tag, ["G", "U"]), "id<=gu f:commander otag:graveyard-hate order:edhrec");
   // the first five are unchanged
   assert.deepEqual(
     CS.ROLES.slice(0, 5).map((r) => r.tag),
@@ -1533,7 +1536,8 @@ test("synergy (Zimone): face-down, top of library, free cheats and landfall are 
 test("synergy (Zimone): the deck's plan and score reflect the engine", () => {
   const plan = zimoneSyn.plan.map((p) => p.label);
   for (const l of ["landfall", "facedown", "top", "big"]) assert.ok(plan.includes(l), "plan has " + l);
-  assert.equal(plan[0], "landfall");
+  // blink now counts as flipping face-down cards, so the two swap places
+  assert.deepEqual(plan.slice(0, 2).sort(), ["facedown", "landfall"]);
   assert.ok(zimoneSyn.score >= 40, "Zimone deck score " + zimoneSyn.score);
   assert.ok(zimoneProfile.roleCount.removal >= 8, "counters and bounce counted");
   assert.ok(!zimoneProfile.roleCount.tutors, "land fetching isn't tutoring");
@@ -1545,7 +1549,11 @@ test("synergy (Zimone): big cards she flips for free aren't cut ideas", () => {
   // without a card that cheats, a big card is just expensive
   const alone = CS.deckProfile([byName(zimoneSlims, "Blightsteel Colossus")], "");
   assert.ok(!CS.isCheatPayload(alone.cards[0], alone));
-  assert.ok(zimoneSyn.staples.includes("Blightsteel Colossus") && zimoneSyn.staples.includes("Omniscience"));
+  // a payload is a staple, or (since the commander bonus) scores 50+ as a commander card
+  for (const n of ["Blightsteel Colossus", "Omniscience"]) {
+    const c = zimoneProfile.cards.find((x) => x.name === n);
+    assert.ok(zimoneSyn.staples.includes(n) || zimoneSyn.fits[c.id] >= 50, n);
+  }
   const ideas = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {});
   const top = ideas.slice(0, 8).map((i) => i.name);
   for (const n of ["Blightsteel Colossus", "Darksteel Colossus", "Omniscience", "Quirion Ranger"])
@@ -1562,4 +1570,191 @@ test("synergy (Zimone): recommendations that feed the engine beat generic good c
   assert.match(fit("Ugin's Mastery").reasons[0], /^Works with Zimone: face-down cards/);
   assert.ok(fit("Cryptic Coat").score > 30 && fit("Azusa, Lost but Seeking").score > 30);
   assert.ok(fit("Craterhoof Behemoth").reasons.some((r) => /big cards for free|Big card/.test(r)));
+});
+
+// ------------------------------------------------------------- cycle 9
+
+const fakeCard = (name, type, text, cmc) =>
+  CS.slimCard({ id: "fake-" + name, name: name, type_line: type, oracle_text: text, cmc: cmc, color_identity: [] });
+
+test("cycle 9: ramp counts steady mana, not every Treasure", () => {
+  const roles = (n) => CS.cardTraits(byName(deckSlims, n) || byName(zimoneSlims, n)).roles;
+  // a Treasure's reminder text says "add one mana"; that alone isn't ramp
+  for (const n of ["Pitiless Plunderer", "Professional Face-Breaker", "Grim Hireling", "Deadly Dispute"])
+    assert.ok(!roles(n).ramp, n + " isn't ramp");
+  // altars are sacrifice outlets
+  assert.ok(!roles("Phyrexian Altar").ramp && !roles("Ashnod's Altar").ramp);
+  // Treasure every turn, or with each land, still counts
+  for (const n of ["Generous Plunderer", "Black Market Connections", "Tireless Provisioner", "Sol Ring", "Talisman of Conviction"])
+    assert.ok(roles(n).ramp, n + " is ramp");
+  // Treasure for an opponent, and a land swap, aren't ramp
+  assert.ok(!roles("An Offer You Can't Refuse").ramp && !roles("Crop Rotation").ramp);
+  assert.ok(roles("An Offer You Can't Refuse").removal, "still a counterspell");
+  assert.equal(zurgoProfile.roleCount.ramp, 10);
+  assert.ok(zimoneProfile.roleCount.ramp >= 14 && zimoneProfile.roleCount.ramp <= 16, "Zimone ramp " + zimoneProfile.roleCount.ramp);
+  // other roles read the same with or without reminder text
+  assert.equal(zurgoProfile.roleCount.draw, 14);
+  assert.equal(zimoneProfile.roleCount.removal, 9);
+});
+
+test("cycle 9: land creatures are lands", () => {
+  const arbor = CS.cardTraits(fakeCard("Dryad Arbor", "Land Creature \u2014 Forest Dryad", "", 0));
+  assert.ok(arbor.land);
+  assert.deepEqual(arbor.roles, {});
+  const elf = CS.cardTraits(fakeCard("Llanowar Elves", "Creature \u2014 Elf Druid", "{T}: Add {G}.", 1));
+  assert.ok(!elf.land && elf.roles.ramp);
+});
+
+test("cycle 9: blink flips face-down cards", () => {
+  const t = (n) => CS.cardTraits(byName(zimoneSlims, n));
+  assert.ok(t("Deadeye Navigator").wants.facedown, "exile ~, then return it");
+  assert.ok(t("Essence Flux").wants.facedown);
+  assert.ok(!t("Sol Ring").wants.facedown);
+});
+
+test("cycle 9: cut ideas don't call plan cards off the plan", () => {
+  const ideas = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {});
+  for (const n of ["Roil Elemental", "Deadeye Navigator", "Brine Elemental"]) {
+    const i = ideas.find((x) => x.name === n);
+    if (i) assert.ok(!i.reasons.some((r) => /isn't part of the deck's plan/.test(r)), n + ": " + i.reasons.join("; "));
+  }
+  // a 6+ drop with none of the plan's labels still gets the reason
+  const zIdeas = CS.cutSuggestions(zurgoProfile, CS.deckSynergy(zurgoProfile, deckSlims), deckSlims, {});
+  assert.ok(!zIdeas.some((i) => /^Ramp: 19/.test(i.reasons.join(" "))), "ramp no longer reads 19");
+  // one-plan engine cards: gentler words
+  const guile = ideas.find((x) => x.name === "Mirri's Guile");
+  if (guile && /Weak fit/.test(guile.reasons[0]))
+    assert.ok(/ties in to your commander, little else/.test(guile.reasons[0]), guile.reasons[0]);
+  // land bouncers and other cards that feed the commander rank below a surplus role card
+  const top3 = ideas.slice(0, 3).map((i) => i.name);
+  assert.ok(!top3.includes("Quirion Ranger") && !top3.includes("Burgeoning"), top3.join(", "));
+});
+
+// ---------------------------------------------------------------- cycle 10: five-deck check
+// Real cards from five decks (Zimone, Hamza, Borborygmos Enraged,
+// Eight-and-a-Half-Tails, Henzie) where the app and a hand review disagreed.
+const five = JSON.parse(read("scryfall_five_decks.json")).data;
+const fiveSlims = five.map(CS.slimCard);
+const card5 = (n) => {
+  const c = byName(fiveSlims, n);
+  assert.ok(c, "fixture has " + n);
+  return c;
+};
+const traits5 = (n) => CS.cardTraits(card5(n));
+const profile5 = (cmd, names) => CS.deckProfile([cmd].concat(names).map(card5), cmd);
+
+test("cycle 10: a flavor-name printing counts under its real name", () => {
+  const p = CS.parseExport("1 Henzie \"Toolbox\" Torre (NCC) 102\n1 Ya viene el coco (SLD) 7027");
+  const raw = five.find((c) => c.name === "Tibalt's Trickery");
+  const m = CS.matchCollection(p.cards, [raw]);
+  const names = CS.matchedNameSet(p.cards, m);
+  assert.ok(names[CS.nameKey("Tibalt's Trickery")], "Scryfall's name is in the set");
+  assert.ok(names[CS.nameKey("Ya viene el coco")], "the export's name stays too");
+  const page = { container: { json_dict: { cardlists: [{ tag: "instants", cardviews: [{ id: raw.id, name: "Tibalt's Trickery", num_decks: 5, potential_decks: 10 }] }] } } };
+  assert.equal(CS.buildEdhrecPiles(page, names).length, 0, "not recommended back");
+});
+
+test("cycle 10: printings Scryfall can't find by number get a name retry", () => {
+  const p = CS.parseExport("1 Tireless Provisioner (PLIST) 789\n1 Sol Ring (2ED) 270\n1 Forest");
+  const sol = { set: "2ed", collector_number: "270", name: "Sol Ring", id: "x" };
+  assert.deepEqual(CS.retryIdentifiers(p.cards, [sol]), [{ name: "Tireless Provisioner" }]);
+  assert.deepEqual(CS.retryIdentifiers(p.cards, [sol, { set: "plist", collector_number: "789" }]), []);
+});
+
+test("cycle 10: roles the regexes missed", () => {
+  for (const n of ["Utopia Sprawl", "Wild Growth"]) {
+    const t = traits5(n);
+    assert.ok(t.roles.ramp, n + " is ramp");
+    assert.ok(!t.gives.gear, n + " isn't Equipment or an Aura worth carrying");
+  }
+  assert.ok(traits5("Sylvan Library").roles.draw, "draw two additional cards");
+  assert.ok(traits5("Wheel of Fortune").roles.draw && traits5("Wheel of Fortune").gives.graveyard);
+  assert.ok(traits5("Council's Judgment").roles.removal);
+  assert.ok(traits5("Glare of Heresy").roles.removal, "exile target white permanent");
+  assert.ok(traits5("Hapatra, the Desert Fang").roles.removal, "-1/-1 counters on a target creature");
+  assert.ok(traits5("Wasteland Raider").roles.removal, "each player sacrifices a creature");
+  assert.ok(traits5("Avatar's Wrath").roles.wipes && traits5("Living Death").roles.wipes);
+  assert.ok(traits5("Living Death").gives.deaths && traits5("Living Death").wants.deaths);
+});
+
+test("cycle 10: +1/+1 counter doublers, movers and 'a counter on it'", () => {
+  for (const n of ["Hardened Scales", "Conclave Mentor", "Ozolith, the Shattered Spire"])
+    assert.ok(traits5(n).gives.counters && traits5(n).wants.counters, n);
+  assert.ok(traits5("The Ozolith").gives.counters && traits5("The Ozolith").wants.counters);
+  assert.ok(traits5("Rishkar, Peema Renegade").wants.counters, "with a counter on it");
+  // counting creatures that have counters isn't going wide
+  assert.ok(!traits5("Inspiring Call").wants.bodies);
+  assert.ok(!traits5("Hamza, Guardian of Arashin").wants.bodies);
+});
+
+test("cycle 10: lands in the graveyard and lands in hand", () => {
+  assert.ok(traits5("Wooded Foothills").gives.landyard, "a fetch land ends in the graveyard");
+  assert.ok(traits5("Tranquil Thicket").gives.landyard, "a cycling land");
+  for (const n of ["Zuran Orb", "Sylvan Safekeeper", "Orcish Lumberjack"]) assert.ok(traits5(n).gives.landyard, n);
+  for (const n of ["Crucible of Worlds", "Ramunap Excavator", "Life from the Loam", "Marwyn, the Preserver"])
+    assert.ok(traits5(n).wants.landyard, n);
+  const b = traits5("Borborygmos Enraged");
+  assert.ok(b.gives.landyard && b.wants.landhand && b.gives.landhand);
+  assert.ok(traits5("Life from the Loam").gives.landhand);
+  assert.ok(b.gives.discard && traits5("Tranquil Thicket").gives.discard && traits5("Wheel of Fortune").gives.discard, "discarding");
+  const prof = profile5("Borborygmos Enraged", ["Life from the Loam", "Crucible of Worlds", "Zuran Orb", "Wooded Foothills"]);
+  assert.ok(CS.fitScore(card5("Ramunap Excavator"), prof).score >= 50, "Ramunap ties in");
+});
+
+test("cycle 10: color tricks and taxes", () => {
+  assert.ok(traits5("Eight-and-a-Half-Tails").gives.color && traits5("Painter's Servant").gives.color);
+  for (const n of ["Glare of Heresy", "Gideon's Defeat", "Circle of Protection: White", "Earnest Fellowship", "Mother of Runes"])
+    assert.ok(traits5(n).wants.color, n);
+  assert.ok(!traits5("Endurance").wants.color, "exiling a green card to evoke isn't a color payoff");
+  for (const n of ["Thalia, Guardian of Thraben", "Esper Sentinel", "Ghostly Prison", "Aven Mindcensor"])
+    assert.ok(traits5(n).gives.stax && traits5(n).wants.stax, n);
+  const prof = profile5("Eight-and-a-Half-Tails", ["Painter's Servant", "Glare of Heresy", "Thalia, Guardian of Thraben", "Esper Sentinel"]);
+  assert.ok(CS.fitScore(card5("Circle of Protection: White"), prof).score >= 30);
+  const kit = CS.fitScore(card5("Pious Kitsune"), prof);
+  assert.ok(kit.reasons.some((r) => /^Names Eight-and-a-Half-Tails/.test(r)), kit.reasons.join("; "));
+});
+
+test("cycle 10: Equipment, tutors for it, and what keeps one creature alive", () => {
+  assert.ok(traits5("Stoneforge Mystic").wants.gear, "searches for an Equipment card");
+  assert.ok(traits5("Sword of Fire and Ice").wants.protect && traits5("Worship").wants.protect);
+  assert.ok(traits5("Mother of Runes").gives.protect);
+  assert.ok(traits5("Martyr of Sands").gives.lifegain && traits5("Serra Ascendant").wants.lifegain);
+  assert.ok(traits5("Prehistoric Pet").gives.blink, "bouncing your own creature re-uses its enter trigger");
+});
+
+test("cycle 10: commanders that help cast big creatures", () => {
+  assert.deepEqual(CS.commanderHooks(card5("Henzie \"Toolbox\" Torre")), { castMin: 4, oneTurn: true });
+  assert.deepEqual(CS.commanderHooks(card5("Hamza, Guardian of Arashin")), { castMin: 4 });
+  assert.deepEqual(CS.commanderHooks(card5("Eight-and-a-Half-Tails")), {});
+  const prof = profile5("Henzie \"Toolbox\" Torre", ["Gray Merchant of Asphodel", "Massacre Wurm", "Greater Good", "Llanowar Elves"]);
+  const gray = prof.cards.find((c) => c.name === "Gray Merchant of Asphodel");
+  assert.ok(gray.gives.cast && gray.gives.oneturn, "a 5-drop with an enter trigger");
+  const elf = prof.cards.find((c) => c.name === "Llanowar Elves");
+  assert.ok(!elf.gives.cast, "a 1-drop isn't");
+  const chupa = CS.fitScore(card5("Ravenous Chupacabra"), prof);
+  assert.ok(chupa.score >= 40 && /^Works with Henzie/.test(chupa.reasons[0]), chupa.score + " " + chupa.reasons.join("; "));
+  const hz = profile5("Hamza, Guardian of Arashin", ["Rishkar, Peema Renegade", "Good-Fortune Unicorn"]);
+  assert.ok(CS.fitScore(card5("Ghalta, Primal Hunger"), hz).links.cast, "Hamza makes Ghalta cheaper");
+});
+
+test("cycle 10: cut ideas", () => {
+  // the Game Changer reason says how many and what that means
+  const bor = ["Borborygmos Enraged", "Life from the Loam", "Crucible of Worlds", "Zuran Orb", "Wheel of Fortune", "Endurance", "Tireless Provisioner"];
+  const slims = bor.map(card5);
+  const prof = CS.deckProfile(slims, "Borborygmos Enraged");
+  const syn = CS.deckSynergy(prof, slims);
+  CS.cutSuggestions(prof, syn, slims, {}).forEach((i) =>
+    i.reasons.filter((r) => /Game Changer/.test(r)).forEach((r) => assert.match(r, /the deck has \d+/)));
+  const crop = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {}).find((i) => i.name === "Crop Rotation");
+  assert.ok(crop && crop.reasons.includes("Game Changer: the deck has 3 (any means bracket 3 or higher)"), crop && crop.reasons.join("; "));
+  // over three Game Changers: bracket 4
+  const gcSlims = zimoneSlims.map((s, i) => (i > 0 && i < 6 ? Object.assign({}, s, { gameChanger: true }) : s));
+  const gcIdeas = CS.cutSuggestions(zimoneProfile, zimoneSyn, gcSlims, {});
+  assert.ok(gcIdeas.some((i) => i.reasons.some((r) => /^Game Changer: the deck has \d+ \(over 3 means bracket 4\)$/.test(r))));
+  // a role card a little over the usual count isn't a surplus; a strong-fit one isn't cut for it
+  const zIdeas = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {});
+  assert.ok(!zIdeas.some((i) => /^Removal: 9/.test(i.reasons.join(" "))), "9 removal (8 typical) isn't a surplus");
+  for (const n of ["Burgeoning", "Quirion Ranger", "Sylvan Library"])
+    assert.ok(!zIdeas.some((i) => i.name === n), n + " feeds Zimone (or is card draw)");
+  assert.ok(zIdeas.every((i) => i.fit < zimoneSyn.score || !/lower than most/.test(i.reasons[0])));
 });

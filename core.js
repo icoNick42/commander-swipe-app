@@ -225,7 +225,8 @@
   /**
    * Role piles: Scryfall Tagger tags (otag:), searched inside the
    * commander's colors. `extra` narrows a noisy tag (fetch lands count as
-   * "tutors"). Tags checked on Scryfall 2026-11-17.
+   * "tutors"; so do Path to Exile and Wayfarer's Bauble, which fetch a land).
+   * Tags checked on Scryfall 2026-11-17.
    */
   CS.ROLES = [
     { key: "removal", label: "Removal", tag: "removal" },
@@ -233,13 +234,14 @@
     { key: "draw", label: "Card draw", tag: "draw" },
     { key: "protection", label: "Protection", tag: "protection" },
     { key: "wipes", label: "Board wipes", tag: "board-wipe" },
-    { key: "tutors", label: "Tutors", tag: "tutor", extra: "-t:land" },
+    { key: "tutors", label: "Tutors", tag: "tutor", extra: "-t:land -otag:land-ramp" },
     { key: "recursion", label: "Recursion", tag: "recursion" },
     { key: "sac", label: "Sacrifice outlets", tag: "sacrifice-outlet" },
     { key: "tokens", label: "Token makers", tag: "repeatable-token-generator" },
     { key: "haste", label: "Haste", tag: "gives-haste" },
     { key: "anthems", label: "Anthems", tag: "anthem" },
     { key: "combats", label: "Extra combats", tag: "extra-combat" },
+    { key: "gyhate", label: "Graveyard hate", tag: "graveyard-hate" },
   ];
 
   function colorsFor(colorIdentity) {
@@ -380,6 +382,45 @@
       set[CS.nameKey(c.name)] = true;
     });
     return set;
+  };
+
+  /**
+   * The deck's names as Scryfall knows them, added to an export's name set.
+   * A printing with a flavor name ("Ya viene el coco") exports under that
+   * name, but EDHREC and Scryfall list the card as Tibalt's Trickery, so
+   * without this the deck's own cards come back as recommendations.
+   * `matched`: CS.matchCollection output. Returns a new set.
+   */
+  CS.matchedNameSet = function (cards, matched) {
+    var set = CS.deckNameSet(cards || []);
+    (matched || []).forEach(function (m) {
+      if (m && m.card && m.card.name && !(m.line && m.line.side))
+        set[CS.nameKey(m.card.name)] = true;
+    });
+    return set;
+  };
+
+  /**
+   * Export lines Scryfall didn't find by set and number (Moxfield's own
+   * numbering, like "(PLIST) 789"), as name identifiers for a second
+   * /cards/collection call. Returns [] when every line was found.
+   */
+  CS.retryIdentifiers = function (cards, scryCards) {
+    var found = {};
+    (scryCards || []).forEach(function (sc) {
+      if (sc && sc.set && sc.collector_number)
+        found[sc.set.toLowerCase() + "|" + sc.collector_number] = true;
+    });
+    var seen = {};
+    var out = [];
+    (cards || []).forEach(function (c) {
+      if (!c.set || !c.number || found[c.set + "|" + c.number]) return;
+      var n = CS.frontName(c.name);
+      if (seen[n.toLowerCase()]) return;
+      seen[n.toLowerCase()] = true;
+      out.push({ name: n });
+    });
+    return out;
   };
 
   function skipCard(name, deckNames) {
@@ -910,6 +951,7 @@
     ["deaths", /\b(destroy|exile) all (other )?(creatures|nonland permanents)\b/],
     ["deaths", /\bsacrifice (it|them) at (the beginning of the next end step|end of combat)\b|\bdecayed\b/],
     ["deaths", /\beach creature gets -|\ball creatures get -|\bdamage to each creature\b/],
+    ["deaths", /\bsacrifices? all (other )?creatures\b|\beach (player|opponent) sacrifices (a|an|one|two) creatures?\b/],
     // attacks: attack triggers and things that make attacking better
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
     ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b/],
@@ -922,30 +964,35 @@
     ["artifacts", /\bcreate\b[^.]*\b(treasure|clue|food|blood|map|powerstone|gold|incubator)\b|\bartifact creature tokens?\b|\bartifact token\b/],
     // +1/+1 counters
     ["counters", /\bput[^.]*\+1\/\+1 counters? on\b|\benters with[^.]*\+1\/\+1 counters?\b|\bproliferate\b/],
+    ["counters", /\+1\/\+1 counters? would be put on\b|\bthat many plus one\b|\btwice that many [^.]*counters\b|\bmove [^.]*\bcounters? [^.]*\bonto\b/],
     // life gain
-    ["lifegain", /\byou gain (\d+|x|that much|life)\b|\bgain (\d+|x|that much) life\b|\blifelink\b/],
+    ["lifegain", /\byou gain (\d+|x|that much|life)\b|\bgain (\d+|x|that much) life\b|\blifelink\b|\byou gain [^.]*\blife\b/],
     // graveyard fillers
-    ["graveyard", /\bmill\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b/],
+    ["graveyard", /\bmill\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b|\bdiscards? (their|your) hands?\b/],
     // blink
     ["blink", /\bexile\b[^.]*\breturn (it|them|that card|those cards) to the battlefield\b/],
+    ["blink", /\breturn (another )?target (creature|nonland permanent|permanent) you control to (its owner's|your) hand\b/],
     // landfall enablers
     ["landfall", new RegExp("\\bsearch your library for [^.]*\\b" + LAND_WORD + "\\b[^.]*(onto|put)[^.]*battlefield\\b")],
     ["landfall", /\bput [^.]*\blands? cards? [^.]*onto the battlefield\b|\bplay (an|up to (two|three)|two|three|any number of) additional lands?\b|\bplay lands from (your graveyard|the top of your library)\b/],
     ["landfall", new RegExp("\\breturn (a|an) " + LAND_WORD + "[^.]* you control to (its|their) owner('s|s'|s)? hands?\\b")],
+    ["landfall", /\bcreatures you control are [^.]*\blands?\b|\bare (forest |plains |island |swamp |mountain )?lands in addition\b/],
   ];
 
   var WANTS = [
     // go-wide and token payoffs
     ["bodies", /\bcreature tokens? you control\b|\bwhenever you create (one or more )?(creature )?tokens?\b/],
-    ["bodies", /\bfor each (other )?creature you control\b|\bnumber of (other )?creatures you control\b|\bcreatures you control get \+\d/],
+    ["bodies", /\bfor each (other )?creature you control\b(?! with)|\bnumber of (other )?creatures you control\b(?! with)|\bcreatures you control get \+\d/],
     ["bodies", /\bwhenever (a|an|one or more|another)( other)?( nontoken)? creatures?( you control)?( with power \d or less)? enters?\b/],
     ["bodies", /\bconvoke\b/],
     // sacrifice outlets want fodder
     ["fodder", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? (nontoken )?(creatures?|artifact or creature|creature or artifact)\b/],
     // death payoffs
     ["deaths", /\bwhenever (a|an|another|one or more)( other)?( nontoken)? creatures?( you control)?( or planeswalkers?)? (dies|die)\b/],
+    ["deaths", /\bwhenever (a|an|another)( other)?( nontoken)? creature you control (with|without) [a-z ]{1,20}? dies\b/],
     ["deaths", /\bwhenever ~ or another creature dies\b|\ba creature dying\b|\bcreatures? (that )?(died|have died) this turn\b|\bwhenever equipped creature dies\b|\bput into a graveyard from the battlefield\b/],
     ["deaths", /\bcreature cards? [^.]*from your graveyard\b|\bfrom your graveyard to the battlefield\b/],
+    ["deaths", /\bcreature cards? from (their|all|each player's|a) graveyards?\b|\ball creature cards from\b/],
     ["deaths", /\bwhenever a creature token you control leaves\b/],
     // attack payoffs
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
@@ -955,10 +1002,11 @@
     ["artifacts", /\bartifacts? you control\b|\bwhenever (an|one or more) artifacts? (you control )?enters?\b|\bfor each artifact\b|\baffinity for artifacts\b|\bimprovise\b|\bmetalcraft\b/],
     // counters payoffs
     ["counters", /\bwith (a|one or more) \+1\/\+1 counters?\b|\bwhenever one or more \+1\/\+1 counters\b|\bproliferate\b|\bfor each \+1\/\+1 counter\b|\bnumber of \+1\/\+1 counters\b/],
+    ["counters", /\bwith (a|one or more) counters? on (it|them)\b|\bif it had counters on it\b|\+1\/\+1 counters? would be put on\b|\bwhenever you put one or more \+1\/\+1 counters\b/],
     // life gain payoffs
-    ["lifegain", /\bwhenever you gain life\b|\bif you gained life\b|\bgained life this turn\b|\bamount of life you gained\b/],
+    ["lifegain", /\bwhenever you gain life\b|\bif you gained life\b|\bgained life this turn\b|\bamount of life you gained\b|\bif you would gain life\b|\b(\d+|thirty|forty|fifty) or more life\b/],
     // graveyard payoffs
-    ["graveyard", /\bfrom your graveyard\b|\b(escape|flashback|unearth|aftermath|embalm|eternalize|disturb|delve|jump-start|retrace)\b/],
+    ["graveyard", /\bfrom your graveyard\b|\bfrom a graveyard\b|\b(escape|flashback|unearth|aftermath|embalm|eternalize|disturb|delve|jump-start|retrace)\b/],
     // blink payoffs: the card's own enter trigger
     ["blink", /\bwhen ~ enters\b/],
     // landfall payoffs
@@ -987,6 +1035,14 @@
     facedown: { g: "Puts cards face down", w: "Turns face-down cards up or pays them off", b: "Puts cards face down and pays it off", short: "face-down cards" },
     top: { g: "Sets up the top of your library", w: "Uses the top of your library", b: "Sets up and uses the top of your library", short: "top of library" },
     big: { g: "Big card worth putting into play for free", w: "Puts cards into play without paying for them", b: "Big card that also cheats others into play", short: "big cards for free" },
+    landyard: { g: "Puts lands in your graveyard", w: "Uses lands from your graveyard", b: "Puts lands in your graveyard and uses them", short: "lands in your graveyard" },
+    landhand: { g: "Gets land cards into your hand", w: "Wants land cards in hand to discard", b: "Gets lands into your hand and uses them", short: "lands in hand" },
+    discard: { g: "Discards cards", w: "Pays off discarding", b: "Discards and pays it off", short: "discarding" },
+    color: { g: "Changes what color things are", w: "Cares about a color", b: "Changes colors and cares about them", short: "color tricks" },
+    protect: { g: "Protects your creatures", w: "Needs a creature to stay on the battlefield", b: "Protects creatures and needs them", short: "protecting a key creature" },
+    stax: { g: "Taxes or slows opponents", w: "Taxes or slows opponents", b: "Taxes or slows opponents", short: "taxing opponents" },
+    oneturn: { g: "Does something when it enters, attacks or dies", w: "Gives creatures one turn (blitz or dash)", b: "One-turn creature that pays off", short: "one-turn creatures" },
+    cast: { g: "A big creature your commander helps you cast", w: "Helps you cast big creatures", b: "Helps cast big creatures, and is one", short: "big creature spells" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -995,6 +1051,7 @@
     var n = link.n;
     var cards = n === 1 ? "1 of your cards" : n + " of your cards";
     if (label === "attacks") return "Rewards attacking, like " + cards;
+    if (label === "stax") return "Taxes or slows opponents, like " + cards;
     if (link.g && link.w) return lab.b + "; ties in with " + cards;
     if (link.g) return lab.g + "; " + cards + (n === 1 ? " uses" : " use") + " that";
     return lab.w + "; " + cards + (n === 1 ? " feeds" : " feed") + " it";
@@ -1006,13 +1063,31 @@
    * tutors 2, protection 3.
    */
   CS.SYN_ROLES = [
-    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b") },
-    { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|x|that many|\d+) cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b/ },
-    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target (creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
-    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b/ },
+    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b") },
+    { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b/ },
+    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) sacrifices (a|an|one) (creature|nonland permanent|attacking creature)\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
+    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
     { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b") },
     { key: "protection", label: "Protection", target: 3, re: /\b(creatures|permanents) you control (gain|have|get)[^.]*\b(indestructible|hexproof|shroud|protection)\b|\bequipped creature has[^.]*\b(shroud|hexproof|indestructible|protection)\b|\btarget (creature|permanent) you control gains[^.]*\b(indestructible|hexproof|protection)\b|\b(enchanted|equipped) creature (gets [^.]*and )?has [^.]*\b(shroud|hexproof|indestructible|protection)\b|\bprevent all combat damage\b|\bphase out\b/ },
   ];
+
+  /**
+   * The part of a card's text (reminder text already removed) that counts
+   * as ramp: Treasure only when it comes every turn or with each land
+   * (not one-off, on a death or a hit, or for another player); not an
+   * altar's "sacrifice a creature: add" (a sacrifice outlet); not a land
+   * search that sacrifices a land first (Crop Rotation swaps, it doesn't ramp).
+   */
+  CS.rampText = function (bare) {
+    var t = String(bare || "").replace(/[^.]*\btreasures?\b[^.]*/g, function (s) {
+      var steady = /\bat the beginning of\b|\bwhenever (a|one or more) lands?\b|\blandfall\b/.test(s);
+      var forOthers = /\b(its controller|each opponent|target (player|opponent)|that player)\b/.test(s);
+      return steady && !forOthers ? s : "";
+    });
+    t = t.replace(/\bsacrifice (a|an|another) (creature|artifact|permanent|nonland permanent)[^:.]*: add\b[^.]*/g, "");
+    if (/\bsacrifice an? land\b/.test(t)) t = t.replace(/[^.]*\bsearch your library for\b[^.]*/g, "");
+    return t;
+  };
 
   var COMMON_TYPES = { human: true }; // too common to count as a tribe
 
@@ -1026,15 +1101,66 @@
     ["top", /\bscry (\d+|x)\b|\bsurveil (\d+|x)\b|\bon top of (your|its owner's|their owner's) library\b|\bput (them|those cards) back in any order\b/],
     // manifest dread puts the other card in the graveyard
     ["graveyard", /\bmanifest dread\b/],
+    // lands into the graveyard: sacrificing or discarding lands (fetch lands are added below)
+    ["landyard", /\bsacrifice (a|an|two|x|one or more) (lands?|forests?|plains|islands?|swamps?|mountains?)\b|\bdiscard (a|x|two|one or more) land cards?\b|\bdiscarding a land card\b/],
+    // land cards into hand: Life from the Loam, Kodama's Reach, Borborygmos
+    ["landhand", /\bland cards?\b[^.]*\binto your hand\b|\breturn [^.]*\blands?\b[^.]*\bto (your|its owner's|their owners'|their owner's) hands?\b|\bland cards? [^.]*\bto your hand\b|\bwhenever a land is tapped for mana, return it to its owner's hand\b/],
+    // discarding as a cost or an effect (Borborygmos, Mox Diamond, cycling)
+    ["discard", /\bdiscard (a|x|two|one or more|that) (land )?cards?\b|\bdiscarding a (land )?card\b|\b(cycling|channel)\b|\bdiscards? (their|your) hands?\b/],
+    // color changers: Painter's Servant, Eight-and-a-Half-Tails, Distorting Lens
+    ["color", /\bbecomes? (the color of your choice|the chosen color|white|blue|black|red|green|colorless)\b|\b(are|is) the chosen color\b|\bin addition to (its|their) other colors\b|\bnonland permanents you control are (white|blue|black|red|green)\b/],
   ];
   var BARE_WANTS = [
-    ["facedown", /\bface-down (creatures?|permanents?|spells?)\b|\bturn(s|ed)? [^.]*\bface up\b|\bwhenever you (manifest|cloak)\b/],
+    ["facedown", /\bface-down (creatures?|permanents?|spells?)\b|\bturn(s|ed)? [^.]*\bface up\b|\bwhenever you (manifest|cloak)\b|\bexile (this creature|~|target (creature|permanent)[^.,]*|another target [^.,]*), then return (it|that card|them|those cards) to the battlefield\b/],
     ["top", /\b(look at|play with) the top card of your library (any time|revealed)\b|\b(play|cast) [^.]*\bfrom the top of your library\b|\bmanifest (dread|the top card)\b|\breveal the top card of your library\b|\bmiracle\b/],
     // cheat effects: free casting, putting a permanent card into play,
     // reanimation, and flipping a face-down card without paying for it
+    // uses lands from the graveyard: Crucible, Ramunap, Life from the Loam, Splendid Reclamation
+    ["landyard", /\bplay lands? from your graveyard\b|\bland cards? (from|in) your graveyard\b|\breturn [^.]*\bland cards?\b[^.]*\bgraveyard\b|\blands? in your graveyard\b/],
+    // discard payoffs: Glint-Horn Buccaneer, madness
+    ["discard", /\bwhenever you (discard|cycle or discard|cycle)\b|\bmadness\b/],
+    // wants land cards in hand: discarding lands as a cost or for value
+    ["landhand", /\bdiscard (a|x|two|one or more) land cards?\b|\bdiscarding a land card\b/],
+    // cares about colors: color hosers and color protection (with a color changer, these hit or dodge anything)
+    ["color", /\b(non)?(white|blue|black|red|green|multicolored|monocolored) (source|permanent|creature|spell)s?\b|\bprotection from (white|blue|black|red|green|the color of your choice|the chosen color|each color|all colors|its colors|their colors|each of (its|their) colors)\b|\bsource of the color of your choice\b|\bof the chosen color\b|\bshares a color\b/],
     ["big", /\bwithout paying (its|their|the) mana costs?\b|\bput (a|an|target|that|up to one) [^.]*?\b(creature|permanent|artifact) cards? [^.]*\bonto the battlefield\b|\breturn target creature card from (your|a) graveyard to the battlefield\b|\byou may turn [^.]*\bface up\b|\bturn target [^.]*\bface up\b/],
   ];
   var BIG_CMC = 7; // a permanent card this costly is worth cheating into play
+
+  // Taxes and locks on opponents (Thalia, Esper Sentinel, Ghostly Prison,
+  // Linvala). A pile-on theme: each piece is better next to the others, so
+  // a card with it both gives and wants the label.
+  var STAX =
+    /\b(spells|abilities)[^.]*\bcost \{\d+\} more\b|\bcost \{\d+\} more to (cast|activate)\b|\bactivated abilities of [^.]*can't be activated\b|\bwhenever an opponent (casts|draws|searches)\b|\bunless (that player|its controller|they) pays? \{|\bcan't attack you\b[^.]*\bunless\b|\byour opponents can't (cast|search|draw|gain|activate)\b|\beach opponent can't\b|\bif no mana was spent to cast it, counter\b|\bopponents? (draws?|casts?) (their|a) second\b|\bdon't untap during\b|\bnonbasic lands are\b|\bif an opponent would (search|draw)\b/;
+
+  /**
+   * What a commander does for one kind of card, read from its text, for
+   * labels no card's own text can show. Now: commanders that help cast
+   * creature spells (Henzie gives creatures with mana value 4+ blitz;
+   * Hamza makes creature spells cheaper). Returns {castMin} or {}.
+   */
+  CS.commanderHooks = function (slim) {
+    var t = CS.synText(slim).replace(/\([^)]*\)/g, "");
+    var hooks = {};
+    var m = /\bcreature spells? you cast with (mana value|converted mana cost) (\d+) or greater\b/.exec(t);
+    if (m) hooks.castMin = parseInt(m[2], 10);
+    else if (/\bcreature spells you cast (cost \{\d+\} less|have|gain)\b/.test(t)) hooks.castMin = 4;
+    // blitz or dash (read with reminder text): the creature stays one turn,
+    // so the best ones do something when they enter, attack or die
+    if (hooks.castMin && /\b(blitz|dash)\b/.test(CS.synText(slim))) hooks.oneTurn = true;
+    return hooks;
+  };
+
+  /** Adds the labels a commander's hooks give a card (a creature it helps cast). */
+  function applyHooks(traits, slim, hooks) {
+    if (!hooks || !hooks.castMin || traits.land) return;
+    var front = String((slim && (slim.frontType || slim.typeLine || slim.types)) || "").toLowerCase();
+    if (/\bcreature\b/.test(front.split("//")[0]) && typeof slim.cmc === "number" && slim.cmc >= hooks.castMin) {
+      traits.gives.cast = true;
+      if (hooks.oneTurn && /\bwhen(ever)? ~ (enters|dies|attacks)\b|\bwhen ~ enters or (dies|attacks)\b/.test(traits.text))
+        traits.gives.oneturn = true;
+    }
+  }
 
   /**
    * Reads one card: its gives/wants labels, roles, creature types and the
@@ -1060,9 +1186,22 @@
     BARE_WANTS.forEach(function (w) {
       if (w[1].test(bare)) wants[w[0]] = true;
     });
-    var isLand = /\bland\b/.test(types.split("\u2014")[0]) && !/\bcreature\b/.test(types);
-    if (/\b(equipment|aura)\b/.test(types)) gives.gear = true;
-    else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b/.test(text))
+    var isLand = /\bland\b/.test(types.split("\u2014")[0]);
+    if (isLand && (/\bsacrifice ~[^.]*\bsearch your library\b/.test(bare) || /\b(cycling|channel)\b/.test(bare)))
+      gives.landyard = true; // a fetch land or a cycling land ends up in the graveyard
+    if (STAX.test(bare)) {
+      gives.stax = true;
+      wants.stax = true;
+    }
+    // an Aura on a land (Utopia Sprawl, Wild Growth) is ramp, not gear
+    var landAura = /\baura\b/.test(types) && /\benchant (land|forest|plains|island|swamp|mountain)\b/.test(text);
+    if (/\b(equipment|aura)\b/.test(types) && !landAura) {
+      gives.gear = true;
+      if (!/\benchant (land|artifact|enchantment|player|permanent you don't control|creature you don't control|creature an opponent controls)\b/.test(text))
+        wants.protect = true; // the creature wearing it has to survive
+    }
+    if (/\b(as long as|if) you control a creature\b/.test(bare)) wants.protect = true;
+    else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b|\bsearch your library for an? (equipment|aura)\b|\b(equipment|aura) cards?\b|\bas long as ~ is (equipped|enchanted)\b/.test(text))
       wants.gear = true;
     if (/\b(instant|sorcery)\b/.test(types)) gives.spells = true;
     var permanentCard = /\b(creature|artifact|enchantment|planeswalker|battle)\b/.test(types);
@@ -1074,8 +1213,9 @@
     var roles = {};
     if (!isLand)
       CS.SYN_ROLES.forEach(function (r) {
-        if (r.re.test(text)) roles[r.key] = true;
+        if (r.re.test(r.key === "ramp" ? CS.rampText(bare) : bare)) roles[r.key] = true;
       });
+    if (roles.protection) gives.protect = true;
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
     types.split("//").forEach(function (face) {
@@ -1113,6 +1253,10 @@
     var cmdKey = CS.nameKey(commanderName || "");
     var cards = [];
     var seen = {};
+    var hooks = {};
+    (deckSlims || []).forEach(function (s) {
+      if (s && cmdKey !== "" && CS.nameKey(s.name) === cmdKey) hooks = CS.commanderHooks(s);
+    });
     (deckSlims || []).forEach(function (s) {
       if (!s || seen[s.id]) return;
       seen[s.id] = true;
@@ -1121,6 +1265,10 @@
       t.id = s.id;
       t.name = s.name;
       t.commander = cmdKey !== "" && CS.nameKey(s.name) === cmdKey;
+      if (t.commander) {
+        if (hooks.castMin) t.wants.cast = true;
+        if (hooks.oneTurn) t.wants.oneturn = true;
+      } else applyHooks(t, s, hooks);
       cards.push(t);
     });
     var typeCount = {};
@@ -1144,6 +1292,7 @@
       })[0] || null,
       typeCount: typeCount,
       roleCount: roleCount,
+      hooks: hooks,
     };
   };
 
@@ -1163,6 +1312,7 @@
   }
 
   var SYN_K = 7; // squash constant: tuned so a typical strong pick lands near 70-85
+  var CMD_BONUS = 2; // extra raw score per label shared with the commander (at most two)
 
   /**
    * Scores one card against a deck profile. Returns
@@ -1171,6 +1321,7 @@
    */
   CS.fitScore = function (slim, profile, skipId) {
     var me = CS.cardTraits(slim);
+    if (!profile.commander || slim.id !== profile.commander.id) applyHooks(me, slim, profile.hooks);
     var links = {};
     var cmdHits = [];
     var contrib = [];
@@ -1199,6 +1350,24 @@
       raw += v;
       contrib.push([v, l]);
     });
+    // Tying in to the commander itself counts extra (up to two labels): the
+    // commander is always there, and an enabler for its own trigger
+    // (Burgeoning for a landfall commander) is a core card even when few
+    // other cards share the label.
+    var cmdLabels = cmdHits.filter(function (l, i) {
+      return cmdHits.indexOf(l) === i;
+    });
+    raw += CMD_BONUS * Math.min(2, cmdLabels.length);
+    var cmdTie = null;
+    var cmdName = profile.commander ? CS.frontName(profile.commander.name).toLowerCase() : "";
+    if (cmdName && (!profile.commander || slim.id !== profile.commander.id)) {
+      var short = cmdName.split(",")[0].trim();
+      if (me.text.indexOf(cmdName) !== -1 || (short.length > 3 && me.text.indexOf(short) !== -1))
+        cmdTie = "Names " + CS.frontName(profile.commander.name).split(",")[0];
+      else if (/\blieutenant\b|\byou control your commander\b|\byour commander\b/.test(me.text.replace(/\([^)]*\)/g, "")))
+        cmdTie = "Better while your commander is out";
+      if (cmdTie) raw += CMD_BONUS;
+    }
     // tribal: shares a type the deck cares about, or cares about a type the deck has
     var tribal = null;
     var cares = {};
@@ -1247,6 +1416,9 @@
           CS.frontName(cmd.name).split(",")[0] +
           ": " +
           cmdHits
+            .filter(function (l, i) {
+              return cmdHits.indexOf(l) === i;
+            })
             .slice(0, 2)
             .map(function (l) {
               return CS.SYN_LABELS[l].short;
@@ -1266,6 +1438,7 @@
           : "Cares about " + T + "s; your deck has " + profile.typeCount[tribal[1]],
       ]);
     }
+    if (cmdTie) rest.push([CMD_BONUS + 0.5, cmdTie]);
     if (role)
       rest.push([
         role[0] + 1, // a real gap is worth saying even when it adds little
@@ -1409,6 +1582,30 @@
     CS.SYN_ROLES.forEach(function (r) {
       roleInfo[r.key] = r;
     });
+    var planLabels = ((syn && syn.plan) || []).map(function (p) {
+      return p.label;
+    });
+    var cmd = profile.cards.filter(function (c) {
+      return c.commander;
+    })[0];
+    // a label the card gives that the commander wants, or the other way round
+    function tiesToCommander(c) {
+      if (!cmd) return false;
+      return Object.keys(c.gives).some(function (l) {
+        return cmd.wants[l];
+      }) || Object.keys(c.wants).some(function (l) {
+        return cmd.gives[l];
+      });
+    }
+    // Extra protection is a surplus, unless the commander is the creature
+    // to protect (it protects itself, like Eight-and-a-Half-Tails, or wants
+    // Equipment and Auras). More tutors is never counted as waste.
+    var cmdT = profile.commander;
+    var protectPlan = !!(cmdT && (cmdT.gives.protect || cmdT.wants.protect || cmdT.wants.gear));
+    var gcCount = 0;
+    profile.cards.forEach(function (c) {
+      if (byId[c.id] && byId[c.id].gameChanger) gcCount++;
+    });
     var out = [];
     profile.cards.forEach(function (c) {
       if (c.commander || c.land) return;
@@ -1425,8 +1622,10 @@
       var surplus = 0;
       var surplusRole = null;
       roles.forEach(function (r) {
+        if (!KEEP_ROLES[r] && !(r === "protection" && !protectPlan)) return;
         var t = roleInfo[r].target;
-        var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - t) / t));
+        // a card or two over the usual count isn't a surplus; a quarter over is
+        var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t));
         if (x > surplus) {
           surplus = x;
           surplusRole = r;
@@ -1435,25 +1634,48 @@
       var slim = byId[c.id] || {};
       var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
       var payload = CS.isCheatPayload(c, profile);
-      var offCurve = cmc != null && cmc >= 6 && fit < 60 && !payload ? 1 : 0;
+      var inPlan = planLabels.some(function (l) {
+        return c.gives[l] || c.wants[l];
+      });
+      var offCurve = cmc != null && cmc >= 6 && fit < 60 && !payload && !inPlan ? 1 : 0;
       var gc = slim.gameChanger ? 1 : 0;
       // Staples: a role card most decks run (high on EDHREC) is kept;
       // other role cards count weak Fit for less, since ramp and removal
       // rarely tie in to a theme (taxonomy "staple damping").
       var rank = typeof slim.edhrecRank === "number" ? slim.edhrecRank : null;
       if (roles.length && rank != null && rank <= STAPLE_RANK) return;
-      var lowFit = (1 - fit / 100) * (roles.length || payload ? 0.4 : 1);
-      var score = 0.5 * lowFit + 0.25 * surplus + 0.15 * offCurve + 0.1 * gc;
+      // a card that feeds what the commander itself wants (a land bouncer
+      // for a landfall commander) is part of its engine: weak Fit counts less
+      var feeds = cmd && Object.keys(c.gives).some(function (l) {
+        return cmd.wants[l];
+      });
+      var lowFit = (1 - fit / 100) * (roles.length || payload ? 0.4 : feeds ? 0.5 : 1);
+      var surplusEff = surplus * Math.min(1, (100 - fit) / 60); // Rishkar (counters and ramp) stays
+      var score = 0.5 * lowFit + 0.25 * surplusEff + 0.15 * offCurve + 0.1 * gc;
       if (fit < 40 && !roles.length && !payload)
-        reasons.push("Weak fit (Fit " + fit + "): ties in to little else here");
-      if (surplusRole)
+        reasons.push(
+          "Weak fit (Fit " + fit + "): " +
+            (tiesToCommander(c) ? "ties in to your commander, little else" : "ties in to little else here"),
+        );
+      if (surplusRole && surplus > 0)
         reasons.push(
           roleInfo[surplusRole].label + ": " + roleCount[surplusRole] +
             " in the deck, about " + roleInfo[surplusRole].target + " is typical",
         );
       if (offCurve) reasons.push("Costs " + cmc + " and isn't part of the deck's plan");
-      if (gc) reasons.push("Game Changer (raises the deck's bracket)");
-      if (!reasons.length) reasons.push("Fit " + fit + ", lower than most of the deck");
+      if (gc)
+        reasons.push(
+          gcCount > 3
+            ? "Game Changer: the deck has " + gcCount + " (over 3 means bracket 4)"
+            : "Game Changer: the deck has " + gcCount + " (any means bracket 3 or higher)",
+        );
+      if (!reasons.length) {
+        // no concrete reason and a Fit at or above the deck's average: not a cut idea
+        if (syn && typeof syn.score === "number" && fit >= syn.score) return;
+        if (feeds) return; // feeds the commander's own engine (Quirion Ranger for Zimone)
+        if (roles.length) return; // a role card doing its job (a tutor, removal) isn't a cut just for low Fit
+        reasons.push("Fit " + fit + ", lower than most of the deck");
+      }
       out.push({
         id: c.id,
         name: c.name,

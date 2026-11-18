@@ -24,6 +24,11 @@ The look and layout rules for `index.html`. Written in PM cycle 4 (2026-11-17). 
 | `--add` | `#3fb768` | add |
 | `--skip` | `#e0575b` | skip |
 | `--maybe` | `#e3b341` | maybe |
+| `--line-soft` | `#2a2f3a` | dividers between list rows (cycle 9; was a literal) |
+| `--accent-hover` | `#34568c` | main button on hover (cycle 9; was a literal) |
+| `--accent-text` | `#cfe0ff` | count on the selected pile chip (cycle 9; was a literal) |
+| `--error-text` | `#ff8b8b` | error messages (cycle 9; was a literal) |
+| `--notice-bg` / `--notice-line` | `#3a2f12` / `#6b5520` | notice box (cycle 9; was a literal) |
 | (literal) | `#a26ef0` / `#cbb0ff` | Game Changer badge |
 | (literal) | `--add` border, `#9be3b4` text | Combo badge, brackets 1-2 |
 | (literal) | `--maybe` border, `#f0d68a` text | Combo badge, bracket 3 and up |
@@ -61,6 +66,14 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Progress link (cycle 8):** under 900 px, once there are picks, maybes or cuts, the keys line shows "2 added · 1 maybe · 1 cut ↓" instead of the drag hint; it scrolls to the lists.
 - **Deck line (cycle 8):** one line that cuts off with an ellipsis: "100 cards", plus problems or "swipes kept from your last version" when there are any. The details (lines read, Start fresh) are behind it.
 - **Change deck (cycle 8):** opens the first screen with Back to swiping and a line saying an updated paste keeps your swipes; the how-it-works steps are hidden then.
+
+- **Lists (cycle 9):** each Added and Maybe row shows the card's Fit ("Fit 72") before its price, in the same muted small text.
+- **Pile dropdowns (cycle 9):** a mouse or touch pick opens the pile at once; with the arrow keys the page waits until they stop (0.7 s) or Enter, then opens it and moves focus off, so the arrow keys swipe again.
+- **First screen (cycle 9):** pasting a deck into the box fills it and says how many cards it got; it doesn't load until Load deck.
+
+## Audit, cycle 9 (against these notes)
+
+Every color in the page is now a token above, apart from the action-button tints (the add/skip/maybe colors at 12-34% opacity) the badge colors listed in the table, and the black behind the card and its shadows. Contrast: no visible text below 4.5:1 (checked live). Still off the notes, left as they are because `--chrome` sizing depends on them: about 40 spacing values outside the 4/8/12/16/24 steps (2, 3, 5, 6, 7, 10, 14, 18 px), and 8 text sizes in use where the notes name 3 (0.75 and 0.8 rem are smaller than the footer's 0.78). Tidy these in one pass with a full size check.
 
 ## Known gaps
 

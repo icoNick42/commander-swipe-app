@@ -1,0 +1,1467 @@
+{
+ "object": "list",
+ "note": "Real Scryfall cards from five test decks (2026-11-18), trimmed, for cycle 10 tests",
+ "data": [
+  {
+   "object": "card",
+   "id": "266dd649-b767-4e40-8ccc-06d9f8db9be3",
+   "name": "Henzie \"Toolbox\" Torre",
+   "type_line": "Legendary Creature \u2014 Devil Rogue",
+   "oracle_text": "Each creature spell you cast with mana value 4 or greater has blitz. The blitz cost is equal to its mana cost. (You may choose to cast that spell for its blitz cost. If you do, it gains haste and \"When this creature dies, draw a card.\" Sacrifice it at the beginning of the next end step.)\nBlitz costs you pay cost {1} less for each time you've cast your commander from the command zone this game.",
+   "cmc": 3.0,
+   "color_identity": [
+    "B",
+    "G",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 7387,
+   "set": "ncc",
+   "collector_number": "102",
+   "mana_cost": "{B}{R}{G}",
+   "prices": {
+    "usd": "6.47",
+    "usd_foil": "7.89",
+    "usd_etched": null,
+    "eur": "5.46",
+    "eur_foil": "11.65",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "d7655424-a6c9-4c90-bc27-b4b4c3d78d12",
+   "name": "Gray Merchant of Asphodel",
+   "type_line": "Creature \u2014 Zombie",
+   "oracle_text": "When this creature enters, each opponent loses X life, where X is your devotion to black. You gain life equal to the life lost this way. (Each {B} in the mana costs of permanents you control counts toward your devotion to black.)",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 240,
+   "set": "slc",
+   "collector_number": "7",
+   "mana_cost": "{3}{B}{B}",
+   "prices": {
+    "usd": "9.17",
+    "usd_foil": "16.77",
+    "usd_etched": null,
+    "eur": "10.55",
+    "eur_foil": "15.94",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "a0523c0a-b9b6-4946-b90d-ed8e13cf1915",
+   "name": "Massacre Wurm",
+   "type_line": "Creature \u2014 Phyrexian Wurm",
+   "oracle_text": "When this creature enters, creatures your opponents control get -2/-2 until end of turn.\nWhenever a creature an opponent controls dies, that player loses 2 life.",
+   "cmc": 6.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 516,
+   "set": "m21",
+   "collector_number": "316",
+   "mana_cost": "{3}{B}{B}{B}",
+   "prices": {
+    "usd": "9.38",
+    "usd_foil": "18.31",
+    "usd_etched": null,
+    "eur": "8.41",
+    "eur_foil": "20.70",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "cbd222f6-54db-40d7-9583-8f9197ace24c",
+   "name": "Living Death",
+   "type_line": "Sorcery",
+   "oracle_text": "Each player exiles all creature cards from their graveyard, then sacrifices all creatures they control, then puts all cards they exiled this way onto the battlefield.",
+   "cmc": 5.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 449,
+   "set": "plst",
+   "collector_number": "A25-96",
+   "mana_cost": "{3}{B}{B}",
+   "prices": {
+    "usd": "5.29",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "4.36",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "1cf99b8b-e1c3-48a7-ab52-38180afbb6fa",
+   "name": "Tibalt's Trickery",
+   "type_line": "Instant",
+   "oracle_text": "Counter target spell. Choose 1, 2, or 3 at random. Its controller mills that many cards, then exiles cards from the top of their library until they exile a nonland card with a different name than that spell. They may cast that card without paying its mana cost. Then they put the exiled cards on the bottom of their library in a random order.",
+   "cmc": 2.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 601,
+   "set": "sld",
+   "collector_number": "7027",
+   "mana_cost": "{1}{R}",
+   "prices": {
+    "usd": "15.73",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "15.59",
+    "eur_foil": "14.67",
+    "tix": null
+   },
+   "flavor_name": "Ya viene el coco"
+  },
+  {
+   "object": "card",
+   "id": "8ee63809-729b-48b1-a06d-3edc2a26208f",
+   "name": "Utopia Sprawl",
+   "type_line": "Enchantment \u2014 Aura",
+   "oracle_text": "Enchant Forest\nAs this Aura enters, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 351,
+   "set": "wot",
+   "collector_number": "63",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "1.76",
+    "usd_foil": "1.72",
+    "usd_etched": null,
+    "eur": "1.33",
+    "eur_foil": "2.17",
+    "tix": "0.04"
+   }
+  },
+  {
+   "object": "card",
+   "id": "c2a0d555-8ebe-4bce-994f-42e6a123f826",
+   "name": "Wild Growth",
+   "type_line": "Enchantment \u2014 Aura",
+   "oracle_text": "Enchant land\nWhenever enchanted land is tapped for mana, its controller adds an additional {G}.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 219,
+   "set": "sld",
+   "collector_number": "7049",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "5.56",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "4.79",
+    "eur_foil": "12.65",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "cf7c1534-af41-4991-b3c3-f0a34ae330b5",
+   "name": "Hapatra, the Desert Fang",
+   "type_line": "Legendary Creature \u2014 Human Cleric",
+   "oracle_text": "When Hapatra enters, for each opponent, put X -1/-1 counters on up to one target creature that player controls, where X is the greatest mana value among cards in your graveyard.",
+   "cmc": 5.0,
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 21205,
+   "set": "fra",
+   "collector_number": "271",
+   "mana_cost": "{2}{B}{B}{G}",
+   "prices": {
+    "usd": "0.21",
+    "usd_foil": "0.21",
+    "usd_etched": null,
+    "eur": "0.10",
+    "eur_foil": "0.21",
+    "tix": "0.01"
+   }
+  },
+  {
+   "object": "card",
+   "id": "498b0c25-5de1-493d-a328-ccfa4cb1b32f",
+   "name": "Wasteland Raider",
+   "type_line": "Creature \u2014 Human Mercenary",
+   "oracle_text": "Squad {2} (As an additional cost to cast this spell, you may pay {2} any number of times. When this creature enters, create that many tokens that are copies of it.)\nWhen this creature enters, each player sacrifices a creature of their choice.",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 8362,
+   "set": "pip",
+   "collector_number": "383",
+   "mana_cost": "{2}{B}{B}",
+   "prices": {
+    "usd": "1.74",
+    "usd_foil": "2.65",
+    "usd_etched": null,
+    "eur": "0.58",
+    "eur_foil": "0.72",
+    "tix": "1.23"
+   }
+  },
+  {
+   "object": "card",
+   "id": "03ab584c-1f27-4452-89b4-3b93a2486d61",
+   "name": "Noxious Revival",
+   "type_line": "Instant",
+   "oracle_text": "({G/P} can be paid with either {G} or 2 life.)\nPut target card from a graveyard on top of its owner's library.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 638,
+   "set": "sld",
+   "collector_number": "1416",
+   "mana_cost": "{G/P}",
+   "prices": {
+    "usd": "22.54",
+    "usd_foil": "39.27",
+    "usd_etched": null,
+    "eur": "14.53",
+    "eur_foil": "30.94",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "f935e21d-f20c-4f73-92b6-e2e2ea8841af",
+   "name": "Greater Good",
+   "type_line": "Enchantment",
+   "oracle_text": "Sacrifice a creature: Draw cards equal to the sacrificed creature's power, then discard three cards.",
+   "cmc": 4.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 632,
+   "set": "sld",
+   "collector_number": "1693",
+   "mana_cost": "{2}{G}{G}",
+   "prices": {
+    "usd": "5.59",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "5.20",
+    "eur_foil": "5.10",
+    "tix": null
+   },
+   "printed_name": "Bene Supremo"
+  },
+  {
+   "object": "card",
+   "id": "eea9251b-ca83-420f-ac5f-4fc3ea8dc190",
+   "name": "Llanowar Elves",
+   "type_line": "Creature \u2014 Elf Druid",
+   "oracle_text": "{T}: Add {G}.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 54,
+   "set": "slc",
+   "collector_number": "12",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "12.30",
+    "usd_foil": "16.98",
+    "usd_etched": null,
+    "eur": "12.03",
+    "eur_foil": "16.71",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "adc7f8f3-140d-4dd0-aacc-b81b2b93eb67",
+   "name": "Hamza, Guardian of Arashin",
+   "type_line": "Legendary Creature \u2014 Elephant Warrior",
+   "oracle_text": "This spell costs {1} less to cast for each creature you control with a +1/+1 counter on it.\nCreature spells you cast cost {1} less to cast for each creature you control with a +1/+1 counter on it.",
+   "cmc": 6.0,
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 3583,
+   "set": "cmm",
+   "collector_number": "339",
+   "mana_cost": "{4}{G}{W}",
+   "prices": {
+    "usd": "0.35",
+    "usd_foil": "0.41",
+    "usd_etched": null,
+    "eur": "0.15",
+    "eur_foil": "0.43",
+    "tix": "0.04"
+   }
+  },
+  {
+   "object": "card",
+   "id": "88f4aecc-b728-4960-8131-1e5aa6c3c030",
+   "name": "Rishkar, Peema Renegade",
+   "type_line": "Legendary Creature \u2014 Elf Druid",
+   "oracle_text": "When Rishkar enters, put a +1/+1 counter on each of up to two target creatures.\nEach creature you control with a counter on it has \"{T}: Add {G}.\"",
+   "cmc": 3.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 895,
+   "set": "cmm",
+   "collector_number": "317",
+   "mana_cost": "{2}{G}",
+   "prices": {
+    "usd": "0.25",
+    "usd_foil": "0.50",
+    "usd_etched": null,
+    "eur": "0.26",
+    "eur_foil": "0.57",
+    "tix": "0.04"
+   }
+  },
+  {
+   "object": "card",
+   "id": "8f9bc5e5-b34e-4274-9ad4-84f405a4e176",
+   "name": "The Ozolith",
+   "type_line": "Legendary Artifact",
+   "oracle_text": "Whenever a creature you control leaves the battlefield, if it had counters on it, put those counters on The Ozolith.\nAt the beginning of combat on your turn, if The Ozolith has counters on it, you may move all counters from The Ozolith onto target creature.",
+   "cmc": 1.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 308,
+   "set": "piko",
+   "collector_number": "237p",
+   "mana_cost": "{1}",
+   "prices": {
+    "usd": "67.27",
+    "usd_foil": "81.72",
+    "usd_etched": null,
+    "eur": "34.90",
+    "eur_foil": "51.30",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "28973aa5-8408-4c8f-8da9-009199d1358f",
+   "name": "Ozolith, the Shattered Spire",
+   "type_line": "Legendary Artifact",
+   "oracle_text": "If one or more +1/+1 counters would be put on an artifact or creature you control, that many plus one +1/+1 counters are put on it instead.\n{1}{G}, {T}: Put a +1/+1 counter on target artifact or creature you control. Activate only as a sorcery.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "cmc": 2.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 651,
+   "set": "pmom",
+   "collector_number": "198p",
+   "mana_cost": "{1}{G}",
+   "prices": {
+    "usd": "6.67",
+    "usd_foil": "8.70",
+    "usd_etched": null,
+    "eur": "4.63",
+    "eur_foil": "6.84",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "6ada256f-2e55-4c1f-b4d3-d7b10b498956",
+   "name": "Sylvan Library",
+   "type_line": "Enchantment",
+   "oracle_text": "At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.",
+   "cmc": 2.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 261,
+   "set": "dmr",
+   "collector_number": "179",
+   "mana_cost": "{1}{G}",
+   "prices": {
+    "usd": "27.00",
+    "usd_foil": "26.81",
+    "usd_etched": null,
+    "eur": "24.35",
+    "eur_foil": "26.03",
+    "tix": "10.32"
+   }
+  },
+  {
+   "object": "card",
+   "id": "3584c119-8302-40ed-8949-1a8de4b15e0d",
+   "name": "Ghalta, Primal Hunger",
+   "type_line": "Legendary Creature \u2014 Elder Dinosaur",
+   "oracle_text": "This spell costs {X} less to cast, where X is the total power of creatures you control.\nTrample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)",
+   "cmc": 12.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 456,
+   "set": "j25",
+   "collector_number": "77",
+   "mana_cost": "{10}{G}{G}",
+   "prices": {
+    "usd": "1.01",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "1.21",
+    "eur_foil": null,
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "be938240-214d-4726-ba2a-aaedc5bbe7ba",
+   "name": "Inspiring Call",
+   "type_line": "Instant",
+   "oracle_text": "Draw a card for each creature you control with a +1/+1 counter on it. Those creatures gain indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy them.)",
+   "cmc": 3.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 281,
+   "set": "fic",
+   "collector_number": "310",
+   "mana_cost": "{2}{G}",
+   "prices": {
+    "usd": "0.37",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.36",
+    "eur_foil": null,
+    "tix": "0.05"
+   }
+  },
+  {
+   "object": "card",
+   "id": "84118221-20a3-46a9-9e6e-a928b46a8633",
+   "name": "Cathedral Acolyte",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "Each creature you control with a counter on it has ward {1}. (Whenever it becomes the target of a spell or ability an opponent controls, counter it unless that player pays {1}.)\n{T}: Put a +1/+1 counter on target creature that entered this turn.",
+   "cmc": 2.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 6608,
+   "set": "pip",
+   "collector_number": "75",
+   "mana_cost": "{1}{G}",
+   "prices": {
+    "usd": "0.51",
+    "usd_foil": "5.19",
+    "usd_etched": null,
+    "eur": "0.27",
+    "eur_foil": "1.70",
+    "tix": "0.60"
+   }
+  },
+  {
+   "object": "card",
+   "id": "4e21a028-0f06-4124-bd0f-04989a1f9481",
+   "name": "Selesnya Signet",
+   "type_line": "Artifact",
+   "oracle_text": "{1}, {T}: Add {G}{W}.",
+   "cmc": 2.0,
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1094,
+   "set": "tdc",
+   "collector_number": "324",
+   "mana_cost": "{2}",
+   "prices": {
+    "usd": "0.51",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.43",
+    "eur_foil": null,
+    "tix": "0.06"
+   }
+  },
+  {
+   "object": "card",
+   "id": "5272436e-74f0-44c4-a291-ea8ebc3f1525",
+   "name": "Walking Ballista",
+   "type_line": "Artifact Creature \u2014 Construct",
+   "oracle_text": "This creature enters with X +1/+1 counters on it.\n{4}: Put a +1/+1 counter on this creature.\nRemove a +1/+1 counter from this creature: It deals 1 damage to any target.",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 417,
+   "set": "2xm",
+   "collector_number": "306",
+   "mana_cost": "{X}{X}",
+   "prices": {
+    "usd": "7.34",
+    "usd_foil": "15.83",
+    "usd_etched": null,
+    "eur": "8.29",
+    "eur_foil": "16.36",
+    "tix": "1.44"
+   }
+  },
+  {
+   "object": "card",
+   "id": "eabbe163-2b15-42e3-89ce-7363e6250d3a",
+   "name": "Good-Fortune Unicorn",
+   "type_line": "Creature \u2014 Unicorn",
+   "oracle_text": "Whenever another creature you control enters, put a +1/+1 counter on that creature.",
+   "cmc": 3.0,
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 3560,
+   "set": "fdn",
+   "collector_number": "240",
+   "mana_cost": "{1}{G}{W}",
+   "prices": {
+    "usd": "0.28",
+    "usd_foil": "0.33",
+    "usd_etched": null,
+    "eur": "0.13",
+    "eur_foil": "0.23",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "63ccad14-ec2b-4235-a917-c0355c16599a",
+   "name": "Swarm Shambler",
+   "type_line": "Creature \u2014 Fungus Beast",
+   "oracle_text": "This creature enters with a +1/+1 counter on it.\nWhenever a creature you control with a +1/+1 counter on it becomes the target of a spell an opponent controls, create a 1/1 green Insect creature token.\n{1}, {T}: Put a +1/+1 counter on this creature.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 15531,
+   "set": "j22",
+   "collector_number": "734",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "0.19",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.24",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "02df18c5-07b9-4e85-9c4b-58b63fa59437",
+   "name": "Borborygmos Enraged",
+   "type_line": "Legendary Creature \u2014 Cyclops",
+   "oracle_text": "Trample\nWhenever Borborygmos Enraged deals combat damage to a player, reveal the top three cards of your library. Put all land cards revealed this way into your hand and the rest into your graveyard.\nDiscard a land card: Borborygmos Enraged deals 3 damage to any target.",
+   "cmc": 8.0,
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 11780,
+   "set": "rvr",
+   "collector_number": "167",
+   "mana_cost": "{4}{R}{R}{G}{G}",
+   "prices": {
+    "usd": "0.32",
+    "usd_foil": "0.39",
+    "usd_etched": null,
+    "eur": "0.18",
+    "eur_foil": "0.45",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "7ac16d09-8bc7-407c-a757-666f4707bc90",
+   "name": "Life from the Loam",
+   "type_line": "Sorcery",
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)",
+   "cmc": 2.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 713,
+   "set": "rav",
+   "collector_number": "172",
+   "mana_cost": "{1}{G}",
+   "prices": {
+    "usd": "8.05",
+    "usd_foil": "105.99",
+    "usd_etched": null,
+    "eur": "6.01",
+    "eur_foil": "54.99",
+    "tix": "2.49"
+   }
+  },
+  {
+   "object": "card",
+   "id": "fcc887b1-299e-49f2-94ab-7c3fb24b1432",
+   "name": "Crucible of Worlds",
+   "type_line": "Artifact",
+   "oracle_text": "You may play lands from your graveyard.",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 598,
+   "set": "10e",
+   "collector_number": "319",
+   "mana_cost": "{3}",
+   "prices": {
+    "usd": "32.64",
+    "usd_foil": "47.24",
+    "usd_etched": null,
+    "eur": "19.50",
+    "eur_foil": "30.24",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "90a54d18-8403-441d-a115-ee462fabdabb",
+   "name": "Ramunap Excavator",
+   "type_line": "Creature \u2014 Snake Cleric",
+   "oracle_text": "You may play lands from your graveyard.",
+   "cmc": 3.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 503,
+   "set": "hou",
+   "collector_number": "129",
+   "mana_cost": "{2}{G}",
+   "prices": {
+    "usd": "4.88",
+    "usd_foil": "7.42",
+    "usd_etched": null,
+    "eur": "2.73",
+    "eur_foil": "6.07",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "618c8ecc-686d-41de-b9b1-1a7ee9cc7c14",
+   "name": "Zuran Orb",
+   "type_line": "Artifact",
+   "oracle_text": "Sacrifice a land: You gain 2 life.",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 897,
+   "set": "mh2",
+   "collector_number": "300",
+   "mana_cost": "{0}",
+   "prices": {
+    "usd": "1.88",
+    "usd_foil": "3.14",
+    "usd_etched": "5.33",
+    "eur": "1.83",
+    "eur_foil": "2.45",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "83036e21-21ea-4324-aa07-11757f80c417",
+   "name": "Sylvan Safekeeper",
+   "type_line": "Creature \u2014 Human Wizard",
+   "oracle_text": "Sacrifice a land: Target creature you control gains shroud until end of turn. (It can't be the target of spells or abilities.)",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 784,
+   "set": "mh3",
+   "collector_number": "287",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "5.88",
+    "usd_foil": "6.87",
+    "usd_etched": null,
+    "eur": "6.64",
+    "eur_foil": "8.28",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "21ef13e3-658c-43a3-a290-4c5dde8e8b55",
+   "name": "Orcish Lumberjack",
+   "type_line": "Creature \u2014 Orc",
+   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2918,
+   "set": "ice",
+   "collector_number": "210",
+   "mana_cost": "{R}",
+   "prices": {
+    "usd": "0.72",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "1.00",
+    "eur_foil": null,
+    "tix": "0.15"
+   }
+  },
+  {
+   "object": "card",
+   "id": "a8503cca-7e7d-44c4-8587-81376b396398",
+   "name": "Wooded Foothills",
+   "type_line": "Land",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
+   "cmc": 0.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 47,
+   "set": "ktk",
+   "collector_number": "249",
+   "mana_cost": "",
+   "prices": {
+    "usd": "17.53",
+    "usd_foil": "28.51",
+    "usd_etched": null,
+    "eur": "16.91",
+    "eur_foil": "22.34",
+    "tix": "1.27"
+   }
+  },
+  {
+   "object": "card",
+   "id": "19180343-a9a2-4c28-ac11-683d226bbc1e",
+   "name": "Tranquil Thicket",
+   "type_line": "Land",
+   "oracle_text": "This land enters tapped.\n{T}: Add {G}.\nCycling {G} ({G}, Discard this card: Draw a card.)",
+   "cmc": 0.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1088,
+   "set": "cm2",
+   "collector_number": "274",
+   "mana_cost": "",
+   "prices": {
+    "usd": "0.33",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.23",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "c14c07d4-6971-483a-add1-f3cdf18feae9",
+   "name": "Wheel of Fortune",
+   "type_line": "Sorcery",
+   "oracle_text": "Each player discards their hand, then draws seven cards.",
+   "cmc": 3.0,
+   "color_identity": [
+    "R"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 580,
+   "set": "3ed",
+   "collector_number": "185",
+   "mana_cost": "{2}{R}",
+   "prices": {
+    "usd": "395.37",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "242.73",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "90f33f99-7bc5-42e1-815e-bfb4c2b74107",
+   "name": "Marwyn, the Preserver",
+   "type_line": "Legendary Creature \u2014 Elf Druid",
+   "oracle_text": "Lands you control have hexproof. (They can't be the targets of spells or abilities your opponents control.)\n{2}: Return target land card from your graveyard to your hand.",
+   "cmc": 2.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 12615,
+   "set": "fra",
+   "collector_number": "263",
+   "mana_cost": "{1}{G}",
+   "prices": {
+    "usd": "0.26",
+    "usd_foil": "0.35",
+    "usd_etched": null,
+    "eur": "0.18",
+    "eur_foil": "0.25",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "1fc6d14a-1328-4032-ad9e-cd85cd365bd3",
+   "name": "Endurance",
+   "type_line": "Creature \u2014 Elemental Incarnation",
+   "oracle_text": "Flash\nReach\nWhen this creature enters, up to one target player puts all the cards from their graveyard on the bottom of their library in a random order.\nEvoke\u2014Exile a green card from your hand.",
+   "cmc": 3.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1347,
+   "set": "mh2",
+   "collector_number": "317",
+   "mana_cost": "{1}{G}{G}",
+   "prices": {
+    "usd": "10.02",
+    "usd_foil": "28.07",
+    "usd_etched": null,
+    "eur": "10.26",
+    "eur_foil": "26.62",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "5dbc2162-238d-492b-b629-94f771230d92",
+   "name": "Tireless Provisioner",
+   "type_line": "Creature \u2014 Elf Scout",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, create a Food token or a Treasure token. (Food is an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\" Treasure is an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "cmc": 3.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 189,
+   "set": "j25",
+   "collector_number": "728",
+   "mana_cost": "{2}{G}",
+   "prices": {
+    "usd": "2.86",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "2.64",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "f10a72dc-10ca-4925-b1ea-5377f7867b57",
+   "name": "Eight-and-a-Half-Tails",
+   "type_line": "Legendary Creature \u2014 Fox Cleric",
+   "oracle_text": "{1}{W}: Target permanent you control gains protection from white until end of turn.\n{1}: Target spell or permanent becomes white until end of turn.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 8424,
+   "set": "ema",
+   "collector_number": "7",
+   "mana_cost": "{W}{W}",
+   "prices": {
+    "usd": "0.60",
+    "usd_foil": "8.32",
+    "usd_etched": null,
+    "eur": "0.51",
+    "eur_foil": "3.86",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "be407a81-b25a-4e5d-845e-be0cc0d18db8",
+   "name": "Painter's Servant",
+   "type_line": "Artifact Creature \u2014 Scarecrow",
+   "oracle_text": "As this creature enters, choose a color.\nAll cards that aren't on the battlefield, spells, and permanents are the chosen color in addition to their other colors.",
+   "cmc": 2.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 7166,
+   "set": "shm",
+   "collector_number": "257",
+   "mana_cost": "{2}",
+   "prices": {
+    "usd": "48.59",
+    "usd_foil": "125.50",
+    "usd_etched": null,
+    "eur": "23.40",
+    "eur_foil": "67.81",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "8ed3d16f-f0c6-4080-8913-758208b08234",
+   "name": "Glare of Heresy",
+   "type_line": "Sorcery",
+   "oracle_text": "Exile target white permanent.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 23843,
+   "set": "ths",
+   "collector_number": "15",
+   "mana_cost": "{1}{W}",
+   "prices": {
+    "usd": "0.18",
+    "usd_foil": "0.20",
+    "usd_etched": null,
+    "eur": "0.13",
+    "eur_foil": "0.25",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "4722eb81-1aa1-4863-8dfb-d9d6035bd6c6",
+   "name": "Gideon's Defeat",
+   "type_line": "Instant",
+   "oracle_text": "Exile target white creature that's attacking or blocking. If it was a Gideon planeswalker, you gain 5 life.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 28448,
+   "set": "hou",
+   "collector_number": "13",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "0.08",
+    "usd_foil": "0.18",
+    "usd_etched": null,
+    "eur": "0.07",
+    "eur_foil": "0.31",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "006c18cf-b6d2-4fba-b9da-c9762fb3885b",
+   "name": "Worship",
+   "type_line": "Enchantment",
+   "oracle_text": "If you control a creature, damage that would reduce your life total to less than 1 reduces it to 1 instead.",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 11979,
+   "set": "8ed",
+   "collector_number": "57",
+   "mana_cost": "{3}{W}",
+   "prices": {
+    "usd": "0.68",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.49",
+    "eur_foil": null,
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "e6f9792f-7435-49dd-98b4-cc2e9f556338",
+   "name": "Thalia, Guardian of Thraben",
+   "type_line": "Legendary Creature \u2014 Human Soldier",
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2420,
+   "set": "wmc",
+   "collector_number": "2015",
+   "mana_cost": "{1}{W}",
+   "prices": {
+    "usd": null,
+    "usd_foil": "16.40",
+    "usd_etched": null,
+    "eur": null,
+    "eur_foil": "15.62",
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "f3537373-ef54-4578-9d05-6216420ee349",
+   "name": "Esper Sentinel",
+   "type_line": "Artifact Creature \u2014 Human Soldier",
+   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 79,
+   "set": "mh2",
+   "collector_number": "12",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "52.23",
+    "usd_foil": "74.17",
+    "usd_etched": null,
+    "eur": "39.03",
+    "eur_foil": "61.49",
+    "tix": "0.77"
+   }
+  },
+  {
+   "object": "card",
+   "id": "4d3473d0-b46f-41f5-ac1e-ba217f7747d4",
+   "name": "Stoneforge Mystic",
+   "type_line": "Creature \u2014 Kor Artificer",
+   "oracle_text": "When this creature enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1095,
+   "set": "2xm",
+   "collector_number": "31",
+   "mana_cost": "{1}{W}",
+   "prices": {
+    "usd": "28.99",
+    "usd_foil": "33.14",
+    "usd_etched": null,
+    "eur": "19.00",
+    "eur_foil": "19.12",
+    "tix": "1.76"
+   }
+  },
+  {
+   "object": "card",
+   "id": "2626d4c9-fcef-4057-a154-7d987a4a4b84",
+   "name": "Sword of Fire and Ice",
+   "type_line": "Artifact \u2014 Equipment",
+   "oracle_text": "Equipped creature gets +2/+2 and has protection from red and from blue.\nWhenever equipped creature deals combat damage to a player, this Equipment deals 2 damage to any target and you draw a card.\nEquip {2}",
+   "cmc": 3.0,
+   "color_identity": [],
+   "game_changer": false,
+   "edhrec_rank": 1339,
+   "set": "2xm",
+   "collector_number": "297",
+   "mana_cost": "{3}",
+   "prices": {
+    "usd": "46.18",
+    "usd_foil": "59.33",
+    "usd_etched": null,
+    "eur": "26.12",
+    "eur_foil": "28.76",
+    "tix": "0.21"
+   }
+  },
+  {
+   "object": "card",
+   "id": "4811072d-fac0-40dd-a5cf-9694d51b12cf",
+   "name": "Avatar's Wrath",
+   "type_line": "Sorcery",
+   "oracle_text": "Choose up to one target creature, then airbend all other creatures. (Exile them. While each one is exiled, its owner may cast it for {2} rather than its mana cost.)\nUntil your next turn, your opponents can't cast spells from anywhere other than their hands.\nExile Avatar's Wrath.",
+   "cmc": 4.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1460,
+   "set": "tla",
+   "collector_number": "12",
+   "mana_cost": "{2}{W}{W}",
+   "prices": {
+    "usd": "3.88",
+    "usd_foil": "4.47",
+    "usd_etched": null,
+    "eur": "4.10",
+    "eur_foil": "4.28",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "aaa187c9-90b3-4770-963a-8a9f932430ef",
+   "name": "Council's Judgment",
+   "type_line": "Sorcery",
+   "oracle_text": "Will of the council \u2014 Starting with you, each player votes for a nonland permanent you don't control. Exile each permanent with the most votes or tied for most votes.",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 3573,
+   "set": "2xm",
+   "collector_number": "11",
+   "mana_cost": "{1}{W}{W}",
+   "prices": {
+    "usd": "0.99",
+    "usd_foil": "1.42",
+    "usd_etched": null,
+    "eur": "0.58",
+    "eur_foil": "1.25",
+    "tix": "0.09"
+   }
+  },
+  {
+   "object": "card",
+   "id": "010d4a6b-af72-4d44-a25f-dce8e12da727",
+   "name": "Martyr of Sands",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "{1}, Reveal X white cards from your hand, Sacrifice this creature: You gain three times X life.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 15579,
+   "set": "uma",
+   "collector_number": "25",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "0.28",
+    "usd_foil": "0.49",
+    "usd_etched": null,
+    "eur": "0.25",
+    "eur_foil": "0.57",
+    "tix": "0.05"
+   }
+  },
+  {
+   "object": "card",
+   "id": "1ee65b44-eeb6-418b-b022-a0aef587c738",
+   "name": "Serra Ascendant",
+   "type_line": "Creature \u2014 Human Monk",
+   "oracle_text": "Lifelink (Damage dealt by this creature also causes you to gain that much life.)\nAs long as you have 30 or more life, this creature gets +5/+5 and has flying.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1006,
+   "set": "m11",
+   "collector_number": "28",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "31.83",
+    "usd_foil": "62.27",
+    "usd_etched": null,
+    "eur": "21.83",
+    "eur_foil": "34.88",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "148e6acd-a96a-4bea-8cfe-a129cd8d1003",
+   "name": "Prehistoric Pet",
+   "type_line": "Creature \u2014 Dinosaur Ninja",
+   "oracle_text": "This creature can't be blocked by creatures with greater power.\n{1}{W}, {T}: Return another target creature you control to its owner's hand. Activate only during your turn.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 12331,
+   "set": "tmt",
+   "collector_number": "22",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "0.33",
+    "usd_foil": "0.35",
+    "usd_etched": null,
+    "eur": "0.20",
+    "eur_foil": "0.36",
+    "tix": "0.02"
+   }
+  },
+  {
+   "object": "card",
+   "id": "fc0b64f2-2bbb-40bb-b025-3a303a22f68b",
+   "name": "Mother of Runes",
+   "type_line": "Creature \u2014 Human Cleric",
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "cmc": 1.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 505,
+   "set": "plst",
+   "collector_number": "DDO-20",
+   "mana_cost": "{W}",
+   "prices": {
+    "usd": "10.72",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "10.56",
+    "eur_foil": null,
+    "tix": null
+   }
+  },
+  {
+   "object": "card",
+   "id": "99cfd1a8-49fd-4cc0-96f2-f9f159ce5d55",
+   "name": "Hardened Scales",
+   "type_line": "Enchantment",
+   "oracle_text": "If one or more +1/+1 counters would be put on a creature you control, that many plus one +1/+1 counters are put on it instead.",
+   "cmc": 1.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 187,
+   "set": "soc",
+   "collector_number": "272",
+   "mana_cost": "{G}",
+   "prices": {
+    "usd": "2.51",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "2.25",
+    "eur_foil": null,
+    "tix": "0.13"
+   }
+  },
+  {
+   "object": "card",
+   "id": "c6d36786-6e36-4a9b-97ad-ad7d9d2b8d92",
+   "name": "Conclave Mentor",
+   "type_line": "Creature \u2014 Centaur Cleric",
+   "oracle_text": "If one or more +1/+1 counters would be put on a creature you control, that many plus one +1/+1 counters are put on that creature instead.\nWhen this creature dies, you gain life equal to its power.",
+   "cmc": 2.0,
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 2405,
+   "set": "moc",
+   "collector_number": "320",
+   "mana_cost": "{G}{W}",
+   "prices": {
+    "usd": "0.82",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.72",
+    "eur_foil": null,
+    "tix": "0.15"
+   }
+  },
+  {
+   "object": "card",
+   "id": "e1f723a8-0be9-4270-b451-a52d6b2fda4e",
+   "name": "Ghostly Prison",
+   "type_line": "Enchantment",
+   "oracle_text": "Creatures can't attack you unless their controller pays {2} for each creature they control that's attacking you.",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 160,
+   "set": "soc",
+   "collector_number": "146",
+   "mana_cost": "{2}{W}",
+   "prices": {
+    "usd": "7.12",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "5.75",
+    "eur_foil": null,
+    "tix": "0.42"
+   }
+  },
+  {
+   "object": "card",
+   "id": "2e64f2cc-67bd-482a-938b-8dca1a1c6ac1",
+   "name": "Circle of Protection: White",
+   "type_line": "Enchantment",
+   "oracle_text": "{1}: The next time a white source of your choice would deal damage to you this turn, prevent that damage.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 19391,
+   "set": "8ed",
+   "collector_number": "14",
+   "mana_cost": "{1}{W}",
+   "prices": {
+    "usd": "0.19",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.18",
+    "eur_foil": null,
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "bb4124b9-5169-471e-b805-ceeffeec9184",
+   "name": "Pious Kitsune",
+   "type_line": "Creature \u2014 Fox Cleric",
+   "oracle_text": "At the beginning of your upkeep, put a devotion counter on this creature. Then if a creature named Eight-and-a-Half-Tails is on the battlefield, you gain 1 life for each devotion counter on this creature.\n{T}, Remove a devotion counter from this creature: You gain 1 life.",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 22008,
+   "set": "chk",
+   "collector_number": "38",
+   "mana_cost": "{2}{W}",
+   "prices": {
+    "usd": "0.11",
+    "usd_foil": "1.16",
+    "usd_etched": null,
+    "eur": "0.09",
+    "eur_foil": "0.46",
+    "tix": "0.03"
+   }
+  },
+  {
+   "object": "card",
+   "id": "66392169-5c6f-46bf-b0df-5670e40aecd9",
+   "name": "Earnest Fellowship",
+   "type_line": "Enchantment",
+   "oracle_text": "Each creature has protection from each of its colors.",
+   "cmc": 2.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 20218,
+   "set": "ody",
+   "collector_number": "21",
+   "mana_cost": "{1}{W}",
+   "prices": {
+    "usd": "1.60",
+    "usd_foil": "16.99",
+    "usd_etched": null,
+    "eur": "0.87",
+    "eur_foil": "8.66",
+    "tix": "0.23"
+   }
+  },
+  {
+   "object": "card",
+   "id": "d4cf468f-4e9d-4551-a0ed-10bd6a2316ad",
+   "name": "Aven Mindcensor",
+   "type_line": "Creature \u2014 Bird Wizard",
+   "oracle_text": "Flash\nFlying\nIf an opponent would search a library, that player searches the top four cards of that library instead.",
+   "cmc": 3.0,
+   "color_identity": [
+    "W"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1287,
+   "set": "clb",
+   "collector_number": "688",
+   "mana_cost": "{2}{W}",
+   "prices": {
+    "usd": "1.18",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.28",
+    "eur_foil": null,
+    "tix": "0.10"
+   }
+  },
+  {
+   "object": "card",
+   "id": "0a74b4e6-f6c9-4fef-a83c-a285a541e720",
+   "name": "Ashaya, Soul of the Wild",
+   "type_line": "Legendary Creature \u2014 Elemental",
+   "oracle_text": "Ashaya's power and toughness are each equal to the number of lands you control.\nNontoken creatures you control are Forest lands in addition to their other types. (They're still affected by summoning sickness.)",
+   "cmc": 5.0,
+   "color_identity": [
+    "G"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 848,
+   "set": "dsc",
+   "collector_number": "170",
+   "mana_cost": "{3}{G}{G}",
+   "prices": {
+    "usd": "12.78",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "16.34",
+    "eur_foil": null,
+    "tix": "0.27"
+   }
+  },
+  {
+   "object": "card",
+   "id": "a4dfbac0-1849-41c5-853a-1fee108d0b01",
+   "name": "Ravenous Chupacabra",
+   "type_line": "Creature \u2014 Beast Horror",
+   "oracle_text": "When this creature enters, destroy target creature an opponent controls.",
+   "cmc": 4.0,
+   "color_identity": [
+    "B"
+   ],
+   "game_changer": false,
+   "edhrec_rank": 1168,
+   "set": "mkc",
+   "collector_number": "136",
+   "mana_cost": "{2}{B}{B}",
+   "prices": {
+    "usd": "0.90",
+    "usd_foil": null,
+    "usd_etched": null,
+    "eur": "0.80",
+    "eur_foil": null,
+    "tix": "0.07"
+   }
+  }
+ ]
+}

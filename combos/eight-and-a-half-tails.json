@@ -1,0 +1,27 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Eight-and-a-Half-Tails",
+  "identity": "W",
+  "made": "2026-11-18",
+  "combos": [
+    {"id":"553-1891","cards":["Approach of the Second Sun","Reprieve"],"identity":"W","produces":["Win the game"],"bracket":"C","popularity":22729,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1078-2302","cards":["Painter's Servant","Grindstone"],"identity":"C","produces":["Infinite self-mill","Infinite mill for target opponent"],"bracket":"S","popularity":11438,"needs":[],"note":"Any color chosen with Painter's Servant.","commanderOnly":[]},
+    {"id":"1308-4682-7890","cards":["Gleaming Splendor","Smothering Tithe","Anointed Procession"],"identity":"W","produces":["Infinite card draw for any number of players","Infinite draw triggers for any number of players","Near-infinite Treasure tokens"],"bracket":"P","popularity":7604,"needs":[],"note":"At least two opponents cannot pay for Smothering Tithe's trigger.","commanderOnly":[]},
+    {"id":"4365-4682-7890","cards":["Gleaming Splendor","Smothering Tithe","Mondrak, Glory Dominus"],"identity":"W","produces":["Infinite card draw for any number of players","Infinite draw triggers for any number of players","Near-infinite Treasure tokens"],"bracket":"P","popularity":6889,"needs":[],"note":"At least two opponents cannot pay for Smothering Tithe's trigger.","commanderOnly":[]},
+    {"id":"4682-6441-7890","cards":["Gleaming Splendor","Smothering Tithe","Elspeth, Storm Slayer"],"identity":"W","produces":["Infinite card draw for any number of players","Infinite draw triggers for any number of players","Near-infinite Treasure tokens"],"bracket":"P","popularity":6296,"needs":[],"note":"At least two opponents cannot pay for Smothering Tithe's trigger.","commanderOnly":[]},
+    {"id":"4682-6753-7890","cards":["Gleaming Splendor","Smothering Tithe","Exalted Sunborn"],"identity":"W","produces":["Infinite card draw for any number of players","Infinite draw triggers for any number of players","Near-infinite Treasure tokens"],"bracket":"P","popularity":4775,"needs":[],"note":"At least two opponents cannot pay for Smothering Tithe's trigger.","commanderOnly":[]},
+    {"id":"1050-3149","cards":["Avacyn, Angel of Hope","Nevinyrral's Disk"],"identity":"W","produces":["Destroy all creatures, artifacts, and enchantments opponents control on each of your turns"],"bracket":"E","popularity":4662,"needs":[],"note":"Nevinyrral's Disk untapped.","commanderOnly":[]},
+    {"id":"3149-3981","cards":["Avacyn, Angel of Hope","Worldslayer"],"identity":"W","produces":["Destroy all permanents opponents control each turn","Lock","Mass Land Denial"],"bracket":"R","popularity":4641,"needs":[],"note":"Worldslayer attached to Avacyn. An opponent is unable to block Avacyn. Avacyn does not have summoning sickness.","commanderOnly":[]},
+    {"id":"810-3149","cards":["Avacyn, Angel of Hope","Magus of the Disk"],"identity":"W","produces":["Destroy all creatures, artifacts, and enchantments opponents control on each of your turns"],"bracket":"E","popularity":1828,"needs":[],"note":"Magus of the Disk without summoning sickness.","commanderOnly":[]},
+    {"id":"3213-3903","cards":["Boromir, Warden of the Tower","Knowledge Pool"],"identity":"W","produces":["Counter all spells players cast from their hands","Lock"],"bracket":"S","popularity":1729,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1350-3363","cards":["The One Ring","Meticulous Excavation"],"identity":"W","produces":["Prevent all damage that would be dealt to you","You have protection from everything","Lock"],"bracket":"S","popularity":1088,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3363-8187","cards":["The One Ring","Essence Reliquary"],"identity":"W","produces":["Lock","Prevent all damage that would be dealt to you","You have protection from everything"],"bracket":"S","popularity":325,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"201-2302","cards":["Light of Day","Painter's Servant"],"identity":"W","produces":["Creatures can't attack","Creatures can't block","Lock"],"bracket":"S","popularity":320,"needs":[],"note":"\"Black\" chosen with Painter's Servant.","commanderOnly":[]},
+    {"id":"131-3363","cards":["The One Ring","Umbilicus"],"identity":"C","produces":["Lock","Prevent all damage that would be dealt to you","You have protection from everything"],"bracket":"S","popularity":311,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3363-4933","cards":["The One Ring","Blood Clock"],"identity":"C","produces":["Lock","Prevent all damage that would be dealt to you","You have protection from everything"],"bracket":"S","popularity":296,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2018-3213-4053","cards":["Solemnity","Luminous Broodmoth","Boromir, Warden of the Tower"],"identity":"W","produces":["Infinite creature LTB","Infinite creature ETB","Infinite creature sacrifice triggers"],"bracket":"E","popularity":281,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3363-5278","cards":["The One Ring","Obelisk of Undoing"],"identity":"C","produces":["Lock","Prevent all damage that would be dealt to you","You have protection from everything"],"bracket":"S","popularity":35,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1609-2302","cards":["Iona, Shield of Emeria","Painter's Servant"],"identity":"W","produces":["Opponents can't cast spells","Lock"],"bracket":"B","popularity":0,"needs":[],"note":"The same color chosen with Iona and Painter's Servant.","commanderOnly":[]}
+  ]
+}

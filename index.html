@@ -19,6 +19,12 @@
         --accent-bg: #2c4a7a;
         --accent-line: #3d63a3;
         --panel-2: #262b35;
+        --line-soft: #2a2f3a;
+        --accent-hover: #34568c;
+        --accent-text: #cfe0ff;
+        --error-text: #ff8b8b;
+        --notice-bg: #3a2f12;
+        --notice-line: #6b5520;
         --r-sm: 8px;
         --r-md: 12px;
         --space-1: 4px;
@@ -129,7 +135,7 @@
         border-color: var(--accent-line);
       }
       .primary:hover:not(:disabled) {
-        background: #34568c;
+        background: var(--accent-hover);
       }
       select,
       input[type="number"],
@@ -150,11 +156,11 @@
         margin: 10px 0;
       }
       .msg.error {
-        color: #ff8b8b;
+        color: var(--error-text);
       }
       .notice {
-        background: #3a2f12;
-        border: 1px solid #6b5520;
+        background: var(--notice-bg);
+        border: 1px solid var(--notice-line);
         border-radius: 8px;
         padding: 8px 12px;
         margin: 10px 0;
@@ -276,7 +282,7 @@
         margin-left: 4px;
       }
       .piles button[aria-pressed="true"] .count {
-        color: #cfe0ff;
+        color: var(--accent-text);
       }
       #pileChips {
         display: contents;
@@ -642,14 +648,15 @@
         align-items: center;
         gap: 8px;
         padding: 3px 0;
-        border-bottom: 1px solid #2a2f3a;
+        border-bottom: 1px solid var(--line-soft);
       }
       .list li span {
         flex: 1;
         min-width: 0;
         overflow-wrap: anywhere;
       }
-      .list li .price {
+      .list li .price,
+      .list li .fit {
         flex: none;
         color: var(--muted);
         font-size: 0.85rem;
@@ -1008,7 +1015,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=9"></script>
+    <script src="core.js?v=11"></script>
     <script>
       (function () {
         "use strict";
@@ -1377,6 +1384,19 @@
           );
           collection(CS.deckIdentifiers(parsed.cards))
             .then(function (r) {
+              // A printing Scryfall doesn't know by set and number (Moxfield's
+              // own numbering, like "(PLIST) 789") gets a second try by name.
+              var retry = CS.retryIdentifiers(parsed.cards, r.data);
+              if (!retry.length || token !== loadSeq) return r;
+              return collection(retry)
+                .then(function (r2) {
+                  return { data: r.data.concat(r2.data), notFound: r2.notFound };
+                })
+                .catch(function () {
+                  return r; // the first answer still loads the deck
+                });
+            })
+            .then(function (r) {
               if (token !== loadSeq) return;
               var matched = CS.matchCollection(parsed.cards, r.data);
               var candidates = CS.commanderCandidates(matched);
@@ -1390,7 +1410,9 @@
               S.text = text;
               S.matched = matched;
               S.candidates = candidates;
-              S.deckNames = CS.deckNameSet(parsed.cards);
+              // export names plus Scryfall's (a flavor-name printing like
+              // "Ya viene el coco" is Tibalt's Trickery to EDHREC)
+              S.deckNames = CS.matchedNameSet(parsed.cards, matched);
               r.data.forEach(function (sc) {
                 if (!S.cardInfo[sc.id]) S.cardInfo[sc.id] = CS.slimCard(sc);
               });
@@ -1748,6 +1770,8 @@
               });
               S.combos = { file: file, deck: d, byKey: byKey };
               renderDeckFit();
+              // a prompt shown before the list arrived may name a combo piece
+              if (S.swap) showSwapFor(S.swap.forId, true);
               if (!d.oneAway.length) return;
               var pile = {
                 key: "combos",
@@ -2910,8 +2934,12 @@
           };
         }
 
-        /** After an Add: if the deck is now over 100, offer a cut for it. */
-        function showSwapFor(id) {
+        /**
+         * After an Add: if the deck is now over 100, offer a cut for it.
+         * `again`: the combo list just arrived, so work the prompt out again
+         * without announcing it a second time.
+         */
+        function showSwapFor(id, again) {
           var info = S.cardInfo[id];
           if (!info || !S.profile || deckTotals().total <= 100) {
             hideSwap();
@@ -2924,11 +2952,12 @@
             S.parsed.cards,
             S.state.cuts,
           );
+          var wasMore = again && S.swap ? S.swap.more : false;
           S.swap = ideas.length
-            ? { forName: info.name, ideas: ideas, more: false }
+            ? { forName: info.name, forId: id, ideas: ideas, more: wasMore }
             : null;
           renderSwap();
-          if (S.swap)
+          if (S.swap && !again)
             status(
               "Added: " +
                 info.name +
@@ -3035,9 +3064,13 @@
             .forEach(function (id) {
               var info = S.cardInfo[id];
               var name = info ? info.name : "(loading name...)";
+              var fit = info ? fitFor(id) : null;
               ul.appendChild(
                 el("li", null, [
                   el("span", { text: name }),
+                  fit
+                    ? el("span", { class: "fit", title: "Fit score for this deck", text: "Fit " + fit.score })
+                    : null,
                   info
                     ? el("span", { class: "price", text: money(info.usd) })
                     : null,
@@ -3304,7 +3337,7 @@
           setupError("");
           if (!navigator.clipboard || !navigator.clipboard.readText) {
             askForPaste(
-              "This browser doesn't let pages read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste); it loads on its own.",
+              "This browser doesn't let pages read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste), then press Load deck.",
             );
             return;
           }
@@ -3321,7 +3354,7 @@
             },
             function () {
               askForPaste(
-                "The browser didn't let the page read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste); it loads on its own.",
+                "The browser didn't let the page read the clipboard. Paste into the box (Ctrl+V, or press and hold, then Paste), then press Load deck.",
               );
             },
           );
@@ -3334,14 +3367,17 @@
           $("exportText").focus();
         });
 
-        // Pasting a whole deck replaces what's in the box and loads it.
+        // Pasting a whole deck replaces what's in the box (so it doesn't land
+        // in the middle of an old list). Loading waits for Load deck.
         $("exportText").addEventListener("paste", function (e) {
           var text = e.clipboardData && e.clipboardData.getData("text/plain");
           if (!text || !looksLikeDeck(text)) return; // a line or two: paste as usual
           e.preventDefault();
           this.value = text;
-          setupMsg("");
-          loadDeck("");
+          setupError("");
+          setupMsg(
+            "Pasted " + CS.deckSize(CS.parseExport(text).cards) + " cards. Press Load deck when you're ready.",
+          );
         });
         $("commanderSelect").addEventListener("change", function () {
           var id = this.value;
@@ -3394,17 +3430,44 @@
           },
         );
         $("undoBtn").addEventListener("click", undo);
-        // Picked with the mouse or a finger: move focus off the dropdown, so the
-        // arrow keys swipe again instead of changing the pile.
+        // Picked with the mouse or a finger: open it and move focus off the
+        // dropdown, so the arrow keys swipe again. Picked with the arrow keys:
+        // wait until they stop (or Enter) before opening, so browsing the
+        // list doesn't open, and fetch, every pile on the way; then move
+        // focus off too.
+        var PILE_KEY_WAIT = 700; // ms after the last arrow key
         ["roleSelect", "themeSelect"].forEach(function (id) {
           var byPointer = false;
-          $(id).addEventListener("mousedown", function () {
-            byPointer = true;
+          var timer = null;
+          var sel = $(id);
+          function pick() {
+            clearTimeout(timer);
+            timer = null;
+            if (sel.value) openPile(sel.value);
+            sel.blur();
+          }
+          ["mousedown", "pointerdown", "touchstart"].forEach(function (ev) {
+            sel.addEventListener(ev, function () {
+              byPointer = true;
+            }, { passive: true });
           });
-          $(id).addEventListener("change", function () {
-            if (this.value) openPile(this.value);
-            if (byPointer) this.blur();
-            byPointer = false;
+          sel.addEventListener("change", function () {
+            if (byPointer) {
+              byPointer = false;
+              pick();
+              return;
+            }
+            clearTimeout(timer);
+            timer = setTimeout(pick, PILE_KEY_WAIT);
+          });
+          sel.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && timer) {
+              e.preventDefault();
+              pick();
+            }
+          });
+          sel.addEventListener("blur", function () {
+            if (timer) pick(); // tabbed away mid-wait: open what's chosen
           });
         });
         $("copyBtn").addEventListener("click", copyForMoxfield);
