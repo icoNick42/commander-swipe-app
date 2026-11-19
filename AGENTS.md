@@ -28,5 +28,6 @@ If something I ask conflicts with this file, do what I asked and mention the con
 - Plan first only when a decision needs me (direction, scope, money). Otherwise build and say what you chose.
 - Change only what the task needs. List unrelated problems you notice in your summary and add them to `../Later list.md`.
 - After a change: run the tests, preview the page, check the console for errors, and read each saved file back.
+- Edit app files only with scripts that read the file and replace exact text (one match per edit). Keep escapes as text: build any `\u` escape from a placeholder, never type it. After each write, check the file is still plain ASCII outside old comments before sending it to the PC.
 - A change to saved-data code gets one review by a fresh agent that sees the request and the finished change, not your reasoning. It reports Must / Should / Note.
 - Finish with a short summary: what changed, what was checked, what wasn't, and the GitHub Desktop steps.
