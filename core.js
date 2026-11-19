@@ -992,6 +992,17 @@
     ["oppsac", /\b(each|target) (opponent|player)\b[^.]*\b(sacrifices|discards)\b|\bthat player (sacrifices|discards)\b|\bunless (they|that player) (sacrifices?|discards?)\b|\bsacrifices? [^.]*\bor discards?\b/],
     ["targets", /\btarget (creature|permanent|nonland permanent|artifact|enchantment|planeswalker|player|opponent|spell|creature or planeswalker)\b(?! you control)/],
     ["exile", /\bexile the top [^.]*\.\s*(until [^,]*, )?you may (play|cast)\b|\byou may (play|cast) (that card|those cards|it|them|cards exiled)[^.]*\b(this turn|for as long as|until)\b|\bexile it face down\. you may play\b/],
+    // cycle 12: the Ring tempting you, amass (Armies), the monarch, keeping
+    // attackers off you (goad, attack taxes, fogs, damage reflection),
+    // tapping your creatures (crew, station, convoke), riot
+    ["ring", /\bthe ring tempts you\b/],
+    ["army", /\bamass\b/],
+    ["monarch", /\bmonarch\b/],
+    ["deter", /\bgoads?\b|\battacks? each combat if able\b|\battacks? a player other than you\b|\bcan't attack you\b|\bprevent all (combat )?damage that would be dealt to you\b|\bwhenever enchanted player is attacked\b|\bdeals? that much damage to (that source's|the source's|its) controller\b|\bdeals damage equal to its power to its controller\b|\bwhenever ~ is dealt damage, it deals that much damage\b|\bdeals that much damage to each other creature and each player\b/],
+    ["tap", /\bcrew \d+\b|\bstation\b|\bconvoke\b|\btap (an|one|two|three|x|any number of|one or more) untapped (creatures?|artifacts? or creatures?|creatures? or artifacts?)( you control)?\b|\btap an untapped creature you control\b/],
+    ["attacks", /\briot\b/],
+    ["lifegain", /\b(target player|you) gains? (\d+|x|twice x|that much|life)\b/],
+    ["oppdraw", /\byou and (target|that|each) (opponent|player)s? each draws?\b|\beach opponent may draw\b|\bthat player draws (two|three|four|five|six|seven|x|\d+) cards\b/],
   ];
 
   var WANTS = [
@@ -1047,6 +1058,13 @@
     ["instant", /\bwhenever you cast a spell (while|during)\b|\bwhenever you cast a spell during an opponent's turn\b/],
     ["enchantments", /\benchantment cards? (from|in) your graveyard\b|\benchantment spells? you cast\b/],
     ["artifacts", /\bartifact cards?\b|\bartifact spells? you cast\b/],
+    // cycle 12 payoffs
+    ["ring", /\bwhenever the ring tempts you\b|\bring-bearer\b/],
+    ["army", /\barm(y|ies) you control\b|\bwhenever you amass\b/],
+    ["monarch", /\bmonarch\b/],
+    ["deter", /\byou become the monarch\b|\bwhenever (an opponent|a player) attacks (another one of your opponents|one of your opponents|a player other than you)\b|\bgoaded\b/],
+    ["tap", /\bbecomes? tapped\b/],
+    ["bigspell", /\bat least (\w+) mana (was )?spent\b|\b(four|five|six|\d+) or more mana (was )?spent\b|\bif (four|five|six|seven|\d+) or more mana was spent\b|\bamount of mana spent to cast (it|that spell)\b/],
   ];
 
   /**
@@ -1096,6 +1114,13 @@
     drain: { g: "Makes opponents lose life", w: "Pays off opponents losing life", b: "Drains and pays it off", short: "draining opponents" },
     lifeloss: { g: "Costs you life", w: "Pays off losing life", b: "Costs life and pays it off", short: "paying life" },
     instant: { g: "Can be cast at instant speed", w: "Pays off spells cast at the right moment", b: "Instant-speed payoff", short: "instant-speed spells" },
+
+    ring: { g: "Makes the Ring tempt you", w: "Pays off the Ring tempting you", b: "Tempts you and pays it off", short: "the Ring" },
+    army: { g: "Amasses (grows an Army)", w: "Pays off Armies", b: "Amasses and pays off Armies", short: "Armies" },
+    monarch: { g: "Makes you the monarch", w: "Pays off being the monarch", b: "Monarch card", short: "the monarch" },
+    deter: { g: "Keeps attackers off you (goad, attack taxes, damage reflection)", w: "Wants opponents attacking someone else", b: "Keeps attackers off you and pays it off", short: "keeping attackers away" },
+    tap: { g: "Taps your creatures (crew, station, tap abilities)", w: "Pays off your creatures becoming tapped", b: "Taps creatures and pays it off", short: "tapping your creatures" },
+    bigspell: { g: "A noncreature spell costing 4 or more (or X)", w: "Pays off spells with 4 or more mana spent", b: "Big spell payoff", short: "big noncreature spells" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -1116,10 +1141,10 @@
    * tutors 2, protection 3.
    */
   CS.SYN_ROLES = [
-    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b") },
+    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b|\\bspells you cast cost \\{\\d+\\} less\\b") },
     { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b/ },
-    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) sacrifices (a|an|one) (creature|nonland permanent|attacking creature)\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
-    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
+    { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) (sacrifices|exiles) (a|an|one) (creature|nonland permanent|attacking creature)\b|\bthe owner of target (nonland )?permanent shuffles it into\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
+    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?((tapped|untapped|attacking|non-[a-z]+|non[a-z]+) )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
     { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b") },
     { key: "protection", label: "Protection", target: 3, re: /\b(creatures|permanents) you control (gain|have|get)[^.]*\b(indestructible|hexproof|shroud|protection)\b|\bequipped creature has[^.]*\b(shroud|hexproof|indestructible|protection)\b|\btarget (creature|permanent|artifact or creature)( you control)? (becomes [^.]*and )?gains?[^.]*\b(indestructible|hexproof|protection)\b|\ball creatures gain protection\b|\b(enchanted|equipped) creature (gets [^.]*and )?has [^.]*\b(shroud|hexproof|indestructible|protection)\b|\bprevent all combat damage\b|\bphases? out\b/ },
   ];
@@ -1138,7 +1163,8 @@
       return steady && !forOthers ? s : "";
     });
     t = t.replace(/\bsacrifice (a|an|another) (creature|artifact|permanent|nonland permanent)[^:.]*: add\b[^.]*/g, "");
-    if (/\bsacrifice an? land\b/.test(t)) t = t.replace(/[^.]*\bsearch your library for\b[^.]*/g, "");
+    if (/\bsacrifice an? land\b/.test(t) && !/\bsearch your library for up to (two|three)\b/.test(t))
+      t = t.replace(/[^.]*\bsearch your library for\b[^.]*/g, "");
     return t;
   };
 
@@ -1166,7 +1192,7 @@
   ];
   var BARE_WANTS = [
     ["facedown", /\bface-down (creatures?|permanents?|spells?)\b|\bturn(s|ed)? [^.]*\bface up\b|\bwhenever you (manifest|cloak)\b|\bexile (this creature|~|target (creature|permanent)[^.,]*|another target [^.,]*), then return (it|that card|them|those cards) to the battlefield\b/],
-    ["top", /\b(look at|play with) the top card of your library (any time|revealed)\b|\b(play|cast) [^.]*\bfrom the top of your library\b|\bmanifest (dread|the top card)\b|\breveal the top card of your library\b|\bmiracle\b/],
+    ["top", /\b(look at|play with) the top card of your library (any time|revealed)\b|\b(play|cast) [^.]*\bfrom the top of your library\b|\bmanifest (dread|the top card)\b|\breveal the top card of your library\b|\bmiracle\b|\breveal (that many|x) cards from the top of your library\b/],
     // cheat effects: free casting, putting a permanent card into play,
     // reanimation, and flipping a face-down card without paying for it
     // uses lands from the graveyard: Crucible, Ramunap, Life from the Loam, Splendid Reclamation
@@ -1185,7 +1211,7 @@
   // Linvala). A pile-on theme: each piece is better next to the others, so
   // a card with it both gives and wants the label.
   var STAX =
-    /\b(spells|abilities)[^.]*\bcost \{\d+\} more\b|\bcost \{\d+\} more to (cast|activate)\b|\bactivated abilities of [^.]*can't be activated\b|\bwhenever an opponent (casts|draws|searches)\b|\bwhenever a player casts [^.]*\bloses? \d+ life\b|\bunless (that player|its controller|they) pays? \{|\bcan't attack you\b[^.]*\bunless\b|\byour opponents can't (cast|search|draw|gain|activate)\b|\beach opponent can't\b|\bif no mana was spent to cast it, counter\b|\bopponents? (draws?|casts?) (their|a) second\b|\bdon't untap during\b|\bnonbasic lands are\b|\bif an opponent would (search|draw)\b/;
+    /\b(spells|abilities)[^.]*\bcost \{\d+\} more\b|\bcost \{\d+\} more to (cast|activate)\b|\bactivated abilities of [^.]*can't be activated\b|\bwhenever an opponent (casts|draws|searches)\b[^.]*\b(unless|loses?|damage|counter|pays?)\b|\bwhenever a player casts [^.]*\bloses? \d+ life\b|\bunless (that player|its controller|they) pays? \{|\bcan't attack you\b[^.]*\bunless\b|\byour opponents can't (cast|search|draw|gain|activate)\b|\beach opponent can't\b|\bif no mana was spent to cast it, counter\b|\bopponents? (draws?|casts?) (their|a) second\b|\bdon't untap during\b|\bnonbasic lands are\b|\bif an opponent would (search|draw)\b/;
 
   /**
    * What a commander does for one kind of card, read from its text, for
@@ -1312,7 +1338,7 @@
         gives.devotion = true;
     }
     // noncombat damage to opponents (combat damage is the "attacks" label)
-    if (/\bdamage to (each opponent|each player|any target|target player|target opponent|each of your opponents|that player|target player or planeswalker)\b/.test(text.replace(/\bcombat damage\b/g, "")))
+    if (/\bdamage to (each opponent|each player|any target|target player|target opponent|each of your opponents|that player|target player or planeswalker|that source's controller|the source's controller|its controller)\b/.test(text.replace(/\bcombat damage\b/g, "")))
       gives.burn = true;
     // grants ninjutsu to creature cards: big creatures come in without being cast
     if (/\b(has|have) ninjutsu\b/.test(bare)) {
@@ -1322,7 +1348,7 @@
     var permanentCard = /\b(creature|artifact|enchantment|planeswalker|battle)\b/.test(types);
     if (!isLand && permanentCard && typeof slim.cmc === "number" && slim.cmc >= BIG_CMC)
       gives.big = true;
-    if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b|\bwhenever you cast a spell\b(?! with)(?! that)/.test(text))
+    if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b|\bwhenever you cast a spell\b(?! with)(?! that)|\b(instant and sorcery|instant and\/or sorcery|instant or sorcery) cards (are )?in your graveyard\b/.test(text))
       wants.spells = true;
     // a card only pays off its own label when it says so for others too
     var roles = {};
@@ -1331,6 +1357,15 @@
         if (r.re.test(r.key === "ramp" ? CS.rampText(bare) : bare)) roles[r.key] = true;
       });
     if (roles.protection) gives.protect = true;
+    // cycle 12: a creature with a {T} ability (a mana Elf) taps itself, which
+    // "whenever ... becomes tapped" commanders (Dionus) pay off
+    if (/\bcreature\b/.test(mainTypes) && !isLand && /\{t\}/.test(bare)) gives.tap = true;
+    // a noncreature spell with 4 or more mana spent, for "if at least four mana
+    // was spent" payoffs (The Emperor of Palamecia, Tellah); X spells count
+    if (!isLand && !/\bcreature\b/.test(mainTypes) && ((typeof slim.cmc === "number" && slim.cmc >= 4) || gives.xspells)) {
+      if (!gives.bigspell) typeOnly.bigspell = true;
+      gives.bigspell = true;
+    }
     if (roles.draw) gives.drawing = true; // cycle 11: for "whenever you draw a card" payoffs
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
@@ -1610,6 +1645,30 @@
   };
 
   /**
+   * Order for the "Best for your deck" pile (cycle 12). Measured with
+   * tools/benchmark/holdout.js on 57 well-liked Moxfield decks: take a card
+   * out of the deck and see where each method ranks it among the commander's
+   * EDHREC cards. How often decks with this commander run a card (EDHREC
+   * inclusion) predicts what good builders play best; EDHREC synergy adds a
+   * little; Fit alone ranks real picks barely above chance (it says how a card
+   * ties in, not how good it is), so here it only nudges the order.
+   * `fit`: 0-100; `rec`: the card's EDHREC numbers, or null when EDHREC
+   * doesn't list it; `slim`: the card (its overall EDHREC rank stands in for
+   * popularity then). Higher is better.
+   */
+  CS.REC_FIT_WEIGHT = 0.15;
+  CS.recScore = function (fit, rec, slim) {
+    var f = typeof fit === "number" ? Math.max(0, Math.min(100, fit)) / 100 : 0;
+    if (rec && rec.onEdhrec)
+      return (rec.inclusion || 0) + 0.5 * (rec.synergy || 0) + CS.REC_FIT_WEIGHT * f;
+    // not on the commander's page: below most cards EDHREC lists, ordered by
+    // Fit and by how much the card is played in Commander overall
+    var rank = slim && typeof slim.edhrecRank === "number" && slim.edhrecRank > 0 ? slim.edhrecRank : null;
+    var pop = rank ? Math.max(0, 1 - Math.log(rank) / Math.LN10 / 4.5) : 0;
+    return CS.REC_FIT_WEIGHT * f + 0.05 * pop;
+  };
+
+  /**
    * True when `traits` (a deck card from CS.deckProfile) is a big card and
    * another card in the deck puts cards into play without paying for them
    * (Zimone flipping a face-down card, Omniscience, Sneak Attack, reanimation).
@@ -1753,15 +1812,17 @@
     var cmdT = profile.commander;
     var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount) : [];
     var protectPlan = !!(cmdT && (cmdT.gives.protect || cmdT.wants.protect || cmdT.wants.gear));
+    var cmdCmc = cmd && byId[cmd.id] && typeof byId[cmd.id].cmc === "number" ? byId[cmd.id].cmc : 0;
     var gcCount = 0;
     profile.cards.forEach(function (c) {
       if (byId[c.id] && byId[c.id].gameChanger) gcCount++;
     });
     var out = [];
+    var listed = {};
     profile.cards.forEach(function (c) {
       if (c.commander || c.land) return;
       var key = CS.nameKey(c.name);
-      if (protect[key] || cutKeys[key]) return;
+      if (protect[key] || cutKeys[key] || listed[key]) return;
       var fit = syn && syn.fits && typeof syn.fits[c.id] === "number" ? syn.fits[c.id] : null;
       if (fit == null || fit >= 75) return;
       var roles = Object.keys(c.roles);
@@ -1779,6 +1840,8 @@
         if (cmd && r === "draw" && (cmd.wants.drawing || cmd.wants.oppdraw)) return;
         if (cmd && r === "removal" && cmd.wants.oppsac) return;
         var t = roleInfo[r].target;
+        // cycle 12: a commander costing 6 or more (Gishath, Sauron) wants more ramp
+        if (r === "ramp" && cmdCmc >= 6) t += cmdCmc - 4;
         // a card or two over the usual count isn't a surplus; a quarter over is
         var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t));
         if (x > surplus) {
@@ -1831,8 +1894,14 @@
         if (syn && typeof syn.score === "number" && fit >= syn.score) return;
         if (feeds) return; // feeds the commander's own engine (Quirion Ranger for Zimone)
         if (roles.length) return; // a role card doing its job (a tutor, removal) isn't a cut just for low Fit
+        // cycle 12: nor is a creature of the type the commander names (a Dinosaur for Gishath)
+        if (cmdTypes.some(function (t) {
+          return c.subtypes[t];
+        }))
+          return;
         reasons.push("Fit " + fit + ", lower than most of the deck");
       }
+      listed[key] = true;
       out.push({
         id: c.id,
         name: c.name,

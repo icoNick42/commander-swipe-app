@@ -1,0 +1,723 @@
+{
+"data": [
+{
+"id": "034e0929-b2c7-4b5f-94f2-8eaf4fb1a2a1",
+"name": "Sauron, the Dark Lord",
+"type_line": "Legendary Creature \u2014 Avatar Horror",
+"oracle_text": "Ward\u2014Sacrifice a legendary artifact or legendary creature.\nWhenever an opponent casts a spell, amass Orcs 1.\nWhenever an Army you control deals combat damage to a player, the Ring tempts you.\nWhenever the Ring tempts you, you may discard your hand. If you do, draw four cards.",
+"mana_cost": "{3}{U}{B}{R}",
+"cmc": 6.0,
+"color_identity": [
+"B",
+"R",
+"U"
+],
+"edhrec_rank": 3193,
+"game_changer": false
+},
+{
+"id": "3f16e3fe-cc9f-414e-8643-3f66c0ab2536",
+"name": "Nazg\u00fbl",
+"type_line": "Creature \u2014 Wraith Knight",
+"oracle_text": "Deathtouch\nWhen this creature enters, the Ring tempts you.\nWhenever the Ring tempts you, put a +1/+1 counter on each Wraith you control.\nA deck can have up to nine cards named Nazg\u00fbl.",
+"mana_cost": "{2}{B}",
+"cmc": 3.0,
+"color_identity": [
+"B"
+],
+"edhrec_rank": 2988,
+"game_changer": false
+},
+{
+"id": "a92a2c5a-e450-494a-b23b-7ac0a6c50535",
+"name": "Call of the Ring",
+"type_line": "Enchantment",
+"oracle_text": "At the beginning of your upkeep, the Ring tempts you.\nWhenever you choose a creature as your Ring-bearer, you may pay 2 life. If you do, draw a card.",
+"mana_cost": "{1}{B}",
+"cmc": 2.0,
+"color_identity": [
+"B"
+],
+"edhrec_rank": 1431,
+"game_changer": false
+},
+{
+"id": "e57815d4-b21f-4ceb-a3f1-73cff5f0e612",
+"name": "March from the Black Gate",
+"type_line": "Enchantment",
+"oracle_text": "When this enchantment enters and whenever an Army you control attacks, amass Orcs 1. (Put a +1/+1 counter on an Army you control. It's also an Orc. If you don't control an Army, create a 0/0 black Orc Army creature token first.)",
+"mana_cost": "{1}{B}",
+"cmc": 2.0,
+"color_identity": [
+"B"
+],
+"edhrec_rank": 5176,
+"game_changer": false
+},
+{
+"id": "3700a65c-6f54-4d56-9c6f-8364c45a058c",
+"name": "Ringsight",
+"type_line": "Sorcery",
+"oracle_text": "The Ring tempts you. Search your library for a card that shares a color with a legendary creature you control, reveal it, put it into your hand, then shuffle.",
+"mana_cost": "{1}{U}{B}",
+"cmc": 3.0,
+"color_identity": [
+"B",
+"U"
+],
+"edhrec_rank": 2431,
+"game_changer": false
+},
+{
+"id": "6487ccbf-f6cd-45a6-8514-2c458b655ef2",
+"name": "Saruman, the White Hand",
+"type_line": "Legendary Creature \u2014 Avatar Wizard",
+"oracle_text": "Whenever you cast a noncreature spell, amass Orcs X, where X is that spell's mana value. (Put X +1/+1 counters on an Army you control. It's also an Orc. If you don't control an Army, create a 0/0 black Orc Army creature token first.)\nGoblins and Orcs you control have ward {2}.",
+"mana_cost": "{1}{U}{B}{R}",
+"cmc": 4.0,
+"color_identity": [
+"B",
+"R",
+"U"
+],
+"edhrec_rank": 3654,
+"game_changer": false
+},
+{
+"id": "567697db-8d47-404f-b0da-b00409431f28",
+"name": "Queen Marchesa",
+"type_line": "Legendary Creature \u2014 Human Assassin",
+"oracle_text": "Deathtouch, haste\nWhen Queen Marchesa enters, you become the monarch.\nAt the beginning of your upkeep, if an opponent is the monarch, create a 1/1 black Assassin creature token with deathtouch and haste.",
+"mana_cost": "{1}{R}{W}{B}",
+"cmc": 4.0,
+"color_identity": [
+"B",
+"R",
+"W"
+],
+"edhrec_rank": 2741,
+"game_changer": false
+},
+{
+"id": "f4cfcecf-621f-4664-9b1f-65ce4f0f8ab0",
+"name": "Ghostly Prison",
+"type_line": "Enchantment",
+"oracle_text": "Creatures can't attack you unless their controller pays {2} for each creature they control that's attacking you.",
+"mana_cost": "{2}{W}",
+"cmc": 3.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 160,
+"game_changer": false
+},
+{
+"id": "02f0be1b-554e-4b61-b495-6e2a7369cdb1",
+"name": "Court of Grace",
+"type_line": "Enchantment",
+"oracle_text": "When this enchantment enters, you become the monarch.\nAt the beginning of your upkeep, create a 1/1 white Spirit creature token with flying. If you're the monarch, create a 4/4 white Angel creature token with flying instead.",
+"mana_cost": "{2}{W}{W}",
+"cmc": 4.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 1629,
+"game_changer": false
+},
+{
+"id": "32374918-1bcb-4516-96af-f27da752517e",
+"name": "Deflecting Palm",
+"type_line": "Instant",
+"oracle_text": "The next time a source of your choice would deal damage to you this turn, prevent that damage. If damage is prevented this way, Deflecting Palm deals that much damage to that source's controller.",
+"mana_cost": "{R}{W}",
+"cmc": 2.0,
+"color_identity": [
+"R",
+"W"
+],
+"edhrec_rank": 1137,
+"game_changer": false
+},
+{
+"id": "02d6fd16-a7cd-49cb-bb70-806f8eb622dd",
+"name": "Brash Taunter",
+"type_line": "Creature \u2014 Goblin",
+"oracle_text": "Indestructible\nWhenever this creature is dealt damage, it deals that much damage to target opponent.\n{2}{R}, {T}: This creature fights another target creature.",
+"mana_cost": "{4}{R}",
+"cmc": 5.0,
+"color_identity": [
+"R"
+],
+"edhrec_rank": 827,
+"game_changer": false
+},
+{
+"id": "0a6ed4b6-03b4-4e61-99b2-aff00c03b2cc",
+"name": "Selfless Squire",
+"type_line": "Creature \u2014 Human Soldier",
+"oracle_text": "Flash\nWhen this creature enters, prevent all damage that would be dealt to you this turn.\nWhenever damage that would be dealt to you is prevented, put that many +1/+1 counters on this creature.",
+"mana_cost": "{3}{W}",
+"cmc": 4.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 2522,
+"game_changer": false
+},
+{
+"id": "32cc103e-949d-42d4-aadd-490a261c9ad9",
+"name": "Curse of Opulence",
+"type_line": "Enchantment \u2014 Aura Curse",
+"oracle_text": "Enchant player\nWhenever enchanted player is attacked, create a Gold token. Each opponent attacking that player does the same. (A Gold token is an artifact with \"Sacrifice this token: Add one mana of any color.\")",
+"mana_cost": "{R}",
+"cmc": 1.0,
+"color_identity": [
+"R"
+],
+"edhrec_rank": 691,
+"game_changer": false
+},
+{
+"id": "973ff4ee-c8dd-4d00-b7f8-713694989b18",
+"name": "Karazikar, the Eye Tyrant",
+"type_line": "Legendary Creature \u2014 Beholder",
+"oracle_text": "Whenever you attack a player, tap target creature that player controls and goad it. (Until your next turn, that creature attacks each combat if able and attacks a player other than you if able.)\nWhenever an opponent attacks another one of your opponents, you and the attacking player each draw a card and lose 1 life.",
+"mana_cost": "{3}{B}{R}",
+"cmc": 5.0,
+"color_identity": [
+"B",
+"R"
+],
+"edhrec_rank": 3920,
+"game_changer": false
+},
+{
+"id": "59faa45d-868b-4bc7-934c-0e077642e129",
+"name": "Loran of the Third Path",
+"type_line": "Legendary Creature \u2014 Human Artificer",
+"oracle_text": "Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.",
+"mana_cost": "{2}{W}",
+"cmc": 3.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 338,
+"game_changer": false
+},
+{
+"id": "a43eab14-4e5e-4788-8bbe-2a780d1dc566",
+"name": "Gisela, Blade of Goldnight",
+"type_line": "Legendary Creature \u2014 Angel",
+"oracle_text": "Flying, first strike\nIf a source would deal damage to an opponent or a permanent an opponent controls, that source deals double that damage to that player or permanent instead.\nIf a source would deal damage to you or a permanent you control, prevent half that damage, rounded up.",
+"mana_cost": "{4}{R}{W}{W}",
+"cmc": 7.0,
+"color_identity": [
+"R",
+"W"
+],
+"edhrec_rank": 1124,
+"game_changer": false
+},
+{
+"id": "3d75e8fd-6139-4b10-9ce3-195b47d72e0c",
+"name": "The Emperor of Palamecia // The Lord Master of Hell",
+"type_line": "Legendary Creature \u2014 Human Noble Wizard // Legendary Creature \u2014 Demon Noble Wizard",
+"cmc": 2.0,
+"color_identity": [
+"R",
+"U"
+],
+"edhrec_rank": 4281,
+"game_changer": false,
+"card_faces": [
+{
+"name": "The Emperor of Palamecia",
+"type_line": "Legendary Creature \u2014 Human Noble Wizard",
+"oracle_text": "{T}: Add {U} or {R}. Spend this mana only to cast a noncreature spell.\nWhenever you cast a noncreature spell, if at least four mana was spent to cast it, put a +1/+1 counter on The Emperor of Palamecia. Then if it has three or more +1/+1 counters on it, transform it.",
+"mana_cost": "{U}{R}"
+},
+{
+"name": "The Lord Master of Hell",
+"type_line": "Legendary Creature \u2014 Demon Noble Wizard",
+"oracle_text": "Starfall \u2014 Whenever The Lord Master of Hell attacks, it deals X damage to each opponent, where X is the number of noncreature, nonland cards in your graveyard.",
+"mana_cost": ""
+}
+]
+},
+{
+"id": "7ce5f12e-fc02-42f8-a5ca-b523050d4650",
+"name": "Thran Dynamo",
+"type_line": "Artifact",
+"oracle_text": "{T}: Add {C}{C}{C}.",
+"mana_cost": "{4}",
+"cmc": 4.0,
+"color_identity": [],
+"edhrec_rank": 194,
+"game_changer": false
+},
+{
+"id": "eb1a25c5-1918-40f3-b54f-5d31cf6b4eb2",
+"name": "Fact or Fiction",
+"type_line": "Instant",
+"oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard.",
+"mana_cost": "{3}{U}",
+"cmc": 4.0,
+"color_identity": [
+"U"
+],
+"edhrec_rank": 700,
+"game_changer": false
+},
+{
+"id": "0a19670c-5afa-4e22-b3ff-258faca19556",
+"name": "Spellheart Chimera",
+"type_line": "Creature \u2014 Chimera",
+"oracle_text": "Flying, trample\nSpellheart Chimera's power is equal to the number of instant and sorcery cards in your graveyard.",
+"mana_cost": "{1}{U}{R}",
+"cmc": 3.0,
+"color_identity": [
+"R",
+"U"
+],
+"edhrec_rank": 15984,
+"game_changer": false
+},
+{
+"id": "a67793ef-ef80-4434-9c54-e3fd8a270bbe",
+"name": "Tellah, Great Sage",
+"type_line": "Legendary Creature \u2014 Human Wizard",
+"oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Hero creature token. If four or more mana was spent to cast that spell, draw two cards. If eight or more mana was spent to cast that spell, sacrifice Tellah and it deals that much damage to each opponent.",
+"mana_cost": "{3}{U}{R}",
+"cmc": 5.0,
+"color_identity": [
+"R",
+"U"
+],
+"edhrec_rank": 8662,
+"game_changer": false
+},
+{
+"id": "2c65088f-bbbd-4e8d-b482-58181069bef2",
+"name": "Read the Runes",
+"type_line": "Instant",
+"oracle_text": "Draw X cards. For each card drawn this way, discard a card unless you sacrifice a permanent.",
+"mana_cost": "{X}{U}",
+"cmc": 1.0,
+"color_identity": [
+"U"
+],
+"edhrec_rank": 11618,
+"game_changer": false
+},
+{
+"id": "5a3dfd71-9ec0-4842-b99d-c1833679f0c5",
+"name": "Dionus, Elvish Archdruid",
+"type_line": "Legendary Creature \u2014 Elf Druid",
+"oracle_text": "Elves you control have \"Whenever this creature becomes tapped during your turn, untap it and put a +1/+1 counter on it. This ability triggers only once each turn.\"",
+"mana_cost": "{3}{G}",
+"cmc": 4.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 2407,
+"game_changer": false
+},
+{
+"id": "c75513ba-5d95-4181-ad19-742072546ac6",
+"name": "Smuggler's Copter",
+"type_line": "Artifact \u2014 Vehicle",
+"oracle_text": "Flying\nWhenever this Vehicle attacks or blocks, you may draw a card. If you do, discard a card.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+"mana_cost": "{2}",
+"cmc": 2.0,
+"color_identity": [],
+"edhrec_rank": 1951,
+"game_changer": false
+},
+{
+"id": "6a0b230b-d391-4998-a3f7-7b158a0ec2cd",
+"name": "Llanowar Elves",
+"type_line": "Creature \u2014 Elf Druid",
+"oracle_text": "{T}: Add {G}.",
+"mana_cost": "{G}",
+"cmc": 1.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 54,
+"game_changer": false
+},
+{
+"id": "6133355c-3dcf-466a-b771-fe6c44d4fa4d",
+"name": "Dawnsire, Sunstar Dreadnought",
+"type_line": "Legendary Artifact \u2014 Spacecraft",
+"oracle_text": "Station (Tap another creature you control: Put charge counters equal to its power on this Spacecraft. Station only as a sorcery. It's an artifact creature at 20+.)\n10+ | Whenever you attack, Dawnsire deals 100 damage to up to one target creature or planeswalker.\n20+ | Flying",
+"mana_cost": "{5}",
+"cmc": 5.0,
+"color_identity": [],
+"edhrec_rank": 2399,
+"game_changer": false
+},
+{
+"id": "a6e2b7e9-d52b-478e-b118-e890a81fd471",
+"name": "Symbiotic Deployment",
+"type_line": "Enchantment",
+"oracle_text": "Skip your draw step.\n{1}, Tap two untapped creatures you control: Draw a card.",
+"mana_cost": "{2}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 22464,
+"game_changer": false
+},
+{
+"id": "7335e500-342d-476d-975c-817512e6e3d6",
+"name": "Gishath, Sun's Avatar",
+"type_line": "Legendary Creature \u2014 Dinosaur Avatar",
+"oracle_text": "Vigilance, trample, haste\nWhenever Gishath deals combat damage to a player, reveal that many cards from the top of your library. Put any number of Dinosaur creature cards from among them onto the battlefield and the rest on the bottom of your library in a random order.",
+"mana_cost": "{5}{R}{G}{W}",
+"cmc": 8.0,
+"color_identity": [
+"G",
+"R",
+"W"
+],
+"edhrec_rank": 2457,
+"game_changer": false
+},
+{
+"id": "dfaaa58d-89bb-4cb3-96a6-b480e6f6954e",
+"name": "Scroll Rack",
+"type_line": "Artifact",
+"oracle_text": "{1}, {T}: Exile any number of cards from your hand face down. Put that many cards from the top of your library into your hand. Then look at the exiled cards and put them on top of your library in any order.",
+"mana_cost": "{2}",
+"cmc": 2.0,
+"color_identity": [],
+"edhrec_rank": 1356,
+"game_changer": false
+},
+{
+"id": "2b9e0b0f-651a-44e6-8fb0-e46bfda0ada9",
+"name": "Kinjalli's Sunwing",
+"type_line": "Creature \u2014 Dinosaur",
+"oracle_text": "Flying\nCreatures your opponents control enter tapped.",
+"mana_cost": "{2}{W}",
+"cmc": 3.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 3397,
+"game_changer": false
+},
+{
+"id": "1d06f729-990b-4c2c-ad2a-c17449117f75",
+"name": "Don't Move",
+"type_line": "Sorcery",
+"oracle_text": "Destroy all tapped creatures. Until your next turn, whenever a creature becomes tapped, destroy it.",
+"mana_cost": "{3}{W}{W}",
+"cmc": 5.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 7903,
+"game_changer": false
+},
+{
+"id": "60a211bb-0935-4815-a705-f4674a468bf5",
+"name": "Springbloom Druid",
+"type_line": "Creature \u2014 Elf Druid",
+"oracle_text": "When this creature enters, you may sacrifice a land. If you do, search your library for up to two basic land cards, put them onto the battlefield tapped, then shuffle.",
+"mana_cost": "{2}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 792,
+"game_changer": false
+},
+{
+"id": "77f95da2-cbc4-4430-adb7-75f4c469d98e",
+"name": "Wood Elves",
+"type_line": "Creature \u2014 Elf Scout",
+"oracle_text": "When this creature enters, search your library for a Forest card, put that card onto the battlefield, then shuffle.",
+"mana_cost": "{2}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 682,
+"game_changer": false
+},
+{
+"id": "bf1c9d24-f5f6-43ff-85c3-034b76e1bf1b",
+"name": "Kodama's Reach",
+"type_line": "Sorcery \u2014 Arcane",
+"oracle_text": "Search your library for up to two basic land cards, reveal those cards, put one onto the battlefield tapped and the other into your hand, then shuffle.",
+"mana_cost": "{2}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 41,
+"game_changer": false
+},
+{
+"id": "598f6334-4baf-4f9a-a70c-0cc1e8af68c9",
+"name": "Farseek",
+"type_line": "Sorcery",
+"oracle_text": "Search your library for a Plains, Island, Swamp, or Mountain card, put it onto the battlefield tapped, then shuffle.",
+"mana_cost": "{1}{G}",
+"cmc": 2.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 23,
+"game_changer": false
+},
+{
+"id": "cf3e09ff-c917-4c0c-8ddb-e152b4b0b82c",
+"name": "Skyshroud Claim",
+"type_line": "Sorcery",
+"oracle_text": "Search your library for up to two Forest cards, put them onto the battlefield, then shuffle.",
+"mana_cost": "{3}{G}",
+"cmc": 4.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 311,
+"game_changer": false
+},
+{
+"id": "9037cf0e-6e5f-455f-941c-b909a03e770f",
+"name": "Three Visits",
+"type_line": "Sorcery",
+"oracle_text": "Search your library for a Forest card, put it onto the battlefield, then shuffle.",
+"mana_cost": "{1}{G}",
+"cmc": 2.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 40,
+"game_changer": false
+},
+{
+"id": "7a0dd468-9317-42bd-946d-ef96805fc6a4",
+"name": "Sakura-Tribe Elder",
+"type_line": "Creature \u2014 Snake Shaman",
+"oracle_text": "Sacrifice this creature: Search your library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+"mana_cost": "{1}{G}",
+"cmc": 2.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 118,
+"game_changer": false
+},
+{
+"id": "8a5edac3-855a-4820-b913-44de5b29b7d0",
+"name": "Sol Ring",
+"type_line": "Artifact",
+"oracle_text": "{T}: Add {C}{C}.",
+"mana_cost": "{1}",
+"cmc": 1.0,
+"color_identity": [],
+"edhrec_rank": 1,
+"game_changer": false
+},
+{
+"id": "87bb2699-280f-4e1e-b3f8-73efe6088f31",
+"name": "Topiary Stomper",
+"type_line": "Creature \u2014 Plant Dinosaur",
+"oracle_text": "Vigilance (Attacking doesn't cause this creature to tap.)\nWhen this creature enters, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nThis creature can't attack or block unless you control seven or more lands.",
+"mana_cost": "{1}{G}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 1280,
+"game_changer": false
+},
+{
+"id": "45f763af-5a6a-404c-8e8c-4dbed71277bc",
+"name": "Hulking Raptor",
+"type_line": "Creature \u2014 Dinosaur",
+"oracle_text": "Ward {2}\nAt the beginning of your first main phase, add {G}{G}.",
+"mana_cost": "{2}{G}{G}",
+"cmc": 4.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 1926,
+"game_changer": false
+},
+{
+"id": "cd87f082-1596-43fd-b971-720090ac6733",
+"name": "Delighted Halfling",
+"type_line": "Creature \u2014 Halfling Citizen",
+"oracle_text": "{T}: Add {C}.\n{T}: Add one mana of any color. Spend this mana only to cast a legendary spell, and that spell can't be countered.",
+"mana_cost": "{G}",
+"cmc": 1.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 146,
+"game_changer": false
+},
+{
+"id": "b5ddad46-5e2e-43c9-8c91-7aca6ca23562",
+"name": "Mirari's Wake",
+"type_line": "Enchantment",
+"oracle_text": "Creatures you control get +1/+1.\nWhenever you tap a land for mana, add one mana of any type that land produced.",
+"mana_cost": "{3}{G}{W}",
+"cmc": 5.0,
+"color_identity": [
+"G",
+"W"
+],
+"edhrec_rank": 725,
+"game_changer": false
+},
+{
+"id": "644e5b24-394a-43f1-8384-186d6108f540",
+"name": "Regal Behemoth",
+"type_line": "Creature \u2014 Dinosaur",
+"oracle_text": "Trample\nWhen this creature enters, you become the monarch.\nWhenever you tap a land for mana while you're the monarch, add an additional one mana of any color.",
+"mana_cost": "{4}{G}{G}",
+"cmc": 6.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 2464,
+"game_changer": false
+},
+{
+"id": "351e8b1b-4e4e-4ffc-a134-3cf0e2a1dd6d",
+"name": "Wayward Swordtooth",
+"type_line": "Creature \u2014 Dinosaur",
+"oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nYou may play an additional land on each of your turns.\nThis creature can't attack or block unless you have the city's blessing.",
+"mana_cost": "{2}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 1079,
+"game_changer": false
+},
+{
+"id": "a8a982c8-bc08-44ba-b3ed-9e4b124615d6",
+"name": "Patchwork Banner",
+"type_line": "Artifact",
+"oracle_text": "As this artifact enters, choose a creature type.\nCreatures you control of the chosen type get +1/+1.\n{T}: Add one mana of any color.",
+"mana_cost": "{3}",
+"cmc": 3.0,
+"color_identity": [],
+"edhrec_rank": 203,
+"game_changer": false
+},
+{
+"id": "5b11ec26-9e07-45e1-bcaa-5d44d1231586",
+"name": "Agonasaur Rex",
+"type_line": "Creature \u2014 Dinosaur",
+"oracle_text": "Trample\nCycling {2}{G} ({2}{G}, Discard this card: Draw a card.)\nWhen you cycle this card, put two +1/+1 counters on up to one target creature or Vehicle. It gains trample and indestructible until end of turn.",
+"mana_cost": "{3}{G}{G}",
+"cmc": 5.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 4368,
+"game_changer": false
+},
+{
+"id": "630febf5-58ff-4dab-a5a8-575ebc5435a6",
+"name": "Ruby Medallion",
+"type_line": "Artifact",
+"oracle_text": "Red spells you cast cost {1} less to cast.",
+"mana_cost": "{2}",
+"cmc": 2.0,
+"color_identity": [],
+"edhrec_rank": 294,
+"game_changer": false
+},
+{
+"id": "c144b325-53a3-4590-beb1-2a39cbced47e",
+"name": "Chaos Warp",
+"type_line": "Instant",
+"oracle_text": "The owner of target permanent shuffles it into their library, then reveals the top card of their library. If it's a permanent card, they put it onto the battlefield.",
+"mana_cost": "{2}{R}",
+"cmc": 3.0,
+"color_identity": [
+"R"
+],
+"edhrec_rank": 29,
+"game_changer": false
+},
+{
+"id": "7496ad0f-fc6d-4154-ac42-c2471e72ed88",
+"name": "Ol\u00f3rin's Searing Light",
+"type_line": "Instant",
+"oracle_text": "Each opponent exiles a creature with the greatest power among creatures that player controls.\nSpell mastery \u2014 If there are two or more instant and/or sorcery cards in your graveyard, Ol\u00f3rin's Searing Light deals damage to each opponent equal to the power of the creature they exiled.",
+"mana_cost": "{2}{R}{W}",
+"cmc": 4.0,
+"color_identity": [
+"R",
+"W"
+],
+"edhrec_rank": 4717,
+"game_changer": false
+},
+{
+"id": "1b64fa50-1a11-412f-a827-d8e49ec472e8",
+"name": "Rhythm of the Wild",
+"type_line": "Enchantment",
+"oracle_text": "Creature spells you control can't be countered.\nNontoken creatures you control have riot. (They enter with your choice of a +1/+1 counter or haste.)",
+"mana_cost": "{1}{R}{G}",
+"cmc": 3.0,
+"color_identity": [
+"G",
+"R"
+],
+"edhrec_rank": 229,
+"game_changer": false
+},
+{
+"id": "8690166f-be52-48c4-9877-630b3f3dc614",
+"name": "Congregate",
+"type_line": "Instant",
+"oracle_text": "Target player gains 2 life for each creature on the battlefield.",
+"mana_cost": "{3}{W}",
+"cmc": 4.0,
+"color_identity": [
+"W"
+],
+"edhrec_rank": 5162,
+"game_changer": false
+},
+{
+"id": "67852fca-37a5-414e-bc1f-5256e46483d1",
+"name": "Kambal, Consul of Allocation",
+"type_line": "Legendary Creature \u2014 Human Advisor",
+"oracle_text": "Whenever an opponent casts a noncreature spell, that player loses 2 life and you gain 2 life.",
+"mana_cost": "{1}{W}{B}",
+"cmc": 3.0,
+"color_identity": [
+"B",
+"W"
+],
+"edhrec_rank": 1285,
+"game_changer": false
+},
+{
+"id": "6563f790-862c-465a-b963-7a61f2385516",
+"name": "Crop Rotation",
+"type_line": "Instant",
+"oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle.",
+"mana_cost": "{G}",
+"cmc": 1.0,
+"color_identity": [
+"G"
+],
+"edhrec_rank": 221,
+"game_changer": true
+}
+]
+}

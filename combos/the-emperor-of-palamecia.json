@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "The Emperor of Palamecia",
+  "identity": "UR",
+  "made": "2026-11-19",
+  "combos": [
+    {"id":"95-781","cards":["Bruvac the Grandiloquent","Traumatize"],"identity":"U","produces":["Infinite mill for target opponent","Near-infinite self-mill"],"bracket":"R","popularity":25993,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"95-1861","cards":["Bruvac the Grandiloquent","Cut Your Losses"],"identity":"U","produces":["Infinite mill for up to two target players","Near-infinite self-mill"],"bracket":"S","popularity":21299,"needs":[],"note":"Optionally, you control an additional creature with power 2 or greater.","commanderOnly":[]},
+    {"id":"464-781","cards":["Fraying Sanity","Traumatize"],"identity":"U","produces":["Infinite self-mill","Infinite mill for target opponent"],"bracket":"P","popularity":21207,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"464-1861","cards":["Fraying Sanity","Cut Your Losses"],"identity":"U","produces":["Near-infinite mill for target opponent","Infinite self-mill","Infinite mill for target opponent"],"bracket":"O","popularity":18786,"needs":[],"note":"Optionally, you control an additional creature with power 2 or greater.","commanderOnly":[]},
+    {"id":"781-6285","cards":["Riverchurn Monument","Traumatize"],"identity":"U","produces":["Infinite mill for target opponent"],"bracket":"E","popularity":13541,"needs":[],"note":"You have not activated Riverchurn Monument's exhaust ability.","commanderOnly":[]},
+    {"id":"1861-6285","cards":["Riverchurn Monument","Cut Your Losses"],"identity":"U","produces":["Infinite mill for up to two target players"],"bracket":"E","popularity":13090,"needs":[],"note":"You have not activated Riverchurn Monument's exhaust ability.","commanderOnly":[]},
+    {"id":"1571-2560","cards":["Blightsteel Colossus","Chandra's Ignition"],"identity":"R","produces":["Each opponent loses the game"],"bracket":"R","popularity":6609,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"693-1368","cards":["Underworld Breach","Path of the Pyromancer"],"identity":"R","produces":["Infinite draw triggers","Infinite rummaging","Infinite self-discard triggers"],"bracket":"S","popularity":5643,"needs":[],"note":"You have at least five cards in hand. You have at least three additional cards in your graveyard.","commanderOnly":[]},
+    {"id":"781-6464","cards":["Traumatize","Keening Stone"],"identity":"U","produces":["Infinite mill for target opponent"],"bracket":"C","popularity":5627,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1861-6464","cards":["Cut Your Losses","Keening Stone"],"identity":"U","produces":["Infinite mill for target opponent"],"bracket":"C","popularity":4659,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4026,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"479-7658","cards":["Triskaidekaphile","Drown in Dreams"],"identity":"U","produces":["Win the game at the beginning of your next upkeep"],"bracket":"C","popularity":3428,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"876-2904","cards":["Cephalid Illusionist","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":2284,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"876-2796","cards":["Cephalid Aristocrat","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":208,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"5733-6308","cards":["Conqueror's Galleon // Conqueror's Foothold","Notorious Throng"],"identity":"U","produces":["Infinite turns","Lock"],"bracket":"R","popularity":53,"needs":[],"note":"You control a Rogue that does not have summoning sickness and that cannot be blocked by an opponent.","commanderOnly":[]},
+    {"id":"2529-4423-5733","cards":["Mystic Sanctuary","Vedalken Mastermind","Notorious Throng"],"identity":"U","produces":["Infinite turns","Skip your draw steps","Lock"],"bracket":"R","popularity":8,"needs":[],"note":"You control a Rogue that does not have summoning sickness and that cannot be blocked by an opponent.","commanderOnly":[]},
+    {"id":"5534--28","cards":["Stella Lee, Wild Card"],"identity":"UR","produces":["Infinite copies of one instant or sorcery","Infinite magecraft triggers"],"bracket":"S","popularity":0,"needs":["Instant or Sorcery that untaps a Creature"],"note":"You have cast at least two spells this turn. Stella Lee does not have summoning sickness. You have enough mana to cast the instant or sorcery card. You have additional legal target(s) for the insta...","commanderOnly":[]}
+  ]
+}

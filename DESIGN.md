@@ -44,7 +44,7 @@ Action buttons use their color as the border plus a see-through fill of the same
 
 ## Layout
 
-- **Pile row:** chips for the main piles (EDHREC's sections, Budget, Highest Fit, Everything in your colors), then two dropdowns styled as chips: Roles and Themes. A dropdown gets the selected look when one of its piles is open. Under 900 px the dropdowns come first in the row (at most 8.5 rem wide each), so a phone shows them without scrolling sideways.
+- **Pile row:** chips for the main piles (Best for your deck first since cycle 12, then EDHREC's sections, Budget, Everything in your colors), then two dropdowns styled as chips: Roles and Themes. A dropdown gets the selected look when one of its piles is open. Under 900 px the dropdowns come first in the row (at most 8.5 rem wide each), so a phone shows them without scrolling sideways.
 - **Wide (900 px and up):** two columns. Left: deck bar, piles (wrapping chips), card, buttons. Right (340 px): Added, Maybe, Filters.
 - **Narrow (under 900 px):** one column. The deck bar stays on one row, the piles become one row you swipe sideways, and the four buttons share one row. Lists and filters sit below the card.
 - **Phone (520 px and under):** the "Commander" label and the header tagline are hidden visually (the label stays for screen readers), and the three "how it works" steps shrink to one line each.
@@ -60,6 +60,7 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Name line (cycle 7):** the card name and its badges (not on EDHREC, Game Changer, Combo) share one line; the name shortens with an ellipsis to make room. Before this, badges took their own line, which pushed the buttons 8 px off a 375x667 screen on any badged card. `--chrome` didn't change.
 - **Combo badge (cycle 7):** a small button styled as a badge, "Combo: completes N". Pressing it shows the combo list under the Fit line (and hides it again); it starts hidden on every card, so it never pushes the buttons down on its own. Green border for brackets 1-2, amber with "(bracket N+)" for 3 and up.
 - **First screen (cycle 7):** Paste and load is the main button, then Load deck, Clear and Try a sample deck.
+- **Switching decks (cycle 12):** Change deck opens the paste screen with a back bar: Back to swiping, then Start a different deck (empties the box; the deck's swipes stay saved). The deck bar keeps one button, so it still fits one row on a phone.
 
 - **Changing the deck (cycle 8):** the side column runs Added, Cuts (only when there are cuts), Deck total (only when there are picks or cuts; amber when over 100), Maybe, Your deck, Filters. Cut buttons use the skip red as their border; a cut card in All cards is struck through with a pressed Keep button.
 - **Swap prompt (cycle 8):** after an Add that takes the deck over 100, one line takes the keys line's place under the buttons: "N over 100. Cut [card] [Why? More] [x]". It never wraps (the card name shortens), so the buttons don't move; Why? More opens the reasons below it.

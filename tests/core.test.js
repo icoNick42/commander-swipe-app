@@ -1879,3 +1879,107 @@ test("cycle 11: the deck panel lists the commander's own plan first", () => {
   const plan2 = CS.deckSynergy(prof, slims).plan.map((p) => p.label);
   assert.ok(plan2.indexOf("oppsac") < plan2.indexOf("attacks"), plan2.join(","));
 });
+
+// ---------------------------------------------------------------- cycle 12: five decks + the hold-out test
+// Real cards from the cycle 12 benchmark (Sauron, Gishath, Queen Marchesa,
+// The Emperor of Palamecia, Dionus) where the hand review and the app disagreed.
+const c12 = JSON.parse(read("scryfall_c12_decks.json")).data.map(CS.slimCard);
+const card12 = (n) => {
+  const c = c12.find((x) => x.name === n || x.name.split(" // ")[0] === n || x.name.startsWith(n + ",") || x.name.startsWith(n));
+  assert.ok(c, "fixture has " + n);
+  return c;
+};
+const t12 = (n) => CS.cardTraits(card12(n));
+const prof12 = (cmd, names) => CS.deckProfile([cmd].concat(names).map(card12), card12(cmd).name);
+
+test("cycle 12: the Ring and Armies (Sauron)", () => {
+  const sauron = t12("Sauron, the Dark Lord");
+  assert.ok(sauron.wants.ring && sauron.gives.ring && sauron.wants.army && sauron.gives.army);
+  const naz = t12("Nazg");
+  assert.ok(naz.gives.ring && naz.wants.ring, "Nazgul tempts and pays it off");
+  assert.ok(t12("Call of the Ring").gives.ring && t12("Ringsight").gives.ring);
+  assert.ok(t12("March from the Black Gate").gives.army && t12("March from the Black Gate").wants.army);
+  const fit = CS.fitScore(card12("Ringsight"), prof12("Sauron, the Dark Lord", ["Nazg", "Call of the Ring"]));
+  assert.ok(fit.score >= 40 && /^Works with Sauron: the Ring/.test(fit.reasons[0]), fit.score + " " + fit.reasons.join("; "));
+});
+
+test("cycle 12: an opponent-cast trigger is a tax only with a cost or a punishment", () => {
+  assert.ok(!t12("Sauron, the Dark Lord").gives.stax, "amassing on their spells isn't a tax");
+  assert.ok(t12("Kambal").gives.stax, "Kambal still punishes noncreature spells");
+});
+
+test("cycle 12: the monarch and keeping attackers away (Queen Marchesa)", () => {
+  const qm = t12("Queen Marchesa");
+  assert.ok(qm.gives.monarch && qm.wants.monarch && qm.wants.deter);
+  assert.ok(t12("Court of Grace").gives.monarch);
+  ["Ghostly Prison", "Deflecting Palm", "Brash Taunter", "Selfless Squire", "Curse of Opulence", "Karazikar"].forEach((n) =>
+    assert.ok(t12(n).gives.deter, n + " keeps attackers off you"),
+  );
+  assert.ok(t12("Karazikar").wants.deter, "pays off opponents attacking each other");
+  assert.ok(t12("Deflecting Palm").gives.burn && t12("Brash Taunter").gives.burn, "reflected damage hits an opponent");
+  assert.ok(t12("Loran of the Third Path").gives.oppdraw, "you and target opponent each draw");
+  // Forced Fruition: "that player draws seven cards" (cycle 12 moved it off the tax label)
+  assert.ok(CS.cardTraits({ name: "Forced Fruition", text: "Whenever an opponent casts a spell, that player draws seven cards.", types: "Enchantment" }).gives.oppdraw);
+  const fit = CS.fitScore(card12("Ghostly Prison"), prof12("Queen Marchesa", ["Court of Grace", "Brash Taunter"]));
+  assert.ok(fit.score >= 40 && /^Works with Queen Marchesa/.test(fit.reasons[0]), fit.score + " " + fit.reasons.join("; "));
+});
+
+test("cycle 12: noncreature spells with 4+ mana spent (The Emperor of Palamecia)", () => {
+  assert.ok(t12("The Emperor of Palamecia").wants.bigspell && t12("Tellah").wants.bigspell);
+  assert.ok(t12("Thran Dynamo").gives.bigspell && t12("Fact or Fiction").gives.bigspell, "4-mana noncreature cards");
+  assert.ok(t12("Read the Runes").gives.bigspell, "an X spell can have 4 mana spent");
+  assert.ok(!t12("Sol Ring").gives.bigspell && !t12("Tellah").gives.bigspell, "cheap spells and creatures don't");
+  assert.ok(t12("Spellheart Chimera").wants.spells, "counts instants and sorceries in your graveyard");
+  const fit = CS.fitScore(card12("Thran Dynamo"), prof12("The Emperor of Palamecia", ["Fact or Fiction", "Read the Runes"]));
+  assert.ok(fit.score >= 30 && /^Works with The Emperor of Palamecia/.test(fit.reasons[0]), fit.score + " " + fit.reasons.join("; "));
+});
+
+test("cycle 12: tapping your creatures (Dionus)", () => {
+  assert.ok(t12("Dionus").wants.tap);
+  ["Smuggler's Copter", "Dawnsire", "Llanowar Elves", "Symbiotic Deployment"].forEach((n) => assert.ok(t12(n).gives.tap, n + " taps creatures"));
+  assert.ok(!t12("Kinjalli's Sunwing").gives.tap, "a creature with no tap ability doesn't");
+});
+
+test("cycle 12: Gishath reveals the top; a Dinosaur isn't a cut idea for low Fit; costly commanders want more ramp", () => {
+  assert.ok(t12("Gishath").wants.top && t12("Scroll Rack").gives.top);
+  assert.ok(t12("Don't Move").roles.wipes, "destroy all tapped creatures");
+  const ramp = ["Wood Elves", "Kodama's Reach", "Farseek", "Skyshroud Claim", "Three Visits", "Sakura-Tribe Elder", "Sol Ring", "Topiary Stomper", "Hulking Raptor", "Delighted Halfling", "Mirari's Wake", "Regal Behemoth", "Wayward Swordtooth", "Patchwork Banner", "Springbloom Druid"];
+  const names = ramp.concat(["Kinjalli's Sunwing", "Agonasaur Rex", "Scroll Rack"]);
+  const slims = ["Gishath, Sun's Avatar"].concat(names).map(card12);
+  const prof = CS.deckProfile(slims, card12("Gishath").name);
+  const syn = CS.deckSynergy(prof, slims);
+  const ideas = CS.cutSuggestions(prof, syn, slims, {});
+  assert.ok(!ideas.some((i) => i.reasons.some((r) => /^Ramp:/.test(r))), "15 ramp is right for an 8-mana commander");
+  // a Dinosaur with an ordinary Fit below the deck's average gets no reasonless
+  // "lower than most" idea (a weak-fit one still can, like Temple Altisaur)
+  const kin = card12("Kinjalli's Sunwing");
+  const syn2 = Object.assign({}, syn, { score: 70, fits: Object.assign({}, syn.fits, { [kin.id]: 45 }) });
+  const ideas2 = CS.cutSuggestions(prof, syn2, slims, {});
+  assert.ok(!ideas2.some((i) => i.name === kin.name), ideas2.map((i) => i.name + ": " + i.reasons.join("; ")).join(" | "));
+});
+
+test("cycle 12: roles and labels from the five-deck review", () => {
+  assert.ok(t12("Ruby Medallion").roles.ramp, "cost reducers are ramp");
+  assert.ok(t12("Chaos Warp").roles.removal && t12("Ol").roles.removal, "Chaos Warp; each opponent exiles a creature");
+  assert.ok(t12("Springbloom Druid").roles.ramp && !t12("Crop Rotation").roles.ramp, "two lands for one is ramp; one for one isn't");
+  assert.ok(t12("Rhythm of the Wild").gives.attacks, "riot");
+  assert.ok(t12("Congregate").gives.lifegain, "target player gains life");
+});
+
+test("cycle 12: recScore orders the Best for your deck pile", () => {
+  const e = (inc, syn) => ({ onEdhrec: true, inclusion: inc, synergy: syn });
+  const s = card12("Sol Ring");
+  assert.ok(CS.recScore(20, e(0.6, 0.1), s) > CS.recScore(95, e(0.2, 0.1), s), "how often it's played leads");
+  assert.ok(CS.recScore(90, e(0.3, 0.2), s) > CS.recScore(10, e(0.3, 0.2), s), "Fit breaks near ties");
+  assert.ok(CS.recScore(100, null, s) < CS.recScore(0, e(0.25, 0), s), "a card EDHREC doesn't list sits below one it lists at 25%");
+  assert.ok(CS.recScore(80, null, { edhrecRank: 5 }) > CS.recScore(80, null, { edhrecRank: 20000 }), "off the page: more played overall first");
+  assert.equal(CS.recScore(null, null, null), 0);
+});
+
+test("cycle 12: one cut idea per card name (nine Nazgul are one choice)", () => {
+  const w = card12("Kinjalli's Sunwing");
+  const slims = [card12("Sauron, the Dark Lord"), w, Object.assign({}, w, { id: w.id + "-2" }), Object.assign({}, w, { id: w.id + "-3" })];
+  const prof = CS.deckProfile(slims, card12("Sauron, the Dark Lord").name);
+  const ideas = CS.cutSuggestions(prof, CS.deckSynergy(prof, slims), slims, {});
+  assert.equal(ideas.filter((i) => i.name === w.name).length, 1, ideas.map((i) => i.name).join(", "));
+});

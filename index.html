@@ -822,9 +822,11 @@
       <section id="setup">
         <div class="backbar" id="backBar" hidden>
           <button id="backBtn" type="button">&larr; Back to swiping</button>
+          <button id="newDeckBtn" type="button">Start a different deck</button>
           <span class="muted">
             Pasting an updated version of this deck (picks added, cards cut)
-            keeps your swipes and cuts.
+            keeps your swipes and cuts. Working on another deck? Start a
+            different deck; this one's swipes stay saved.
           </span>
         </div>
         <ol class="how">
@@ -1015,7 +1017,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=12"></script>
+    <script src="core.js?v=13"></script>
     <script>
       (function () {
         "use strict";
@@ -1702,8 +1704,15 @@
                     : null;
                 })
                 .filter(Boolean);
-              S.piles = piles.concat(S.piles, themes);
-              S.current = S.current || piles[0].key;
+              // Best for your deck leads the pile row and opens first
+              var fitFirst = S.piles.filter(function (p) {
+                return p.kind === "fit";
+              });
+              var rest = S.piles.filter(function (p) {
+                return p.kind !== "fit";
+              });
+              S.piles = fitFirst.concat(piles, rest, themes);
+              S.current = S.current || (fitFirst.length ? fitFirst[0].key : piles[0].key);
               render();
               return loadCardInfo(
                 CS.edhrecIdentifiers(page).map(function (x) {
@@ -1871,13 +1880,15 @@
         }
 
         /**
-         * Highest Fit: every card the other piles have loaded so far (EDHREC's
-         * page, plus any search pages opened), ranked by our Fit score.
+         * Best for your deck (cycle 12; was Highest Fit): every card the other
+         * piles have loaded so far (EDHREC's page, plus any search pages
+         * opened), ranked by CS.recScore: how often decks with this commander
+         * run it, its EDHREC synergy, and a little of our Fit. The first pile.
          */
         function fitPileShell() {
           return {
             key: "fit",
-            label: "Highest Fit",
+            label: "Best for your deck",
             group: "main",
             kind: "fit",
             cards: [],
@@ -1907,12 +1918,18 @@
               CS.isBasicLand(info.name)
             )
               return;
-            list.push({ rec: recs[id], fit: fitFor(id).score });
+            var fit = fitFor(id).score;
+            var e = S.edhrecMap[id];
+            list.push({
+              rec: recs[id],
+              fit: fit,
+              score: CS.recScore(fit, e && e.onEdhrec ? e : null, info),
+            });
           });
           list.sort(function (a, b) {
             return (
+              b.score - a.score ||
               b.fit - a.fit ||
-              b.rec.inclusion - a.rec.inclusion ||
               (a.rec.name < b.rec.name ? -1 : 1)
             );
           });
@@ -2407,7 +2424,7 @@
               stage.appendChild(
                 el("p", {
                   class: "empty",
-                  text: "No cards to rank yet. Highest Fit ranks the cards the other piles have loaded, so open one or two of them first.",
+                  text: "No cards to rank yet. Best for your deck ranks the cards the other piles have loaded, so open one or two of them first.",
                 }),
               );
             } else {
@@ -3401,6 +3418,18 @@
           $("copyDeckMsg").textContent = "";
           $("exportText").focus();
           $("exportText").select(); // typing or pasting replaces the old deck
+        });
+        // Start a different deck (cycle 12, Nick's ask): empty the box for
+        // another deck's export. Nothing is deleted: this deck's swipes stay
+        // saved under its own key, and Back still returns to it.
+        $("newDeckBtn").addEventListener("click", function () {
+          $("exportText").value = "";
+          setupError("");
+          setupMsg(
+            (S.commander ? "Your swipes for " + CS.frontName(S.commander.name).split(",")[0] + " stay saved. " : "") +
+              "Paste the other deck's export, then press Load deck.",
+          );
+          $("exportText").focus();
         });
         $("backBtn").addEventListener("click", function () {
           if (!S.state) return;
