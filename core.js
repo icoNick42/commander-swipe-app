@@ -2750,6 +2750,66 @@
     return out;
   };
 
+  /**
+   * Sort orders for the open pile (cycle 17). "rec" keeps the pile's own
+   * order. Each other order says which way is best first; a card without the
+   * number (no price, not on EDHREC, details not loaded) goes last.
+   */
+  CS.SORTS = [
+    { key: "rec", label: "Recommended", say: "the recommended order" },
+    { key: "fit", label: "Fit", dir: -1, say: "highest Fit first" },
+    { key: "played", label: "Most played", dir: -1, say: "most played on EDHREC first" },
+    { key: "synergy", label: "EDHREC synergy", dir: -1, say: "highest EDHREC synergy first" },
+    { key: "cheap", label: "Cheapest", dir: 1, say: "cheapest first" },
+    { key: "cmc", label: "Mana value", dir: 1, say: "lowest mana value first" },
+  ];
+
+  /**
+   * The number a sort uses for one card, or null when the card has none.
+   * `rec` is the pile entry (EDHREC numbers when onEdhrec), `info` the slim
+   * card, `fit` the card's Fit score.
+   */
+  CS.sortValue = function (key, rec, info, fit) {
+    var num = function (x) {
+      return typeof x === "number" && isFinite(x) ? x : null;
+    };
+    var edh = rec && rec.onEdhrec ? rec : null;
+    if (key === "fit") return num(fit);
+    if (key === "played") return edh ? num(edh.inclusion) : null;
+    if (key === "synergy") return edh ? num(edh.synergy) : null;
+    if (key === "cheap") return info ? num(info.usd) : null;
+    if (key === "cmc") return info ? num(info.cmc) : null;
+    return null;
+  };
+
+  /**
+   * A pile's cards in another order, as a new array (the pile is untouched,
+   * so swipes and counts don't change). `lookup(card)` returns
+   * { rec, info, fit } for the card. Ties and cards without the number keep
+   * the pile's own order.
+   */
+  CS.sortCards = function (cards, key, lookup) {
+    var list = (cards || []).slice();
+    var spec = CS.SORTS.filter(function (x) {
+      return x.key === key;
+    })[0];
+    if (!spec || !spec.dir) return list;
+    var rows = list.map(function (c, i) {
+      var l = (lookup && lookup(c)) || {};
+      return { c: c, i: i, v: CS.sortValue(key, l.rec || c, l.info, l.fit) };
+    });
+    rows.sort(function (a, b) {
+      if (a.v == null || b.v == null) {
+        if (a.v == null && b.v == null) return a.i - b.i;
+        return a.v == null ? 1 : -1;
+      }
+      return (a.v - b.v) * spec.dir || a.i - b.i;
+    });
+    return rows.map(function (r) {
+      return r.c;
+    });
+  };
+
   // ---------------------------------------------------------------- swipes
 
   CS.CHOICES = ["add", "skip", "maybe"];

@@ -226,10 +226,41 @@
       .deckbar select {
         flex: 0 1 auto;
         min-width: 0;
-        max-width: 100%;
+        max-width: min(100%, 24rem);
       }
       #deckReport {
         font-size: 0.85rem;
+      }
+      /* cycle 17: the deck line also holds the Sort menu, top right, so the
+         card keeps its room; the summary leaves space for it */
+      .deckline {
+        position: relative;
+        margin-top: 6px;
+        min-height: 28px;
+      }
+      #deckReport > summary {
+        padding: 4px 11.5rem 4px 0;
+      }
+      .sortbox {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .sortbox select {
+        padding: 2px 8px;
+        font-size: 0.85rem;
+        border-radius: 999px;
+        max-width: 9.5rem;
+      }
+      .sortbox select.active {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+        color: var(--text);
       }
       #deckSummary {
         white-space: nowrap;
@@ -256,6 +287,11 @@
         .layout {
           grid-template-columns: minmax(0, 1fr) 340px;
           align-items: start;
+        }
+        /* cycle 17: the deck line (and Sort) spans the card column only, so
+           Sort sits over the card, not over the lists */
+        .deckline {
+          margin-right: calc(340px + 20px);
         }
       }
       .piles {
@@ -332,13 +368,54 @@
         user-select: none;
         cursor: grab;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+        /* cycle 17: a card let go too early springs back with a small overshoot */
         transition:
-          transform 0.2s ease,
+          transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
           opacity 0.2s ease;
       }
       .card.dragging {
         cursor: grabbing;
         transition: none;
+      }
+      .card.flying {
+        transition:
+          transform 0.2s ease-in,
+          opacity 0.2s ease-in;
+      }
+      .card.enter {
+        animation: cardin 0.18s ease-out;
+      }
+      @keyframes cardin {
+        from {
+          opacity: 0;
+          transform: scale(0.97);
+        }
+      }
+      /* cycle 17: the next card waits underneath and steps up as the top
+         one flies off, so a swipe never flashes an empty space */
+      .cardbox {
+        position: relative;
+      }
+      .undercard {
+        position: absolute;
+        inset: 0;
+        border-radius: 4.75% / 3.4%;
+        overflow: hidden;
+        background: #000;
+        transform: translateY(4.5%) scale(0.95);
+        opacity: 0.55;
+        transition:
+          transform 0.2s ease-out,
+          opacity 0.2s ease-out;
+        pointer-events: none;
+      }
+      .undercard img {
+        display: block;
+        width: 100%;
+      }
+      .cardbox.advancing .undercard {
+        transform: none;
+        opacity: 1;
       }
       .card img {
         display: block;
@@ -529,6 +606,58 @@
         font-weight: 400;
         background: transparent;
       }
+      /* cycle 17: buttons answer the press, and light up while a drag would
+         pick them */
+      .actions button {
+        transition:
+          border-color 0.12s ease,
+          background-color 0.12s ease,
+          transform 0.08s ease,
+          box-shadow 0.12s ease;
+      }
+      .actions button:active:not(:disabled),
+      .actions button.pressed {
+        transform: scale(0.95);
+      }
+      .actions .add.armed,
+      .actions .add.pressed {
+        background: rgba(63, 183, 104, 0.45);
+        box-shadow: 0 0 0 2px var(--add);
+      }
+      .actions .skip.armed,
+      .actions .skip.pressed {
+        background: rgba(224, 87, 91, 0.35);
+        box-shadow: 0 0 0 2px var(--skip);
+      }
+      .actions .maybe.armed,
+      .actions .maybe.pressed {
+        background: rgba(227, 179, 65, 0.35);
+        box-shadow: 0 0 0 2px var(--maybe);
+      }
+      .status[data-kind="add"] {
+        color: var(--add);
+      }
+      .status[data-kind="skip"] {
+        color: var(--skip);
+      }
+      .status[data-kind="maybe"] {
+        color: var(--maybe);
+      }
+      .status[data-kind="add"]::before {
+        content: "\2713  ";
+      }
+      .bump {
+        animation: bump 0.4s ease-out;
+      }
+      @keyframes bump {
+        40% {
+          transform: scale(1.18);
+        }
+      }
+      h2 .bump,
+      .progress.bump {
+        display: inline-block;
+      }
       .keys {
         text-align: center;
         margin: 6px 0 0;
@@ -591,6 +720,9 @@
         font-size: 0.85rem;
       }
       @media (pointer: coarse) {
+        .actions .arr {
+          display: none;
+        }
         .keys .mouse {
           display: none;
         }
@@ -664,6 +796,9 @@
       .list li button {
         padding: 0 8px;
         line-height: 1.6;
+      }
+      .emptyhint {
+        margin: 2px 0 0;
       }
       .listhead {
         display: flex;
@@ -844,6 +979,9 @@
         main {
           padding: var(--space-3);
         }
+        .layout {
+          margin-top: var(--space-2);
+        }
         .deckbar {
           flex-wrap: nowrap;
         }
@@ -941,6 +1079,10 @@
         header h1 {
           font-size: 1rem;
         }
+        .deckbar button {
+          padding: 8px 10px;
+          font-size: 0.92rem;
+        }
         .deckbar label {
           position: absolute;
           width: 1px;
@@ -964,8 +1106,19 @@
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .card {
+        .card,
+        .card.flying,
+        .undercard,
+        .actions button {
           transition: none;
+        }
+        .card.enter,
+        .bump {
+          animation: none;
+        }
+        .actions button:active:not(:disabled),
+        .actions button.pressed {
+          transform: none;
         }
       }
     </style>
@@ -1033,10 +1186,15 @@
           <select id="commanderSelect"></select>
           <button id="changeDeckBtn" type="button">Update or switch deck</button>
         </div>
-        <details id="deckReport" class="muted" style="margin-top: 8px">
-          <summary id="deckSummary"></summary>
-          <div id="deckProblems"></div>
-        </details>
+        <div class="deckline">
+          <details id="deckReport" class="muted">
+            <summary id="deckSummary"></summary>
+            <div id="deckProblems"></div>
+          </details>
+          <label class="sortbox" for="sortSelect"
+            >Sort <select id="sortSelect"></select
+          ></label>
+        </div>
         <div id="notices"></div>
 
         <div class="layout">
@@ -1049,13 +1207,13 @@
             <div class="stage" id="stage"></div>
             <div class="actions" id="actions">
               <button type="button" class="skip" data-choice="skip">
-                &larr; Skip
+                <span class="arr" aria-hidden="true">&larr; </span>Skip
               </button>
               <button type="button" class="maybe" data-choice="maybe">
-                &uarr; Maybe
+                <span class="arr" aria-hidden="true">&uarr; </span>Maybe
               </button>
               <button type="button" class="add" data-choice="add">
-                Add &rarr;
+                Add<span class="arr" aria-hidden="true"> &rarr;</span>
               </button>
               <button type="button" id="undoBtn" aria-keyshortcuts="z">
                 Undo
@@ -1067,7 +1225,7 @@
                 >Drag the card, or use the arrow keys: &rarr; add, &larr; skip,
                 &uarr; maybe, Z undo.</span
               ><span class="touch"
-                >Drag the card right to add, left to skip, up for maybe.</span
+                >Swipe right to add, left to skip, up for maybe.</span
               >
             </p>
             <div class="swap" id="swapLine" hidden></div>
@@ -1100,6 +1258,10 @@
                 aria-label="Cards to paste into Moxfield"
               ></textarea>
               <ul class="list" id="addedList"></ul>
+              <p class="muted small emptyhint" id="addedEmpty">
+                Swipe right (or press Add) to keep a card. Picks collect here,
+                ready to copy into Moxfield.
+              </p>
               <p class="muted small" id="inDeckNote" hidden></p>
             </section>
             <section aria-labelledby="cutsHead" id="cutsSec" hidden>
@@ -1134,6 +1296,10 @@
             <section aria-labelledby="maybeHead">
               <h2 id="maybeHead">Maybe (<span id="maybeCount">0</span>)</h2>
               <ul class="list" id="maybeList"></ul>
+              <p class="muted small emptyhint" id="maybeEmpty">
+                Swipe up for cards you're not sure about. Each one gets an Add
+                button here for later.
+              </p>
             </section>
             <details class="skipped" id="skipSec">
               <summary>Skipped (<span id="skipCount">0</span>)</summary>
@@ -1195,7 +1361,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=16"></script>
+    <script src="core.js?v=17"></script>
     <script>
       (function () {
         "use strict";
@@ -1268,6 +1434,9 @@
           swapPaired: {}, // cycle 14: pick id -> true once a cut was made from its prompt
           listAll: {}, // cycle 14: list id -> true when "Show all" is on
           revealed: null, // cycle 14: the pile whose chip was last scrolled into view
+          justSwiped: false, // cycle 17: the next card stepped up from underneath (no fade-in)
+          sort: "rec", // cycle 17: order of the open pile (CS.SORTS); not saved
+          sortView: null, // cycle 17: {key, cards} the last sorted copy of a pile
         };
 
         // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
@@ -1638,7 +1807,7 @@
             return !m.card;
           });
           // Short when all is well; problems and the carry-over are named.
-          var parts = [CS.deckSize(S.parsed.cards) + " cards"];
+          var parts = ["Deck: " + CS.deckSize(S.parsed.cards) + " cards"];
           if (S.parsed.unread.length)
             parts.push(S.parsed.unread.length + " lines not understood");
           if (notFound.length)
@@ -2153,6 +2322,7 @@
           var pile = pileByKey(key);
           if (!pile) return;
           S.current = key;
+          S.justSwiped = false; // cycle 17: a new pile's first card fades in
           if (!auto) S.userPicked = true;
           if (pile.kind === "fit") {
             // rank what's loaded now; also load Everything's first page to rank
@@ -2334,7 +2504,8 @@
           var cur = pileByKey(S.current);
           if (cur) cur.autoPages = 0;
           var info = S.cardInfo[rec.id];
-          status(VERB[choice] + ": " + (info ? info.name : rec.name));
+          status(VERB[choice] + ": " + (info ? info.name : rec.name), choice);
+          feedback(choice, !!fromDrag);
           if (choice === "add") {
             S.swapOff = false; // a new pick brings a closed prompt back
             showSwapFor(rec.id);
@@ -2349,6 +2520,7 @@
           var finish = function () {
             pending = null;
             S.busy = false;
+            S.justSwiped = true;
             render();
           };
           S.busy = true;
@@ -2368,10 +2540,50 @@
                   "px) rotate(-20deg)"
                 : "translate(0," + -1.6 * card.offsetHeight + "px)";
           card.classList.remove("dragging");
+          card.classList.remove("enter");
+          card.classList.add("flying");
+          if (card.parentNode) card.parentNode.classList.add("advancing");
           showHint(card, choice, 1);
           card.style.transform = t;
           card.style.opacity = "0";
           pending = { timer: setTimeout(finish, 200), commit: finish };
+        }
+
+        /**
+         * Cycle 17: what a swipe feels like. A short buzz on phones that
+         * allow it, the matching button lights up for a keyboard or button
+         * pick, and the count the card went to gives a small pulse.
+         */
+        function feedback(choice, fromDrag) {
+          try {
+            if (navigator.vibrate) navigator.vibrate(choice === "add" ? 15 : 8);
+          } catch (e) {}
+          if (!fromDrag) {
+            var b = document.querySelector('#actions [data-choice="' + choice + '"]');
+            if (b) {
+              b.classList.add("pressed");
+              setTimeout(function () {
+                b.classList.remove("pressed");
+              }, 160);
+            }
+          }
+          if (reduceMotion) return;
+          var target = choice === "add" ? $("addedCount") : choice === "maybe" ? $("maybeCount") : null;
+          [target, $("progressLink")].forEach(function (x) {
+            if (!x) return;
+            x.classList.remove("bump");
+            void x.offsetWidth; // restart the animation
+            x.classList.add("bump");
+          });
+        }
+
+        function armButton(choice) {
+          Array.prototype.forEach.call(
+            document.querySelectorAll("#actions [data-choice]"),
+            function (b) {
+              b.classList.toggle("armed", b.getAttribute("data-choice") === choice);
+            },
+          );
         }
 
         function undo() {
@@ -2388,6 +2600,7 @@
           refreshSwap();
           var info = S.cardInfo[r.id];
           status("Undid: " + (info ? info.name : "last swipe"));
+          S.justSwiped = false;
           render();
         }
 
@@ -2416,8 +2629,10 @@
             card.style.transform =
               "translate(" + dx + "px," + dy + "px) rotate(" + dx / 20 + "deg)";
             var w = card.offsetWidth * 0.3;
-            if (-dy > Math.abs(dx)) showHint(card, "maybe", -dy / w);
-            else showHint(card, dx > 0 ? "add" : "skip", Math.abs(dx) / w);
+            var dir = -dy > Math.abs(dx) ? "maybe" : dx > 0 ? "add" : "skip";
+            var amt = dir === "maybe" ? -dy / w : Math.abs(dx) / w;
+            showHint(card, dir, amt);
+            armButton(amt >= 1 ? dir : null);
           });
           function end(e, cancelled) {
             if (!start || e.pointerId !== start.id) return;
@@ -2425,6 +2640,7 @@
               dy = e.clientY - start.y;
             start = null;
             S.dragging = false;
+            armButton(null);
             var limit = card.offsetWidth * 0.3;
             var choice = null;
             if (!cancelled) {
@@ -2437,7 +2653,8 @@
               return;
             }
             card.classList.remove("dragging");
-            card.style.transform = "";
+            card.classList.remove("enter");
+            card.style.transform = ""; // springs back (the .card transition)
             showHint(card, null, 0);
             if (S.needsRender) render(); // another tab changed things mid-drag
           }
@@ -2451,8 +2668,11 @@
 
         // ------------------------------------------------------------ rendering
 
-        function status(msg) {
-          $("status").textContent = msg || "";
+        function status(msg, kind) {
+          var box = $("status");
+          box.textContent = msg || "";
+          if (kind) box.setAttribute("data-kind", kind);
+          else box.removeAttribute("data-kind");
         }
 
         function render() {
@@ -2486,6 +2706,8 @@
         }
 
         function pileCount(p) {
+          if (!p.loaded && !p.loading && (p.kind === "search" || p.kind === "edhrec-page"))
+            return ""; // cycle 17: loads when opened, so no count yet
           if (
             !p.loaded ||
             ((p.kind === "edhrec" || p.kind === "fit") && S.detailsLoading)
@@ -2507,6 +2729,7 @@
                 {
                   type: "button",
                   "aria-pressed": String(p.key === S.current),
+                  title: pileCount(p) === "" ? "Loads when you open it" : "",
                   onclick: function () {
                     openPile(p.key);
                   },
@@ -2584,6 +2807,70 @@
             .join(". ");
         }
 
+        /**
+         * The open pile in the chosen order (cycle 17). Sorting works on a
+         * copy, so the pile, its count and the swipes don't change. The copy
+         * is kept until the pile grows, details or Fit arrive, or the sort
+         * changes.
+         */
+        function sortedPile(pile) {
+          if (!pile || S.sort === "rec") return pile;
+          var key = [
+            pile.key,
+            S.sort,
+            pile.cards.length,
+            Object.keys(S.cardInfo).length,
+            S.profile ? 1 : 0,
+            S.detailsLoading ? 1 : 0,
+          ].join("|");
+          if (!S.sortView || S.sortView.key !== key) {
+            S.sortView = {
+              key: key,
+              cards: CS.sortCards(pile.cards, S.sort, function (c) {
+                var e = S.edhrecMap[c.id];
+                var f = S.sort === "fit" ? fitFor(c.id) : null;
+                return {
+                  rec: e && e.onEdhrec ? e : c,
+                  info: S.cardInfo[c.id],
+                  fit: f ? f.score : null,
+                };
+              }),
+            };
+          }
+          return { cards: S.sortView.cards };
+        }
+
+        function fillSort() {
+          var sel = $("sortSelect");
+          if (!sel.options.length)
+            CS.SORTS.forEach(function (x) {
+              sel.appendChild(el("option", { value: x.key, text: x.label }));
+            });
+          sel.value = S.sort;
+          sel.classList.toggle("active", S.sort !== "rec");
+        }
+
+        function setSort(key) {
+          S.sort = key;
+          S.sortView = null;
+          fillSort();
+          var pile = pileByKey(S.current);
+          var say = CS.SORTS.filter(function (x) {
+            return x.key === key;
+          })[0].say;
+          render();
+          status(
+            key === "rec"
+              ? "Back to the recommended order."
+              : "Sorted: " +
+                  say +
+                  (pile && pile.next
+                    ? " (among the " + pile.cards.length + " cards loaded so far)"
+                    : "") +
+                  ".",
+          );
+        }
+
         function renderStage() {
           var stage = $("stage");
           stage.textContent = "";
@@ -2618,7 +2905,7 @@
             );
             return;
           }
-          var next = CS.nextCards(pile, S.state, settings, S.cardInfo, 3);
+          var next = CS.nextCards(sortedPile(pile), S.state, settings, S.cardInfo, 3);
           if (!next.length) {
             setButtons(false);
             if (pile.next && pile.loading) {
@@ -2718,7 +3005,18 @@
             }),
           ]);
           attachDrag(card);
-          stage.appendChild(card);
+          var under = null;
+          var nextInfo = next[1] && S.cardInfo[next[1].id];
+          if (nextInfo && nextInfo.image)
+            under = el("div", { class: "undercard", "aria-hidden": "true" }, [
+              el("img", { src: nextInfo.image, alt: "", draggable: "false" }),
+            ]);
+          // cycle 17: fade a card in when it didn't come from the one underneath
+          if (!S.justSwiped && !reduceMotion) card.classList.add("enter");
+          S.justSwiped = false;
+          stage.appendChild(
+            el("div", { class: "cardbox" }, under ? [under, card] : [card]),
+          );
 
           var line = [money(info.usd)];
           if (rec.onEdhrec) {
@@ -3315,6 +3613,7 @@
                 ". The deck is over 100; cut idea: " +
                 ideas[0].name +
                 ".",
+              "add",
             );
         }
 
@@ -3487,7 +3786,7 @@
           persist();
           noteChange();
           var info = S.cardInfo[id];
-          status("Added: " + (info ? info.name : "card"));
+          status("Added: " + (info ? info.name : "card"), "add");
           render();
           S.swapOff = false;
           showSwapFor(id);
@@ -3571,6 +3870,9 @@
             $("skipList").textContent = "";
           }
           $("copyBtn").disabled = !t.pending.length;
+          $("copyBtn").hidden = !t.pending.length; // cycle 17: nothing to copy yet
+          $("addedEmpty").hidden = !!t.pending.length;
+          $("maybeEmpty").hidden = !!CS.idsWith(S.state, "maybe").length;
           var note = $("inDeckNote");
           var said = [];
           if (t.inDeck.length)
@@ -4057,6 +4359,23 @@
             if (timer) pick(); // tabbed away mid-wait: open what's chosen
           });
         });
+        // cycle 17: the Sort menu applies at once; a mouse or touch pick moves
+        // focus off it so the arrow keys swipe again
+        (function () {
+          var byPointer = false;
+          var sel = $("sortSelect");
+          fillSort();
+          ["mousedown", "pointerdown", "touchstart"].forEach(function (ev) {
+            sel.addEventListener(ev, function () {
+              byPointer = true;
+            }, { passive: true });
+          });
+          sel.addEventListener("change", function () {
+            setSort(sel.value);
+            if (byPointer) sel.blur();
+            byPointer = false;
+          });
+        })();
         $("copyBtn").addEventListener("click", copyForMoxfield);
         // cycle 14: the Skipped list and the card view
         $("skipSec").addEventListener("toggle", function () {

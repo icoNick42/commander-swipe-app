@@ -2261,3 +2261,28 @@ test("cycle 16: the Your deck panel's context: deck Fit words, role words, plan 
   assert.ok(!alts.some((x) => x.name === cands[cands.length - 1].name), "never repeats a cut already listed");
   assert.equal(new Set(alts.map((x) => x.name)).size, 4);
 });
+
+test("cycle 17: sortCards orders the open pile without touching it; cards without the number go last", () => {
+  const cards = [
+    { id: "a", name: "A", onEdhrec: true, inclusion: 0.2, synergy: 0.1 },
+    { id: "b", name: "B", onEdhrec: false, inclusion: 0.9, synergy: 0.9 },
+    { id: "c", name: "C", onEdhrec: true, inclusion: 0.6, synergy: -0.2 },
+    { id: "d", name: "D", onEdhrec: true, inclusion: 0.6, synergy: 0.4 },
+  ];
+  const info = { a: { usd: 3, cmc: 4 }, b: { usd: null, cmc: 1 }, c: { usd: 0.25, cmc: 2 }, d: { usd: 1, cmc: 2 } };
+  const fit = { a: 70, b: 90, c: null, d: 40 };
+  const look = (c) => ({ rec: c, info: info[c.id], fit: fit[c.id] });
+  const ids = (k) => CS.sortCards(cards, k, look).map((c) => c.id).join("");
+  const before = cards.map((c) => c.id).join("");
+  assert.equal(ids("rec"), "abcd", "Recommended keeps the pile's order");
+  assert.equal(ids("nope"), "abcd", "an unknown sort keeps the pile's order");
+  assert.equal(ids("fit"), "badc", "Fit high first; no Fit last");
+  assert.equal(ids("played"), "cdab", "Most played high first, ties keep pile order; not on EDHREC last even with a number");
+  assert.equal(ids("synergy"), "dacb");
+  assert.equal(ids("cheap"), "cdab", "Cheapest first; no price last");
+  assert.equal(ids("cmc"), "bcda", "Mana value low first, ties keep pile order");
+  assert.equal(cards.map((c) => c.id).join(""), before, "the pile itself is untouched");
+  assert.deepEqual(CS.sortCards([], "fit", look), []);
+  assert.equal(CS.sortCards(cards, "cheap", () => null).map((c) => c.id).join(""), "abcd", "no details: pile order");
+  assert.deepEqual(CS.SORTS.map((x) => x.key), ["rec", "fit", "played", "synergy", "cheap", "cmc"]);
+});

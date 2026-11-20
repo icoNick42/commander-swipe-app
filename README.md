@@ -3,7 +3,7 @@
 Swipe through card ideas for a Magic: The Gathering Commander deck.
 
 1. **Paste your deck.** In Moxfield, open your deck, then More > Export > Copy for Moxfield. Back on this page, paste it into the box (a whole deck replaces whatever is there) or press **Paste from clipboard**, then press **Load deck**. **Clear** empties the box.
-2. **Swipe.** Right adds a card, left skips it, up puts it on a "maybe" list. On a computer, the arrow keys do the same, and Z undoes. Tap a card's picture in any list to see it whole. Skipped cards aren't lost: open **Skipped** to put one back in its pile or add it.
+2. **Swipe.** Right adds a card, left skips it, up puts it on a "maybe" list. The next card waits underneath, and the line under the buttons says what happened (green for an add). On a computer, the arrow keys do the same, and Z undoes. Tap a card's picture in any list to see it whole. Skipped cards aren't lost: open **Skipped** to put one back in its pile or add it.
 3. **Copy back.** **Copy picks** copies your picks as `1 Card Name` lines, ready for Moxfield's bulk edit. If you also cut cards, **Copy whole deck** copies the full list with your cuts taken out and your picks added (your printings kept): in Moxfield's Bulk Edit, select all and paste over it.
 
 **Changing your deck.** Cut cards right on the page (Your deck > Cut ideas, or Your deck > All cards), and the Deck total line keeps count against 100. While your picks keep the deck over 100, a line under the buttons offers a card to cut, one at a time, until it's back to 100 (x hides it until your next Add; **Why? Other options** shows a few more), and Deck total lists that many cut ideas, plus four other options in case you'd rather cut something else. After you update the deck in Moxfield, press **Update or switch deck** and paste the new export: your swipes, picks and cuts carry over (picks that are in the deck now leave the Added list, and cuts you made in Moxfield are done). If it picked up the wrong deck, **Start fresh instead** is under the deck line until you make a change (the earlier version keeps its own copy either way). **Back to swiping** returns you to where you were. To work on a different deck, press **Update or switch deck**, then **Start a different deck**: the box empties for the other deck's export, and the first deck's swipes stay saved for when you paste it again.
@@ -32,6 +32,8 @@ The Scryfall piles still work if EDHREC is down or has no page for your commande
 No deck handy? **Try a sample deck** loads a Zurgo Stormrender list.
 
 Game Changers are hidden by default. You can change that, set a max price, or pick card types under Filters.
+
+**Sort.** The Sort menu next to the deck line reorders the pile you're swiping: Recommended (the pile's own order), Fit, Most played (EDHREC), EDHREC synergy, Cheapest, or Mana value. It only changes the order, so your swipes and the pile's count stay the same, and it goes back to Recommended when you reload. In piles that load more as you swipe, it sorts the cards loaded so far. Cards without the number (no price, not on EDHREC) come last. Recommended stays the default because testing found it surfaces the cards strong decks actually run best; the others are for browsing (say, the cheapest cards first).
 
 ## Synergy data
 
