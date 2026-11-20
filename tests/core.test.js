@@ -1408,7 +1408,8 @@ test("cut ideas: never the commander, lands, staples, role keepers or combo piec
   const names = ideas.map((x) => x.name);
   // cycle 11: wider labels raised the deck's average Fit (Impact Tremors and
   // Warleader's Call now pay off creatures entering), so fewer weak-fit ideas
-  assert.ok(ideas.length >= 4, ideas.length);
+  // cycle 15: 3 without EDHREC numbers (Reconnaissance feeds Zurgo's attacks)
+  assert.ok(ideas.length >= 3, ideas.length);
   assert.ok(!names.includes("Zurgo Stormrender"));
   assert.ok(
     !names.some((n) => /Badlands|Command Tower|Arid Mesa|Urza's Saga/.test(n)),
@@ -1474,19 +1475,21 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
   const land = recScry.data
     .map(CS.slimCard)
     .find((c) => /^Land/.test(c.typeLine));
+  // cycle 15: like for like; a land never pairs with a spell while the deck has its lands
   const landSwaps = CS.swapSuggestions(
     land,
     ideas,
     zurgoProfile,
     parsed.cards,
-    { Mountain: 2 },
+    {},
   );
   assert.ok(landSwaps.length >= 1);
-  assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null));
-  assert.ok(
-    !landSwaps.some((x) => x.name === "Mountain"),
-    "both Mountains are cut already",
-  );
+  assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null), JSON.stringify(landSwaps));
+  // with both Mountains cut the deck is down to 30 of its 32 lands (about 36 typical):
+  // now the new land takes a spell's place, and no Mountain is offered
+  const shortSwaps = CS.swapSuggestions(land, ideas, zurgoProfile, parsed.cards, { Mountain: 2 });
+  assert.ok(!shortSwaps.some((x) => x.name === "Mountain"), "both Mountains are cut already");
+  assert.ok(shortSwaps[0] && shortSwaps[0].id !== null && !CS.isBasicLand(shortSwaps[0].name), JSON.stringify(shortSwaps));
   assert.deepEqual(
     CS.swapSuggestions(null, ideas, zurgoProfile, parsed.cards, {}),
     [],
@@ -1747,8 +1750,12 @@ test("cycle 10: cut ideas", () => {
   const syn = CS.deckSynergy(prof, slims);
   CS.cutSuggestions(prof, syn, slims, {}).forEach((i) =>
     i.reasons.filter((r) => /Game Changer/.test(r)).forEach((r) => assert.match(r, /the deck has \d+/)));
+  const cropC = CS.cutCandidates(zimoneProfile, zimoneSyn, zimoneSlims, {}).find((i) => i.name === "Crop Rotation");
+  assert.ok(cropC && cropC.reasons.includes("Game Changer: the deck has 3 (any means bracket 3 or higher)"), cropC && cropC.reasons.join("; "));
+  // cycle 15 (Nick: strong cards aren't held back): up to 3 Game Changers is
+  // a note, not a reason to cut on its own
   const crop = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {}).find((i) => i.name === "Crop Rotation");
-  assert.ok(crop && crop.reasons.includes("Game Changer: the deck has 3 (any means bracket 3 or higher)"), crop && crop.reasons.join("; "));
+  assert.ok(!crop || crop.reasons.some((r) => !/^Game Changer/.test(r)), crop && crop.reasons.join("; "));
   // over three Game Changers: bracket 4
   const gcSlims = zimoneSlims.map((s, i) => (i > 0 && i < 6 ? Object.assign({}, s, { gameChanger: true }) : s));
   const gcIdeas = CS.cutSuggestions(zimoneProfile, zimoneSyn, gcSlims, {});
@@ -2009,4 +2016,171 @@ test("cycle 14: fillCuts gives enough cut ideas to get back to 100", () => {
   // enough ideas already: unchanged
   assert.deepEqual(CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, 1).map((x) => x.name), ideas.map((x) => x.name));
   assert.deepEqual(CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, 0).length, ideas.length);
+});
+
+// ---------------------------------------------------------------- cycle 15: strength, one cut model, missed synergies
+const fc = (name, type, text, cmc, extra) =>
+  Object.assign(CS.slimCard({ id: "c15-" + name, name: name, type_line: type, oracle_text: text, cmc: cmc, color_identity: [] }), extra || {});
+
+test("cycle 15: strength scores what the power sites score", () => {
+  const sol = fc("Sol Ring", "Artifact", "{T}: Add {C}{C}.", 1, { edhrecRank: 1 });
+  const signet = fc("Arcane Signet", "Artifact", "{T}: Add one mana of any color in your commander's color identity.", 2, { edhrecRank: 3 });
+  const cult = fc("Cultivate", "Sorcery", "Search your library for up to two basic land cards, reveal those cards, put one onto the battlefield tapped and the other into your hand, then shuffle.", 3, { edhrecRank: 30 });
+  const swords = fc("Swords", "Instant", "Exile target creature. Its controller gains life equal to its power.", 1, { edhrecRank: 20 });
+  const murder = fc("Murder", "Instant", "Destroy target creature.", 3, { edhrecRank: 400 });
+  const chupa = fc("Chupacabra", "Creature \u2014 Horror", "When Chupacabra enters, destroy target creature an opponent controls.", 4, { edhrecRank: 400 });
+  const vanilla = fc("Vanilla", "Creature \u2014 Bear", "", 2, { edhrecRank: 20000 });
+  const st = (c) => CS.strength(c).score;
+  assert.ok(st(sol) > st(signet) && st(signet) > st(cult), [st(sol), st(signet), st(cult)].join(" "));
+  assert.ok(CS.strength(sol).reasons.includes("Fast mana"));
+  assert.ok(st(swords) > st(murder), "cheap removal beats 3-mana removal");
+  assert.match(CS.strength(swords).reasons[0], /^Cheap, flexible interaction at instant speed/);
+  assert.ok(st(chupa) > st(murder), "removal with a body");
+  assert.ok(st(vanilla) < 20, "a little-played card with no job is weak: " + st(vanilla));
+  const gc = Object.assign({}, murder, { gameChanger: true });
+  assert.ok(st(gc) > st(murder) && CS.strength(gc).reasons.includes("Game Changer"));
+  assert.deepEqual(CS.strength(null), { score: 0, reasons: [] });
+  for (const c of [sol, signet, cult, swords, murder, chupa, vanilla]) assert.ok(st(c) >= 0 && st(c) <= 100);
+});
+
+test("cycle 15: the shown Fit blends tie-in and strength; strength joins the Best for your deck order", () => {
+  const f = { score: 80, reasons: ["a", "b", "c"], links: {} };
+  const b = CS.blendFit(f, { score: 30, reasons: ["Cheap ramp"] });
+  assert.equal(b.score, Math.round(0.6 * 80 + 0.4 * 30));
+  assert.equal(b.tieIn, 80);
+  assert.equal(b.strength, 30);
+  assert.deepEqual(b.reasons, ["a", "b", "Cheap ramp"], "a strength reason takes the last slot");
+  assert.deepEqual(CS.blendFit({ score: 10, reasons: [] }, { score: 0, reasons: [] }).reasons, []);
+  assert.equal(f.reasons.length, 3, "the tie-in result isn't changed");
+  const e = { onEdhrec: true, inclusion: 0.3, synergy: 0.1 };
+  assert.ok(CS.recScore(50, e, null, 90) > CS.recScore(50, e, null, 20), "same EDHREC numbers: the stronger card first");
+  assert.ok(CS.recScore(50, e, null, 0) > CS.recScore(100, null, null, 100), "a card EDHREC lists at 30% still beats one it doesn't list");
+  const d = CS.deckSynergy(zurgoProfile, deckSlims);
+  assert.ok(d.blend > 0 && d.blend <= 100 && Object.keys(d.strengths).length === Object.keys(d.fits).length);
+});
+
+test("cycle 15: what a land does", () => {
+  const li = (n, t, ty) => CS.landInfo({ name: n, text: t, typeLine: ty || "Land" });
+  const hollow = li("Jungle Hollow", "Jungle Hollow enters tapped.\nWhen Jungle Hollow enters, you gain 1 life.\n{T}: Add {B} or {G}.");
+  assert.deepEqual([hollow.tapped, hollow.utility, !!hollow.colors.B, !!hollow.colors.G], ["always", false, true, true]);
+  assert.equal(li("Blood Crypt", "({T}: Add {B} or {R}.)\nAs Blood Crypt enters, you may pay 2 life. If you don't, it enters tapped.", "Land \u2014 Swamp Mountain").tapped, "sometimes");
+  assert.equal(li("Summit", "Summit enters tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}.").tapped, "sometimes");
+  assert.ok(li("Command Tower", "{T}: Add one mana of any color in your commander's color identity.").any);
+  const mesa = li("Arid Mesa", "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.");
+  assert.ok(mesa.colors.R && mesa.colors.W && !mesa.utility && !mesa.tapped);
+  assert.ok(li("Bog", "Bog enters tapped.\nWhen Bog enters, exile target player's graveyard.\n{T}: Add {B}.").utility);
+  assert.ok(li("Reliquary Tower", "You have no maximum hand size.\n{T}: Add {C}.").utility);
+  const lc = CS.landCount(zurgoProfile, parsed.cards, {}, deckSlims);
+  assert.equal(lc.count, 32);
+  assert.ok(lc.target >= 34 && lc.target <= 38, lc.target);
+  assert.equal(CS.landCount(zurgoProfile, parsed.cards, { Mountain: 2, "Command Tower": 1 }, deckSlims).count, 29);
+});
+
+// A small two-color deck for the cut model: 36 lands (one always tapped), removal and creatures.
+function c15Deck() {
+  const cards = [
+    fc("Cmdr", "Legendary Creature \u2014 Elf", "Whenever Cmdr attacks, draw a card.", 3, { colorIdentity: ["B", "G"], manaCost: "{1}{B}{G}" }),
+    fc("Gate", "Land", "Gate enters tapped.\n{T}: Add {B} or {G}.", 0, { edhrecRank: 3000 }),
+    fc("Tower", "Land", "{T}: Add one mana of any color in your commander's color identity.", 0, { edhrecRank: 2 }),
+    fc("Doom Blade", "Instant", "Destroy target creature.", 2, { edhrecRank: 300, manaCost: "{1}{B}" }),
+    fc("Slow Removal", "Sorcery", "Destroy target creature.", 6, { edhrecRank: 9000, manaCost: "{5}{B}" }),
+    fc("Off Plan", "Creature \u2014 Bird", "Flying", 4, { edhrecRank: 15000, manaCost: "{3}{G}" }),
+    fc("Bear", "Creature \u2014 Bear", "", 2, { edhrecRank: 12000, manaCost: "{1}{G}" }),
+  ];
+  for (let i = 0; i < 9; i++) cards.push(fc("Removal " + i, "Instant", "Destroy target creature.", 2, { edhrecRank: 500, manaCost: "{1}{B}" }));
+  for (let i = 0; i < 10; i++) cards.push(fc("Ramp " + i, "Artifact", "{T}: Add {B}.", 2, { edhrecRank: 800, manaCost: "{2}" }));
+  for (let i = 0; i < 10; i++) cards.push(fc("Draw " + i, "Sorcery", "Draw two cards.", 2, { edhrecRank: 900, manaCost: "{1}{G}" }));
+  const lines = cards.map((c) => ({ qty: 1, name: c.name }));
+  lines.push({ qty: 17, name: "Swamp" }, { qty: 17, name: "Forest" }); // 11 black pips, 12 green
+  const prof = CS.deckProfile(cards, "Cmdr");
+  const syn = CS.deckSynergy(prof, cards);
+  return { cards, lines, prof, syn, opts: { deckCards: lines, slims: cards } };
+}
+
+test("cycle 15: one cut model: like for like, the same job, the land count", () => {
+  const d = c15Deck();
+  const cands = CS.cutCandidates(d.prof, d.syn, d.cards, d.opts);
+  assert.ok(!cands.some((x) => x.name === "Cmdr"), "never the commander");
+  const gate = cands.find((x) => x.name === "Gate");
+  const tower = cands.find((x) => x.name === "Tower");
+  assert.ok(gate.land && gate.cut > tower.cut && gate.reasons.includes("Enters tapped every time"));
+  const swap = (card, cuts) => CS.swapSuggestions(card, CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({}, d.opts, { cuts: cuts || {} })), d.prof, d.lines, cuts || {}, d.opts);
+  // a dual land: the tapped land first, and only lands
+  const dual = fc("Dual", "Land \u2014 Swamp Forest", "({T}: Add {B} or {G}.)", 0, { edhrecRank: 100 });
+  const ls = swap(dual);
+  assert.equal(ls[0].name, "Gate", JSON.stringify(ls));
+  assert.ok(ls.every((x) => x.name === "Gate" || x.name === "Tower" || CS.isBasicLand(x.name)), JSON.stringify(ls));
+  // with the tapped land gone, a basic
+  const ls2 = swap(dual, { Gate: 1 });
+  assert.ok(CS.isBasicLand(ls2[0].name) && ls2[0].id === null, JSON.stringify(ls2));
+  // removal for removal: the slow one, and the new card costs less
+  const bolt = fc("Quick Kill", "Instant", "Destroy target creature.", 1, { edhrecRank: 50, manaCost: "{B}" });
+  const rs = swap(bolt);
+  assert.equal(rs[0].name, "Slow Removal", JSON.stringify(rs));
+  assert.match(rs[0].why, /^does the same job \(removal\), and Quick Kill costs less/);
+  // the same job wins even when the new card isn't cheaper or stronger
+  const big = swap(fc("Big Kill", "Sorcery", "Destroy target creature.", 6, { edhrecRank: 20000, manaCost: "{5}{B}" }));
+  assert.equal(big[0].name, "Slow Removal", JSON.stringify(big));
+  assert.match(big[0].why, /^does the same job \(removal\), weaker fit$/);
+  // a land is offered only lands, even when fewer than 3 are left to offer
+  const few = CS.swapSuggestions(dual, CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({}, d.opts, { protect: { [CS.nameKey("Tower")]: true } })),
+    d.prof, d.lines.filter((l) => l.name !== "Forest").concat([{ qty: 17, name: "Swamp" }]), {}, d.opts);
+  assert.deepEqual(few.map((x) => x.name).sort(), ["Gate", "Swamp"], JSON.stringify(few));
+  // EDHREC can vouch for a land, but a land missing or low on the page isn't marked down for it
+  const keepOf = (edh) => CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts)).find((x) => x.name === "Tower").keep;
+  const none = keepOf(undefined);
+  assert.equal(keepOf({ [CS.nameKey("Tower")]: { inclusion: 0.02 } }), none);
+  assert.equal(keepOf({}), none);
+  assert.ok(keepOf({ [CS.nameKey("Tower")]: { inclusion: 0.9 } }) > none);
+  // a spell never pairs with a land while the deck has its lands
+  assert.ok(!swap(fc("Elf", "Creature \u2014 Elf", "", 1, { manaCost: "{G}" })).some((x) => x.id === null || x.name === "Gate"));
+  // a deck short on lands: the new land takes a spell's place
+  const short = swap(dual, { Swamp: 8 });
+  assert.ok(short[0].id !== null && !cands.find((x) => x.name === short[0].name).land, JSON.stringify(short));
+});
+
+test("cycle 15: the back-to-100 list gives each pick its own cut, once each", () => {
+  const d = c15Deck();
+  const cands = CS.cutCandidates(d.prof, d.syn, d.cards, d.opts);
+  const dual = fc("Dual", "Land \u2014 Swamp Forest", "({T}: Add {B} or {G}.)", 0);
+  const dual2 = fc("Dual 2", "Land \u2014 Swamp Forest", "({T}: Add {B} or {G}.)", 0);
+  const kill = fc("Quick Kill", "Instant", "Destroy target creature.", 1, { manaCost: "{B}" });
+  const out = CS.cutsForPicks([dual, kill, dual2], cands, d.prof, d.lines, {}, 3, d.opts);
+  assert.equal(out.length, 3);
+  const by = {};
+  out.forEach((x) => (by[x.forName] = x));
+  assert.equal(by["Dual 2"].name, "Gate", "newest pick first gets the best match");
+  assert.ok(CS.isBasicLand(by["Dual"].name) || by["Dual"].name === "Tower", JSON.stringify(by["Dual"]));
+  assert.equal(by["Quick Kill"].name, "Slow Removal");
+  assert.equal(by["Quick Kill"].forId, kill.id);
+  assert.equal(CS.cutsForPicks([], cands, d.prof, d.lines, {}, 2, Object.assign({ ideas: [{ name: "X", id: "x", reasons: ["r"] }] }, d.opts)).length, 1, "no picks: cut ideas fill in");
+});
+
+test("cycle 15: cut ideas weigh EDHREC's numbers and strength, and don't hold strong cards back", () => {
+  const d = c15Deck();
+  const edh = {};
+  edh[CS.nameKey("Doom Blade")] = { inclusion: 0.6 };
+  const withE = CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts));
+  const off = withE.find((x) => x.name === "Off Plan");
+  assert.ok(off.inc === 0 && off.reasons.some((r) => /^Not on this commander's EDHREC page/.test(r)), off.reasons.join("; "));
+  assert.ok(withE.find((x) => x.name === "Doom Blade").keep > withE.find((x) => x.name === "Removal 0").keep, "an often-run card is kept over the same card EDHREC doesn't list");
+  const ideas = CS.cutSuggestions(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts));
+  assert.ok(ideas.length && ideas.every((x) => x.tie < 75 && !x.locked && !x.staple && !x.land));
+  assert.ok(!ideas.some((x) => x.reasons.length === 1 && /^Not on this commander's EDHREC page/.test(x.reasons[0]) && x.roles.length), "a note alone doesn't make a role card a cut idea");
+});
+
+test("cycle 15: missed synergies: evasion, copying abilities, untapping", () => {
+  const t = (n, ty, tx, c) => CS.cardTraits(fc(n, ty, tx, c));
+  assert.ok(t("Soul", "Creature \u2014 Spirit", "Soul can't block and can't be blocked.", 1).gives.evasion);
+  assert.ok(t("Thopter", "Artifact Creature \u2014 Thopter", "Flying", 0).gives.evasion);
+  assert.ok(!t("Big", "Creature \u2014 Beast", "Trample", 5).gives.evasion);
+  assert.ok(t("Ninja Lord", "Legendary Creature \u2014 Ninja", "Each creature card in your hand has ninjutsu {2}{U}{B}.", 4).wants.evasion);
+  assert.ok(t("Spy", "Legendary Creature", "Whenever one or more creatures you control deal combat damage to a player, draw a card.", 3).wants.evasion);
+  assert.ok(t("Resonator", "Artifact", "{2}, {T}: Copy target triggered ability you control.", 2).gives.copyab);
+  assert.ok(t("Boots", "Legendary Creature", "If a creature you control dealing combat damage to a player causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time.", 4).gives.copyab);
+  assert.ok(t("Reversal", "Instant", "Untap all nonland permanents you control.", 2).gives.untap);
+  assert.ok(t("Rock", "Artifact", "{T}: Add {C}{C}.", 1).wants.untap && !t("Elf", "Creature \u2014 Elf", "{T}: Add {G}.", 1).wants.untap);
+  // a commander with a trigger wants it copied, but copying isn't listed as the deck's plan
+  assert.ok(zurgoProfile.commander.wants.copyab);
+  assert.ok(!CS.deckSynergy(zurgoProfile, deckSlims).plan.some((p) => p.label === "copyab"));
 });

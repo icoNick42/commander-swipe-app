@@ -1140,7 +1140,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=14"></script>
+    <script src="core.js?v=15"></script>
     <script>
       (function () {
         "use strict";
@@ -1845,6 +1845,7 @@
               S.piles = fitFirst.concat(piles, rest, themes);
               S.current = S.current || (fitFirst.length ? fitFirst[0].key : piles[0].key);
               render();
+              if (S.state) renderCutsAll(); // cycle 15: cut ideas weigh EDHREC's numbers
               return loadCardInfo(
                 CS.edhrecIdentifiers(page).map(function (x) {
                   return x.id;
@@ -2002,11 +2003,17 @@
             });
         }
 
-        /** Fit score for a card, worked out once per commander. */
+        /**
+         * Fit for a card, worked out once per commander. Cycle 15: the shown
+         * Fit blends tie-in (CS.fitScore) with strength (CS.strength);
+         * `.tieIn` and `.strength` keep the parts.
+         */
         function fitFor(id) {
           if (!S.profile || !S.cardInfo[id]) return null;
-          if (!S.fitCache[id])
-            S.fitCache[id] = CS.fitScore(S.cardInfo[id], S.profile);
+          if (!S.fitCache[id]) {
+            var info = S.cardInfo[id];
+            S.fitCache[id] = CS.blendFit(CS.fitScore(info, S.profile), CS.strength(info));
+          }
           return S.fitCache[id];
         }
 
@@ -2014,7 +2021,8 @@
          * Best for your deck (cycle 12; was Highest Fit): every card the other
          * piles have loaded so far (EDHREC's page, plus any search pages
          * opened), ranked by CS.recScore: how often decks with this commander
-         * run it, its EDHREC synergy, and a little of our Fit. The first pile.
+         * run it, its EDHREC synergy, how strong it is, and a little of our
+         * tie-in. The first pile.
          */
         function fitPileShell() {
           return {
@@ -2049,12 +2057,12 @@
               CS.isBasicLand(info.name)
             )
               return;
-            var fit = fitFor(id).score;
+            var f = fitFor(id);
             var e = S.edhrecMap[id];
             list.push({
               rec: recs[id],
-              fit: fit,
-              score: CS.recScore(fit, e && e.onEdhrec ? e : null, info),
+              fit: f.score,
+              score: CS.recScore(f.tieIn, e && e.onEdhrec ? e : null, info, f.strength),
             });
           });
           list.sort(function (a, b) {
@@ -2879,7 +2887,11 @@
             el("div", {
               class: "small",
               text:
-                "Fit (0-100) is how well the card's rules text ties into your deck's plan, not how strong the card is." +
+                "Fit (0-100) blends how well the card ties into your deck's plan (tie-in " +
+                  (f.tieIn != null ? f.tieIn : f.score) +
+                  ") with how strong it is in Commander (strength " +
+                  (f.strength != null ? f.strength : "?") +
+                  ": how widely it's played, and how cheap and flexible it is for its job)." +
                 (edh
                   ? " The EDHREC numbers: the share of this commander's decks on EDHREC that run the card, and synergy, how much more often they run it than other decks in its colors."
                   : ""),
@@ -2901,7 +2913,7 @@
             $("deckFitHead").textContent = "Your deck";
             return;
           }
-          $("deckFitHead").textContent = "Your deck: Fit " + d.score + "/100"; // cycle 14: EDHREC's "synergy" is a different number
+          $("deckFitHead").textContent = "Your deck: Fit " + (d.blend != null ? d.blend : d.score) + "/100"; // cycle 14: EDHREC's "synergy" is a different number; cycle 15: with strength
           body.appendChild(
             el("div", {
               class: "muted small",
@@ -2956,9 +2968,11 @@
 
         // ------------------------------------------------------------ cuts
 
-        /** Cut ideas for this deck right now (combo pieces the deck has are kept). */
-        function cutIdeas(need) {
-          if (!S.profile || !S.deckFit || !S.state) return [];
+        /**
+         * Options for the cut functions: combo pieces the deck has are kept;
+         * EDHREC's numbers for the deck's own cards (by name), once loaded.
+         */
+        function cutOpts() {
           var protect = {};
           if (S.combos && S.combos.deck)
             S.combos.deck.inDeck
@@ -2968,12 +2982,39 @@
                   protect[CS.nameKey(n)] = true;
                 });
               });
-          var opts = { protect: protect, cuts: S.state.cuts };
+          var ids = Object.keys(S.edhrecMap || {});
+          if (S.edhrecByNameFrom !== S.edhrecMap) {
+            S.edhrecByNameFrom = S.edhrecMap;
+            S.edhrecByName = {};
+            ids.forEach(function (id) {
+              var e = S.edhrecMap[id];
+              if (e && e.name) S.edhrecByName[CS.nameKey(e.name)] = e;
+            });
+          }
+          return {
+            protect: protect,
+            cuts: S.state.cuts,
+            edhrec: ids.length ? S.edhrecByName : null,
+            deckCards: S.parsed.cards,
+            slims: S.deckSlimList,
+          };
+        }
+
+        /** Cut ideas for this deck right now (cycle 15: CS.cutSuggestions on the one cut model). */
+        function cutIdeas(need) {
+          if (!S.profile || !S.deckFit || !S.state) return [];
+          var opts = cutOpts();
           var ideas = CS.cutSuggestions(S.profile, S.deckFit, S.deckSlimList, opts);
           // cycle 14: over 100 by `need`? enough ideas to get back to 100
           return need
             ? CS.fillCuts(ideas, S.profile, S.deckFit, S.deckSlimList, opts, need)
             : ideas;
+        }
+
+        /** Every deck card as a possible cut, for pairing with a pick (cycle 15). */
+        function cutCands() {
+          if (!S.profile || !S.deckFit || !S.state) return [];
+          return CS.cutCandidates(S.profile, S.deckFit, S.deckSlimList, cutOpts());
         }
 
         /** Cuts one copy of a deck card. `forName`: the pick it makes room for, if any. */
@@ -2983,7 +3024,8 @@
           S.state = CS.cutOne(latestState(), e.name, e.qty, Date.now());
           persist();
           noteChange();
-          if (S.swap) S.swapPaired[S.swap.forId] = true; // that pick has its cut
+          // that pick has its cut (cycle 15: unless this cut was for another pick)
+          if (S.swap && (!forName || forName === S.swap.forName)) S.swapPaired[S.swap.forId] = true;
           S.swap = null;
           renderCutsAll(); // cycle 14: still over 100? the next cut idea shows
           var left = deckTotals().total - 100;
@@ -3136,10 +3178,11 @@
           }
           var ideas = CS.swapSuggestions(
             info,
-            cutIdeas(deckTotals().total - 100),
+            cutCands(),
             S.profile,
             S.parsed.cards,
             S.state.cuts,
+            cutOpts(),
           );
           var wasMore = again && S.swap ? S.swap.more : false;
           S.swap = ideas.length
@@ -3473,7 +3516,35 @@
           oc.textContent = "";
           $("overHead").hidden = over <= 0;
           if (over > 0) {
-            var need = cutIdeas(over).slice(0, over);
+            // cycle 15: a cut for each pick (lands for lands, same job for same
+            // job), then the best cut ideas for any rest
+            var pickSlims = t.pending
+              .filter(function (id) {
+                return !S.swapPaired[id];
+              })
+              .map(function (id) {
+                return S.cardInfo[id];
+              })
+              .filter(Boolean);
+            var need = CS.cutsForPicks(
+              pickSlims,
+              cutCands(),
+              S.profile,
+              S.parsed.cards,
+              S.state.cuts,
+              over,
+              Object.assign(cutOpts(), { ideas: cutIdeas(over) }),
+            )
+              .slice(0, over)
+              .map(function (x) {
+                return {
+                  id: x.id,
+                  name: x.name,
+                  forName: x.forName,
+                  forId: x.forId,
+                  reasons: [(x.forName ? "For " + x.forName + ": " : "") + x.why],
+                };
+              });
             $("overHead").textContent = need.length
               ? "To get back to 100, cut " + over + (over === 1 ? " card" : " cards") + ". Best ideas first:"
               : "Cut " + over + " to get back to 100. All cards, under Your deck, has every card.";
@@ -3491,7 +3562,8 @@
                     "aria-label": "Cut " + x.name,
                     text: "Cut",
                     onclick: function () {
-                      doCut(x.name);
+                      if (x.forId) S.swapPaired[x.forId] = true; // that pick has its cut
+                      doCut(x.name, x.forName);
                     },
                   }),
                 ]),

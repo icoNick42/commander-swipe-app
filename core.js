@@ -1121,6 +1121,10 @@
     deter: { g: "Keeps attackers off you (goad, attack taxes, damage reflection)", w: "Wants opponents attacking someone else", b: "Keeps attackers off you and pays it off", short: "keeping attackers away" },
     tap: { g: "Taps your creatures (crew, station, tap abilities)", w: "Pays off your creatures becoming tapped", b: "Taps creatures and pays it off", short: "tapping your creatures" },
     bigspell: { g: "A noncreature spell costing 4 or more (or X)", w: "Pays off spells with 4 or more mana spent", b: "Big spell payoff", short: "big noncreature spells" },
+
+    evasion: { g: "A hard-to-block creature", w: "Pays off creatures connecting (combat damage, ninjutsu)", b: "Evasive creature with a combat-damage payoff", short: "evasive attackers" },
+    copyab: { g: "Copies or doubles abilities", w: "Has abilities worth copying", b: "Copies abilities and has its own", short: "copying abilities" },
+    untap: { g: "Untaps your permanents", w: "Has a tap ability worth untapping", b: "Untaps and has a tap ability", short: "untapping" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -1367,6 +1371,20 @@
       gives.bigspell = true;
     }
     if (roles.draw) gives.drawing = true; // cycle 11: for "whenever you draw a card" payoffs
+    // cycle 15 missed-synergy scan (57 decks): evasive creatures for combat-damage
+    // and ninjutsu commanders (Satoru, Gonti); ability copiers (Strionic
+    // Resonator, Rings of Brighthearth, Felix Five-Boots); untappers (Dramatic Reversal)
+    if (/\bcreature\b/.test(mainTypes) && !isLand &&
+      (/(^|\n)[a-z ,]*\b(flying|menace|skulk|shadow|horsemanship|fear|intimidate)\b[a-z ,]*(\n|$)/.test(bare) || /~ (can't block and )?can't be blocked\b/.test(bare)))
+      gives.evasion = true;
+    if (/\bninjutsu\b|\bwhenever (a|one or more|another)( other)? creatures?( you control)? deals? combat damage to (a player|an opponent|one of your opponents)\b|\bwhenever a creature deals combat damage to one of your opponents\b/.test(bare))
+      wants.evasion = true;
+    if (/\bcopy (target|that|it|the) (activated or triggered |triggered |activated )?abilit(y|ies)\b|\bcopy that ability\b|\btriggers? an additional time\b/.test(bare))
+      gives.copyab = true;
+    if (/\buntap (all|each|target|up to (one|two|three|x) target)( other)? (nonland )?(permanents?|artifacts?|creatures?|lands?)( and lands)?( you control)?\b/.test(bare))
+      gives.untap = true;
+    if (!isLand && /\{t\}(?![^:]*: add \{)[^:\n]*:/.test(bare)) wants.untap = true; // a tap ability that isn't only mana
+    if (!isLand && /\bartifact\b/.test(mainTypes) && /\{t\}[^:\n]*: add \{/.test(bare)) wants.untap = true; // mana rocks (Dramatic Reversal)
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
     types.split("//").forEach(function (face) {
@@ -1431,6 +1449,8 @@
         if (hooks.castMin) t.wants.cast = true;
         if (hooks.permMin) t.wants.animate = true;
         if (hooks.oneTurn) t.wants.oneturn = true;
+        // cycle 15: a commander with a triggered or activated ability wants it copied
+        if (/\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\}[^\n:]*: /.test(t.text.replace(/\([^)]*\)/g, ""))) t.wants.copyab = true;
       } else applyHooks(t, s, hooks);
       cards.push(t);
     });
@@ -1657,15 +1677,136 @@
    * popularity then). Higher is better.
    */
   CS.REC_FIT_WEIGHT = 0.15;
-  CS.recScore = function (fit, rec, slim) {
+  CS.REC_STRENGTH_WEIGHT = 0.4; // cycle 15: tuned on half the 57 decks (0.4-0.5 best), checked on the other half
+  CS.recScore = function (fit, rec, slim, strength) {
     var f = typeof fit === "number" ? Math.max(0, Math.min(100, fit)) / 100 : 0;
+    var st = typeof strength === "number" ? strength : CS.strength(slim).score;
+    st = Math.max(0, Math.min(100, st)) / 100;
     if (rec && rec.onEdhrec)
-      return (rec.inclusion || 0) + 0.5 * (rec.synergy || 0) + CS.REC_FIT_WEIGHT * f;
+      return (rec.inclusion || 0) + 0.5 * (rec.synergy || 0) + CS.REC_FIT_WEIGHT * f + CS.REC_STRENGTH_WEIGHT * st;
     // not on the commander's page: below most cards EDHREC lists, ordered by
-    // Fit and by how much the card is played in Commander overall
-    var rank = slim && typeof slim.edhrecRank === "number" && slim.edhrecRank > 0 ? slim.edhrecRank : null;
-    var pop = rank ? Math.max(0, 1 - Math.log(rank) / Math.LN10 / 4.5) : 0;
-    return CS.REC_FIT_WEIGHT * f + 0.05 * pop;
+    // tie-in and strength (which includes how much it's played overall)
+    return CS.REC_FIT_WEIGHT * f + 0.1 * st;
+  };
+
+  // ---------------------------------------------------------------- strength (cycle 15)
+
+  /**
+   * How widely a card is played across all of Commander, 0-1, from its
+   * overall EDHREC rank on a log scale (rank 1 = 1, rank 100 = 0.56,
+   * rank 1,000 = 0.33, rank 30,000+ = 0). 0 when the rank is unknown.
+   */
+  CS.popularity = function (slim) {
+    var r = slim && typeof slim.edhrecRank === "number" && slim.edhrecRank > 0 ? slim.edhrecRank : null;
+    return r ? Math.max(0, Math.min(1, 1 - Math.log(r) / Math.LN10 / 4.5)) : 0;
+  };
+
+  // 1 at or under the first mana value, then 0.7, 0.4, and 0.15 above the third
+  function costTier(cmc, cuts) {
+    if (cmc == null) return 0.4;
+    return cmc <= cuts[0] ? 1 : cmc <= cuts[1] ? 0.7 : cmc <= cuts[2] ? 0.4 : 0.15;
+  }
+
+  /**
+   * Cycle 15 (Nick: Fit should blend synergy and strength, as the
+   * power-level sites do): how strong a card is, 0-100, whatever deck it's
+   * in. Built from what edhpowerlevel, commanderpowermeter and commandersalt
+   * score (fast mana, cheap tutors, cheap and instant-speed interaction,
+   * one-sided wipes, repeatable card flow, free spells, Game Changers) plus
+   * how widely the card is played. 55% popularity, 45% how good it is at
+   * its job; a Game Changer adds 12. Strength never hides a card; it only
+   * moves it up or down the order.
+   * `traits`: CS.cardTraits(slim), if already worked out.
+   * Returns {score, reasons: [string]}.
+   */
+  CS.strength = function (slim, traits) {
+    if (!slim) return { score: 0, reasons: [] };
+    var t = traits || CS.cardTraits(slim);
+    var text = CS.synText(slim).replace(/\([^)]*\)/g, "");
+    var types = String(slim.frontType || slim.typeLine || "").toLowerCase();
+    var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
+    var instant = /\binstant\b/.test(types) || /\bflash\b/.test(text);
+    var spell = /\b(instant|sorcery)\b/.test(types);
+    var q = 0;
+    var why = [];
+    function take(v, reason) {
+      if (v > q) {
+        q = v;
+        why = reason ? [reason] : [];
+      }
+    }
+    var r = t.roles || {};
+    if (!t.land) {
+      if (r.ramp) {
+        if (/\badd \{|\badd (one|two|three) mana\b/.test(text) && !spell && cmc != null && cmc <= 1) take(1, "Fast mana");
+        else take(costTier(cmc, [1, 2, 3]) * 0.9, cmc != null && cmc <= 2 ? "Cheap ramp" : null);
+      }
+      if (r.removal) {
+        var v = costTier(cmc, [1, 2, 3]);
+        if (instant) v += 0.15;
+        if (/\btarget (nonland )?permanent\b|\bcounter target spell\b/.test(text)) v += 0.1;
+        // a creature that removes something when it enters is removal plus a body
+        if (/\bcreature\b/.test(types) && /\bwhen ~ enters\b[^.]*\b(destroy|exile|return)\b/.test(text)) v += 0.45;
+        v = Math.min(1, v);
+        take(v, v >= 0.85 ? "Cheap, flexible interaction" + (instant ? " at instant speed" : "") : null);
+      }
+      if (r.wipes) {
+        var w = costTier(cmc, [3, 4, 5]);
+        if (/\b(creatures?|permanents?) (your opponents control|you don't control)\b|\beach creature you don't control\b/.test(text))
+          take(Math.min(1, w + 0.25), "One-sided board wipe");
+        else take(w, w >= 0.85 ? "Cheap board wipe" : null);
+      }
+      if (r.draw) {
+        var rep = /\bwhenever\b[^.]*\bdraws? (a|an|one|two|\d+) cards?\b|\bat the beginning of\b[^.]*\bdraws?\b|\{t\}(?![^:]*\bsacrifice\b)[^:]*: draw\b|\bdraw a card for each\b/.test(text) ||
+          (/\bwhenever\b/.test(text) && /\bdraw\b/.test(text) && !spell);
+        var d = Math.min(1, costTier(cmc, [2, 3, 4]) * 0.8 + (rep ? 0.25 : 0));
+        take(d, rep && d >= 0.75 ? "Repeatable card draw" : null);
+      }
+      if (r.tutors) {
+        var open = /\bsearch your library for (a|an) card\b/.test(text);
+        var tu = costTier(cmc, [1, 2, 3]) * (open ? 1 : 0.75);
+        take(tu, tu >= 0.7 ? (open ? "Cheap tutor for any card" : "Cheap tutor") : null);
+      }
+      if (r.protection) take(Math.min(1, costTier(cmc, [1, 2, 3]) * 0.8 + (instant ? 0.15 : 0)), null);
+      if ((r.removal || r.protection || r.draw) &&
+        /\bwithout paying (its|their) mana cost\b|\brather than pay (this spell's|~'s) mana cost\b|\bif you control a commander, you may cast this spell without\b/.test(text))
+        take(1, "Can be cast for free");
+    }
+    var p = CS.popularity(slim);
+    var s = 0.55 * p + 0.45 * q + (slim.gameChanger ? 0.12 : 0);
+    if (p >= 0.55) why.push("One of the most played cards in Commander"); // overall rank 100 or better
+    if (slim.gameChanger) why.push("Game Changer");
+    return { score: Math.round(100 * Math.max(0, Math.min(1, s))), reasons: why };
+  };
+
+  /**
+   * Cycle 15: the Fit shown on a card, 60% tie-in (CS.fitScore) and 40%
+   * strength (CS.strength). On the 57-deck hold-out test the blend ranks
+   * real picks better than tie-in alone (AUC 0.63 vs 0.59).
+   * `fit`: CS.fitScore result; `str`: CS.strength result.
+   * Returns the fit result plus {score (blend), tieIn, strength, reasons}.
+   */
+  CS.FIT_STRENGTH_SHARE = 0.4;
+  CS.blendFit = function (fit, str) {
+    var out = {};
+    Object.keys(fit || {}).forEach(function (k) {
+      out[k] = fit[k];
+    });
+    var tie = fit && typeof fit.score === "number" ? fit.score : 0;
+    var st = str && typeof str.score === "number" ? str.score : 0;
+    out.tieIn = tie;
+    out.strength = st;
+    out.score = Math.round((1 - CS.FIT_STRENGTH_SHARE) * tie + CS.FIT_STRENGTH_SHARE * st);
+    // tie-in reasons first; a strength reason fills a free slot (or the last one)
+    var reasons = ((fit && fit.reasons) || []).slice(0, 3);
+    var sr = (str && str.reasons && str.reasons[0]) || null;
+    if (sr) {
+      if (reasons.length >= 3) reasons[2] = sr;
+      else reasons.push(sr);
+    }
+    out.reasons = reasons;
+    out.strengthReasons = (str && str.reasons) || [];
+    return out;
   };
 
   /**
@@ -1686,8 +1827,9 @@
    * (ramp, draw, removal...) and tie in to little (Fit under 50) are
    * listed as staples and left out of the average, so Sol Ring doesn't
    * count as a weak link.
-   * Returns {score, plan: [{label, noun, gives, wants}], weakest: [{name,
-   * score}], staples: [name], scored: n}.
+   * Returns {score (tie-in average), plan: [{label, noun, gives, wants}],
+   * weakest: [{name, score}], staples: [name], scored: n, fits: {id: tie-in},
+   * strengths: {id: strength}, blend (the deck's Fit with strength, cycle 15)}.
    */
   CS.deckSynergy = function (profile, slims) {
     var byId = {};
@@ -1697,10 +1839,18 @@
     var scored = [];
     var staples = [];
     var fits = {};
+    var strengths = {};
+    var blendSum = 0;
+    var blendN = 0;
     profile.cards.forEach(function (c) {
       if (c.commander || c.land || !byId[c.id]) return;
       var f = CS.fitScore(byId[c.id], profile, c.id);
       fits[c.id] = f.score;
+      // cycle 15: the deck's Fit, as shown on cards, blends in strength
+      var st = CS.strength(byId[c.id], c);
+      strengths[c.id] = st.score;
+      blendSum += CS.blendFit(f, st).score;
+      blendN++;
       // a big card the deck cheats into play is a payload: its one job is
       // the commander's plan, so it's judged like a role card
       var isRole = Object.keys(c.roles).length > 0 || CS.isCheatPayload(c, profile);
@@ -1723,7 +1873,8 @@
     });
     var planList = Object.keys(plan)
       .filter(function (l) {
-        return plan[l].gives > 0 && plan[l].wants > 0;
+        // copying abilities supports any plan; it isn't one (cycle 15)
+        return plan[l].gives > 0 && plan[l].wants > 0 && l !== "copyab";
       })
       .map(function (l) {
         return {
@@ -1752,6 +1903,8 @@
       scored: scored.length,
       roleCount: profile.roleCount,
       fits: fits,
+      strengths: strengths,
+      blend: blendN ? Math.round(blendSum / blendN) : 0, // every nonland card, role cards included
     };
   };
 
@@ -1759,25 +1912,139 @@
 
   // Roles a deck shouldn't drop below (taxonomy: ramp, card advantage,
   // targeted and mass disruption). A card that keeps one of these at or
-  // under its typical count isn't suggested as a cut.
+  // under its typical count isn't suggested as a cut, unless the card being
+  // added does the same job.
   var KEEP_ROLES = { ramp: true, draw: true, removal: true, wipes: true };
-  var STAPLE_RANK = 500; // EDHREC rank at or under which a role card counts as a staple
+  var BASIC_COLOR = { plains: "W", island: "U", swamp: "B", mountain: "R", forest: "G", wastes: "C" };
+
+  function basicColor(name) {
+    var m = /(plains|island|swamp|mountain|forest|wastes)\s*$/i.exec(CS.frontName(name || ""));
+    return m ? BASIC_COLOR[m[1].toLowerCase()] : null;
+  }
 
   /**
-   * Cards worth cutting, best idea first (from data/synergy-taxonomy.json
-   * cut_score, simplified): weak Fit, a role the deck has more of than
-   * usual, costing 6+ while not part of the plan, and Game Changers (for an
-   * LGS-friendly deck). Never suggested: the commander, lands, cards in a
-   * combo the deck already has, cards with Fit 75+, and a card whose cut
-   * would drop ramp, card draw, removal or board wipes below the typical
-   * count.
-   * `syn`: CS.deckSynergy result; `slims`: the deck's slim cards;
-   * opts: {protect: {nameKey: true}, cuts: {name: n}}.
-   * Returns [{id, name, score (0-100), fit, reasons: [string], roles: [key], cmc}].
+   * Cycle 15: what a land does for a deck, from its text.
+   * Returns {tapped: "always" | "sometimes" | null, colors: {W: true...},
+   * any: bool (any color), utility: bool (does something besides mana)}.
    */
-  CS.cutSuggestions = function (profile, syn, slims, opts) {
+  CS.landInfo = function (slim) {
+    var t = CS.synText(slim).replace(/\([^)]*\)/g, "");
+    var types = String((slim && (slim.typeLine || slim.types)) || "").toLowerCase();
+    var tapped = null;
+    var m = /(^|\n|\. )~ enters (the battlefield )?tapped([^.\n]*)/.exec(t);
+    if (m) tapped = /\bunless\b|\bif you\b/.test(m[3]) ? "sometimes" : "always";
+    if (/\bif you don't, (it|~) enters tapped\b/.test(t)) tapped = "sometimes"; // shock lands
+    var colors = {};
+    var any = /\bmana of any (one )?color\b|\bany color in your commander\b|\bmana of any type\b/.test(t);
+    var add = t.match(/\badd [^.\n]*/g) || [];
+    add.forEach(function (a) {
+      (a.match(/\{([wubrgc])\}/g) || []).forEach(function (x) {
+        colors[x.charAt(1).toUpperCase()] = true;
+      });
+    });
+    Object.keys(BASIC_COLOR).forEach(function (b) {
+      if (new RegExp("\\b" + b + "\\b").test(types)) colors[BASIC_COLOR[b]] = true;
+    });
+    // fetch lands: the colors of the land types they find
+    var f = /\bsearch your library for [^.]*/.exec(t);
+    if (f) {
+      if (/\bbasic land card\b|\bland card\b/.test(f[0]) && !/\b(plains|island|swamp|mountain|forest)\b/.test(f[0])) any = true;
+      Object.keys(BASIC_COLOR).forEach(function (b) {
+        if (new RegExp("\\b" + b + "\\b").test(f[0])) colors[BASIC_COLOR[b]] = true;
+      });
+    }
+    // anything left once mana and entering tapped are taken out is a utility
+    var rest = t
+      .replace(/(^|\n)\{t\}: add [^\n]*/g, "")
+      .replace(/(^|\n|\. )~ enters (the battlefield )?tapped[^.\n]*\.?/g, "")
+      .replace(/\bas ~ enters, you may pay \d+ life\. if you don't, it enters tapped\./g, "")
+      .replace(/\{t\}, pay 1 life: add [^\n]*/g, "")
+      .replace(/[^.\n]*\bsearch your library for [^\n]*/g, "")
+      .replace(/\bwhen ~ enters, (you gain 1 life|scry 1|surveil 1)\./g, "") // gain lands and scry lands are plain mana
+      .replace(/[\s.]+/g, "");
+    return { tapped: tapped, colors: colors, any: any, utility: rest.length > 0 };
+  };
+
+  /** Colored mana symbols across the deck's nonland cards: {W: n, ...} (hybrid counts half). */
+  function deckPips(slims) {
+    var pips = {};
+    (slims || []).forEach(function (s) {
+      if (!s || /\bland\b/i.test(String(s.frontType || "").split("//")[0])) return;
+      (String(s.manaCost || "").match(/\{[^}]+\}/g) || []).forEach(function (sym) {
+        var cs = sym.replace(/[{}]/g, "").split("/").filter(function (c) {
+          return /^[WUBRG]$/.test(c);
+        });
+        cs.forEach(function (c) {
+          pips[c] = (pips[c] || 0) + 1 / cs.length;
+        });
+      });
+    });
+    return pips;
+  }
+
+  /**
+   * Cycle 15: the deck's land count and roughly how many it wants. Fitted to
+   * the 57 benchmark decks: they run 36 lands on average (most within 2-3 of
+   * that), a little more with a higher curve (34 + 0.6 x the average mana
+   * value of the spells); the ramp count made no difference. Counts basics
+   * from the export lines (with copies) and nonbasic lands from the profile;
+   * cards already cut drop out. Returns {count, target}.
+   */
+  CS.landCount = function (profile, deckCards, cuts, slims) {
+    var landNames = {};
+    ((profile && profile.cards) || []).forEach(function (c) {
+      if (c.land) landNames[CS.nameKey(c.name)] = true;
+    });
+    var cutBy = {};
+    Object.keys(cuts || {}).forEach(function (n) {
+      cutBy[CS.nameKey(n)] = (cutBy[CS.nameKey(n)] || 0) + cuts[n];
+    });
+    var count = 0;
+    var seen = {};
+    (deckCards || []).forEach(function (c) {
+      var k = CS.nameKey(c.name);
+      if (!CS.isBasicLand(c.name) && !landNames[k]) return;
+      count += c.qty || 1;
+      if (!seen[k]) {
+        seen[k] = true;
+        count -= Math.min(cutBy[k] || 0, c.qty || 1);
+      }
+    });
+    var sum = 0;
+    var n = 0;
+    (slims || []).forEach(function (s) {
+      if (!s || typeof s.cmc !== "number" || landNames[CS.nameKey(s.name)] || CS.isBasicLand(s.name)) return;
+      sum += s.cmc;
+      n++;
+    });
+    var target = Math.round(34.2 + 0.6 * (n ? sum / n : 3));
+    return { count: count, target: Math.max(32, Math.min(40, target)) };
+  };
+
+  /**
+   * Cycle 15: every card in the deck as a possible cut, with how much the
+   * deck wants to keep it. One model for Cut ideas, the prompt after an Add
+   * and the back-to-100 list:
+   *   keep = 45% tie-in (Fit's synergy part) + 30% strength + 25% how often
+   *   decks with this commander run it (EDHREC inclusion, full marks at 40%).
+   * Without EDHREC numbers: 60% tie-in + 40% strength. Lands are judged on
+   * what they do (enters tapped every time, colorless only, a utility that
+   * ties in). Then the cut score adds a role the deck has too many of, a
+   * 6+ drop that isn't part of the plan, and a Game Changer past 3 (bracket 4).
+   * Never a candidate: the commander, protected combo pieces, cards already
+   * cut, basic lands (they're handled from the export lines).
+   * `syn`: CS.deckSynergy result; `slims`: the deck's slim cards;
+   * opts: {protect: {nameKey: true}, cuts: {name: n}, edhrec: {nameKey: {inclusion}}, deckCards}.
+   * Returns [{id, name, cut (higher = better cut), keep, tie, strength, inc,
+   * reasons, roles, cmc, land, landInfo, locked (a role at or under its
+   * typical count), staple}] in deck order.
+   */
+  CS.CUT_WEIGHTS = { tie: 0.5, str: 0.2, inc: 0.3, offPage: 0.15, noEdhTie: 0.65, noEdhStr: 0.35 };
+  CS.cutCandidates = function (profile, syn, slims, opts) {
+    var W = CS.CUT_WEIGHTS;
     var o = opts || {};
     var protect = o.protect || {};
+    var edh = o.edhrec || null;
     var cutKeys = {};
     Object.keys(o.cuts || {}).forEach(function (n) {
       cutKeys[CS.nameKey(n)] = true;
@@ -1794,10 +2061,15 @@
     var planLabels = ((syn && syn.plan) || []).map(function (p) {
       return p.label;
     });
-    var cmd = profile.cards.filter(function (c) {
-      return c.commander;
-    })[0];
-    // a label the card gives that the commander wants, or the other way round
+    var cmd = profile.commander || null;
+    var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount) : [];
+    var protectPlan = !!(cmd && (cmd.gives.protect || cmd.wants.protect || cmd.wants.gear));
+    var cmdCmc = cmd && byId[cmd.id] && typeof byId[cmd.id].cmc === "number" ? byId[cmd.id].cmc : 0;
+    var gcCount = 0;
+    profile.cards.forEach(function (c) {
+      if (byId[c.id] && byId[c.id].gameChanger) gcCount++;
+    });
+    var colorCount = cmd && byId[cmd.id] ? (byId[cmd.id].colorIdentity || []).length : 0;
     function tiesToCommander(c) {
       if (!cmd) return false;
       return Object.keys(c.gives).some(function (l) {
@@ -1806,77 +2078,103 @@
         return cmd.gives[l];
       });
     }
-    // Extra protection is a surplus, unless the commander is the creature
-    // to protect (it protects itself, like Eight-and-a-Half-Tails, or wants
-    // Equipment and Auras). More tutors is never counted as waste.
-    var cmdT = profile.commander;
-    var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount) : [];
-    var protectPlan = !!(cmdT && (cmdT.gives.protect || cmdT.wants.protect || cmdT.wants.gear));
-    var cmdCmc = cmd && byId[cmd.id] && typeof byId[cmd.id].cmc === "number" ? byId[cmd.id].cmc : 0;
-    var gcCount = 0;
-    profile.cards.forEach(function (c) {
-      if (byId[c.id] && byId[c.id].gameChanger) gcCount++;
-    });
     var out = [];
     var listed = {};
     profile.cards.forEach(function (c) {
-      if (c.commander || c.land) return;
+      if (c.commander) return;
       var key = CS.nameKey(c.name);
       if (protect[key] || cutKeys[key] || listed[key]) return;
+      listed[key] = true;
+      var slim = byId[c.id] || { id: c.id, name: c.name };
       var fit = syn && syn.fits && typeof syn.fits[c.id] === "number" ? syn.fits[c.id] : null;
-      if (fit == null || fit >= 75) return;
+      if (fit == null) fit = CS.fitScore(slim, profile, c.id).score; // lands aren't in the deck score
+      var str = CS.strength(slim, c).score;
+      var inc = edh ? (edh[key] && typeof edh[key].inclusion === "number" ? edh[key].inclusion : 0) : null;
       var roles = Object.keys(c.roles);
-      var keeps = roles.filter(function (r) {
-        return KEEP_ROLES[r] && (roleCount[r] || 0) <= roleInfo[r].target;
+      var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
+      var payload = CS.isCheatPayload(c, profile);
+      var feeds = cmd && Object.keys(c.gives).some(function (l) {
+        return cmd.wants[l];
       });
-      if (keeps.length) return;
+      var kin = cmdTypes.some(function (t) {
+        return c.subtypes[t]; // a Dragon in a Dragon commander's deck is the plan
+      });
+      var inPlan = kin || planLabels.some(function (l) {
+        return c.gives[l] || c.wants[l];
+      });
       var reasons = [];
+      // ---- how much the deck wants to keep it, 0-1
+      var tie = fit / 100;
+      if (feeds || kin || payload) tie = Math.min(1, tie + 0.15); // part of the commander's own engine
+      // a role card does its job whatever the theme (taxonomy "staple damping"),
+      // so a low tie-in counts for less
+      if (roles.length) tie = Math.max(tie, 0.5);
+      var li = null;
+      var keepBase;
+      // a spell that can be played as a land (Hagra Mauling // Hagra Broodpit): a flexible land
+      var mdfc = c.land && /\/\//.test(slim.name || "") && !/\bland\b/i.test(String(slim.frontType || "").split("\u2014")[0]);
+      if (c.land && !mdfc) {
+        li = CS.landInfo(slim);
+        var widely = CS.popularity(slim) >= 0.4; // Ancient Tomb, Gaea's Cradle
+        var q = 0.6;
+        var produced = Object.keys(li.colors).filter(function (x) {
+          return x !== "C";
+        }).length;
+        if (li.tapped === "always") q -= li.utility ? 0.15 : 0.3;
+        else if (li.tapped === "sometimes") q -= 0.05;
+        if (!li.any && !produced && colorCount >= 2 && !li.utility && !widely) q -= 0.25;
+        if (li.any || produced >= 2) q += 0.1;
+        if (li.utility && fit >= 40) q += 0.15;
+        keepBase = { q: Math.max(0, Math.min(1, q)) };
+        if (li.tapped === "always") reasons.push(li.utility ? "Enters tapped every time (it does have another use)" : "Enters tapped every time");
+        if (!li.any && !produced && colorCount >= 2 && !li.utility && !widely) reasons.push("Makes only colorless mana in a " + colorCount + "-color deck");
+      } else if (mdfc) {
+        keepBase = { q: 0.7 };
+      }
+      var keep;
+      // EDHREC lists few lands, so its numbers can vouch for a land but not count against one
+      if (c.land) {
+        keep = 0.65 * keepBase.q + 0.35 * (str / 100);
+        if (inc) keep = Math.max(keep, 0.5 * keepBase.q + 0.25 * (str / 100) + 0.25 * Math.min(1, inc / 0.4));
+      }
+      else
+        keep = inc != null
+          ? W.tie * tie + W.str * (str / 100) + W.inc * (inc > 0 ? Math.min(1, inc / 0.4) : W.offPage)
+          : W.noEdhTie * tie + W.noEdhStr * (str / 100);
+      // ---- concrete reasons it could go
       var surplus = 0;
       var surplusRole = null;
       roles.forEach(function (r) {
         if (!KEEP_ROLES[r] && !(r === "protection" && !protectPlan)) return;
-        // cycle 11: no surplus of what the commander feeds on (draw for
-        // Sheoldred or Nekusar, edicts for Tergrid)
-        if (cmd && r === "draw" && (cmd.wants.drawing || cmd.wants.oppdraw)) return;
-        if (cmd && r === "removal" && cmd.wants.oppsac) return;
+        if (cmd && r === "draw" && (cmd.wants.drawing || cmd.wants.oppdraw)) return; // Sheoldred, Nekusar
+        if (cmd && r === "removal" && cmd.wants.oppsac) return; // Tergrid
         var t = roleInfo[r].target;
-        // cycle 12: a commander costing 6 or more (Gishath, Sauron) wants more ramp
-        if (r === "ramp" && cmdCmc >= 6) t += cmdCmc - 4;
-        // a card or two over the usual count isn't a surplus; a quarter over is
-        var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t));
+        if (r === "ramp" && cmdCmc >= 6) t += cmdCmc - 4; // Gishath, Sauron
+        var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t)); // a quarter over
         if (x > surplus) {
           surplus = x;
           surplusRole = r;
         }
       });
-      var slim = byId[c.id] || {};
-      var cmc = typeof slim.cmc === "number" ? slim.cmc : null;
-      var payload = CS.isCheatPayload(c, profile);
-      var inPlan = planLabels.some(function (l) {
-        return c.gives[l] || c.wants[l];
-      }) || cmdTypes.some(function (t) {
-        return c.subtypes[t]; // a Dragon in a Dragon commander's deck is the plan
-      });
-      var offCurve = cmc != null && cmc >= 6 && fit < 60 && !payload && !inPlan ? 1 : 0;
+      var offCurve = !c.land && cmc != null && cmc >= 6 && fit < 60 && !payload && !inPlan ? 1 : 0;
       var gc = slim.gameChanger ? 1 : 0;
-      // Staples: a role card most decks run (high on EDHREC) is kept;
-      // other role cards count weak Fit for less, since ramp and removal
-      // rarely tie in to a theme (taxonomy "staple damping").
-      var rank = typeof slim.edhrecRank === "number" ? slim.edhrecRank : null;
-      if (roles.length && rank != null && rank <= STAPLE_RANK) return;
-      // a card that feeds what the commander itself wants (a land bouncer
-      // for a landfall commander) is part of its engine: weak Fit counts less
-      var feeds = cmd && Object.keys(c.gives).some(function (l) {
-        return cmd.wants[l];
+      var locked = roles.some(function (r) {
+        return KEEP_ROLES[r] && (roleCount[r] || 0) <= roleInfo[r].target;
       });
-      var lowFit = (1 - fit / 100) * (roles.length || payload ? 0.4 : feeds ? 0.5 : 1);
-      var surplusEff = surplus * Math.min(1, (100 - fit) / 60); // Rishkar (counters and ramp) stays
-      var score = 0.5 * lowFit + 0.25 * surplusEff + 0.15 * offCurve + 0.1 * gc;
-      if (fit < 40 && !roles.length && !payload)
+      var staple = roles.length > 0 && str >= 70;
+      var cut = 1 - keep + 0.25 * surplus * (1 - keep) + 0.15 * offCurve + (gc && gcCount > 3 ? 0.1 : 0);
+      if (!c.land && fit < 40 && !roles.length && !payload)
         reasons.push(
-          "Weak fit (Fit " + fit + "): " +
+          "Weak fit (tie-in " + fit + "): " +
             (tiesToCommander(c) ? "ties in to your commander, little else" : "ties in to little else here"),
         );
+      var note = null; // informational: shown, but not a reason on its own
+      if (inc != null && inc < 0.1 && fit < 60 && !c.land) {
+        if (inc > 0) reasons.push("Only " + Math.round(inc * 100) + "% of this commander's EDHREC decks run it");
+        else note = "Not on this commander's EDHREC page (few of its decks run it)";
+      }
+      if (!c.land && roles.length && str < 30)
+        reasons.push("A weak card for its job (strength " + str + ")");
       if (surplusRole && surplus > 0)
         reasons.push(
           roleInfo[surplusRole].label + ": " + roleCount[surplusRole] +
@@ -1889,31 +2187,66 @@
             ? "Game Changer: the deck has " + gcCount + " (over 3 means bracket 4)"
             : "Game Changer: the deck has " + gcCount + " (any means bracket 3 or higher)",
         );
-      if (!reasons.length) {
-        // no concrete reason and a Fit at or above the deck's average: not a cut idea
-        if (syn && typeof syn.score === "number" && fit >= syn.score) return;
-        if (feeds) return; // feeds the commander's own engine (Quirion Ranger for Zimone)
-        if (roles.length) return; // a role card doing its job (a tutor, removal) isn't a cut just for low Fit
-        // cycle 12: nor is a creature of the type the commander names (a Dinosaur for Gishath)
-        if (cmdTypes.some(function (t) {
-          return c.subtypes[t];
-        }))
-          return;
-        reasons.push("Fit " + fit + ", lower than most of the deck");
-      }
-      listed[key] = true;
+      if (note) reasons.push(note);
       out.push({
         id: c.id,
         name: c.name,
-        score: Math.round(score * 100),
+        cut: Math.round(cut * 1000) / 1000,
+        keep: Math.round(keep * 1000) / 1000,
+        tie: fit,
+        strength: str,
+        inc: inc,
         fit: fit,
         reasons: reasons,
         roles: roles,
         cmc: cmc,
+        land: !!c.land,
+        landInfo: li,
+        locked: locked,
+        staple: staple,
+        engine: !!(feeds || kin || payload), // feeds the commander, is its creature type, or a payload
+        subtypes: c.subtypes,
+        gives: c.gives,
+        wants: c.wants,
       });
     });
+    return out;
+  };
+
+  /**
+   * Cut ideas for the deck as a whole, best idea first (cycle 15: from
+   * CS.cutCandidates). Left out: lands while the deck has no more than it
+   * wants, role keepers (ramp, draw, removal, wipes at or under the typical
+   * count), strong role cards (strength 70+), tie-in 75+, and cards the deck
+   * clearly wants (keep 0.7+).
+   * A card needs a concrete reason, or a cut score of 0.55 or more.
+   * Returns [{id, name, score (0-100), fit, reasons, roles, cmc, ...}].
+   */
+  CS.cutSuggestions = function (profile, syn, slims, opts) {
+    var o = opts || {};
+    var cands = CS.cutCandidates(profile, syn, slims, o);
+    var lands = o.deckCards ? CS.landCount(profile, o.deckCards, o.cuts, slims) : null;
+    var spareLands = lands ? lands.count - lands.target : 0;
+    var out = cands.filter(function (x) {
+      if (x.land && spareLands < 1) return false;
+      if (x.locked || x.staple || x.keep >= 0.7 || x.tie >= 75) return false; // strong tie-ins stay (as before cycle 15)
+      var concrete = x.reasons.some(function (r) {
+        return !/^Game Changer: the deck has \d+ \(any|^Not on this commander's EDHREC page/.test(r);
+      });
+      if (concrete) return true;
+      // no concrete reason: only a plain card (no role, not the commander's
+      // engine) that ties in less than the deck's average
+      if (x.roles.length || x.engine || x.land) return false;
+      // (a card few of this commander's decks run counts, even at an average tie-in)
+      if (syn && typeof syn.score === "number" && x.tie >= syn.score && !(x.inc === 0 && x.tie < 60)) return false;
+      return x.cut >= 0.55;
+    });
+    out.forEach(function (x) {
+      x.score = Math.round(Math.min(1, x.cut) * 100);
+      if (!x.reasons.length) x.reasons = ["Tie-in " + x.tie + " and strength " + x.strength + ": lower than most of the deck"];
+    });
     out.sort(function (a, b) {
-      return b.score - a.score || a.fit - b.fit || (a.name < b.name ? -1 : 1);
+      return b.cut - a.cut || a.fit - b.fit || (a.name < b.name ? -1 : 1);
     });
     return out;
   };
@@ -1979,78 +2312,183 @@
   };
 
   /**
-   * What to cut for a card just added (taxonomy swap_pairing, simplified):
-   * a cut idea scores higher when it does the same job, works the same theme,
-   * or costs about the same. A land pairs with a basic land.
-   * `added`: the added card (slim); `ideas`: CS.cutSuggestions result;
-   * `deckCards`: parsed export lines (for basics); `cuts`: current cuts.
+   * What to cut for a card just added (cycle 15: one model for every kind of
+   * card). Each candidate starts from its cut score (CS.cutCandidates), then:
+   * - like for like: a land pairs with a land and a nonland with a nonland,
+   *   unless the land count says otherwise (a land added to a deck short on
+   *   lands takes a spell's place; ramp added to a deck with lands to spare
+   *   can take a land's place);
+   * - a card doing the same job (removal for removal) pairs best, more so
+   *   when the new one is cheaper or stronger; a shared theme and a similar
+   *   mana value help a little;
+   * - a role keeper or a strong role card is only offered for a card that
+   *   does its job.
+   * Basic lands come from the export lines: the one the deck has the most
+   * of compared with what its spells' colors need, and one of a color the
+   * new land makes when that's close.
+   * `added`: slim card; `cands`: CS.cutCandidates result (cut ideas from
+   * CS.cutSuggestions also work); `deckCards`: parsed export lines; `cuts`:
+   * current cuts; `opts.slims`: the deck's slim cards (for colors and the land target).
    * Returns up to 3 [{name, id (null for a basic), why}].
    */
-  CS.swapSuggestions = function (added, ideas, profile, deckCards, cuts) {
+  CS.swapSuggestions = function (added, cands, profile, deckCards, cuts, opts) {
     if (!added) return [];
+    var o = opts || {};
     var me = CS.cardTraits(added);
-    if (me.land) {
-      var cutLeft = cuts || {};
-      var basics = {};
-      (deckCards || []).forEach(function (c) {
-        if (!CS.isBasicLand(c.name)) return;
-        var cutN = 0;
-        Object.keys(cutLeft).forEach(function (n) {
-          if (CS.nameKey(n) === CS.nameKey(c.name)) cutN += cutLeft[n];
-        });
-        var have = (basics[c.name] ? basics[c.name].have : 0) + (c.qty || 1);
-        basics[c.name] = { name: c.name, have: have, cut: cutN };
-      });
-      return Object.keys(basics)
-        .map(function (n) {
-          return basics[n];
-        })
-        .filter(function (b) {
-          return b.have - b.cut > 0;
-        })
-        .sort(function (a, b) {
-          return b.have - b.cut - (a.have - a.cut) || (a.name < b.name ? -1 : 1);
-        })
-        .slice(0, 3)
-        .map(function (b) {
-          return { name: b.name, id: null, why: "a basic land, for a land" };
-        });
-    }
-    var traits = {};
-    profile.cards.forEach(function (c) {
-      traits[c.id] = c;
-    });
     var myRoles = Object.keys(me.roles);
     var myLabels = Object.keys(me.gives).concat(Object.keys(me.wants));
+    var myStr = CS.strength(added, me).score;
     var cmc = typeof added.cmc === "number" ? added.cmc : null;
     var roleLabel = {};
     CS.SYN_ROLES.forEach(function (r) {
       roleLabel[r.key] = r.label.toLowerCase();
     });
-    return (ideas || [])
-      .map(function (y) {
-        var t = traits[y.id] || { gives: {}, wants: {}, roles: {} };
-        var sameRole = myRoles.filter(function (r) {
-          return t.roles[r];
-        })[0];
-        var sameTheme = myLabels.some(function (l) {
-          return t.gives[l] || t.wants[l];
-        });
-        var mvClose =
-          cmc != null && y.cmc != null ? 1 - Math.min(Math.abs(cmc - y.cmc), 4) / 4 : 0;
-        var pair = y.score / 100 + (sameRole ? 0.5 : 0) + (sameTheme ? 0.3 : 0) + 0.1 * mvClose;
-        var why = sameRole
-          ? "does the same job (" + roleLabel[sameRole] + "), weaker fit"
-          : y.reasons[0].charAt(0).toLowerCase() + y.reasons[0].slice(1);
-        return { name: y.name, id: y.id, why: why, pair: pair };
-      })
-      .sort(function (a, b) {
-        return b.pair - a.pair || (a.name < b.name ? -1 : 1);
-      })
-      .slice(0, 3)
-      .map(function (x) {
-        return { name: x.name, id: x.id, why: x.why };
+    var lands = CS.landCount(profile, deckCards, cuts, o.slims);
+    var short = lands.count < lands.target - 4; // before this pick; good decks run 2-3 either side of the target
+    var spare = lands.count - lands.target;
+    var meLand = !!me.land;
+    var myColors = meLand ? CS.landInfo(added) : null;
+    var list = [];
+    // basics, from the export lines
+    var cutLeft = cuts || {};
+    var basics = {};
+    (deckCards || []).forEach(function (c) {
+      if (!CS.isBasicLand(c.name)) return;
+      var cutN = 0;
+      Object.keys(cutLeft).forEach(function (n) {
+        if (CS.nameKey(n) === CS.nameKey(c.name)) cutN += cutLeft[n];
       });
+      var b = basics[c.name] || (basics[c.name] = { name: c.name, have: 0, cut: cutN });
+      b.have += c.qty || 1;
+    });
+    var pips = deckPips(o.slims);
+    var pipTotal = 0;
+    Object.keys(pips).forEach(function (c) {
+      pipTotal += pips[c];
+    });
+    var basicTotal = 0;
+    Object.keys(basics).forEach(function (n) {
+      basicTotal += Math.max(0, basics[n].have - basics[n].cut);
+    });
+    Object.keys(basics).forEach(function (n) {
+      var b = basics[n];
+      var left = b.have - b.cut;
+      if (left <= 0) return;
+      var col = basicColor(n);
+      var share = basicTotal ? left / basicTotal : 0;
+      var need = pipTotal && col && pips[col] ? pips[col] / pipTotal : col === "C" ? 0 : 0.1;
+      var over = share - need; // more of this basic than its color's share of the spells
+      var makes = myColors && col && (myColors.any || myColors.colors[col]);
+      var cut = 0.45 + 0.6 * over + (makes ? 0.08 : 0) + (left === 1 ? -0.1 : 0);
+      var why = over > 0.05 && left >= 2
+        ? "a basic " + CS.frontName(n).replace(/^Snow-Covered /, "") + ": you have " + left + ", more than its color's share of your spells"
+        : makes
+          ? "a basic of a color " + added.name + " also makes"
+          : "a basic land, for a land";
+      list.push({ name: b.name, id: null, land: true, basic: true, cut: cut, why: why, roles: [], reasons: [] });
+    });
+    (cands || []).forEach(function (y) {
+      var isLand = typeof y.land === "boolean" ? y.land : false;
+      list.push({
+        name: y.name,
+        id: y.id,
+        land: isLand,
+        basic: false,
+        cut: typeof y.cut === "number" ? y.cut : (y.score || 0) / 100,
+        y: y,
+        roles: y.roles || [],
+        reasons: y.reasons || [],
+      });
+    });
+    var out = [];
+    list.forEach(function (x) {
+      var y = x.y || {};
+      var pair = x.cut;
+      var why = x.why || null;
+      var sameRole = myRoles.filter(function (r) {
+        return x.roles.indexOf(r) !== -1;
+      })[0];
+      if (meLand) {
+        if (x.land) pair += short ? 0 : 0.5;
+        else if (short) pair += 0.2; // the deck needed this land; a spell makes room
+        else return; // like for like: a land for a land
+        if (x.land && !x.basic && !why)
+          why = (y.reasons && y.reasons[0] ? y.reasons[0].charAt(0).toLowerCase() + y.reasons[0].slice(1) : "one of your weaker lands for this deck");
+      } else {
+        if (x.land) {
+          if (spare >= 2 && me.roles.ramp) {
+            why = why || "a land: with " + lands.count + " lands and more ramp coming, the deck can spare one";
+          } else if (spare >= 3) {
+            why = why || "a land: " + lands.count + " lands, about " + lands.target + " is typical for this deck";
+            pair -= 0.2;
+          } else return; // like for like: don't cut a land for a spell
+        }
+        if (!x.land) {
+          if ((y.locked || y.staple) && !sameRole) return; // a role the deck needs, and the new card doesn't do it
+          if (sameRole) {
+            pair += 0.2;
+            var cheaper = cmc != null && y.cmc != null && cmc < y.cmc;
+            var stronger = myStr >= (y.strength || 0) + 10;
+            if (cheaper || stronger) pair += 0.15;
+            why = "does the same job (" + roleLabel[sameRole] + ")" +
+              (cheaper ? ", and " + added.name + " costs less" : stronger ? ", and " + added.name + " is stronger" : ", weaker fit");
+          }
+          var sameTheme = myLabels.some(function (l) {
+            return (y.gives && y.gives[l]) || (y.wants && y.wants[l]);
+          });
+          if (sameTheme) pair += 0.15;
+          if (cmc != null && y.cmc != null) pair += 0.05 * (1 - Math.min(Math.abs(cmc - y.cmc), 4) / 4);
+        }
+      }
+      if (!why) why = x.reasons[0] ? x.reasons[0].charAt(0).toLowerCase() + x.reasons[0].slice(1) : "one of the weaker cards in the deck";
+      out.push({ name: x.name, id: x.id, why: why, pair: pair });
+    });
+    out.sort(function (a, b) {
+      return b.pair - a.pair || (a.name < b.name ? -1 : 1);
+    });
+    return out.slice(0, 3).map(function (x) {
+      return { name: x.name, id: x.id, why: x.why };
+    });
+  };
+
+  /**
+   * Cycle 15: the back-to-100 list. Each pick still waiting for a cut gets
+   * its own best swap (lands for lands, the same job for the same job),
+   * newest pick first, each cut used once; then, if the deck is over 100
+   * for other reasons, the best cut ideas fill the rest.
+   * `picks`: slim cards; `need`: how many cuts get the deck to 100.
+   * Returns [{name, id, why, forName, forId}].
+   */
+  CS.cutsForPicks = function (picks, cands, profile, deckCards, cuts, need, opts) {
+    var o = opts || {};
+    var taken = {};
+    Object.keys(cuts || {}).forEach(function (n) {
+      taken[n] = cuts[n];
+    });
+    var out = [];
+    var used = {};
+    var list = (picks || []).slice().reverse();
+    for (var i = 0; i < list.length && out.length < need; i++) {
+      var left = (cands || []).filter(function (y) {
+        return !used[CS.nameKey(y.name)];
+      });
+      var s = CS.swapSuggestions(list[i], left, profile, deckCards, taken, o)[0];
+      if (!s) continue;
+      out.push({ name: s.name, id: s.id, why: s.why, forName: list[i].name, forId: list[i].id });
+      if (s.id) used[CS.nameKey(s.name)] = true;
+      taken[s.name] = (taken[s.name] || 0) + 1; // a basic: one fewer left
+    }
+    if (out.length < need) {
+      var ideas = (o.ideas || []).filter(function (y) {
+        return !used[CS.nameKey(y.name)];
+      });
+      for (var j = 0; j < ideas.length && out.length < need; j++) {
+        var y = ideas[j];
+        used[CS.nameKey(y.name)] = true;
+        out.push({ name: y.name, id: y.id, why: y.reasons[0] || "", forName: null, forId: null });
+      }
+    }
+    return out;
   };
 
   // ---------------------------------------------------------------- filters
