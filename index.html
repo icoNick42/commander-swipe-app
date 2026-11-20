@@ -1361,7 +1361,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=17"></script>
+    <script src="core.js?v=18"></script>
     <script>
       (function () {
         "use strict";
@@ -3317,8 +3317,30 @@
           var examples = function (names) {
             return names && names.length ? " (like " + names.map(shortName).join(" and ") + ")" : "";
           };
+          // cycle 18 (a friend of Nick's: "unable to grasp the concept of a gameplan"): what each card is for,
+          // before the themes: the engine, its protection, the tutors, the mana and the ways to win
+          if (d.game) {
+            var comboN = S.combos && S.combos.deck ? S.combos.deck.inDeck.length : 0;
+            body.appendChild(el("p", { text: "Game plan" }));
+            body.appendChild(
+              el("div", {
+                class: "muted small",
+                text: "How the deck builds an advantage and wins: an engine of cards that keep paying off, protection that keeps it alive, tutors that find the pieces, then a finish.",
+              }),
+            );
+            body.appendChild(
+              el(
+                "ul",
+                { id: "gamePlan" },
+                CS.gamePlanLines(d.game, comboN).map(function (t) {
+                  return el("li", { text: t });
+                }),
+              ),
+            );
+            if (d.game.notes.length) body.appendChild(el("div", { class: "small", text: d.game.notes.join(" ") }));
+          }
           if (d.plan.length) {
-            body.appendChild(el("p", { text: "Your deck's plan" }));
+            body.appendChild(el("p", { text: "Themes" }));
             body.appendChild(
               el("div", {
                 class: "muted small",

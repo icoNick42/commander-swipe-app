@@ -1446,11 +1446,14 @@ test("cut ideas: never the commander, lands, staples, role keepers or combo piec
 });
 
 test("swap ideas: same job first; a land pairs with a basic", () => {
-  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  // cycle 18: protection is never surplus now, so the swap pool (CS.cutCandidates, as the page uses) supplies one
+  // (role cards only: among cards with a job, the same job comes first)
+  const sugg = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {}); // the land checks below use the cut ideas, as before
+  const ideas = CS.cutCandidates(zurgoProfile, zurgoSyn, zurgoSlims, {}).filter((x) => x.roles.length);
   const protCut = ideas.find((x) => x.roles.includes("protection"));
   assert.ok(
     protCut,
-    "the Zurgo deck has a protection card among its cut ideas",
+    "the Zurgo deck has a protection card among its swap candidates",
   );
   const shield = {
     id: "test-shield",
@@ -1478,7 +1481,7 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
   // cycle 15: like for like; a land never pairs with a spell while the deck has its lands
   const landSwaps = CS.swapSuggestions(
     land,
-    ideas,
+    sugg,
     zurgoProfile,
     parsed.cards,
     {},
@@ -1487,7 +1490,7 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
   assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null), JSON.stringify(landSwaps));
   // with both Mountains cut the deck is down to 30 of its 32 lands (about 36 typical):
   // now the new land takes a spell's place, and no Mountain is offered
-  const shortSwaps = CS.swapSuggestions(land, ideas, zurgoProfile, parsed.cards, { Mountain: 2 });
+  const shortSwaps = CS.swapSuggestions(land, sugg, zurgoProfile, parsed.cards, { Mountain: 2 });
   assert.ok(!shortSwaps.some((x) => x.name === "Mountain"), "both Mountains are cut already");
   assert.ok(shortSwaps[0] && shortSwaps[0].id !== null && !CS.isBasicLand(shortSwaps[0].name), JSON.stringify(shortSwaps));
   assert.deepEqual(
@@ -1545,7 +1548,13 @@ test("synergy (Zimone): the deck's plan and score reflect the engine", () => {
   assert.deepEqual(plan.slice(0, 2).sort(), ["facedown", "landfall"]);
   assert.ok(zimoneSyn.score >= 40, "Zimone deck score " + zimoneSyn.score);
   assert.ok(zimoneProfile.roleCount.removal >= 8, "counters and bounce counted");
-  assert.ok(!zimoneProfile.roleCount.tutors, "land fetching isn't tutoring");
+  // cycle 18: a search for any land card (Crop Rotation, Elvish Reclaimer find Dark Depths) is a tutor;
+  // fetching a basic land type (fetch lands, Farseek) still isn't
+  assert.deepEqual(
+    zimoneProfile.cards.filter((c) => c.roles.tutors).map((c) => c.name).sort(),
+    ["Crop Rotation", "Elvish Reclaimer"],
+    "only any-land searches count as tutoring",
+  );
 });
 
 test("synergy (Zimone): big cards she flips for free aren't cut ideas", () => {
@@ -2285,4 +2294,140 @@ test("cycle 17: sortCards orders the open pile without touching it; cards withou
   assert.deepEqual(CS.sortCards([], "fit", look), []);
   assert.equal(CS.sortCards(cards, "cheap", () => null).map((c) => c.id).join(""), "abcd", "no details: pile order");
   assert.deepEqual(CS.SORTS.map((x) => x.key), ["rec", "fit", "played", "synergy", "cheap", "cmc"]);
+});
+
+// cycle 18: Frumpmanfresh's decks (via Nick): "the machine is unable to grasp the concept of a gameplan"
+const c18 = JSON.parse(read("scryfall_2026-11-20_decks.json"));
+const c18card = (n) => CS.slimCard(c18.cards.concat(c18.arcades, c18.speed).find((c) => c.name === n));
+const c18deck = (k, cmd) => {
+  const slims = c18[k].map(CS.slimCard);
+  const profile = CS.deckProfile(slims, cmd);
+  return { slims, profile, syn: CS.deckSynergy(profile, slims) };
+};
+
+test("cycle 18: roles read from real cards (tutors with a land option, protection, removal, wipes)", () => {
+  const roles = (n) => CS.cardTraits(c18card(n)).roles;
+  for (const n of ["Starfield Shepherd", "Finale of Devastation", "Demonic Consultation", "Expedition Map", "Crop Rotation"])
+    assert.ok(roles(n).tutors, n + " is a tutor");
+  assert.ok(!roles("Misty Rainforest").tutors, "a fetch land (a basic land type) isn't a tutor");
+  assert.ok(roles("Snuff Out").removal, "nonblack creature removal");
+  for (const n of ["Deflecting Swat", "Imp's Mischief", "Sylvan Safekeeper", "Counterspell", "Reprieve"])
+    assert.ok(roles(n).protection, n + " protects");
+  assert.ok(roles("Archfiend of Depravity").wipes, "sacrifices the rest");
+});
+
+test("cycle 18: labels for copies, defenders, colorless and speed", () => {
+  const t = (n) => CS.cardTraits(c18card(n));
+  for (const n of ["The Jolly Balloon Man", "Kiki-Jiki, Mirror Breaker", "Splinter Twin", "Panharmonicon"])
+    assert.ok(t(n).gives.blink, n + " re-uses enter triggers");
+  assert.ok(t("Wall of Omens").gives.defender && t("Steel Wall").gives.defender);
+  for (const n of ["Tetsuko Umezawa, Fugitive", "Meekstone", "Assault Formation", "High Alert"])
+    assert.ok(t(n).wants.defender, n + " helps defenders or low-power creatures");
+  assert.ok(t("Skittering Cicada").wants.colorless && t("Sol Ring").gives.colorless);
+  assert.ok(!t("Swords to Plowshares").gives.colorless, "a white spell isn't colorless");
+  const sd = t("The Speed Demon");
+  assert.ok(sd.wants.drain, "speed rises when opponents lose life");
+  assert.ok(sd.wants.lifegain, "it costs life every turn");
+});
+
+test("cycle 18: game kinds: engines and finishers", () => {
+  const g = (n) => CS.gameKinds(CS.cardTraits(c18card(n)), c18card(n));
+  assert.deepEqual(g("Nexus of Fate").win, ["takes extra turns"]);
+  assert.deepEqual(g("Trouble in Pairs").win, [], "stopping an extra turn isn't taking one");
+  assert.ok(g("Lurking Predators").engine.includes("creatures"));
+  assert.ok(g("Kozilek, the Great Distortion").engine.includes("cards"));
+  assert.ok(g("Panharmonicon").engine.includes("doubling"));
+  assert.ok(g("Walking Ballista").win.length && g("Lumra, Bellow of the Woods").win.length);
+  assert.deepEqual(g("Counterspell").engine, [], "an instant is never an engine");
+});
+
+test("cycle 18: Arcades reads as defenders that attack using toughness, and keeps its plan cards", () => {
+  const { slims, profile, syn } = c18deck("arcades", "Arcades, the Strategist");
+  assert.equal(syn.plan[0].label, "defender", "defenders lead the themes");
+  const winNames = syn.game.wins.map((w) => w.name);
+  assert.ok(winNames.includes("Arcades, the Strategist") && winNames.includes("High Alert"), winNames.join(", "));
+  const ideas = CS.cutSuggestions(profile, syn, slims, {});
+  for (const n of ["Assault Formation", "Walking Bulwark", "Stalwart Shield-Bearers", "Crystal Barricade"])
+    assert.ok(!ideas.some((x) => x.name === n), n + " isn't a cut idea");
+  assert.ok(!ideas.some((x) => x.reasons.some((r) => /More (protection|ramp) than the deck needs/.test(r))), "protection is never surplus; mana engines make ramp the plan");
+  assert.ok(syn.game.bigMana);
+});
+
+test("cycle 18: The Speed Demon's game plan: drain, find, protect", () => {
+  const { slims, profile, syn } = c18deck("speed", "The Speed Demon");
+  assert.ok(syn.plan.slice(0, 2).some((p) => p.label === "drain"), syn.plan.map((p) => p.label).join(", "));
+  assert.ok(syn.game.wins.some((w) => w.name === "Gray Merchant of Asphodel"));
+  assert.ok(syn.game.tutors.length >= 6);
+  assert.ok(syn.game.notes.some((n) => /protect/.test(n)), "thin protection is noted");
+  const ideas = CS.cutSuggestions(profile, syn, slims, {});
+  for (const n of ["Imp's Mischief", "Demonic Consultation"]) assert.ok(!ideas.some((x) => x.name === n), n + " isn't a cut idea");
+  // Snuff Out can be an idea only because the deck runs 13 removal, never as "works with almost nothing"
+  const snuff = ideas.find((x) => x.name === "Snuff Out");
+  assert.ok(!snuff || snuff.reasons.every((r) => /More removal than the deck needs/.test(r)), snuff && snuff.reasons.join("; "));
+  const lines = CS.gamePlanLines(syn.game, 2);
+  assert.match(lines[0], /^Engine: \d+ cards keep making cards \(The Speed Demon/);
+  assert.match(lines[lines.length - 1], /, or one of 2 combos in the deck\.$/);
+});
+
+test("cycle 18: game plan words", () => {
+  const g = { engineCount: 1, kinds: { cards: ["A"], mana: [], creatures: [], doubling: [] }, protection: [], tutors: [], wins: [], ramp: 9, removal: 2, wipes: 0, notes: [] };
+  const l = CS.gamePlanLines(g, 0);
+  assert.equal(l[0], "Engine: 1 card keeps making cards (A).");
+  assert.equal(l[1], "Protection: 0.");
+  assert.equal(l[3], "Mana: 9 sources. Interaction: 2 removal, 0 board wipes.");
+  assert.equal(l[4], "Wins with: no clear finisher found, so combat or the engine's advantage.");
+  assert.equal(CS.gamePlanLines(g, 1)[4], "Wins with: the 1 combo in the deck.");
+  assert.deepEqual(CS.gamePlanLines(null, 0), []);
+});
+
+test("cycle 18: cuts respect the game plan (a finisher, a protection card in a deck heavy on draw)", () => {
+  const { slims, profile } = c18deck("arcades", "Arcades, the Strategist");
+  const extra = [c18card("Nexus of Fate"), c18card("Reprieve")];
+  for (let i = 1; i <= 5; i++)
+    extra.push({ id: "c18-draw-" + i, name: "Test Draw " + i, typeLine: "Sorcery", frontType: "Sorcery", types: "Sorcery", oracle: "Draw two cards.", text: "Draw two cards.", manaCost: "{2}{U}", cmc: 3, colorIdentity: ["U"] });
+  const all = slims.concat(extra);
+  const p2 = CS.deckProfile(all, "Arcades, the Strategist");
+  const s2 = CS.deckSynergy(p2, all);
+  assert.ok(p2.roleCount.draw > 12.5, "draw is over a quarter past the typical count");
+  const cands = CS.cutCandidates(p2, s2, all, {});
+  const nexus = cands.find((x) => x.name === "Nexus of Fate");
+  assert.equal(nexus.planJob, "win");
+  // an honest reason: it's a finisher that ties in to little (not "works with almost nothing", not "isn't part of the plan")
+  assert.ok(nexus.reasons.some((r) => /^A finisher, though it ties in to little else here/.test(r)), nexus.reasons.join("; "));
+  assert.ok(!nexus.reasons.some((r) => /Works with almost nothing|isn't part of the deck's plan/.test(r)), nexus.reasons.join("; "));
+  assert.ok(nexus.cut < 0.75, "a finisher's job softens the cut score (0.95 without it): " + nexus.cut);
+  const rep = cands.find((x) => x.name === "Reprieve");
+  assert.ok(!rep.reasons.some((r) => /More (card draw|protection) than the deck needs/.test(r)), rep.reasons.join("; "));
+  const plain = cands.find((x) => x.name === "Test Draw 1");
+  assert.ok(plain.reasons.some((r) => /More card draw than the deck needs/.test(r)), "a plain draw spell still is");
+});
+
+test("cycle 18 (held-back decks): clones, Spellskite, transmute, X mana, team finishers", () => {
+  const t = (n) => CS.cardTraits(c18card(n));
+  const g = (n) => CS.gameKinds(t(n), c18card(n));
+  for (const n of ["Phantasmal Image", "Mockingbird", "Spark Double"]) {
+    assert.ok(t(n).gives.blink && t(n).gives.copyab, n + " copies a creature");
+    assert.ok(g(n).engine.includes("doubling"), n + " doubles an engine piece");
+  }
+  for (const n of ["Spellskite", "Mindbreak Trap"]) assert.ok(t(n).roles.protection, n + " protects");
+  assert.ok(t("Drift of Phantasms").roles.tutors, "transmute is a tutor");
+  for (const n of ["Carpet of Flowers", "Goblin Anarchomancer"]) assert.ok(t(n).roles.ramp, n + " is ramp");
+  for (const n of ["Mirror Entity", "Jetmir, Nexus of Revels"]) assert.deepEqual(g(n).win, ["pumps your whole team"], n);
+});
+
+const DASH = String.fromCharCode(0x2014); // the type-line dash
+test("cycle 18: finisher and engine edges (Craterhoof's wording, an off-plan engine)", () => {
+  const hoof = { id: "c18-hoof", name: "Test Hoof", typeLine: "Creature " + DASH + " Beast", types: "Creature " + DASH + " Beast", frontType: "Creature " + DASH + " Beast", manaCost: "{5}{G}{G}{G}", cmc: 8, colorIdentity: ["G"],
+    text: "Haste\nWhen this creature enters, creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control." };
+  assert.deepEqual(CS.gameKinds(CS.cardTraits(hoof), hoof).win, ["pumps your whole team"]);
+  // an engine piece that ties in to nothing isn't listed as this deck's engine
+  const { slims } = c18deck("speed", "The Speed Demon");
+  const lone = { id: "c18-lone", name: "Test Lone Engine", typeLine: "Enchantment", types: "Enchantment", frontType: "Enchantment", manaCost: "{2}{U}", cmc: 3, colorIdentity: ["U"],
+    text: "Whenever you cast a Wizard spell, scry 1 and draw a card." };
+  const all = slims.concat([lone]);
+  const p = CS.deckProfile(all, "The Speed Demon");
+  const syn = CS.deckSynergy(p, all);
+  assert.ok(CS.gameKinds(CS.cardTraits(lone), lone).engine.includes("cards"));
+  assert.ok(!syn.game.engine.some((e) => e.name === "Test Lone Engine"), "off-plan engine left out");
+  assert.ok(syn.game.engine.some((e) => e.name === "The Speed Demon"), "the commander is always in");
 });
