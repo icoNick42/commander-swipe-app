@@ -818,7 +818,8 @@
         cursor: pointer;
         font-weight: 600;
       }
-      #overCuts {
+      #overCuts,
+      #altCuts {
         max-height: none;
       }
       #commanderSelect.single {
@@ -887,7 +888,59 @@
           display: inline;
         }
       }
+      /* cycle 16 visual review: on wide screens the piles get their own column,
+         so the card isn't squeezed by three rows of chips (the Later list's
+         "short laptop screens" item). --chrome drops by the chip rows' height. */
+      @media (min-width: 1200px) {
+        :root {
+          --chrome: 340px;
+        }
+        main {
+          max-width: 1320px;
+        }
+        .swipecol {
+          display: grid;
+          grid-template-columns: 220px minmax(0, 1fr);
+          column-gap: var(--space-5);
+          align-items: start;
+        }
+        .swipecol > .piles {
+          grid-row: 1 / span 12;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          align-items: stretch;
+          margin: 0;
+          max-height: calc(100vh - 140px);
+          overflow-y: auto;
+          position: sticky;
+          top: var(--space-4);
+        }
+        .swipecol > :not(.piles) {
+          grid-column: 2;
+        }
+        .swipecol > .piles button {
+          display: flex;
+          justify-content: space-between;
+          gap: var(--space-2);
+          text-align: left;
+          white-space: normal;
+          border-radius: 8px;
+        }
+        .swipecol > .piles select {
+          max-width: none;
+          border-radius: 8px;
+        }
+      }
       @media (max-width: 520px) {
+        :root {
+          --chrome: 352px; /* cycle 16: the smaller header below gives the card 12px back */
+        }
+        header {
+          padding: var(--space-2) var(--space-3);
+        }
+        header h1 {
+          font-size: 1rem;
+        }
         .deckbar label {
           position: absolute;
           width: 1px;
@@ -987,7 +1040,7 @@
         <div id="notices"></div>
 
         <div class="layout">
-          <div>
+          <div class="swipecol">
             <nav class="piles" id="piles" aria-label="Piles">
               <span id="pileChips"></span>
               <select id="roleSelect" aria-label="Role piles"></select>
@@ -1063,6 +1116,8 @@
               <p class="muted small" id="totalNote"></p>
               <p class="small" id="overHead" hidden></p>
               <ul class="list cutideas" id="overCuts"></ul>
+              <p class="muted small" id="altHead" hidden>Rather cut something else? Other options:</p>
+              <ul class="list cutideas" id="altCuts"></ul>
               <div
                 id="copyDeckMsg"
                 class="muted"
@@ -1140,7 +1195,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=15"></script>
+    <script src="core.js?v=16"></script>
     <script>
       (function () {
         "use strict";
@@ -2717,7 +2772,7 @@
         /** One combo as a line: its other pieces, what it does, its bracket and a link. */
         function comboLine(c, withOthers) {
           var what = c.produces.length
-            ? c.produces.join("; ")
+            ? spellbookWords(c.produces.join("; "))
             : "see Spellbook for what it does";
           var parts = [];
           if (withOthers) {
@@ -2819,12 +2874,13 @@
           };
           body.appendChild(
             el("div", {
+              class: "small",
               text:
-                "In your deck: " +
+                "Combos: two or three cards that together win or make something endless. Complete in your deck: " +
                 d.inDeck.length +
-                ". One card away: " +
+                ". Cards that would complete one: " +
                 d.oneAway.length +
-                (d.oneAway.length ? " cards (the Combos pile)." : "."),
+                (d.oneAway.length ? " (swipe them in the Combos pile)." : "."),
             }),
           );
           if (d.inDeck.length) {
@@ -2838,21 +2894,41 @@
             );
           }
           if (d.needsPiece.length) {
+            // cycle 16: combos that differ in one card (any sacrifice outlet) on one line
+            var groups = CS.groupCombos(
+              d.needsPiece.map(function (c) {
+                return Object.assign({}, c, { others: c.cards });
+              }),
+            );
             body.appendChild(
               el("div", {
                 class: "small",
                 text:
-                  "You have the named cards for " +
+                  "Close: you have the named cards for " +
                   d.needsPiece.length +
-                  " more, but each also needs a kind of card:",
+                  (d.needsPiece.length === 1 ? " more combo" : " more combos") +
+                  ", but each also needs a kind of card you don't have:",
               }),
             );
             body.appendChild(
-              list(
-                d.needsPiece.map(function (c) {
-                  return Object.assign({}, c, { others: c.cards });
+              el(
+                "ul",
+                { class: "combos" },
+                groups.slice(0, 6).map(function (g) {
+                  var pieces = g.common.slice();
+                  if (g.oneOf.length) pieces.push("any one of " + g.oneOf.join(", "));
+                  g.needs.forEach(function (n) {
+                    pieces.push("a " + n.toLowerCase());
+                  });
+                  return el("li", null, [
+                    pieces.join(" + ") + ": " + spellbookWords(g.produces.join("; ") || "see Spellbook for what it does") + " ",
+                    el("span", {
+                      class: "muted",
+                      text: "(" + (g.ids.length > 1 ? g.ids.length + " combos, " : "") + "bracket " + g.bracketN + ", " + g.bracketLabel + ") ",
+                    }),
+                    el("a", { href: CS.comboLink(g.ids[0]), target: "_blank", rel: "noopener", text: "steps" }),
+                  ]);
                 }),
-                true,
               ),
             );
           }
@@ -2865,6 +2941,13 @@
                 ". Brackets are Spellbook's estimates.",
             }),
           );
+        }
+
+        /** Spellbook's shorthand in plain words (cycle 16): ETB/LTB. */
+        function spellbookWords(t) {
+          return String(t).replace(/\b(creature )?(ETB|LTB)\b/g, function (m, cr, w) {
+            return (cr ? "creatures " : "") + (w === "ETB" ? "entering" : "leaving") + " (" + w + ")";
+          });
         }
 
         /** "Fit 84 - first reason", opening to all the reasons. */
@@ -2913,18 +2996,37 @@
             $("deckFitHead").textContent = "Your deck";
             return;
           }
-          $("deckFitHead").textContent = "Your deck: Fit " + (d.blend != null ? d.blend : d.score) + "/100"; // cycle 14: EDHREC's "synergy" is a different number; cycle 15: with strength
+          var fitNow = d.blend != null ? d.blend : d.score;
+          $("deckFitHead").textContent = "Your deck: Fit " + fitNow + "/100"; // cycle 14: EDHREC's "synergy" is a different number; cycle 15: with strength
+          // cycle 16 (Nick: the explanations don't make sense without context): say what
+          // each number is, what it's compared with, and name example cards
           body.appendChild(
             el("div", {
-              class: "muted small",
+              class: "small",
               text:
-                "The average Fit of " +
-                d.scored +
-                " of your nonland cards, each scored against the rest of the deck (your commander counts three times).",
+                "Fit, 0 to 100, scores how well each card works with the rest of your deck, plus how strong it is in Commander. Your deck's " +
+                fitNow +
+                " is the average over its " +
+                Object.keys(d.fits || {}).length +
+                " nonland cards: " +
+                CS.deckFitWords(fitNow) +
+                ".",
             }),
           );
+          var shortName = function (n) {
+            return n.split(",")[0];
+          };
+          var examples = function (names) {
+            return names && names.length ? " (like " + names.map(shortName).join(" and ") + ")" : "";
+          };
           if (d.plan.length) {
             body.appendChild(el("p", { text: "Your deck's plan" }));
+            body.appendChild(
+              el("div", {
+                class: "muted small",
+                text: "What your cards do together. Some cards make each thing happen; others reward it. A deck whose cards feed each other has a high Fit.",
+              }),
+            );
             body.appendChild(
               el(
                 "ul",
@@ -2932,7 +3034,9 @@
                 d.plan.slice(0, 4).map(function (x) {
                   var name = x.noun.charAt(0).toUpperCase() + x.noun.slice(1);
                   return el("li", {
-                    text: name + ": " + x.gives + " cards set it up, " + x.wants + " pay it off",
+                    text:
+                      name + ": " + x.gives + (x.gives === 1 ? " card makes" : " cards make") + " it happen" + examples(x.giveNames) +
+                      "; " + x.wants + (x.wants === 1 ? " card rewards" : " reward") + " it" + examples(x.wantNames) + ".",
                   });
                 }),
               ),
@@ -2941,13 +3045,19 @@
           renderCutIdeas(body);
           body.appendChild(el("p", { text: "Roles" }));
           body.appendChild(
+            el("div", {
+              class: "muted small",
+              text: "Jobs every deck needs, whatever its plan. The typical counts are a common rule of thumb, not a law, and one card can do two jobs.",
+            }),
+          );
+          body.appendChild(
             el(
               "ul",
               null,
               CS.SYN_ROLES.map(function (r) {
                 var have = d.roleCount[r.key] || 0;
                 return el("li", {
-                  text: r.label + ": " + have + " (about " + r.target + " is typical)",
+                  text: r.label + ": " + have + ", " + CS.roleWord(have, r.target) + " (most decks run about " + r.target + ")",
                 });
               }),
             ),
@@ -2959,7 +3069,10 @@
                 title: d.staples.join("\n"),
                 text:
                   d.staples.length +
-                  " role cards that tie in to little (ramp, removal and the like) aren't counted as weak links.",
+                  " cards are here for one of these jobs rather than the plan (" +
+                  d.staples.slice(0, 3).map(shortName).join(", ") +
+                  (d.staples.length > 3 ? " and others" : "") +
+                  "), so working with little else doesn't make them cut ideas.",
               }),
             );
           renderDeckCombos(body);
@@ -3052,6 +3165,12 @@
 
         function renderCutIdeas(body) {
           body.appendChild(el("p", { text: "Cut ideas" }));
+          body.appendChild(
+            el("div", {
+              class: "muted small",
+              text: "The cards doing the least for this deck, each with the reason. Nothing is cut until you press Cut, and the Cuts list can put a card back.",
+            }),
+          );
           var ideas = cutIdeas().slice(0, 6);
           if (!ideas.length) {
             body.appendChild(
@@ -3268,7 +3387,7 @@
               type: "button",
               "aria-expanded": sw.more ? "true" : "false",
               "aria-controls": "swapMore",
-              text: sw.more ? "Less" : "Why? More",
+              text: sw.more ? "Less" : sw.ideas.length > 1 ? "Why? Other options (" + (sw.ideas.length - 1) + ")" : "Why?",
               onclick: function () {
                 sw.more = !sw.more;
                 renderSwap();
@@ -3514,6 +3633,8 @@
           var over = t.total - 100;
           var oc = $("overCuts");
           oc.textContent = "";
+          $("altCuts").textContent = ""; // cycle 16
+          $("altHead").hidden = true;
           $("overHead").hidden = over <= 0;
           if (over > 0) {
             // cycle 15: a cut for each pick (lands for lands, same job for same
@@ -3548,27 +3669,57 @@
             $("overHead").textContent = need.length
               ? "To get back to 100, cut " + over + (over === 1 ? " card" : " cards") + ". Best ideas first:"
               : "Cut " + over + " to get back to 100. All cards, under Your deck, has every card.";
-            need.forEach(function (x) {
-              oc.appendChild(
-                el("li", null, [
-                  thumbFor(S.cardInfo[x.id]),
-                  el("span", null, [
-                    x.name,
-                    el("span", { class: "why", text: x.reasons.join(". ") }),
-                  ]),
-                  el("button", {
-                    type: "button",
-                    class: "cut",
-                    "aria-label": "Cut " + x.name,
-                    text: "Cut",
-                    onclick: function () {
-                      if (x.forId) S.swapPaired[x.forId] = true; // that pick has its cut
-                      doCut(x.name, x.forName);
-                    },
-                  }),
+            var cutRow = function (x) {
+              return el("li", null, [
+                thumbFor(S.cardInfo[x.id]),
+                el("span", null, [
+                  x.name,
+                  el("span", { class: "why", text: x.reasons.join(". ") }),
                 ]),
-              );
+                el("button", {
+                  type: "button",
+                  class: "cut",
+                  "aria-label": "Cut " + x.name,
+                  text: "Cut",
+                  onclick: function () {
+                    if (x.forId) S.swapPaired[x.forId] = true; // that pick has its cut
+                    doCut(x.name, x.forName);
+                  },
+                }),
+              ]);
+            };
+            need.forEach(function (x) {
+              oc.appendChild(cutRow(x));
             });
+            // cycle 16 (Nick): more options than the count needed, to cut something else instead
+            if (need.length) {
+              var alts = CS.cutAlternates(
+                pickSlims,
+                cutCands(),
+                S.profile,
+                S.parsed.cards,
+                S.state.cuts,
+                need.map(function (x) {
+                  return x.name;
+                }),
+                4,
+                Object.assign(cutOpts(), { ideas: cutIdeas(over + 4) }),
+              );
+              if (alts.length) {
+                $("altHead").hidden = false;
+                alts.forEach(function (x) {
+                  $("altCuts").appendChild(
+                    cutRow({
+                      id: x.id,
+                      name: x.name,
+                      forName: x.forName,
+                      forId: x.forId,
+                      reasons: [(x.forName ? "Instead, for " + x.forName + ": " : "") + x.why],
+                    }),
+                  );
+                });
+              }
+            }
           }
           refreshSwap();
           // progress, for narrow screens where the lists are below the card

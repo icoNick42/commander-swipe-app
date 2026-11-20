@@ -1470,7 +1470,7 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
     parsed.cards,
     {},
   );
-  assert.ok(swaps.length >= 1 && swaps.length <= 3);
+  assert.ok(swaps.length >= 1 && swaps.length <= 5); // cycle 16: up to 5, so the prompt has other options
   assert.match(swaps[0].why, /same job \(protection\)/);
   const land = recScry.data
     .map(CS.slimCard)
@@ -1564,7 +1564,7 @@ test("synergy (Zimone): big cards she flips for free aren't cut ideas", () => {
   for (const n of ["Blightsteel Colossus", "Darksteel Colossus", "Omniscience", "Quirion Ranger"])
     assert.ok(!top.includes(n), n + " isn't a top cut idea: " + top.join(", "));
   const bsIdea = ideas.find((i) => i.name === "Blightsteel Colossus");
-  if (bsIdea) assert.ok(!bsIdea.reasons.some((r) => /isn't part of the deck's plan|Weak fit/.test(r)), bsIdea.reasons.join("; "));
+  if (bsIdea) assert.ok(!bsIdea.reasons.some((r) => /isn't part of the deck's plan|\(tie-in \d+ of 100\)/.test(r)), bsIdea.reasons.join("; "));
 });
 
 test("synergy (Zimone): recommendations that feed the engine beat generic good cards", () => {
@@ -1628,8 +1628,8 @@ test("cycle 9: cut ideas don't call plan cards off the plan", () => {
   assert.ok(!zIdeas.some((i) => /^Ramp: 19/.test(i.reasons.join(" "))), "ramp no longer reads 19");
   // one-plan engine cards: gentler words
   const guile = ideas.find((x) => x.name === "Mirri's Guile");
-  if (guile && /Weak fit/.test(guile.reasons[0]))
-    assert.ok(/ties in to your commander, little else/.test(guile.reasons[0]), guile.reasons[0]);
+  if (guile && /\(tie-in \d+ of 100\)/.test(guile.reasons[0]))
+    assert.ok(/Works with your commander but little else/.test(guile.reasons[0]), guile.reasons[0]);
   // land bouncers and other cards that feed the commander rank below a surplus role card
   const top3 = ideas.slice(0, 3).map((i) => i.name);
   assert.ok(!top3.includes("Quirion Ranger") && !top3.includes("Burgeoning"), top3.join(", "));
@@ -2121,7 +2121,7 @@ test("cycle 15: one cut model: like for like, the same job, the land count", () 
   // the same job wins even when the new card isn't cheaper or stronger
   const big = swap(fc("Big Kill", "Sorcery", "Destroy target creature.", 6, { edhrecRank: 20000, manaCost: "{5}{B}" }));
   assert.equal(big[0].name, "Slow Removal", JSON.stringify(big));
-  assert.match(big[0].why, /^does the same job \(removal\), weaker fit$/);
+  assert.match(big[0].why, /^does the same job \(removal\), and works less well with this deck$/);
   // a land is offered only lands, even when fewer than 3 are left to offer
   const few = CS.swapSuggestions(dual, CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({}, d.opts, { protect: { [CS.nameKey("Tower")]: true } })),
     d.prof, d.lines.filter((l) => l.name !== "Forest").concat([{ qty: 17, name: "Swamp" }]), {}, d.opts);
@@ -2162,11 +2162,11 @@ test("cycle 15: cut ideas weigh EDHREC's numbers and strength, and don't hold st
   edh[CS.nameKey("Doom Blade")] = { inclusion: 0.6 };
   const withE = CS.cutCandidates(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts));
   const off = withE.find((x) => x.name === "Off Plan");
-  assert.ok(off.inc === 0 && off.reasons.some((r) => /^Not on this commander's EDHREC page/.test(r)), off.reasons.join("; "));
+  assert.ok(off.inc === 0 && off.reasons.some((r) => /^Few decks with this commander run it/.test(r)), off.reasons.join("; "));
   assert.ok(withE.find((x) => x.name === "Doom Blade").keep > withE.find((x) => x.name === "Removal 0").keep, "an often-run card is kept over the same card EDHREC doesn't list");
   const ideas = CS.cutSuggestions(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts));
   assert.ok(ideas.length && ideas.every((x) => x.tie < 75 && !x.locked && !x.staple && !x.land));
-  assert.ok(!ideas.some((x) => x.reasons.length === 1 && /^Not on this commander's EDHREC page/.test(x.reasons[0]) && x.roles.length), "a note alone doesn't make a role card a cut idea");
+  assert.ok(!ideas.some((x) => x.reasons.length === 1 && /^Few decks with this commander run it/.test(x.reasons[0]) && x.roles.length), "a note alone doesn't make a role card a cut idea");
 });
 
 test("cycle 15: missed synergies: evasion, copying abilities, untapping", () => {
@@ -2183,4 +2183,81 @@ test("cycle 15: missed synergies: evasion, copying abilities, untapping", () => 
   // a commander with a trigger wants it copied, but copying isn't listed as the deck's plan
   assert.ok(zurgoProfile.commander.wants.copyab);
   assert.ok(!CS.deckSynergy(zurgoProfile, deckSlims).plan.some((p) => p.label === "copyab"));
+});
+
+// ---------------------------------------------------------------- cycle 16: synergy audit (10 hand-mapped decks; Nelly Borca, Land Tax)
+test("cycle 16: forced combat, opponents entering tapped, attack limits (Nick's Nelly Borca list)", () => {
+  const t = (n, ty, tx, c) => CS.cardTraits(fc(n, ty, tx, c));
+  const spy = t("Goblin Spymaster", "Creature \u2014 Goblin Rogue", 'First strike\nAt the beginning of each opponent\'s end step, that player creates a 1/1 red Goblin creature token with "Creatures you control attack each combat if able."', 3);
+  assert.ok(spy.gives.forced, "a token handed to an opponent that must attack forces combat");
+  assert.ok(!spy.gives.bodies, "that token still isn't a body for you");
+  const nelly = t("Nelly Borca, Impulsive Accuser", "Legendary Creature \u2014 Human Detective", "Vigilance\nWhenever Nelly Borca attacks, suspect target creature. Then goad all suspected creatures.\nWhenever one or more creatures an opponent controls deal combat damage to one or more of your opponents, you and the controller of those creatures each draw a card.", 4);
+  assert.ok(nelly.gives.forced && nelly.wants.forced);
+  assert.ok(t("Grand Melee", "Enchantment", "All creatures attack each combat if able.\nAll creatures block each combat if able.", 4).gives.forced);
+  assert.ok(!t("Brute", "Creature \u2014 Ogre", "Brute attacks each combat if able.", 2).gives.forced, "a drawback on your own creature isn't forced combat");
+  const consuls = t("Authority of the Consuls", "Enchantment", "Creatures your opponents control enter tapped.\nWhenever a creature an opponent controls enters, you gain 1 life.", 1);
+  assert.ok(consuls.gives.stax && !consuls.gives.deter && !consuls.gives.forced);
+  assert.ok(t("Kismet", "Enchantment", "Artifacts, creatures, and lands your opponents control enter tapped.", 4).gives.stax);
+  assert.ok(t("Crawlspace", "Artifact", "No more than two creatures can attack you each combat.", 3).gives.deter);
+  const maze = t("Maze of Ith", "Land", "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.", 0);
+  assert.ok(maze.gives.deter && !maze.wants.attacks, "Maze of Ith is defense, not an attack payoff");
+});
+
+test("cycle 16: death-trigger doublers, Skullclamp, recursion, catch-up lands", () => {
+  const t = (n, ty, tx, c) => CS.cardTraits(fc(n, ty, tx, c));
+  const teysa = t("Teysa Karlov", "Legendary Creature \u2014 Human Advisor", "If a creature dying causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time.\nCreature tokens you control have vigilance and lifelink.", 4);
+  assert.ok(teysa.wants.dietrig);
+  assert.ok(t("Opportunist", "Creature \u2014 Human Rogue", "Whenever one or more other creatures die, draw a card. This ability triggers only once each turn.", 3).gives.dietrig, "\"die\" counts as well as \"dies\"");
+  assert.ok(t("Traveler", "Creature \u2014 Human Soldier", "When Traveler dies, create a 1/1 white Spirit creature token with flying.", 1).gives.dietrig);
+  assert.ok(!t("Bear", "Creature \u2014 Bear", "Trample", 2).gives.dietrig);
+  assert.ok(t("Clamp", "Artifact \u2014 Equipment", "Equipped creature gets +1/-1.\nWhenever equipped creature dies, draw two cards.\nEquip {1}", 1).wants.fodder);
+  assert.ok(t("Elder", "Creature \u2014 Snake Shaman", "Sacrifice Elder: Search your library for a basic land card, put that card onto the battlefield tapped, then shuffle.", 2).gives.deaths, "a creature that sacrifices itself dies");
+  assert.ok(t("Pod", "Artifact", "{1}{G}, {T}, Sacrifice a creature: Search your library for a creature card with mana value equal to 1 plus the sacrificed creature's mana value, put that card onto the battlefield, then shuffle. Activate only as a sorcery.", 4).gives.blink);
+  assert.ok(t("Order", "Sorcery", "As an additional cost to cast this spell, sacrifice a green creature.\nSearch your library for a green creature card, put it onto the battlefield, then shuffle.", 4).gives.deaths);
+  assert.ok(t("Skeleton", "Creature \u2014 Skeleton Warrior", "{1}{B}: Return Skeleton from your graveyard to the battlefield tapped.", 2).gives.fodder);
+  assert.ok(t("Pox", "Sorcery", "Each player loses 1 life, discards a card, sacrifices a creature, then sacrifices a land.", 4).wants.fodder);
+  assert.ok(t("Dina", "Legendary Creature \u2014 Elf Warlock", "Whenever you sacrifice a creature, draw a card. This ability triggers only once each turn.", 2).wants.deaths);
+  assert.ok(t("Mage", "Creature \u2014 Human Wizard", "Whenever a +1/+1 counter is put on Mage, you may draw a card.", 3).wants.counters);
+  const tax = t("Land Tax", "Enchantment", "At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.", 1);
+  assert.ok(tax.roles.draw && tax.wants.lowlands, "Land Tax is repeatable card advantage that wants you behind on lands");
+  assert.ok(t("Ranger", "Creature \u2014 Elf", "Return a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.", 1).gives.lowlands);
+});
+
+test("cycle 16: untapping: creatures vs artifacts, mana creatures, self-untapping rocks", () => {
+  const t = (n, ty, tx, c) => CS.cardTraits(fc(n, ty, tx, c));
+  const retreat = t("Retreat", "Enchantment", "Landfall \u2014 Whenever a land you control enters, choose one \u2014\n\u2022 You may tap or untap target creature.\n\u2022 Scry 1.", 3);
+  assert.ok(retreat.gives.untapc && !retreat.gives.untap, "untapping creatures doesn't help a mana rock");
+  const key = t("Key", "Artifact", "{1}, {T}: Untap another target artifact.", 1);
+  assert.ok(key.gives.untap && !key.gives.untapc);
+  assert.ok(!t("Birds", "Creature \u2014 Bird", "Flying\n{T}: Add one mana of any color.", 1).wants.untapc, "a plain mana creature isn't a tap-ability creature");
+  assert.ok(t("Priest", "Creature \u2014 Elf Druid", "{T}: Add {G} for each Elf on the battlefield.", 2).wants.untapc, "a mana creature that grows with the board is worth untapping");
+  assert.ok(t("Monolith", "Artifact", "Monolith doesn't untap during your untap step.\n{T}: Add {C}{C}{C}.\n{3}: Untap Monolith.", 3).wants.copyab);
+});
+
+test("cycle 16: the Your deck panel's context: deck Fit words, role words, plan examples, grouped combos, other cut options", () => {
+  assert.match(CS.deckFitWords(60), /^higher than all 57 /);
+  assert.match(CS.deckFitWords(48), /^about the same as most/);
+  assert.match(CS.deckFitWords(40), /^lower than most/);
+  assert.equal(CS.roleWord(5, 8), "light");
+  assert.equal(CS.roleWord(10, 10), "about right");
+  assert.equal(CS.roleWord(14, 10), "heavy");
+  const syn = CS.deckSynergy(zurgoProfile, deckSlims);
+  syn.plan.slice(0, 4).forEach((p) => {
+    assert.ok(p.giveNames.length && p.wantNames.length, p.label);
+    assert.ok(!p.giveNames.concat(p.wantNames).includes("Zurgo Stormrender") || p.giveNames.length === 1 || p.wantNames.length === 1, "the commander only when it's the one card");
+  });
+  const g = CS.groupCombos([
+    { id: "a", others: ["Crusade", "Altar"], needs: ["Persist Creature"], produces: ["Infinite counters"], bracketN: 1, bracketLabel: "Exhibition" },
+    { id: "b", others: ["Crusade", "Seer"], needs: ["Persist Creature"], produces: ["Infinite counters"], bracketN: 2, bracketLabel: "Core" },
+    { id: "c", others: ["Crusade", "Seer"], needs: [], produces: ["Infinite mana"], bracketN: 1, bracketLabel: "Exhibition" },
+  ]);
+  assert.equal(g.length, 2);
+  assert.deepEqual(g[0].common, ["Crusade"]);
+  assert.deepEqual(g[0].oneOf.sort(), ["Altar", "Seer"]);
+  assert.equal(g[0].bracketN, 2, "the group shows its highest bracket");
+  const cands = CS.cutCandidates(zurgoProfile, syn, deckSlims, {});
+  const alts = CS.cutAlternates([], cands, zurgoProfile, null, {}, [cands[cands.length - 1].name], 4, {});
+  assert.equal(alts.length, 4);
+  assert.ok(!alts.some((x) => x.name === cands[cands.length - 1].name), "never repeats a cut already listed");
+  assert.equal(new Set(alts.map((x) => x.name)).size, 4);
 });

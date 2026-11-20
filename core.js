@@ -947,7 +947,7 @@
     ["fodder", /\b(myriad|mobilize|squad|populate|amass|afterlife|fabricate|persist|undying|escape)\b/],
     ["fodder", /\bwhen ~ dies\b/],
     // deaths: sacrifice outlets and wipes
-    ["deaths", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? (nontoken )?(creatures?|artifact or creature|creature or artifact|permanents?|nonland permanents?)\b/],
+    ["deaths", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? ((nontoken|white|blue|black|red|green|artifact|legendary) )?(creatures?|artifact or creature|creature or artifact|permanents?|nonland permanents?)\b/],
     ["deaths", /\b(destroy|exile) all (other )?(creatures|nonland permanents)\b/],
     ["deaths", /\bsacrifice (it|them) at (the beginning of the next end step|end of combat)\b|\bdecayed\b/],
     ["deaths", /\beach creature gets -|\ball creatures get -|\bdamage to each creature\b/],
@@ -1013,9 +1013,12 @@
     ["bodies", /\bwould create one or more (creature )?tokens\b/],
     ["bodies", /\bconvoke\b|\b(twenty|ten|\d+) or more (other )?creatures\b/],
     // sacrifice outlets want fodder
-    ["fodder", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? (nontoken )?(creatures?|artifact or creature|creature or artifact)\b/],
+    ["fodder", /\bsacrifice (a|an|another|one or more|x|two|three)( other)? ((nontoken|white|blue|black|red|green|artifact|legendary) )?(creatures?|artifact or creature|creature or artifact)\b/],
+    ["fodder", /\beach player\b[^.]*\bsacrifices (a|an|one|two) (creatures?|nonland permanents?|permanents?)\b/], // cycle 16: symmetric edicts (Smallpox) want something to give up
     // death payoffs
     ["deaths", /\bwhenever (a|an|another|one or more)( other)?( nontoken)? creatures?( you control)?( or planeswalkers?)? (dies|die)\b/],
+    ["deaths", /\bwhenever you sacrifice (a|an|another|one or more)( other)? (creatures?|permanents?)\b/], // cycle 16: Dina, Essence Brewer
+    ["counters", /\bwhenever (a|one or more) \+1\/\+1 counters? (is|are) put on\b/], // cycle 16: Fathom Mage
     ["deaths", /\bwhenever (a|an|another)( other)?( nontoken)? creature you control (with|without) [a-z ]{1,20}? dies\b/],
     ["deaths", /\bwhenever ~ or another (nontoken )?creature( or planeswalker)?( you control)? dies\b|\bwhenever a creature an opponent controls dies\b|\ba creature dying\b|\bcreatures? (that )?(died|have died) this turn\b|\bwhenever equipped creature dies\b|\bput into a graveyard from the battlefield\b/],
     ["deaths", /\bcreature cards? [^.]*from your graveyard\b|\bfrom your graveyard to the battlefield\b/],
@@ -1124,7 +1127,12 @@
 
     evasion: { g: "A hard-to-block creature", w: "Pays off creatures connecting (combat damage, ninjutsu)", b: "Evasive creature with a combat-damage payoff", short: "evasive attackers" },
     copyab: { g: "Copies or doubles abilities", w: "Has abilities worth copying", b: "Copies abilities and has its own", short: "copying abilities" },
-    untap: { g: "Untaps your permanents", w: "Has a tap ability worth untapping", b: "Untaps and has a tap ability", short: "untapping" },
+    untap: { g: "Untaps your artifacts or other permanents", w: "Has a tap ability worth untapping", b: "Untaps and has a tap ability", short: "untapping" },
+    // cycle 16 synergy audit (10 hand-mapped decks; Nick's Nelly Borca and Land Tax notes)
+    untapc: { g: "Untaps your creatures", w: "A creature with a tap ability worth untapping", b: "Untaps creatures and has a tap ability", short: "untapping creatures" },
+    dietrig: { g: "Has a death trigger", w: "Doubles death triggers (each one happens twice)", b: "Doubles death triggers and has one", short: "doubling death triggers" },
+    forced: { g: "Makes opponents' creatures attack (goad, forced attacks)", w: "Pays off opponents' creatures attacking each other", b: "Forces attacks and pays them off", short: "forcing opponents to attack" },
+    lowlands: { g: "Sacrifices or returns your own lands", w: "Better while an opponent has more lands than you", b: "Keeps your land count low and pays it off", short: "staying behind on lands" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -1146,7 +1154,7 @@
    */
   CS.SYN_ROLES = [
     { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b|\\bspells you cast cost \\{\\d+\\} less\\b") },
-    { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b/ },
+    { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b|\bat the beginning of your upkeep\b[^.]*\bsearch your library for up to (two|three) basic land cards\b[^.]*\binto your hand\b/ },
     { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) (sacrifices|exiles) (a|an|one) (creature|nonland permanent|attacking creature)\b|\bthe owner of target (nonland )?permanent shuffles it into\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
     { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?((tapped|untapped|attacking|non-[a-z]+|non[a-z]+) )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
     { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b") },
@@ -1274,8 +1282,10 @@
     GIVES.forEach(function (g) {
       if (g[1].test(ownText)) gives[g[0]] = true;
     });
+    // cycle 16: "untap / destroy target attacking creature" (Maze of Ith) is defense, not an attack payoff
+    var wantText = text.replace(/\b(target|each|all) attacking (or blocking )?creatures?( target player controls)?\b/g, "");
     WANTS.forEach(function (w) {
-      if (w[1].test(text)) wants[w[0]] = true;
+      if (w[1].test(w[0] === "attacks" ? wantText : text)) wants[w[0]] = true;
     });
     var bare = text.replace(/\([^)]*\)/g, "");
     // "whenever you manifest dread" pays off manifesting; it doesn't do it
@@ -1293,6 +1303,40 @@
       gives.stax = true;
       wants.stax = true;
     }
+    // cycle 16 (Nick's Nelly Borca list): forced combat. Goad, attack-if-able
+    // effects on opponents' creatures (Grand Melee), and attack-if-able tokens
+    // handed to opponents (Goblin Spymaster; the token strip above drops those)
+    if (/\bgoads?\b/.test(bare) || /\b(all|each) creatures? attacks? each combat if able\b|\bcreatures (your opponents control|target opponent controls|each opponent controls) attack each (combat|turn) if able\b/.test(bare) ||
+      /\b(that player|each opponent|target opponent|its controller) creates?\b[^.]*"[^"]*\battacks? each combat if able\b/.test(bare))
+      gives.forced = true;
+    if (/\bgoaded creatures?\b|\bwhenever a goaded creature\b|\bcreatures? (an opponent controls|your opponents control) deals? combat damage to (one or more of )?your opponents\b|\bwhenever (a|one or more) creatures? (an opponent controls|your opponents control) attacks?\b|\bwhenever (an opponent|a player) attacks (another one of your opponents|one of your opponents|a player other than you)\b/.test(bare))
+      wants.forced = true;
+    // opponents' things entering tapped (Authority of the Consuls, Kismet, Blind Obedience) slows them
+    if (/\byour opponents control enter (the battlefield )?tapped\b|\benter (the battlefield )?under (an opponent's|your opponents') control tapped\b/.test(bare)) {
+      gives.stax = true;
+      wants.stax = true;
+    }
+    // attack limits and Maze of Ith keep attackers off you
+    if (/\bno more than (one|two|three) creatures? can attack\b|\buntap target attacking creature\b|\bcreatures? can't attack you\b/.test(bare)) gives.deter = true;
+    // death-trigger doublers (Teysa Karlov, The Masamune) want cards with death triggers
+    if (/\bcreature dying causes\b/.test(bare)) wants.dietrig = true;
+    if (/\bwhen(ever)? [^.]{0,60}?\bdies?\b/.test(bare) || /\b(afterlife|persist|undying)\b/.test(text)) gives.dietrig = true;
+    // cycle 16 (held-back decks): a creature that sacrifices itself (Sakura-Tribe Elder, Spore Frog) dies
+    if (/\bcreature\b/.test(types.split("\u2014")[0]) && /(^|\n|, )sacrifice ~[,:]/.test(bare)) gives.deaths = true;
+    // putting a creature card onto the battlefield (Birthing Pod, Natural Order) or granting undying/persist
+    // (Mikaeus) re-buys enter triggers, like blink
+    if (/\bsearch your library for (a|an|up to one) [^.]*\bcreature card\b[^.]*\bput (it|that card) onto the battlefield\b/.test(bare) ||
+      /\b(have|has|gains?|gets? [^.]* and (have|has)) [^.]*\b(undying|persist)\b/.test(bare)) gives.blink = true;
+    // a creature that returns itself from the graveyard (Reassembling Skeleton) is fodder
+    if (/\breturn ~ from your graveyard to the battlefield\b/.test(bare)) gives.fodder = true;
+    // Skullclamp-style Equipment and small-creature reanimation want fodder
+    if (/\bwhenever equipped creature dies\b/.test(bare) || /\breturn (up to (one|two) )?target creature cards? with (power|mana value) \d or less from your graveyard to the battlefield\b/.test(bare))
+      wants.fodder = true;
+    // catch-up cards (Land Tax, Knight of the White Orchid) want you behind on lands
+    if (/\b(an|each) opponent controls more lands than you\b|\bcontrols (at least )?(two )?more lands than you\b/.test(bare)) wants.lowlands = true;
+    if (/\bsacrifice (a|an|another|two) (lands?|forests?|plains|islands?|swamps?|mountains?)\b|\breturn (a|an|target) (land|forest|plains|island|swamp|mountain)( card)? you control to (its|their) owner's hand\b/.test(bare) ||
+      (/\bland\b/.test(types.split("\u2014")[0]) && /\bsacrifice ~[^.]*\bsearch your library\b/.test(bare)))
+      gives.lowlands = true;
     // an Aura on a land (Utopia Sprawl, Wild Growth) is ramp, not gear
     var landAura = /\baura\b/.test(types) && /\benchant (land|forest|plains|island|swamp|mountain)\b/.test(text);
     if (/\b(equipment|aura)\b/.test(types) && !landAura) {
@@ -1381,9 +1425,21 @@
       wants.evasion = true;
     if (/\bcopy (target|that|it|the) (activated or triggered |triggered |activated )?abilit(y|ies)\b|\bcopy that ability\b|\btriggers? an additional time\b/.test(bare))
       gives.copyab = true;
-    if (/\buntap (all|each|target|up to (one|two|three|x) target)( other)? (nonland )?(permanents?|artifacts?|creatures?|lands?)( and lands)?( you control)?\b/.test(bare))
-      gives.untap = true;
-    if (!isLand && /\{t\}(?![^:]*: add \{)[^:\n]*:/.test(bare)) wants.untap = true; // a tap ability that isn't only mana
+    var um = /\buntap (all|each|target|another target|up to (one|two|three|x) target|up to (one|two|three|x) other target)( other)? (nonland )?(permanents?|artifacts?|creatures?|lands?)( and lands)?( you control)?\b/.exec(bare);
+    if (um) {
+      // cycle 16: an untapper of creatures only (Retreat to Coralhelm) doesn't help a mana rock
+      if (!/^creature/.test(um[6])) gives.untap = true;
+      if (!/^(artifact|land)/.test(um[6])) gives.untapc = true;
+    }
+    // (cycle 16: "{T}: Add one mana of any color" is a mana ability too, so Birds of Paradise isn't a tap-ability creature)
+    if (!isLand && /\{t\}(?![^:]*: add (\{|one|two|three|x|that much|an amount|[a-z]+ mana))[^:\n]*:/.test(bare)) {
+      // a tap ability that isn't only mana
+      if (/\bcreature\b/.test(mainTypes)) wants.untapc = true;
+      else wants.untap = true;
+    }
+    // a creature whose mana grows with the board (Priest of Titania, Kami of Whispered Hopes) is worth untapping
+    if (!isLand && /\bcreature\b/.test(mainTypes) && /\{t\}[^:\n]*: add [^.\n]*\b(for each|equal to|where x is)\b/.test(bare)) wants.untapc = true;
+    if (!isLand && /\}: untap ~/.test(bare)) wants.copyab = true; // Basalt Monolith wants Rings of Brighthearth
     if (!isLand && /\bartifact\b/.test(mainTypes) && /\{t\}[^:\n]*: add \{/.test(bare)) wants.untap = true; // mana rocks (Dramatic Reversal)
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
@@ -1892,6 +1948,31 @@
           Math.min(b.gives, b.wants) - Math.min(a.gives, a.wants) ||
           b.gives + b.wants - (a.gives + a.wants);
       });
+    // cycle 16 (Nick: the panel needs context): two named examples on each side
+    // of each plan: the best tie-ins, not the commander (it's in most plans;
+    // named only when it's the one card on that side) and, where possible,
+    // not a card already named for an earlier plan.
+    var named = {};
+    planList.forEach(function (x) {
+      ["gives", "wants"].forEach(function (side) {
+        var pool = profile.cards
+          .filter(function (c) {
+            return c[side][x.label] && !c.land;
+          })
+          .sort(function (a, b) {
+            return (a.commander ? 1 : 0) - (b.commander ? 1 : 0) || (named[a.id] ? 1 : 0) - (named[b.id] ? 1 : 0) || (fits[b.id] || 0) - (fits[a.id] || 0);
+          });
+        pool = pool.filter(function (c) {
+          return !c.commander || pool.length === 1;
+        }).slice(0, 2);
+        pool.forEach(function (c) {
+          named[c.id] = true;
+        });
+        x[side === "gives" ? "giveNames" : "wantNames"] = pool.map(function (c) {
+          return CS.frontName(c.name);
+        });
+      });
+    });
     scored.sort(function (a, b) {
       return a.score - b.score;
     });
@@ -1906,6 +1987,70 @@
       strengths: strengths,
       blend: blendN ? Math.round(blendSum / blendN) : 0, // every nonland card, role cards included
     };
+  };
+
+  /**
+   * Cycle 16 (Nick: "Your deck" needs context): where a deck's Fit sits next
+   * to 57 well-liked Moxfield decks (cycles 10-12 benchmark, scored by the
+   * cycle 16 core.js): lowest 31, middle half 45-51, highest 56.
+   */
+  CS.DECK_FIT_BENCH = { n: 57, min: 31, low: 45, high: 51, max: 56 };
+  CS.deckFitWords = function (score) {
+    var b = CS.DECK_FIT_BENCH;
+    var where =
+      score > b.max ? "higher than all " + b.n :
+      score > b.high ? "higher than most of the " + b.n :
+      score >= b.low ? "about the same as most of the " + b.n :
+      score >= b.min ? "lower than most of the " + b.n :
+      "lower than all " + b.n;
+    return where + " well-liked Moxfield decks we've measured (most score " + b.low + "-" + b.high + ")";
+  };
+
+  /** "light", "about right" or "heavy" for a role count against its rough target. */
+  CS.roleWord = function (have, target) {
+    if (have < target * 0.75) return "light";
+    if (have > target * 1.25) return "heavy";
+    return "about right";
+  };
+
+  /**
+   * Cycle 16: combos that make the same thing and need the same kind of card,
+   * and differ in one named card, as one line ("Cathars' Crusade + a persist
+   * creature + any one of: Ashnod's Altar, Viscera Seer, ..."). Each group:
+   * {common, oneOf, needs, produces, bracketN, bracketLabel, ids}.
+   */
+  CS.groupCombos = function (list) {
+    var groups = [];
+    (list || []).forEach(function (c) {
+      var key = (c.produces || []).slice().sort().join("|") + "#" + (c.needs || []).slice().sort().join("|");
+      var cards = c.others || c.cards || [];
+      var g = null;
+      for (var i = 0; i < groups.length && !g; i++) {
+        var h = groups[i];
+        if (h.key !== key || h.size !== cards.length) continue;
+        var shared = h.common.filter(function (n) {
+          return cards.indexOf(n) !== -1;
+        });
+        if (shared.length >= h.size - 1 && shared.length >= 1) g = h;
+      }
+      if (!g) {
+        groups.push({ key: key, size: cards.length, common: cards.slice(), oneOf: [], needs: c.needs || [], produces: c.produces || [], bracketN: c.bracketN, bracketLabel: c.bracketLabel, ids: [c.id], first: c });
+        return;
+      }
+      var common = g.common.filter(function (n) {
+        return cards.indexOf(n) !== -1;
+      });
+      g.common.concat(cards).forEach(function (n) {
+        if (common.indexOf(n) === -1 && g.oneOf.indexOf(n) === -1) g.oneOf.push(n);
+      });
+      g.common = common;
+      g.ids.push(c.id);
+      if (c.bracketN > g.bracketN) {
+        g.bracketN = c.bracketN;
+        g.bracketLabel = c.bracketLabel;
+      }
+    });
+    return groups;
   };
 
   // ---------------------------------------------------------------- cut suggestions
@@ -2165,20 +2310,21 @@
       var cut = 1 - keep + 0.25 * surplus * (1 - keep) + 0.15 * offCurve + (gc && gcCount > 3 ? 0.1 : 0);
       if (!c.land && fit < 40 && !roles.length && !payload)
         reasons.push(
-          "Weak fit (tie-in " + fit + "): " +
-            (tiesToCommander(c) ? "ties in to your commander, little else" : "ties in to little else here"),
+          // cycle 16 (Nick: explanations need context): plain words, the number second
+          (tiesToCommander(c) ? "Works with your commander but little else here" : "Works with almost nothing else in this deck") +
+            " (tie-in " + fit + " of 100)",
         );
       var note = null; // informational: shown, but not a reason on its own
       if (inc != null && inc < 0.1 && fit < 60 && !c.land) {
         if (inc > 0) reasons.push("Only " + Math.round(inc * 100) + "% of this commander's EDHREC decks run it");
-        else note = "Not on this commander's EDHREC page (few of its decks run it)";
+        else note = "Few decks with this commander run it (it isn't on the commander's EDHREC page)";
       }
       if (!c.land && roles.length && str < 30)
-        reasons.push("A weak card for its job (strength " + str + ")");
+        reasons.push("There are stronger cards for its job (strength " + str + " of 100)");
       if (surplusRole && surplus > 0)
         reasons.push(
-          roleInfo[surplusRole].label + ": " + roleCount[surplusRole] +
-            " in the deck, about " + roleInfo[surplusRole].target + " is typical",
+          "More " + roleInfo[surplusRole].label.toLowerCase() + " than the deck needs: " + roleCount[surplusRole] +
+            " cards, most decks run about " + roleInfo[surplusRole].target,
         );
       if (offCurve) reasons.push("Costs " + cmc + " and isn't part of the deck's plan");
       if (gc)
@@ -2231,7 +2377,7 @@
       if (x.land && spareLands < 1) return false;
       if (x.locked || x.staple || x.keep >= 0.7 || x.tie >= 75) return false; // strong tie-ins stay (as before cycle 15)
       var concrete = x.reasons.some(function (r) {
-        return !/^Game Changer: the deck has \d+ \(any|^Not on this commander's EDHREC page/.test(r);
+        return !/^Game Changer: the deck has \d+ \(any|^Few decks with this commander run it/.test(r);
       });
       if (concrete) return true;
       // no concrete reason: only a plain card (no role, not the commander's
@@ -2431,7 +2577,7 @@
             var stronger = myStr >= (y.strength || 0) + 10;
             if (cheaper || stronger) pair += 0.15;
             why = "does the same job (" + roleLabel[sameRole] + ")" +
-              (cheaper ? ", and " + added.name + " costs less" : stronger ? ", and " + added.name + " is stronger" : ", weaker fit");
+              (cheaper ? ", and " + added.name + " costs less" : stronger ? ", and " + added.name + " is stronger" : ", and works less well with this deck");
           }
           var sameTheme = myLabels.some(function (l) {
             return (y.gives && y.gives[l]) || (y.wants && y.wants[l]);
@@ -2446,7 +2592,7 @@
     out.sort(function (a, b) {
       return b.pair - a.pair || (a.name < b.name ? -1 : 1);
     });
-    return out.slice(0, 3).map(function (x) {
+    return out.slice(0, 5).map(function (x) { // cycle 16: 5, so the prompt has other options
       return { name: x.name, id: x.id, why: x.why };
     });
   };
@@ -2488,6 +2634,47 @@
         out.push({ name: y.name, id: y.id, why: y.reasons[0] || "", forName: null, forId: null });
       }
     }
+    return out;
+  };
+
+  /**
+   * Cycle 16 (Nick: "give more options than just what's over 100"): other
+   * cuts to choose from instead of the ones already listed (`chosen`, by
+   * name). Each pick's next like-for-like options first, then cut ideas,
+   * then the deck's other easiest cuts. Returns up to n {name, id, why, forName, forId}.
+   */
+  CS.cutAlternates = function (picks, cands, profile, deckCards, cuts, chosen, n, opts) {
+    var o = opts || {};
+    var used = {};
+    (chosen || []).forEach(function (nm) {
+      used[CS.nameKey(nm)] = true;
+    });
+    var out = [];
+    var add = function (x, forName, forId) {
+      if (out.length >= n || !x || !x.name || used[CS.nameKey(x.name)]) return;
+      used[CS.nameKey(x.name)] = true;
+      out.push({ name: x.name, id: x.id, why: x.why || (x.reasons && x.reasons[0]) || "", forName: forName || null, forId: forId || null });
+    };
+    (picks || []).slice().reverse().forEach(function (p) {
+      CS.swapSuggestions(p, cands, profile, deckCards, cuts, o)
+        .slice(0, 3)
+        .forEach(function (x) {
+          add(x, p.name, p.id);
+        });
+    });
+    (o.ideas || []).forEach(function (x) {
+      add(x);
+    });
+    (cands || [])
+      .filter(function (c) {
+        return !c.locked && !c.engine && !c.land;
+      })
+      .sort(function (a, b) {
+        return b.cut - a.cut;
+      })
+      .forEach(function (c) {
+        add({ name: c.name, id: c.id, why: c.reasons[0] || "One of the deck's weaker ties to its plan (tie-in " + c.tie + ")" });
+      });
     return out;
   };
 
