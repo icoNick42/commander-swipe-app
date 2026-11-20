@@ -53,14 +53,14 @@ Action buttons use their color as the border plus a see-through fill of the same
 Checked in cycle 4 (Chrome, fixtures): buttons in view at 375x667, 390x844, 412x915, 768x1024, 1366x700, 1280x860 and 1920x1080. Before this pass they were off screen on all three phone sizes and on 1366x700. Checked again in cycle 5 with the new pile row: all seven still in view; the pile row is the same height as before (3 rows wide, 1 row narrow).
 
 - **Fit line (cycle 6):** one line under the card's stats, "Fit 84 · first reason", cut off with an ellipsis. It opens to all the reasons and stays open from card to card once opened. The Fit number is in `--text` and bold; the rest is `--muted`.
-- **Your deck panel (cycle 6):** a closed panel in the side column, between Maybe and Filters, titled "Your deck: synergy N/100".
+- **Your deck panel (cycle 6):** a closed panel in the side column, between Maybe and Filters, titled "Your deck: Fit N/100" (cycle 14; was "synergy", which is also an EDHREC number on the card).
 
 Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view at all seven sizes above (now part of `tools/page_check.py`).
 
 - **Name line (cycle 7):** the card name and its badges (not on EDHREC, Game Changer, Combo) share one line; the name shortens with an ellipsis to make room. Before this, badges took their own line, which pushed the buttons 8 px off a 375x667 screen on any badged card. `--chrome` didn't change.
 - **Combo badge (cycle 7):** a small button styled as a badge, "Combo: completes N". Pressing it shows the combo list under the Fit line (and hides it again); it starts hidden on every card, so it never pushes the buttons down on its own. Green border for brackets 1-2, amber with "(bracket N+)" for 3 and up.
-- **First screen (cycle 7):** Paste and load is the main button, then Load deck, Clear and Try a sample deck.
-- **Switching decks (cycle 12):** Change deck opens the paste screen with a back bar: Back to swiping, then Start a different deck (empties the box; the deck's swipes stay saved). The deck bar keeps one button, so it still fits one row on a phone.
+- **First screen (cycle 7; cycle 14):** Load deck is the main button and the only one that loads. Paste from clipboard fills the box (cycle 14: Paste and load next to Load deck was confusing). Then Clear and Try a sample deck.
+- **Switching decks (cycle 12):** Update or switch deck (called Change deck until cycle 14) opens the paste screen with a back bar: Back to swiping, then Start a different deck (empties the box; the deck's swipes stay saved). The deck bar keeps one button, so it still fits one row on a phone.
 
 - **Changing the deck (cycle 8):** the side column runs Added, Cuts (only when there are cuts), Deck total (only when there are picks or cuts; amber when over 100), Maybe, Your deck, Filters. Cut buttons use the skip red as their border; a cut card in All cards is struck through with a pressed Keep button.
 - **Swap prompt (cycle 8):** after an Add that takes the deck over 100, one line takes the keys line's place under the buttons: "N over 100. Cut [card] [Why? More] [x]". It never wraps (the card name shortens), so the buttons don't move; Why? More opens the reasons below it.
@@ -71,6 +71,14 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Lists (cycle 9):** each Added and Maybe row shows the card's Fit ("Fit 72") before its price, in the same muted small text.
 - **Pile dropdowns (cycle 9):** a mouse or touch pick opens the pile at once; with the arrow keys the page waits until they stop (0.7 s) or Enter, then opens it and moves focus off, so the arrow keys swipe again.
 - **First screen (cycle 9):** pasting a deck into the box fills it and says how many cards it got; it doesn't load until Load deck.
+
+- **Lists (cycle 14):** every row in Added, Maybe, Skipped, Cuts, Cut ideas, the over-100 list and All cards starts with a 32x45 px card image (Scryfall's small image, whole card, lazy-loaded). Tapping it opens the whole card in a dialog (Close, Escape or a tap outside closes it; arrow keys don't swipe while it's open). Lists show their newest 6 rows, then a "Show all N" button, so the page doesn't run on; on a phone (under 900 px) the lists have no scroll box of their own (All cards keeps one, 60% of the screen). Maybe and Skipped rows have an Add button (green border).
+- **Skipped (cycle 14):** a closed panel after Maybe, "Skipped (N)", built only when opened, with "Nothing you skip is lost".
+- **Deck total over 100 (cycle 14):** under the total, "To get back to 100, cut N cards" and that many cut ideas (lowest-Fit cards fill in when the clear ideas run out). The swap prompt under the buttons stays while the deck is over 100 (Skip and Maybe don't hide it); x hides it until the next Add.
+- **Card stats line (cycle 14):** "$0.33 · in 50% of EDHREC decks · +32% synergy", one line with an ellipsis; the deck count is in its tooltip, and the opened Fit line explains the EDHREC numbers.
+- **Pile row on a phone (cycle 14):** a 28 px fade at the right edge shows it scrolls; the open pile's chip is scrolled into view when a pile opens; used-up chips are hidden unless open.
+- **Page width (cycle 14):** `html` and `body` clip sideways overflow, so a card flying off to the right never widens the page (iPhone Safari zoomed out to fit it).
+- **One commander (cycle 14):** with a single legendary creature, the commander dropdown shows as plain text.
 
 ## Audit, cycle 9 (against these notes)
 

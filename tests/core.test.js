@@ -1983,3 +1983,30 @@ test("cycle 12: one cut idea per card name (nine Nazgul are one choice)", () => 
   const ideas = CS.cutSuggestions(prof, CS.deckSynergy(prof, slims), slims, {});
   assert.equal(ideas.filter((i) => i.name === w.name).length, 1, ideas.map((i) => i.name).join(", "));
 });
+
+test("cycle 14: fillCuts gives enough cut ideas to get back to 100", () => {
+  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const need = ideas.length + 5;
+  const all = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, need);
+  assert.equal(all.length, need, "fills up to what's needed");
+  assert.deepEqual(all.slice(0, ideas.length).map((x) => x.name), ideas.map((x) => x.name), "the real ideas come first, unchanged");
+  const fill = all.slice(ideas.length);
+  assert.ok(fill.every((x) => x.filler && x.score === 0 && x.reasons.length), "fillers are marked and have a reason");
+  const cmd = zurgoProfile.cards.filter((c) => c.commander)[0].name;
+  const lands = new Set(zurgoProfile.cards.filter((c) => c.land).map((c) => c.name));
+  const every = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, 500); // asks for more than the deck has
+  assert.ok(every.length > need && !every.some((x) => x.name === cmd || lands.has(x.name)), "never the commander or a land, even when asked for everything");
+  assert.equal(new Set(all.map((x) => CS.nameKey(x.name))).size, all.length, "no card twice");
+  const nonRole = fill.filter((x) => !x.roles.length);
+  for (let i = 1; i < nonRole.length; i++)
+    assert.ok((nonRole[i - 1].fit == null ? 101 : nonRole[i - 1].fit) <= (nonRole[i].fit == null ? 101 : nonRole[i].fit), "lowest Fit first");
+  // protected combo pieces and cards already cut are left out
+  const first = fill[0].name;
+  const cut = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, { cuts: { [first]: 1 } }, need);
+  assert.ok(!cut.some((x) => x.name === first), "a card already cut isn't offered");
+  const prot = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, { protect: { [CS.nameKey(first)]: true } }, need);
+  assert.ok(!prot.some((x) => x.name === first), "a protected combo piece isn't offered");
+  // enough ideas already: unchanged
+  assert.deepEqual(CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, 1).map((x) => x.name), ideas.map((x) => x.name));
+  assert.deepEqual(CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, 0).length, ideas.length);
+});

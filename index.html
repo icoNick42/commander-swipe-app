@@ -732,6 +732,110 @@
         white-space: nowrap;
         border: 0;
       }
+      /* cycle 14: a card flying off to the right must not make the page
+         wider than the screen (iPhone Safari zooms out to fit it) */
+      html {
+        overflow-x: hidden;
+      }
+      @supports (overflow-x: clip) {
+        html,
+        body {
+          overflow-x: clip;
+        }
+      }
+      /* cycle 14: a small card image on each list row; tap for the whole card */
+      .list li button.thumb {
+        flex: none;
+        width: 32px;
+        height: 45px;
+        padding: 0;
+        border: 0;
+        border-radius: 2px;
+        background: #000;
+        overflow: hidden;
+        line-height: 0;
+      }
+      .list li button.thumb img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .cutideas li button.thumb,
+      .allcards li button.thumb {
+        align-self: flex-start;
+      }
+      .list li button.thumb {
+        cursor: zoom-in;
+      }
+      .list li button.toadd {
+        flex: none;
+        border-color: var(--add);
+      }
+      .list li.more {
+        justify-content: center;
+        border-bottom: 0;
+        padding-top: var(--space-2);
+      }
+      /* on a phone the lists sit under the card: no scroll box inside the
+         page (the Show all button keeps them short instead); All cards keeps one */
+      @media (max-width: 899px) {
+        .list {
+          max-height: none;
+        }
+        .allcards .list {
+          max-height: 60vh;
+        }
+      }
+      #cardView {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        max-width: 94vw;
+      }
+      #cardView::backdrop {
+        background: rgba(0, 0, 0, 0.75);
+      }
+      #cardView img {
+        display: block;
+        width: min(488px, 90vw, calc(82vh * 0.7176));
+        width: min(488px, 90vw, calc(82dvh * 0.7176));
+        height: auto;
+        border-radius: 4.75% / 3.4%;
+      }
+      #cardView .viewbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-2);
+      }
+      .skipped {
+        margin-top: var(--space-4);
+      }
+      .skipped summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      #overCuts {
+        max-height: none;
+      }
+      #commanderSelect.single {
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        border-color: transparent;
+        color: var(--text);
+        opacity: 1;
+        font-weight: 600;
+        padding-left: 0;
+      }
+      .meta .stats {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       @media (max-width: 899px) {
         :root {
           --chrome: 364px;
@@ -755,6 +859,9 @@
           padding: 2px var(--space-3) 6px;
           scrollbar-width: thin;
           scroll-padding: 0 var(--space-3);
+          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+          mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+          padding-right: var(--space-5);
         }
         .piles select {
           order: -1; /* the dropdowns first, where a phone shows them */
@@ -843,7 +950,8 @@
         <h2><label for="exportText">Paste your Moxfield Export</label></h2>
         <p class="muted">
           On your deck in Moxfield: More &rarr; Export &rarr; Copy for Moxfield.
-          Then come back and press Paste and load.
+          Then come back, paste it into the box (or press Paste from
+          clipboard), and press Load deck.
         </p>
         <textarea
           id="exportText"
@@ -851,10 +959,8 @@
           placeholder="1 Zurgo Stormrender (TDM) 233&#10;1 Sol Ring (C21) 263&#10;..."
         ></textarea>
         <div class="row">
-          <button id="pasteBtn" class="primary" type="button">
-            Paste and load
-          </button>
-          <button id="loadBtn" type="button">Load deck</button>
+          <button id="loadBtn" class="primary" type="button">Load deck</button>
+          <button id="pasteBtn" type="button">Paste from clipboard</button>
           <button id="clearBtn" type="button">Clear</button>
           <button id="sampleBtn" type="button">Try a sample deck</button>
           <span
@@ -872,7 +978,7 @@
         <div class="deckbar">
           <label for="commanderSelect">Commander</label>
           <select id="commanderSelect"></select>
-          <button id="changeDeckBtn" type="button">Change deck</button>
+          <button id="changeDeckBtn" type="button">Update or switch deck</button>
         </div>
         <details id="deckReport" class="muted" style="margin-top: 8px">
           <summary id="deckSummary"></summary>
@@ -955,6 +1061,8 @@
                 <button type="button" id="copyDeckBtn">Copy whole deck</button>
               </div>
               <p class="muted small" id="totalNote"></p>
+              <p class="small" id="overHead" hidden></p>
+              <ul class="list cutideas" id="overCuts"></ul>
               <div
                 id="copyDeckMsg"
                 class="muted"
@@ -972,6 +1080,14 @@
               <h2 id="maybeHead">Maybe (<span id="maybeCount">0</span>)</h2>
               <ul class="list" id="maybeList"></ul>
             </section>
+            <details class="skipped" id="skipSec">
+              <summary>Skipped (<span id="skipCount">0</span>)</summary>
+              <p class="muted small">
+                Nothing you skip is lost. Put a card back and it returns to
+                its pile, or add it from here.
+              </p>
+              <ul class="list" id="skipList"></ul>
+            </details>
             <details class="deckfit" id="deckFit">
               <summary id="deckFitHead">Your deck</summary>
               <div id="deckFitBody"></div>
@@ -997,6 +1113,13 @@
           </div>
         </div>
       </section>
+      <dialog id="cardView" aria-labelledby="cardViewName">
+        <img id="cardViewImg" alt="" />
+        <div class="viewbar">
+          <span id="cardViewName"></span>
+          <button type="button" id="cardViewClose">Close</button>
+        </div>
+      </dialog>
     </main>
     <footer>
       <p>
@@ -1017,7 +1140,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=13"></script>
+    <script src="core.js?v=14"></script>
     <script>
       (function () {
         "use strict";
@@ -1086,6 +1209,10 @@
           exportNames: {}, // name key -> {name as in the export, qty}
           swap: null, // the "cut something for this?" prompt: {forName, ideas, more}
           allOpen: false, // keep the Your deck > All cards list open across re-renders
+          swapOff: false, // cycle 14: the cut prompt was closed with x (back with the next Add)
+          swapPaired: {}, // cycle 14: pick id -> true once a cut was made from its prompt
+          listAll: {}, // cycle 14: list id -> true when "Show all" is on
+          revealed: null, // cycle 14: the pile whose chip was last scrolled into view
         };
 
         // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
@@ -1428,6 +1555,8 @@
                   return c.name === preferCommander;
                 })[0] || candidates[0];
               sel.value = pick.id;
+              sel.disabled = candidates.length < 2; // cycle 14
+              sel.classList.toggle("single", candidates.length < 2);
               $("setup").hidden = true;
               $("app").hidden = false;
               setupMsg("");
@@ -1655,6 +1784,8 @@
           S.commander = cmd;
           S.deckId = CS.deckId(cmd.name, S.parsed.cards);
           S.swap = null;
+          S.swapPaired = {};
+          S.swapOff = false;
           openDeckState(cmd);
           fillDeckReport();
           S.edhrecMap = {};
@@ -2141,8 +2272,10 @@
           if (cur) cur.autoPages = 0;
           var info = S.cardInfo[rec.id];
           status(VERB[choice] + ": " + (info ? info.name : rec.name));
-          if (choice === "add") showSwapFor(rec.id);
-          else hideSwap();
+          if (choice === "add") {
+            S.swapOff = false; // a new pick brings a closed prompt back
+            showSwapFor(rec.id);
+          } else refreshSwap(); // cycle 14: still over 100? the prompt stays
           var card = document.querySelector("#stage .card");
           if (!card || reduceMotion) {
             render();
@@ -2189,7 +2322,7 @@
           S.state = r.state;
           persist();
           noteChange();
-          hideSwap();
+          refreshSwap();
           var info = S.cardInfo[r.id];
           status("Undid: " + (info ? info.name : "last swipe"));
           render();
@@ -2303,6 +2436,8 @@
           chips.textContent = "";
           S.piles.forEach(function (p) {
             if (p.group === "role" || p.group === "theme") return;
+            // cycle 14 (Nick, cycle 13): a used-up pile's chip goes, unless it's open
+            if (p.key !== S.current && p.loaded && pileCount(p) === "0") return;
             chips.appendChild(
               el(
                 "button",
@@ -2319,6 +2454,28 @@
           });
           fillPileSelect($("roleSelect"), "role", "Roles\u2026");
           fillPileSelect($("themeSelect"), "theme", "Themes\u2026");
+          if (S.revealed !== S.current) revealActiveChip();
+        }
+
+        /**
+         * Cycle 14: on a phone the pile row scrolls sideways and the dropdowns
+         * come first, so the open pile's chip can sit half off screen. Scroll
+         * it into view once each time a pile opens (not on every swipe, so it
+         * doesn't fight someone scrolling the row).
+         */
+        function revealActiveChip() {
+          var nav = $("piles");
+          if (!nav || nav.offsetParent === null) return;
+          S.revealed = S.current;
+          if (nav.scrollWidth <= nav.clientWidth) return;
+          var b =
+            nav.querySelector("button[aria-pressed=true]") ||
+            nav.querySelector("select.active");
+          if (!b) return;
+          var nr = nav.getBoundingClientRect();
+          var br = b.getBoundingClientRect();
+          if (br.left < nr.left || br.right > nr.right - 28)
+            nav.scrollLeft += br.left - nr.left - 12;
         }
 
         /**
@@ -2503,11 +2660,7 @@
           var line = [money(info.usd)];
           if (rec.onEdhrec) {
             line.push(
-              "in " +
-                pct(rec.inclusion) +
-                " of " +
-                rec.potentialDecks.toLocaleString() +
-                " decks",
+              "in " + pct(rec.inclusion) + " of EDHREC decks", // cycle 14: say whose numbers
             );
             line.push(
               (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + " synergy",
@@ -2530,10 +2683,16 @@
               { class: "namerow" },
               [el("div", { class: "cardname", text: info.name })].concat(badges),
             ),
-            el("div", { text: line.join(" \u00b7 ") }),
+            el("div", {
+              class: "stats",
+              title: rec.onEdhrec
+                ? "EDHREC: " + rec.potentialDecks.toLocaleString() + " decks with this commander"
+                : "",
+              text: line.join(" \u00b7 "),
+            }),
           ];
           var f = fitFor(rec.id);
-          if (f) bits.push(fitDetails(f));
+          if (f) bits.push(fitDetails(f, rec.onEdhrec));
           if (comboBox) bits.push(comboBox);
           stage.appendChild(el("div", { class: "meta" }, bits));
 
@@ -2701,7 +2860,7 @@
         }
 
         /** "Fit 84 - first reason", opening to all the reasons. */
-        function fitDetails(f) {
+        function fitDetails(f, edh) {
           var first = f.reasons[0] || "No tie-ins with your deck found in its text";
           var d = el("details", { class: "why" }, [
             el("summary", { title: f.reasons.join("\n") }, [
@@ -2719,7 +2878,11 @@
               : null,
             el("div", {
               class: "small",
-              text: "Fit (0-100) is how well the card's rules text ties into your deck's plan, not how strong the card is.",
+              text:
+                "Fit (0-100) is how well the card's rules text ties into your deck's plan, not how strong the card is." +
+                (edh
+                  ? " The EDHREC numbers: the share of this commander's decks on EDHREC that run the card, and synergy, how much more often they run it than other decks in its colors."
+                  : ""),
             }),
           ]);
           d.open = S.whyOpen;
@@ -2738,7 +2901,7 @@
             $("deckFitHead").textContent = "Your deck";
             return;
           }
-          $("deckFitHead").textContent = "Your deck: synergy " + d.score + "/100";
+          $("deckFitHead").textContent = "Your deck: Fit " + d.score + "/100"; // cycle 14: EDHREC's "synergy" is a different number
           body.appendChild(
             el("div", {
               class: "muted small",
@@ -2794,7 +2957,7 @@
         // ------------------------------------------------------------ cuts
 
         /** Cut ideas for this deck right now (combo pieces the deck has are kept). */
-        function cutIdeas() {
+        function cutIdeas(need) {
           if (!S.profile || !S.deckFit || !S.state) return [];
           var protect = {};
           if (S.combos && S.combos.deck)
@@ -2805,10 +2968,12 @@
                   protect[CS.nameKey(n)] = true;
                 });
               });
-          return CS.cutSuggestions(S.profile, S.deckFit, S.deckSlimList, {
-            protect: protect,
-            cuts: S.state.cuts,
-          });
+          var opts = { protect: protect, cuts: S.state.cuts };
+          var ideas = CS.cutSuggestions(S.profile, S.deckFit, S.deckSlimList, opts);
+          // cycle 14: over 100 by `need`? enough ideas to get back to 100
+          return need
+            ? CS.fillCuts(ideas, S.profile, S.deckFit, S.deckSlimList, opts, need)
+            : ideas;
         }
 
         /** Cuts one copy of a deck card. `forName`: the pick it makes room for, if any. */
@@ -2818,9 +2983,14 @@
           S.state = CS.cutOne(latestState(), e.name, e.qty, Date.now());
           persist();
           noteChange();
+          if (S.swap) S.swapPaired[S.swap.forId] = true; // that pick has its cut
           S.swap = null;
-          renderCutsAll();
-          status("Cut: " + e.name + (forName ? ", to make room for " + forName : ""));
+          renderCutsAll(); // cycle 14: still over 100? the next cut idea shows
+          var left = deckTotals().total - 100;
+          status(
+            "Cut: " + e.name + (forName ? ", to make room for " + forName : "") +
+              (left > 0 ? ". Still " + left + " over 100." : ""),
+          );
         }
 
         function undoCut(name) {
@@ -2856,6 +3026,7 @@
               { class: "list cutideas" },
               ideas.map(function (x) {
                 return el("li", null, [
+                  thumbFor(S.cardInfo[x.id]),
                   el("span", null, [
                     x.name,
                     el("span", { class: "why", text: x.reasons.join(". ") }),
@@ -2909,6 +3080,7 @@
                   ]);
                 var all = n >= e.qty;
                 return el("li", { class: all ? "is-cut" : "" }, [
+                  thumbFor(infoByName(e.name)),
                   el("span", { text: label + (n && !all ? " (" + n + " cut)" : "") }),
                   el("button", {
                     type: "button",
@@ -2958,13 +3130,13 @@
          */
         function showSwapFor(id, again) {
           var info = S.cardInfo[id];
-          if (!info || !S.profile || deckTotals().total <= 100) {
+          if (!info || !S.profile || S.swapOff || deckTotals().total <= 100) {
             hideSwap();
             return;
           }
           var ideas = CS.swapSuggestions(
             info,
-            cutIdeas(),
+            cutIdeas(deckTotals().total - 100),
             S.profile,
             S.parsed.cards,
             S.state.cuts,
@@ -2982,6 +3154,32 @@
                 ideas[0].name +
                 ".",
             );
+        }
+
+        /**
+         * Cycle 14 (Nick: cuts until the deck is back to 100): while picks keep
+         * the deck over 100, keep offering a cut, for the newest pick that
+         * hasn't had one yet. Closing it with x hides it until the next Add.
+         */
+        function refreshSwap() {
+          if (!S.state || !S.parsed || !S.profile || S.swapOff) {
+            hideSwap();
+            return;
+          }
+          var t = deckTotals();
+          if (t.total <= 100 || !t.pending.length) {
+            hideSwap();
+            return;
+          }
+          var id =
+            S.swap && t.pending.indexOf(S.swap.forId) !== -1
+              ? S.swap.forId
+              : t.pending
+                  .filter(function (x) {
+                    return !S.swapPaired[x];
+                  })
+                  .pop() || t.pending[t.pending.length - 1];
+          showSwapFor(id, true);
         }
 
         function hideSwap() {
@@ -3041,7 +3239,10 @@
               "aria-label": "Not now",
               title: "Not now",
               text: "\u00d7",
-              onclick: hideSwap,
+              onclick: function () {
+                S.swapOff = true; // until the next Add
+                hideSwap();
+              },
             }),
           );
           box.hidden = false;
@@ -3070,20 +3271,82 @@
             );
         }
 
+        /** Cycle 14: a small card image for a list row; tap it to see the whole card. */
+        function thumbFor(info) {
+          if (!info || !info.image) return null;
+          return el(
+            "button",
+            {
+              type: "button",
+              class: "thumb",
+              "aria-label": "Show " + info.name,
+              title: info.name,
+              onclick: function () {
+                showCard(info);
+              },
+            },
+            [
+              el("img", {
+                src: info.image.replace("/normal/", "/small/"),
+                alt: "",
+                loading: "lazy",
+                draggable: "false",
+              }),
+            ],
+          );
+        }
+
+        function showCard(info) {
+          var dlg = $("cardView");
+          if (!dlg || typeof dlg.showModal !== "function") {
+            window.open(info.image, "_blank", "noopener");
+            return;
+          }
+          $("cardViewImg").src = info.image;
+          $("cardViewImg").alt = cardAlt(info);
+          $("cardViewName").textContent = info.name;
+          dlg.showModal();
+        }
+
+        /** Cycle 14: a deck card's details by its name (for thumbnails). */
+        function infoByName(name) {
+          var key = CS.nameKey(name);
+          var m = (S.matched || []).filter(function (x) {
+            return x.card && CS.nameKey(x.line.name) === key;
+          })[0];
+          return m ? S.cardInfo[m.card.id] || null : null;
+        }
+
+        /** Cycle 14: Add from the Maybe or Skipped list (Undo takes it back). */
+        function moveToAdd(id) {
+          flushPending();
+          if (!S.state) return;
+          S.state = CS.decide(latestState(), id, "add", Date.now());
+          persist();
+          noteChange();
+          var info = S.cardInfo[id];
+          status("Added: " + (info ? info.name : "card"));
+          render();
+          S.swapOff = false;
+          showSwapFor(id);
+        }
+
+        var LIST_SHOW = 6; // cycle 14: rows shown before "Show all", so the page doesn't run on
+
         function renderList(choice, listId, countId, only) {
           var ids = only || CS.idsWith(S.state, choice);
           $(countId).textContent = String(ids.length);
           var ul = $(listId);
           ul.textContent = "";
-          ids
-            .slice()
-            .reverse()
-            .forEach(function (id) {
+          var rows = ids.slice().reverse();
+          var all = S.listAll[listId] || rows.length <= LIST_SHOW + 2;
+          (all ? rows : rows.slice(0, LIST_SHOW)).forEach(function (id) {
               var info = S.cardInfo[id];
               var name = info ? info.name : "(loading name...)";
               var fit = info ? fitFor(id) : null;
               ul.appendChild(
                 el("li", null, [
+                  thumbFor(info),
                   el("span", { text: name }),
                   fit
                     ? el("span", { class: "fit", title: "Fit score for this deck", text: "Fit " + fit.score })
@@ -3091,9 +3354,21 @@
                   info
                     ? el("span", { class: "price", text: money(info.usd) })
                     : null,
+                  choice !== "add"
+                    ? el("button", {
+                        type: "button",
+                        class: "toadd",
+                        "aria-label": "Add " + name,
+                        title: "Move it to Added",
+                        text: "Add",
+                        onclick: function () {
+                          moveToAdd(id);
+                        },
+                      })
+                    : null,
                   el("button", {
                     type: "button",
-                    "aria-label": "Remove " + name,
+                    "aria-label": (choice === "skip" ? "Put back " : "Remove ") + name,
                     title: "Remove (it can come back in its pile)",
                     text: "\u00d7",
                     onclick: function () {
@@ -3106,6 +3381,19 @@
                 ]),
               );
             });
+          if (rows.length > LIST_SHOW + 2)
+            ul.appendChild(
+              el("li", { class: "more" }, [
+                el("button", {
+                  type: "button",
+                  text: all ? "Show fewer" : "Show all " + rows.length,
+                  onclick: function () {
+                    S.listAll[listId] = !all;
+                    renderLists();
+                  },
+                }),
+              ]),
+            );
         }
 
         function renderLists() {
@@ -3113,6 +3401,13 @@
           var t = deckTotals();
           renderList("add", "addedList", "addedCount", t.pending);
           renderList("maybe", "maybeList", "maybeCount");
+          // cycle 14: Skipped, built only while it's open (it can run to hundreds)
+          var skipped = CS.idsWith(S.state, "skip");
+          if ($("skipSec").open) renderList("skip", "skipList", "skipCount", skipped);
+          else {
+            $("skipCount").textContent = String(skipped.length);
+            $("skipList").textContent = "";
+          }
           $("copyBtn").disabled = !t.pending.length;
           var note = $("inDeckNote");
           var said = [];
@@ -3140,6 +3435,7 @@
           names.forEach(function (n) {
             ul.appendChild(
               el("li", null, [
+                thumbFor(infoByName(n)),
                 el("span", { text: n + (cuts[n] > 1 ? " (" + cuts[n] + ")" : "") }),
                 el("button", {
                   type: "button",
@@ -3154,7 +3450,7 @@
             );
           });
           // deck after changes
-          $("totalSec").hidden = !t.picks && !t.cuts;
+          $("totalSec").hidden = !t.picks && !t.cuts && t.total <= 100;
           var total = $("deckTotal");
           total.textContent = String(t.total);
           total.className = t.total > 100 ? "over" : "";
@@ -3171,6 +3467,38 @@
                 ? 100 - t.total + " under 100."
                 : "Exactly 100.") +
             " Copy whole deck is for Moxfield's Bulk Edit; it keeps your printings.";
+          // cycle 14 (Nick): cut ideas until the deck is back to 100, picks included
+          var over = t.total - 100;
+          var oc = $("overCuts");
+          oc.textContent = "";
+          $("overHead").hidden = over <= 0;
+          if (over > 0) {
+            var need = cutIdeas(over).slice(0, over);
+            $("overHead").textContent = need.length
+              ? "To get back to 100, cut " + over + (over === 1 ? " card" : " cards") + ". Best ideas first:"
+              : "Cut " + over + " to get back to 100. All cards, under Your deck, has every card.";
+            need.forEach(function (x) {
+              oc.appendChild(
+                el("li", null, [
+                  thumbFor(S.cardInfo[x.id]),
+                  el("span", null, [
+                    x.name,
+                    el("span", { class: "why", text: x.reasons.join(". ") }),
+                  ]),
+                  el("button", {
+                    type: "button",
+                    class: "cut",
+                    "aria-label": "Cut " + x.name,
+                    text: "Cut",
+                    onclick: function () {
+                      doCut(x.name);
+                    },
+                  }),
+                ]),
+              );
+            });
+          }
+          refreshSwap();
           // progress, for narrow screens where the lists are below the card
           var bits = [];
           if (t.picks) bits.push(t.picks + " added");
@@ -3349,7 +3677,8 @@
           setupMsg(msg);
         }
 
-        // Paste and load: read the clipboard, replace the box, load.
+        // Paste from clipboard: read the clipboard and replace the box. Load
+        // deck loads it (cycle 14: two buttons that both loaded were confusing).
         $("pasteBtn").addEventListener("click", function () {
           setupError("");
           if (!navigator.clipboard || !navigator.clipboard.readText) {
@@ -3367,7 +3696,13 @@
                 return;
               }
               $("exportText").value = text;
-              loadDeck("");
+              setupError("");
+              setupMsg(
+                looksLikeDeck(text)
+                  ? "Pasted " + CS.deckSize(CS.parseExport(text).cards) + " cards. Press Load deck when you're ready."
+                  : "Pasted. Press Load deck when you're ready.",
+              );
+              $("loadBtn").focus();
             },
             function () {
               askForPaste(
@@ -3500,9 +3835,20 @@
           });
         });
         $("copyBtn").addEventListener("click", copyForMoxfield);
+        // cycle 14: the Skipped list and the card view
+        $("skipSec").addEventListener("toggle", function () {
+          if (S.state) renderLists();
+        });
+        $("cardViewClose").addEventListener("click", function () {
+          $("cardView").close();
+        });
+        $("cardView").addEventListener("click", function (e) {
+          if (e.target === this) this.close(); // a tap outside the card
+        });
 
         document.addEventListener("keydown", function (e) {
           if ($("app").hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+          if ($("cardView").open) return; // cycle 14: the big card is showing
           var t = e.target;
           if (
             t &&

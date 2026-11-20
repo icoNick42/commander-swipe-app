@@ -1919,6 +1919,66 @@
   };
 
   /**
+   * Cycle 14: enough cut ideas to bring the deck back to 100. When
+   * CS.cutSuggestions has fewer than `need`, adds the cards with the lowest
+   * Fit left (non-role cards first, then role cards). Never the commander,
+   * a land, a protected combo piece or a card already cut.
+   * `ideas`: CS.cutSuggestions result; `opts` as for CS.cutSuggestions.
+   * Returns ideas plus fillers [{id, name, score: 0, fit, reasons, roles, cmc, filler: true}].
+   */
+  CS.fillCuts = function (ideas, profile, syn, slims, opts, need) {
+    var out = (ideas || []).slice();
+    if (!need || out.length >= need) return out;
+    var o = opts || {};
+    var protect = o.protect || {};
+    var skip = {};
+    out.forEach(function (x) {
+      skip[CS.nameKey(x.name)] = true;
+    });
+    Object.keys(o.cuts || {}).forEach(function (n) {
+      skip[CS.nameKey(n)] = true;
+    });
+    var cmcById = {};
+    (slims || []).forEach(function (s) {
+      if (s) cmcById[s.id] = typeof s.cmc === "number" ? s.cmc : null;
+    });
+    var rest = [];
+    profile.cards.forEach(function (c) {
+      if (c.commander || c.land) return;
+      var key = CS.nameKey(c.name);
+      if (protect[key] || skip[key]) return;
+      skip[key] = true;
+      var fit = syn && syn.fits && typeof syn.fits[c.id] === "number" ? syn.fits[c.id] : null;
+      rest.push({ c: c, fit: fit, roles: Object.keys(c.roles) });
+    });
+    rest.sort(function (a, b) {
+      var ra = a.roles.length ? 1 : 0;
+      var rb = b.roles.length ? 1 : 0;
+      var fa = a.fit == null ? 101 : a.fit;
+      var fb = b.fit == null ? 101 : b.fit;
+      return ra - rb || fa - fb || (a.c.name < b.c.name ? -1 : 1);
+    });
+    for (var i = 0; i < rest.length && out.length < need; i++) {
+      var r = rest[i];
+      out.push({
+        id: r.c.id,
+        name: r.c.name,
+        score: 0,
+        fit: r.fit,
+        reasons: [
+          (r.fit == null ? "Fit unknown" : "Fit " + r.fit) +
+            ": one of the lowest left in the deck" +
+            (r.roles.length ? " (it fills a role, so check it)" : ""),
+        ],
+        roles: r.roles,
+        cmc: cmcById[r.c.id] != null ? cmcById[r.c.id] : null,
+        filler: true,
+      });
+    }
+    return out;
+  };
+
+  /**
    * What to cut for a card just added (taxonomy swap_pairing, simplified):
    * a cut idea scores higher when it does the same job, works the same theme,
    * or costs about the same. A land pairs with a basic land.
