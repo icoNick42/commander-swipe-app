@@ -9,7 +9,7 @@ If something I ask conflicts with this file, do what I asked and mention the con
 - Layout: `DESIGN.md` (colors, sizes and layout rules); `README.md` (public front page); `combos/` (combo lists the page reads, one per commander); `index.html` (layout, styles, page script); `core.js` (pure logic with no page access, loaded with a plain `<script src>`, never as a module, so the page also works when opened straight from the folder; it must also run in Node); `tests/` (Node tests and fixtures).
 - No build step, framework, package manager or outside library. GitHub Pages serves the files as-is. Ask before adding any library, font or asset, and tell me its license.
 - Preview: serve the folder (`py -m http.server 8000`, then http://localhost:8000). Tests: `node tests/core.test.js`.
-- Git: I commit and publish with GitHub Desktop myself. Don't commit, push or publish; give me the steps.
+- Git: when I say so (from any device, including my phone), commit and push from my PC with git, then check the live link. Before pushing: the tests and page check pass, `git status` shows only the files the change needs, and no `edhrec_*.json` is staged. Otherwise don't commit or push; give me the GitHub Desktop steps. (Changed 2026-11-20: going to the desktop just to push is tedious when I'm working remotely.)
 
 ## Data sources
 - Scryfall API (card data, images, role searches): send `Accept: application/json`, keep at least 100 ms between requests, and show card images whole (don't crop them or cover the artist and copyright line).
@@ -30,4 +30,4 @@ If something I ask conflicts with this file, do what I asked and mention the con
 - After a change: run the tests, preview the page, check the console for errors, and read each saved file back.
 - Edit app files only with scripts that read the file and replace exact text (one match per edit). Keep escapes as text: build any `\u` escape from a placeholder, never type it. After each write, check the file is still plain ASCII outside old comments before sending it to the PC.
 - A change to saved-data code gets one review by a fresh agent that sees the request and the finished change, not your reasoning. It reports Must / Should / Note.
-- Finish with a short summary: what changed, what was checked, what wasn't, and the GitHub Desktop steps.
+- Finish with a short summary: what changed, what was checked, what wasn't, and either the commit you pushed or the GitHub Desktop steps.
