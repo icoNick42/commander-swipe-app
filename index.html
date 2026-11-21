@@ -1361,7 +1361,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=18"></script>
+    <script src="core.js?v=19"></script>
     <script>
       (function () {
         "use strict";
@@ -3430,6 +3430,7 @@
             edhrec: ids.length ? S.edhrecByName : null,
             deckCards: S.parsed.cards,
             slims: S.deckSlimList,
+            today: new Date().toISOString().slice(0, 10), // cycle 19: a card in its first year isn't marked down for low play counts
           };
         }
 

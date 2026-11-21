@@ -195,6 +195,12 @@
       colorIdentity: sc.color_identity || [],
       edhrecRank: sc.edhrec_rank != null ? sc.edhrec_rank : null,
       cmc: typeof sc.cmc === "number" ? sc.cmc : null,
+      // cycle 19: for big bodies (Kozilek), keyword donors (Rayami) and new cards (Graduation Day)
+      power: /^\d+$/.test(String(sc.power != null ? sc.power : f.power)) ? parseInt(sc.power != null ? sc.power : f.power, 10) : null,
+      keywords: (sc.keywords || []).map(function (k) {
+        return String(k).toLowerCase();
+      }),
+      released: sc.reprint ? null : sc.released_at || null, // a reprint's date isn't the card's first printing
     };
   };
 
@@ -951,7 +957,7 @@
     ["deaths", /\b(destroy|exile) all (other )?(creatures|nonland permanents)\b/],
     ["deaths", /\bsacrifice (it|them) at (the beginning of the next end step|end of combat)\b|\bdecayed\b/],
     ["deaths", /\beach creature gets -|\ball creatures get -|\bdamage to each creature\b/],
-    ["deaths", /\bsacrifices? all (other )?creatures\b|\beach (player|opponent) sacrifices (a|an|one|two) creatures?\b/],
+    ["deaths", /\bsacrifices? all (other )?creatures\b|\beach (player|opponent) sacrifices (a|an|one|two|three|x|\d+|[a-z]*teen) creatures?\b/], // cycle 19: Blasphemous Edict (thirteen)
     // attacks: attack triggers and things that make attacking better
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
     ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b/],
@@ -1146,6 +1152,9 @@
     defender: { g: "A creature with defender", w: "Pays off defenders (draws, attacks using toughness, or helps low-power creatures)", b: "Defender that pays off defenders", short: "defenders" },
     colorless: { g: "A colorless spell", w: "Pays off colorless spells", b: "Colorless spell that pays off colorless spells", short: "colorless spells" },
     lowlands: { g: "Sacrifices or returns your own lands", w: "Better while an opponent has more lands than you", b: "Keeps your land count low and pays it off", short: "staying behind on lands" },
+    // cycle 19 (Nick's Rayami and Elsha decks)
+    keywords: { g: "A creature with combat keywords (flying, deathtouch, hexproof...)", w: "Borrows keywords from other creatures", b: "Has keywords and borrows more", short: "borrowed keywords" },
+    heroic: { g: "A spell that targets your creature (pump or protection)", w: "Pays off spells that target your creatures", b: "Targets your creatures and pays it off", short: "spells that target your creatures" },
   };
 
   /** "Makes creature tokens; 15 of your cards use them" and the like. */
@@ -1169,7 +1178,7 @@
     { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b|\\bspells you cast cost \\{\\d+\\} less\\b|\\badd x mana\\b|\\beach spell you cast that'?s [^.]*\\bcosts \\{\\d+\\} less\\b") },
     { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b|\bat the beginning of your upkeep\b[^.]*\bsearch your library for up to (two|three) basic land cards\b[^.]*\binto your hand\b/ },
     { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature|non[a-z]+) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) (sacrifices|exiles) (a|an|one) (creature|nonland permanent|attacking creature)\b|\bthe owner of target (nonland )?permanent shuffles it into\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
-    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?((tapped|untapped|attacking|non-[a-z]+|non[a-z]+) )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\bairbend all (other )?creatures\b|\bthen sacrifices the rest\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
+    { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?((tapped|untapped|attacking|non-[a-z]+|non[a-z]+) )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\beach player sacrifices (x|\d+|ten|twenty|[a-z]*teen) creatures\b|\bairbend all (other )?creatures\b|\bthen sacrifices the rest\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
     { key: "tutors", label: "Tutors", target: 2, re: new RegExp("\\bsearch your library for (a|an|up to (one|two)) (?![^.]*\\b" + LAND_WORD + "\\b)[^.]*\\bcards?\\b" +
       // cycle 18 (Starfield Shepherd: "a basic Plains card or a creature card with mana value 1 or less"; Finale of Devastation; Demonic Consultation)
       "|\\bsearch your library for [^.]*\\b(or|and/or) (a|an) ([a-z0-9]+ )*(creature|artifact|enchantment|instant|sorcery|planeswalker|equipment|aura|legendary|nonland) cards?\\b" +
@@ -1422,12 +1431,64 @@
     if (/\bwhenever you cast (an|a|your)[^.]*(instant|sorcery|noncreature)\b|\bprowess\b|\bmagecraft\b|\bwhenever you cast a spell\b(?! with)(?! that)|\b(instant and sorcery|instant and\/or sorcery|instant or sorcery) cards (are )?in your graveyard\b/.test(text))
       wants.spells = true;
     // a card only pays off its own label when it says so for others too
-    var roles = {};
+    var allRoles = {};
     if (!isLand)
       CS.SYN_ROLES.forEach(function (r) {
-        if (r.re.test(r.key === "ramp" ? CS.rampText(bare) : bare)) roles[r.key] = true;
+        if (r.re.test(r.key === "ramp" ? CS.rampText(bare) : bare)) allRoles[r.key] = true;
       });
-    if (roles.protection) gives.protect = true;
+    // cycle 19 (Kozilek, Butcher of Truth in Zimone; Leap and Arcane Denial): a role that comes only
+    // from a rider is a side job. "Draw a card." on a pump spell or a counterspell is a cantrip. A big
+    // card's cast trigger (castRoles) is a side job only in a deck that puts it into play for free
+    // (CS.deckProfile and CS.swapSuggestions decide). Side jobs don't count toward role counts, role
+    // swaps or "more X than the deck needs".
+    var roles = allRoles;
+    var sideRoles = {};
+    var castRoles = {};
+    if (!isLand && Object.keys(allRoles).length) {
+      var mainText = bare;
+      if (permanentCard && typeof slim.cmc === "number" && slim.cmc >= BIG_CMC) {
+        var noCast = bare.replace(/\bwhen you cast (this spell|~)[^.]*\.?/g, "");
+        CS.SYN_ROLES.forEach(function (r) {
+          if (allRoles[r.key] && !r.re.test(r.key === "ramp" ? CS.rampText(noCast) : noCast)) castRoles[r.key] = true;
+        });
+      }
+      if (/\b(instant|sorcery)\b/.test(mainTypes)) {
+        var noCantrip = mainText.replace(/(^|\n|\. )(you )?draw a card( at the beginning of the next turn's upkeep)?\./g, "$1");
+        var other = CS.SYN_ROLES.some(function (r) {
+          return r.key !== "draw" && r.re.test(r.key === "ramp" ? CS.rampText(noCantrip) : noCantrip);
+        }) || /\btarget ([a-z]+ )?creature\b|\bcreatures you control (get|gain)\b/.test(noCantrip);
+        if (other) mainText = noCantrip;
+      }
+      if (mainText !== bare) {
+        roles = {};
+        CS.SYN_ROLES.forEach(function (r) {
+          if (allRoles[r.key] && r.re.test(r.key === "ramp" ? CS.rampText(mainText) : mainText)) roles[r.key] = true;
+        });
+        Object.keys(allRoles).forEach(function (k) {
+          if (!roles[k]) sideRoles[k] = true;
+        });
+      }
+    }
+    if (allRoles.protection) gives.protect = true;
+    // cycle 19 (Rayami): commanders that borrow keywords (Rayami, Odric, Kathril, Majestic Myriarch,
+    // Concerted Effort) want creatures with keywords; any creature with a combat keyword gives one
+    var KW = "(flying|first strike|double strike|deathtouch|haste|hexproof|indestructible|lifelink|menace|protection|reach|trample|vigilance)";
+    if (new RegExp("\\b" + KW + "(, (and )?" + KW + "){3,}").test(bare) &&
+      /\bthe same is true for\b|\bamong\b|\bif (a|any) creature\b|\bas long as (an|a|you control a)\b/.test(bare))
+      wants.keywords = true;
+    var kwHas = (slim.keywords || []).some(function (k) {
+      return new RegExp("^" + KW + "$").test(k);
+    }) || new RegExp("(^|\\n)" + KW + "( from [a-z ]+)?((, | and )" + KW + "( from [a-z ]+)?)*[ ]*(\\n|$)").test(bare);
+    if (/\bcreature\b/.test(mainTypes) && !isLand && kwHas) gives.keywords = true;
+    // Rayami exiles dying creatures to borrow their keywords: it wants creatures to die
+    if (/\bif (a|another) (nontoken )?creature (an opponent controls )?would die\b/.test(bare)) wants.deaths = true;
+    // cycle 19 (Graduation Day in Elsha): heroic. Spells and Auras that target your own creature give it;
+    // "whenever you cast a spell that targets a creature" and heroic want it
+    if (!isLand && (/\b(instant|sorcery)\b/.test(mainTypes) || (/\baura\b/.test(types) && /\benchant creature\b/.test(text))) &&
+      /\btarget creature( you control)? (gets \+|gains?|has|can't be blocked|becomes)|\bput (a|an|one|two|three|x) \+1\/\+1 counters? on target creature\b|\buntap target creature\b|\benchanted creature (gets \+|has|gains?)/.test(bare))
+      gives.heroic = true;
+    if (/\bwhenever you cast (a|an) ([a-z]+ )*spells? that targets? (~|a creature|one or more creatures|only ~|a creature you control)\b|(^|\n)heroic\b|\bwhenever ~ becomes the target of a spell( or ability)? you control\b/.test(bare))
+      wants.heroic = true;
     // cycle 12: a creature with a {T} ability (a mana Elf) taps itself, which
     // "whenever ... becomes tapped" commanders (Dionus) pay off
     if (/\bcreature\b/.test(mainTypes) && !isLand && /\{t\}/.test(bare)) gives.tap = true;
@@ -1437,7 +1498,7 @@
       if (!gives.bigspell) typeOnly.bigspell = true;
       gives.bigspell = true;
     }
-    if (roles.draw) gives.drawing = true; // cycle 11: for "whenever you draw a card" payoffs
+    if (allRoles.draw) gives.drawing = true; // cycle 11: for "whenever you draw a card" payoffs
     // cycle 15 missed-synergy scan (57 decks): evasive creatures for combat-damage
     // and ninjutsu commanders (Satoru, Gonti); ability copiers (Strionic
     // Resonator, Rings of Brighthearth, Felix Five-Boots); untappers (Dramatic Reversal)
@@ -1491,6 +1552,8 @@
       gives: gives,
       wants: wants,
       roles: roles,
+      sideRoles: sideRoles, // cycle 19: roles from a rider (a cantrip; a big card's cast trigger in a deck that cheats it in)
+      castRoles: castRoles, // cycle 19: roles that come only from a big card's cast trigger
       subtypes: subtypes,
       tokenTypes: tokenTypes,
       text: text,
@@ -1505,6 +1568,28 @@
    * `deckSlims`: slim cards for the deck (the commander included);
    * `commanderName`: which one is the commander.
    */
+  /** Cycle 19: moves a big card's cast-trigger roles to its side jobs when the deck cheats big cards in. */
+  CS.applyCastSide = function (traits, cards) {
+    var keys = Object.keys((traits && traits.castRoles) || {});
+    if (!keys.length) return traits;
+    // the commander cheats big cards in, or three or more cards do (one reanimation spell isn't a plan)
+    var cheats = (cards || []).some(function (d) {
+      return d.commander && d.id !== traits.id && d.wants && d.wants.big;
+    }) || (cards || []).filter(function (d) {
+      return d.id !== traits.id && d.wants && d.wants.big;
+    }).length >= 3;
+    if (!cheats) return traits;
+    keys.forEach(function (k) {
+      if (!traits.roles[k]) return;
+      if (traits.roles === traits.sideRoles) return;
+      var r = Object.assign({}, traits.roles);
+      delete r[k];
+      traits.roles = r;
+      traits.sideRoles[k] = true;
+    });
+    return traits;
+  };
+
   CS.deckProfile = function (deckSlims, commanderName) {
     var cmdKey = CS.nameKey(commanderName || "");
     var cards = [];
@@ -1533,6 +1618,10 @@
       } else applyHooks(t, s, hooks);
       cards.push(t);
     });
+    // cycle 19: in a deck that puts big cards into play for free (Zimone), their cast triggers are side jobs
+    cards.forEach(function (c) {
+      CS.applyCastSide(c, cards);
+    });
     var typeCount = {};
     var roleCount = {};
     cards.forEach(function (c) {
@@ -1555,6 +1644,7 @@
       typeCount: typeCount,
       roleCount: roleCount,
       hooks: hooks,
+      route: CS.deckRoute(cards, deckSlims), // cycle 19: how the deck wins, when it's the commander attacking
     };
   };
 
@@ -1690,6 +1780,11 @@
     });
     var reasons = [];
     var cmd = profile.commander;
+    var planJob = CS.planJobFor(me, slim, profile); // cycle 19
+    if (cmd && planJob === "voltron")
+      reasons.push("For the game plan: suits up " + CS.frontName(cmd.name).split(",")[0] + " for commander damage");
+    else if (cmd && planJob === "win" && CS.isBigBody(me, slim))
+      reasons.push("For the game plan: a finisher " + CS.frontName(cmd.name).split(",")[0] + " can put into play for free");
     if (cmd && cmdHits.length) {
       reasons.push(
         "Works with " +
@@ -1855,7 +1950,8 @@
     var s = 0.55 * p + 0.45 * q + (slim.gameChanger ? 0.12 : 0);
     if (p >= 0.55) why.push("One of the most played cards in Commander"); // overall rank 100 or better
     if (slim.gameChanger) why.push("Game Changer");
-    return { score: Math.round(100 * Math.max(0, Math.min(1, s))), reasons: why };
+    // cycle 19: quality is how good it is at its job, without popularity (for cards too new to be widely played)
+    return { score: Math.round(100 * Math.max(0, Math.min(1, s))), reasons: why, quality: Math.round(100 * q) };
   };
 
   /**
@@ -2027,7 +2123,7 @@
    * Per card: {engine: [kind], win: [why]}; kinds are cards, mana, creatures, doubling.
    */
   var ENGINE_KINDS = [
-    ["cards", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bdraws? (a|an|one|two|three|x|that many|\d+|cards equal)\b|\byou may (play|cast) [^.]*\bfrom the top of your library\b|\bplay lands from the top of your library\b|\bwhenever [^.]*\binvestigate\b|\bwhen you cast ~, [^.]*\bdraw\b/],
+    ["cards", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bdraws? (a|an|one|two|three|x|that many|\d+|cards equal)\b|\byou may (play|cast) [^.]*\bfrom the top of your library\b|\bplay lands from the top of your library\b|\bwhenever [^.]*\binvestigate\b/], // cycle 19: a cast trigger ("when you cast ~, draw") happens once, so it isn't an engine
     ["mana", /\bwhenever [^.]*\badd (one|two|three|x|\{)|\bwhenever [^.]*\bcreate [^.]*\btreasure\b|\badds? an additional\b|\badds? (one|two) additional mana\b|\{t\}[^:\n]*: add [^.\n]*\b(for each|equal to|where x is)\b|\{t\}[^:\n]*: add \{[wubrgc]\}\{[wubrgc]\}\{[wubrgc]\}|\bcreatures you control have "\{t\}: add|\bwhenever you tap [^.]*\bfor mana\b|\buntap (all|target|another target)( other)? (artifacts?|permanents?|lands?)\b|\}: untap ~/],
     ["creatures", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bcreates? [^.\n]*\bcreature tokens?\b|\bcreate a token that'?s a copy of\b|\bwhenever [^\n]*\bif it'?s a creature card, put it onto the battlefield\b/],
     ["doubling", /\benters? as a copy of (any|a|an|another|target) (creature|artifact or creature|creature or planeswalker)\b|\btriggers? an additional time\b|\bplay (an|two|three|up to (two|three)) additional lands?\b|\bcopy (that|target|it|the) (activated or triggered |triggered |activated )?abilit(y|ies)\b|\bplay lands from your graveyard\b|\bwhenever you cast [^.]*\bcopy (it|that spell)\b/],
@@ -2053,6 +2149,8 @@
       ENGINE_KINDS.forEach(function (k) {
         if (k[1].test(bare)) out.engine.push(k[0]);
       });
+    // cycle 19: a cast trigger repeats only on a commander (recast from the command zone: Kozilek, the Great Distortion)
+    if (permanent && traits.commander && out.engine.indexOf("cards") === -1 && /\bwhen you cast (~|this spell), [^.]*\bdraw\b/.test(bare)) out.engine.push("cards");
     WIN_KINDS.forEach(function (k) {
       if (k[1].test(bare)) out.win.push(k[0]);
     });
@@ -2066,12 +2164,80 @@
    * tutors: [names], wins: [{name, why}], ramp, removal, wipes, bigMana,
    * ids: {id: "engine"|"win"}, notes: [text]}.
    */
+  /**
+   * Cycle 19 (Nick's Rayami deck: "the voltron nature of the deck seems to be missed"): how a deck
+   * wins when the plan is one creature, the commander, dealing the damage. A creature commander plus
+   * 6 or more Equipment and Auras that make it hit harder or get through, or a commander that pays off
+   * connecting, wearing gear or borrowing keywords plus 6 or more Equipment, Auras and spells that
+   * target your creature. (Zurgo's tools for a tokens deck, Skullclamp and Greaves among them, aren't
+   * a Voltron plan.) `cards`: profile cards;
+   * `slims`: the deck's slim cards. Returns {kind: "voltron", gear, heroic} or null.
+   */
+  CS.deckRoute = function (cards, slims) {
+    var cmd = (cards || []).filter(function (c) {
+      return c.commander;
+    })[0];
+    if (!cmd) return null;
+    var cs = (slims || []).filter(function (s) {
+      return s && s.id === cmd.id;
+    })[0];
+    var ct = String((cs && (cs.frontType || cs.typeLine)) || "").toLowerCase();
+    if (!/\bcreature\b/.test(ct.split("//")[0])) return null;
+    var gear = 0;
+    var threatGear = 0; // gear that makes its wearer hit harder or get through (not Greaves, Skullclamp, Blade of Selves)
+    var heroic = 0;
+    cards.forEach(function (c) {
+      if (c.commander || c.land) return;
+      if (c.gives.gear) {
+        gear++;
+        var gt = String(c.text || "").replace(/\([^)]*\)/g, "");
+        if (/\b(gets|get) \+\d+\/\+\d+|\+1\/\+1 counters?\b|\bdouble strike\b|\badditional combat\b|\bcan't be blocked\b|\bhas flying\b|\btrample\b|\bdeals combat damage to a player\b/.test(gt) &&
+          !/\bwhenever equipped creature dies\b|\bmyriad\b/.test(gt))
+          threatGear++;
+      } else if (c.gives.heroic) heroic++;
+    });
+    var bare = String(cmd.text || "").replace(/\([^)]*\)/g, "");
+    var threat = cmd.wants.gear || cmd.wants.keywords || cmd.wants.heroic ||
+      /\bwhenever ~ deals (combat )?damage to (a player|an opponent|one or more players)\b/.test(bare);
+    if (threatGear >= 6 || (threat && gear + heroic >= 6)) return { kind: "voltron", gear: gear, heroic: heroic };
+    return null;
+  };
+
+  /** Cycle 19: a creature that wins by itself once it's on the battlefield (annihilator, 10+ power, big infect). */
+  CS.isBigBody = function (traits, slim) {
+    if (!traits || traits.land || !slim) return false;
+    var types = String(slim.frontType || slim.typeLine || "").toLowerCase().split("//")[0];
+    if (!/\bcreature\b/.test(types)) return false;
+    var bare = String(traits.text || "").replace(/\([^)]*\)/g, "");
+    var pw = typeof slim.power === "number" ? slim.power : null;
+    return /\bannihilator\b/.test(bare) || (pw != null && pw >= 10) || (pw != null && pw >= 6 && /\binfect\b/.test(bare));
+  };
+
+  /**
+   * Cycle 19: a card's job in the deck's game plan, when it has one beyond its role:
+   * "win" (a finisher, or a big body the deck puts into play for free), "voltron" (Equipment, an
+   * Aura or a spell that suits up the commander, when the deck wins that way), "fuel" (makes the
+   * commander's own ability go: extra land drops for Zimone, keyword donors for Rayami), or null.
+   */
+  CS.planJobFor = function (traits, slim, profile) {
+    if (!traits || traits.land || !profile) return null;
+    var g = CS.gameKinds(traits, slim);
+    if (g.win.length || (CS.isBigBody(traits, slim) && CS.isCheatPayload(traits, profile))) return "win";
+    var cmd = profile.commander;
+    if (profile.route && profile.route.kind === "voltron" && (traits.gives.gear || traits.gives.heroic)) return "voltron";
+    if (cmd && cmd.id !== traits.id && Object.keys(traits.gives).some(function (l) {
+      return cmd.wants[l] && l !== "etb" && !(traits.typeOnly && traits.typeOnly[l]);
+    }))
+      return "fuel";
+    return null;
+  };
+
   CS.gamePlan = function (profile, byId, fits) {
     var engine = [];
     var wins = [];
     var protection = [];
     var tutors = [];
-    var kinds = { cards: [], mana: [], creatures: [], doubling: [] };
+    var kinds = { cards: [], mana: [], creatures: [], doubling: [], fuel: [] };
     var ids = {};
     var manaCards = 0; // mana engines whether or not they tie in: what the deck was built to do with mana
     var byFit = function (a, b) {
@@ -2094,6 +2260,18 @@
       if (g.win.length) {
         wins.push({ name: c.name, id: c.id, why: g.win[0], commander: !!c.commander });
         ids[c.id] = ids[c.id] || "win";
+      } else if (!c.commander && CS.isBigBody(c, byId[c.id]) && CS.isCheatPayload(c, profile)) {
+        // cycle 19 (Kozilek, Butcher of Truth in Zimone): a huge creature the deck puts into play for free
+        wins.push({ name: c.name, id: c.id, why: "a huge body, put into play for free", commander: false });
+        ids[c.id] = ids[c.id] || "win";
+      }
+      if (!c.commander && !ids[c.id]) {
+        var job = CS.planJobFor(c, byId[c.id], profile);
+        if (job === "voltron") ids[c.id] = "voltron";
+        else if (job === "fuel" && (fits[c.id] || 0) >= 40) {
+          ids[c.id] = "fuel";
+          kinds.fuel.push(CS.frontName(c.name));
+        }
       }
       if (!c.commander && c.roles.protection) protection.push(CS.frontName(c.name));
       if (!c.commander && c.roles.tutors) tutors.push(CS.frontName(c.name));
@@ -2116,12 +2294,18 @@
       );
     if (engine.length < 4)
       notes.push("Few repeat engines (" + engine.length + "): most of the deck's advantage comes from one-time cards.");
+    var route = profile.route || null;
+    if (route && route.kind === "voltron" && cmd) {
+      var suit = route.gear + " Equipment and Auras" + (route.heroic ? " and " + route.heroic + " spells that target it" : "");
+      wins.unshift({ name: cmd.name, id: cmd.id, why: "attacking for commander damage, suited up by " + suit, commander: true });
+    }
     return {
       engine: engine,
       engineCount: engine.length,
       kinds: kinds,
       protection: protection,
       tutors: tutors,
+      route: route,
       wins: wins,
       ramp: rc.ramp || 0,
       removal: rc.removal || 0,
@@ -2151,6 +2335,8 @@
     var eng = "Engine: " + g.engineCount + (g.engineCount === 1 ? " card keeps" : " cards keep") + " making " +
       (parts.length ? parts.join(", ") : "an advantage");
     if (g.kinds.doubling.length) eng += "; " + g.kinds.doubling.length + " double what other cards do (" + two(g.kinds.doubling) + ")";
+    // cycle 19: cards that make the commander's own ability go (Exploration for Zimone)
+    if (g.kinds.fuel && g.kinds.fuel.length) eng += "; " + g.kinds.fuel.length + " feed the commander (" + two(g.kinds.fuel) + ")";
     lines.push(eng + ".");
     lines.push("Protection: " + g.protection.length + (g.protection.length ? " (" + g.protection.slice(0, 3).map(short).join(", ") + (g.protection.length > 3 ? " and others" : "") + ")" : "") + ".");
     lines.push("Tutors to find the pieces: " + g.tutors.length + (g.tutors.length ? " (" + g.tutors.slice(0, 3).map(short).join(", ") + (g.tutors.length > 3 ? " and others" : "") + ")" : "") + ".");
@@ -2361,6 +2547,25 @@
    * typical count), staple}] in deck order.
    */
   CS.CUT_WEIGHTS = { tie: 0.5, str: 0.2, inc: 0.3, offPage: 0.15, noEdhTie: 0.65, noEdhStr: 0.35 };
+  // cycle 19: a card in its first year has little play history yet (EDHREC pages, popularity)
+  CS.NEW_CARD_DAYS = 365;
+  function dayNum(d) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ""));
+    return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) / 86400000 : null;
+  }
+  function newestRelease(slims) {
+    var best = null;
+    (slims || []).forEach(function (s) {
+      if (s && s.released && (!best || s.released > best)) best = s.released;
+    });
+    return best;
+  }
+  function isNewCard(slim, today) {
+    var a = dayNum(slim && slim.released);
+    var b = dayNum(today);
+    return a != null && b != null && b - a <= CS.NEW_CARD_DAYS && b >= a;
+  }
+  CS.isNewCard = isNewCard;
   CS.cutCandidates = function (profile, syn, slims, opts) {
     var W = CS.CUT_WEIGHTS;
     var o = opts || {};
@@ -2393,6 +2598,11 @@
     var colorCount = cmd && byId[cmd.id] ? (byId[cmd.id].colorIdentity || []).length : 0;
     // cycle 18: the game plan (engine pieces and finishers are the deck's job; a deck built for lots of mana isn't over on ramp)
     var game = (syn && syn.game) || null;
+    // cycle 19 (Graduation Day in Elsha): EDHREC's numbers say how popular a card is, not how well it fits.
+    // A card new to Magic has no EDHREC history yet, and a card that ties in at or above the deck's
+    // average isn't marked down for being missing from the commander's page.
+    var avgTie = syn && typeof syn.score === "number" ? syn.score : 50;
+    var today = o.today || newestRelease(slims);
     var gameIds = (game && game.ids) || {};
     function tiesToCommander(c) {
       if (!cmd) return false;
@@ -2433,8 +2643,10 @@
       // a role card does its job whatever the theme (taxonomy "staple damping"),
       // so a low tie-in counts for less
       if (roles.length) tie = Math.max(tie, 0.5);
-      var planJob = gameIds[c.id] || null; // cycle 18: "engine" (ties in, so it's this deck's engine) or "win"
-      if (planJob === "win") tie = Math.max(tie, 0.4); // a finisher has a job, even when it ties in to little
+      var planJob = gameIds[c.id] || null; // cycle 18: "engine" (ties in, so it's this deck's engine) or "win"; cycle 19: "voltron", "fuel"
+      if (planJob === "win" || planJob === "voltron") tie = Math.max(tie, 0.4); // a finisher has a job, even when it ties in to little
+      var isNew = !c.land && isNewCard(slim, today);
+      var fuel = !c.land && CS.planJobFor(c, slim, profile) === "fuel"; // makes the commander's own ability go
       var li = null;
       var keepBase;
       // a spell that can be played as a land (Hagra Mauling // Hagra Broodpit): a flexible land
@@ -2463,10 +2675,11 @@
         keep = 0.65 * keepBase.q + 0.35 * (str / 100);
         if (inc) keep = Math.max(keep, 0.5 * keepBase.q + 0.25 * (str / 100) + 0.25 * Math.min(1, inc / 0.4));
       }
-      else
-        keep = inc != null
-          ? W.tie * tie + W.str * (str / 100) + W.inc * (inc > 0 ? Math.min(1, inc / 0.4) : W.offPage)
-          : W.noEdhTie * tie + W.noEdhStr * (str / 100);
+      else if (inc != null && isNew)
+        keep = W.tie * tie + W.str * (Math.max(str, 30) / 100) + W.inc * tie; // a new card: its own fit stands in for EDHREC, and its low popularity isn't held against it
+      else if (inc != null)
+        keep = W.tie * tie + W.str * (str / 100) + W.inc * (inc > 0 ? Math.min(1, inc / 0.4) : fit >= avgTie && fit >= 40 ? tie : W.offPage);
+      else keep = W.noEdhTie * tie + W.noEdhStr * ((isNew ? Math.max(str, 30) : str) / 100);
       // ---- concrete reasons it could go
       var surplus = 0;
       var surplusRole = null;
@@ -2477,6 +2690,8 @@
         var t = roleInfo[r].target;
         if (r === "ramp" && cmdCmc >= 6) t += cmdCmc - 4; // Gishath, Sauron
         if (r === "ramp" && game && game.bigMana) return; // cycle 18: Kozilek, Kinnan, a lands deck: mana is the plan
+        if (r === "ramp" && fuel) return; // cycle 19: Exploration and Farseek in Zimone feed landfall, not spare ramp
+        if (r === "ramp" && planJob === "engine") return; // a mana engine that ties in (Lotus Cobra in a landfall deck) is the plan
         var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t)); // a quarter over
         if (x > surplus) {
           surplus = x;
@@ -2498,6 +2713,8 @@
       var cut = 1 - keep + 0.25 * surplus * (1 - keep) + 0.15 * offCurve + (gc && gcCount > 3 ? 0.1 : 0);
       if (!c.land && fit < 40 && !roles.length && !payload && planJob === "win")
         reasons.push("A finisher, though it ties in to little else here (tie-in " + fit + " of 100)");
+      else if (!c.land && fit < 40 && !roles.length && !payload && planJob === "voltron")
+        reasons.push("Suits up your commander, though it ties in to little else here (tie-in " + fit + " of 100)");
       else if (!c.land && fit < 40 && !roles.length && !payload)
         reasons.push(
           // cycle 16 (Nick: explanations need context): plain words, the number second
@@ -2505,12 +2722,16 @@
             " (tie-in " + fit + " of 100)",
         );
       var note = null; // informational: shown, but not a reason on its own
-      if (inc != null && inc < 0.1 && fit < 60 && !c.land) {
+      if (inc != null && inc < 0.1 && fit < 60 && (fit < avgTie || fit < 40) && !isNew && !c.land) {
         if (inc > 0) reasons.push("Only " + Math.round(inc * 100) + "% of this commander's EDHREC decks run it");
         else note = "Few decks with this commander run it (it isn't on the commander's EDHREC page)";
       }
-      if (!c.land && roles.length && str < 30)
-        reasons.push("There are stronger cards for its job (strength " + str + " of 100)");
+      // cycle 19: not for a finisher or a piece that suits up the commander (its job is the plan, not the role)
+      // (nor for an engine piece that ties in at or above the deck's average: Electro for Elsha)
+      if (!c.land && roles.length && !payload && planJob !== "win" && planJob !== "voltron" && !(planJob === "engine" && fit >= avgTie)) {
+        if (isNew && CS.strength(slim, c).quality < 45) reasons.push("There are cheaper or better cards for its job (it's new, so few decks run it yet)");
+        else if (!isNew && str < 30) reasons.push("There are stronger cards for its job (strength " + str + " of 100)");
+      }
       if (surplusRole && surplus > 0)
         reasons.push(
           "More " + roleInfo[surplusRole].label.toLowerCase() + " than the deck needs: " + roleCount[surplusRole] +
@@ -2574,14 +2795,18 @@
       // no concrete reason: only a plain card (no role, not the commander's
       // engine) that ties in less than the deck's average
       if (x.roles.length || x.engine || x.land) return false;
-      if (x.planJob === "win" && x.tie >= 50) return false; // cycle 18: a finisher that ties in (Assault Formation for walls)
-      // (a card few of this commander's decks run counts, even at an average tie-in)
-      if (syn && typeof syn.score === "number" && x.tie >= syn.score && !(x.inc === 0 && x.tie < 60)) return false;
+      if ((x.planJob === "win" || x.planJob === "voltron") && x.tie >= 50) return false; // cycle 18: a finisher that ties in (Assault Formation for walls)
+      // cycle 19 (Graduation Day): a card at or above the deck's average tie-in stays, however few decks run it
+      if (syn && typeof syn.score === "number" && x.tie >= syn.score) return false;
       return x.cut >= 0.55;
     });
     out.forEach(function (x) {
       x.score = Math.round(Math.min(1, x.cut) * 100);
-      if (!x.reasons.length) x.reasons = ["Tie-in " + x.tie + " and strength " + x.strength + ": lower than most of the deck"];
+      // cycle 19: a note (few decks run it, a Game Changer under 4) is never the reason on its own
+      var hasConcrete = x.reasons.some(function (r) {
+        return !/^Game Changer: the deck has \d+ \(any|^Few decks with this commander run it/.test(r);
+      });
+      if (!hasConcrete) x.reasons.unshift("Tie-in " + x.tie + " and strength " + x.strength + ": lower than most of the deck");
     });
     out.sort(function (a, b) {
       return b.cut - a.cut || a.fit - b.fit || (a.name < b.name ? -1 : 1);
@@ -2673,9 +2898,14 @@
     if (!added) return [];
     var o = opts || {};
     var me = CS.cardTraits(added);
-    var myRoles = Object.keys(me.roles);
+    var myRoles = Object.keys(me.roles); // cycle 19: main roles only (Kozilek's cast-trigger draw is a side job)
+    CS.applyCastSide(me, profile.cards);
+    myRoles = Object.keys(me.roles);
+    var myJob = CS.planJobFor(me, added, profile);
+    var jobWords = { win: "a finisher", voltron: "suits up your commander", fuel: "feeds your commander" };
     var myLabels = Object.keys(me.gives).concat(Object.keys(me.wants));
     var myStr = CS.strength(added, me).score;
+    var myTie = CS.fitScore(added, profile).score; // cycle 19
     var cmc = typeof added.cmc === "number" ? added.cmc : null;
     var roleLabel = {};
     CS.SYN_ROLES.forEach(function (r) {
@@ -2763,13 +2993,31 @@
         }
         if (!x.land) {
           if ((y.locked || y.staple) && !sameRole) return; // a role the deck needs, and the new card doesn't do it
-          if (sameRole) {
+          // cycle 19 (They Came from the Pipes offered Kozilek as "the same job (card draw)"): a finisher or a
+          // piece that suits up the commander goes only for a card that does the same job in the plan
+          var samePlan = !!(myJob && myJob !== "fuel" && y.planJob === myJob);
+          if ((y.planJob === "win" || y.planJob === "voltron") && !samePlan) return;
+          if (samePlan && !sameRole) {
+            pair += 0.15;
+            why = "does the same job in your game plan (" + jobWords[myJob] + ")" + (myStr >= (y.strength || 0) + 10 ? ", and " + added.name + " is stronger" : "");
+          }
+          var cheaper = cmc != null && y.cmc != null && cmc < y.cmc;
+          var stronger = myStr >= (y.strength || 0) + 10;
+          var fitsBetter = myTie >= (typeof y.tie === "number" ? y.tie : 0) + 10;
+          var notWeaker = myStr >= (y.strength || 0) - 15;
+          // cycle 19 (They Came from the Pipes offered Aesi and Rhystic Study as the same job): like for like
+          // still holds (cycle 15), but a strong staple or a piece of the game plan goes only for a pick that
+          // does the job better: stronger, or a better fit (or cheaper, for a staple) and not much weaker
+          var keeper = !!(y.staple || y.planJob);
+          // (an engine piece or the commander's fuel goes only for a stronger card: Aesi feeds Zimone and draws)
+          var better = stronger || (!y.planJob && notWeaker && (fitsBetter || cheaper));
+          if (sameRole && keeper && !better) return; // keep the staple; the new card doesn't do its job better
+          if (sameRole && (!keeper || better)) {
             pair += 0.2;
-            var cheaper = cmc != null && y.cmc != null && cmc < y.cmc;
-            var stronger = myStr >= (y.strength || 0) + 10;
             if (cheaper || stronger) pair += 0.15;
             why = "does the same job (" + roleLabel[sameRole] + ")" +
-              (cheaper ? ", and " + added.name + " costs less" : stronger ? ", and " + added.name + " is stronger" : ", and works less well with this deck");
+              (keeper && stronger ? ", and " + added.name + " is stronger" : keeper && fitsBetter && !cheaper ? ", and " + added.name + " fits this deck better" :
+                cheaper ? ", and " + added.name + " costs less" : stronger ? ", and " + added.name + " is stronger" : ", and works less well with this deck");
           }
           var sameTheme = myLabels.some(function (l) {
             return (y.gives && y.gives[l]) || (y.wants && y.wants[l]);
@@ -2778,7 +3026,12 @@
           if (cmc != null && y.cmc != null) pair += 0.05 * (1 - Math.min(Math.abs(cmc - y.cmc), 4) / 4);
         }
       }
-      if (!why) why = x.reasons[0] ? x.reasons[0].charAt(0).toLowerCase() + x.reasons[0].slice(1) : "one of the weaker cards in the deck";
+      // cycle 19: a note (few decks run it, a Game Changer count) is never the swap's reason on its own
+      var firm = x.reasons.filter(function (r) {
+        return !/^Game Changer: the deck has \d+ \(any|^Few decks with this commander run it/.test(r);
+      })[0];
+      if (!why) why = firm ? (/^Game Changer/.test(firm) ? firm : firm.charAt(0).toLowerCase() + firm.slice(1)) :
+        typeof y.tie === "number" ? "one of the weaker cards in the deck (tie-in " + y.tie + " of 100)" : "one of the weaker cards in the deck";
       out.push({ name: x.name, id: x.id, why: why, pair: pair });
     });
     out.sort(function (a, b) {

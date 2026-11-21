@@ -1608,7 +1608,7 @@ test("cycle 9: ramp counts steady mana, not every Treasure", () => {
   assert.ok(zimoneProfile.roleCount.ramp >= 14 && zimoneProfile.roleCount.ramp <= 16, "Zimone ramp " + zimoneProfile.roleCount.ramp);
   // other roles read the same with or without reminder text
   assert.equal(zurgoProfile.roleCount.draw, 14);
-  assert.equal(zimoneProfile.roleCount.removal, 9);
+  assert.equal(zimoneProfile.roleCount.removal, 8); // cycle 19: Ulamog's cast trigger is a side job (Zimone puts it into play)
 });
 
 test("cycle 9: land creatures are lands", () => {
@@ -2335,7 +2335,11 @@ test("cycle 18: game kinds: engines and finishers", () => {
   assert.deepEqual(g("Nexus of Fate").win, ["takes extra turns"]);
   assert.deepEqual(g("Trouble in Pairs").win, [], "stopping an extra turn isn't taking one");
   assert.ok(g("Lurking Predators").engine.includes("creatures"));
-  assert.ok(g("Kozilek, the Great Distortion").engine.includes("cards"));
+  // cycle 19: a cast trigger repeats only on a commander (recast from the command zone)
+  const koz = CS.cardTraits(c18card("Kozilek, the Great Distortion"));
+  assert.ok(!CS.gameKinds(koz, c18card("Kozilek, the Great Distortion")).engine.includes("cards"), "in the 99, a cast trigger happens once");
+  koz.commander = true;
+  assert.ok(CS.gameKinds(koz, c18card("Kozilek, the Great Distortion")).engine.includes("cards"));
   assert.ok(g("Panharmonicon").engine.includes("doubling"));
   assert.ok(g("Walking Ballista").win.length && g("Lumra, Bellow of the Woods").win.length);
   assert.deepEqual(g("Counterspell").engine, [], "an instant is never an engine");
@@ -2430,4 +2434,129 @@ test("cycle 18: finisher and engine edges (Craterhoof's wording, an off-plan eng
   assert.ok(CS.gameKinds(CS.cardTraits(lone), lone).engine.includes("cards"));
   assert.ok(!syn.game.engine.some((e) => e.name === "Test Lone Engine"), "off-plan engine left out");
   assert.ok(syn.game.engine.some((e) => e.name === "The Speed Demon"), "the commander is always in");
+});
+
+// ---------------------------------------------------------------- cycle 19: the game plan in every part of the app
+// Nick, on his own decks: Kozilek cut "as card draw" for They Came from the Pipes; Graduation Day cut because
+// "few decks with this commander" run it; Rayami's Voltron plan missed.
+const c19 = JSON.parse(read("scryfall_2026-11-21_decks.json"));
+const c19card = (n) => CS.slimCard(c19.cards.concat(c19.zimone, c19.elsha, c19.rayami).find((c) => c.name === n));
+const c19deck = (k, cmd) => {
+  const slims = c19[k].map(CS.slimCard);
+  const profile = CS.deckProfile(slims, cmd);
+  return { slims, profile, syn: CS.deckSynergy(profile, slims) };
+};
+
+test("cycle 19: side jobs: a big card's cast trigger and a cantrip don't make a role", () => {
+  const t = (n) => CS.cardTraits(c19card(n));
+  // a big card's cast trigger: its job when you cast it, a side job in a deck that puts it into play for free
+  assert.ok(t("Kozilek, Butcher of Truth").roles.draw && t("Kozilek, Butcher of Truth").castRoles.draw, "cast in a normal deck, it draws four");
+  const zim = c19deck("zimone", "Zimone, Mystery Unraveler").profile;
+  const zk = (n) => zim.cards.find((c) => c.name === n);
+  assert.ok(!zk("Kozilek, Butcher of Truth").roles.draw && zk("Kozilek, Butcher of Truth").sideRoles.draw, "Zimone flips it for free: the draw is a side job");
+  assert.ok(zk("Kozilek, Butcher of Truth").gives.drawing, "it still draws, for draw payoffs");
+  assert.ok(!zk("Ulamog, the Infinite Gyre").roles.removal && zk("Ulamog, the Infinite Gyre").sideRoles.removal);
+  assert.ok(!t("Leap").roles.draw && t("Psychotic Fury").sideRoles.draw, "a pump spell's cantrip");
+  const denial = t("Arcane Denial");
+  assert.ok(denial.roles.protection && denial.roles.removal && !denial.roles.draw);
+  assert.ok(t("Brainstorm").roles.draw && t("Consider").roles.draw, "a card whose job is drawing still draws");
+  assert.ok(t("Rhystic Study").roles.draw);
+});
+
+test("cycle 19: labels for borrowed keywords, heroic and big edicts", () => {
+  const t = (n) => CS.cardTraits(c19card(n));
+  const ray = t("Rayami, First of the Fallen");
+  assert.ok(ray.wants.keywords && ray.wants.deaths, "Rayami borrows keywords from creatures that die");
+  for (const n of ["Slippery Bogle", "Nightveil Predator", "Sire of Seven Deaths", "Rhonas the Indomitable", "Stonecoil Serpent"])
+    assert.ok(t(n).gives.keywords, n + " lends keywords");
+  assert.ok(!t("Swords to Plowshares").gives.keywords && !t("Sol Ring").gives.keywords);
+  assert.ok(t("Graduation Day").wants.heroic, "Graduation Day pays off spells that target a creature");
+  for (const n of ["Brute Force", "Infuriate", "Temur Battle Rage", "Leap"]) assert.ok(t(n).gives.heroic, n + " targets your creature");
+  assert.ok(!t("Swords to Plowshares").gives.heroic, "removal on their creature isn't heroic");
+  const edict = t("Blasphemous Edict");
+  assert.ok(edict.gives.deaths && edict.roles.wipes, "each player sacrifices thirteen creatures");
+});
+
+test("cycle 19: Zimone: free-flipped titans are finishers, extra land drops are the engine", () => {
+  const { slims, profile, syn } = c19deck("zimone", "Zimone, Mystery Unraveler");
+  const wins = syn.game.wins.map((w) => w.name);
+  for (const n of ["Kozilek, Butcher of Truth", "Ulamog, the Infinite Gyre", "It That Betrays"]) assert.ok(wins.includes(n), n + " wins: " + wins.join(", "));
+  assert.equal(syn.game.ids[c19card("Kozilek, Butcher of Truth").id], "win");
+  assert.ok(syn.game.kinds.fuel.length >= 10, "cards that feed Zimone");
+  assert.match(CS.gamePlanLines(syn.game, 2)[0], /feed the commander/);
+  const ideas = CS.cutSuggestions(profile, syn, slims, {});
+  for (const n of ["Exploration", "Dryad of the Ilysian Grove", "Burgeoning", "Lotus Cobra", "Kozilek, Butcher of Truth", "Ulamog, the Infinite Gyre"])
+    assert.ok(!ideas.some((x) => x.name === n), n + " isn't a cut idea");
+  // land fetching feeds Zimone's landfall: never "more ramp than the deck needs"
+  for (const n of ["Farseek", "Rampant Growth", "Nature's Lore", "Three Visits", "Sakura-Tribe Elder"])
+    assert.ok(!ideas.some((x) => x.name === n && x.reasons.some((r) => /^More ramp/.test(r))), n + " feeds Zimone");
+  // the swap prompt after adding They Came from the Pipes (as the page builds it)
+  const cands = CS.cutCandidates(profile, syn, slims, { slims });
+  const swaps = CS.swapSuggestions(c19card("They Came from the Pipes"), cands, profile, CS.parseExport(c19.zimone.map((c) => "1 " + c.name).join("\n")).cards, {}, { slims });
+  assert.ok(swaps.length >= 3);
+  for (const n of ["Kozilek, Butcher of Truth", "Ulamog, the Infinite Gyre", "It That Betrays", "Blightsteel Colossus", "Darksteel Colossus", "Aesi, Tyrant of Gyre Strait", "Rhystic Study"])
+    assert.ok(!swaps.some((x) => x.name === n), n + " isn't offered for the Pipes: " + JSON.stringify(swaps));
+  assert.ok(swaps.every((x) => !/^few decks|^game Changer/i.test(x.why)), "a note is never the swap's reason: " + JSON.stringify(swaps));
+  // with EDHREC numbers: Mirri's Guile isn't on Zimone's page, but the reason is its tie-in, not the note
+  const edh = {};
+  const withE = CS.swapSuggestions(c19card("They Came from the Pipes"), CS.cutCandidates(profile, syn, slims, { slims, edhrec: edh }), profile, [], {}, { slims, edhrec: edh });
+  assert.ok(withE.every((x) => !/^few decks/i.test(x.why)), JSON.stringify(withE));
+  // a staple that does the same job goes only for a card that does it better, even when it's the only one left
+  const staple = CS.swapSuggestions(c19card("They Came from the Pipes"), cands.filter((x) => x.name === "Rhystic Study"), profile, [], {}, { slims });
+  assert.deepEqual(staple, [], JSON.stringify(staple));
+  // a finisher goes only for another finisher, even when it's the only card left to offer
+  const lone = CS.swapSuggestions(c19card("They Came from the Pipes"), cands.filter((x) => x.name === "Kozilek, Butcher of Truth"), profile, [], {}, { slims });
+  assert.deepEqual(lone, []);
+  const titan = CS.swapSuggestions(c19card("Ulamog, the Infinite Gyre"), cands.filter((x) => x.name === "Kozilek, Butcher of Truth"), profile, [], {}, { slims });
+  assert.match(titan[0].why, /same job in your game plan \(a finisher\)/);
+});
+
+test("cycle 19: Elsha: Graduation Day stays; popularity alone is never why a card goes", () => {
+  const { slims, profile, syn } = c19deck("elsha", "Elsha, Threefold Master");
+  const grad = c19card("Graduation Day");
+  assert.ok(syn.fits[grad.id] >= syn.score, "Graduation Day ties in at or above the deck's average");
+  // an engine that ties in above the average isn't told there are better cards for its job (Electro, a new card)
+  const electro = CS.cutCandidates(profile, syn, slims, { slims, today: "2026-05-01" }).find((x) => x.name === "Electro, Assaulting Battery");
+  assert.ok(CS.isNewCard(c19card("Electro, Assaulting Battery"), "2026-05-01"));
+  assert.ok(electro && !electro.reasons.some((r) => /better cards for its job/.test(r)), electro && electro.reasons.join("; "));
+  const edhrec = {}; // a page that lists nothing: every card is "missing from it"
+  const ideas = CS.cutSuggestions(profile, syn, slims, { edhrec, slims });
+  assert.ok(!ideas.some((x) => x.name === "Graduation Day"), JSON.stringify(ideas.map((x) => x.name)));
+  assert.ok(!ideas.some((x) => x.reasons.length === 1 && /^Few decks with this commander run it/.test(x.reasons[0])), "a note alone is never the reason");
+  // a card in its first year isn't marked down for EDHREC's silence or its low popularity
+  const cand = (today) => CS.cutCandidates(profile, syn, slims, { edhrec, slims, today }).find((x) => x.name === "Graduation Day");
+  assert.ok(CS.isNewCard(grad, "2026-11-21") && !CS.isNewCard(grad, "2027-06-01"));
+  assert.ok(cand("2026-11-21").keep > cand("2027-06-01").keep, "new: neutral popularity");
+  // and the Voltron-ish route: Elsha is suited up by pump spells
+  assert.equal(profile.route && profile.route.kind, "voltron");
+  // with a low deck average, a card missing from EDHREC still stays once it ties in at or above it
+  const low = Object.assign({}, syn, { score: 30 });
+  const lowIdeas = CS.cutSuggestions(profile, low, slims, { edhrec, slims });
+  assert.ok(!lowIdeas.some((x) => x.tie >= 30 && !x.roles.length && x.reasons.every((r) => /^Tie-in \d+ and strength|^Few decks/.test(r))),
+    lowIdeas.map((x) => x.name + " " + x.tie).join(", "));
+});
+
+test("cycle 19: Rayami: Voltron with borrowed keywords", () => {
+  const { slims, profile, syn } = c19deck("rayami", "Rayami, First of the Fallen");
+  assert.equal(profile.route.kind, "voltron");
+  assert.ok(profile.route.gear >= 6, "gear " + profile.route.gear);
+  assert.equal(syn.game.wins[0].name, "Rayami, First of the Fallen");
+  assert.match(CS.gamePlanLines(syn.game, 0)[4], /^Wins with: Rayami \(attacking for commander damage, suited up by \d+ Equipment and Auras/);
+  const ideas = CS.cutSuggestions(profile, syn, slims, {});
+  for (const n of ["Sword of Feast and Famine", "Genji Glove", "Blade of the Bloodchief", "Helm of the Host", "Swiftfoot Boots", "Alpha Authority",
+    "Slippery Bogle", "Rhonas the Indomitable", "Wilson, Refined Grizzly", "Venomthrope", "Sire of Seven Deaths", "Nightveil Predator", "Stonecoil Serpent"])
+    assert.ok(!ideas.some((x) => x.name === n), n + " isn't a cut idea: " + ideas.map((x) => x.name).join(", "));
+  assert.ok(syn.plan.some((p) => p.label === "keywords"), "borrowed keywords is one of the deck's themes");
+  // a recommendation says what it does for the plan
+  const spear = fc("Test Spear", "Artifact \u2014 Equipment", "Equipped creature gets +1/+1 and has trample and lifelink.\nEquip {2}", 1);
+  assert.ok(CS.fitScore(spear, profile).reasons.some((r) => /^For the game plan: suits up Rayami for commander damage$/.test(r)));
+});
+
+test("cycle 19: routes only where the deck is built for one", () => {
+  assert.equal(zurgoProfile.route, null, "Zurgo's tokens deck isn't Voltron");
+  assert.equal(c19deck("zimone", "Zimone, Mystery Unraveler").profile.route, null);
+  // a big body counts as a finisher only when the deck puts it into play for free
+  const koz = c19card("Kozilek, Butcher of Truth");
+  assert.ok(CS.isBigBody(CS.cardTraits(koz), koz) && !CS.isBigBody(CS.cardTraits(c19card("Sol Ring")), c19card("Sol Ring")));
+  assert.notEqual(CS.planJobFor(CS.cardTraits(koz), koz, zurgoProfile), "win", "Zurgo doesn't cheat Kozilek in");
 });
