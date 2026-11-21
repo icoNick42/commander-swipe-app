@@ -34,6 +34,7 @@
         --space-5: 24px;
         /* Height of everything around the card, used to size the card to the screen. */
         --chrome: 454px;
+        --card-max: 340px; /* cycle 21: 440px on big screens (below) */
         color-scheme: dark;
       }
       * {
@@ -352,13 +353,13 @@
         width: min(320px, 82vw);
         width: clamp(
           200px,
-          min(340px, 86vw, calc((100vh - var(--chrome)) * 0.7176)),
-          340px
+          min(var(--card-max), 86vw, calc((100vh - var(--chrome)) * 0.7176)),
+          var(--card-max)
         );
         width: clamp(
           200px,
-          min(340px, 86vw, calc((100dvh - var(--chrome)) * 0.7176)),
-          340px
+          min(var(--card-max), 86vw, calc((100dvh - var(--chrome)) * 0.7176)),
+          var(--card-max)
         );
         aspect-ratio: 488 / 680;
         border-radius: 4.75% / 3.4%;
@@ -486,6 +487,10 @@
       .why .fit {
         color: var(--text);
         font-weight: 600;
+      }
+      /* cycle 21: fit in words; "little" steps back to the muted color */
+      .why .fit.tier-little {
+        color: var(--muted);
       }
       .why ul,
       .deckfit ul {
@@ -701,6 +706,27 @@
         flex: none;
         background: transparent;
       }
+      .althead {
+        display: block;
+        margin: 8px 0 4px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+      }
+      .swap .swapwhy {
+        flex: none;
+      }
+      /* cycle 21: seen only for screen readers (the status line while the swap prompt shows) */
+      .vh,
+      .status.vh {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        min-height: 0;
+        margin: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
       .swap-more {
         list-style: none;
         margin: 4px auto 0;
@@ -792,6 +818,26 @@
         flex: none;
         color: var(--muted);
         font-size: 0.85rem;
+      }
+      /* cycle 21: fit as 3 dots in list rows (strong 3, some 2, little 1) */
+      .meter {
+        display: inline-flex;
+        gap: 3px;
+        align-items: center;
+      }
+      .meter i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+      .meter i:first-child,
+      .meter.tier-some i:nth-child(2),
+      .meter.tier-strong i {
+        background: var(--muted);
+      }
+      .meter.tier-strong i {
+        background: var(--text);
       }
       .list li button {
         padding: 0 8px;
@@ -1033,6 +1079,15 @@
         :root {
           --chrome: 340px;
         }
+      }
+      /* cycle 21: big screens (1920x1080) left the card at 340px in a sea of
+         space; tall wide screens let it grow to 440px (Scryfall's image is 488) */
+      @media (min-width: 1200px) and (min-height: 860px) {
+        :root {
+          --card-max: 440px;
+        }
+      }
+      @media (min-width: 1200px) {
         main {
           max-width: 1320px;
         }
@@ -1092,6 +1147,9 @@
         }
         header .tagline {
           display: none;
+        }
+        .wideonly {
+          display: none; /* cycle 21: shorter swap prompt words */
         }
         .how {
           margin-bottom: var(--space-4);
@@ -1278,8 +1336,8 @@
               <p class="muted small" id="totalNote"></p>
               <p class="small" id="overHead" hidden></p>
               <ul class="list cutideas" id="overCuts"></ul>
-              <p class="muted small" id="altHead" hidden>Rather cut something else? Other options:</p>
-              <ul class="list cutideas" id="altCuts"></ul>
+              <button type="button" class="althead" id="altHead" aria-controls="altCuts" aria-expanded="false" hidden>Show other cut options</button>
+              <ul class="list cutideas" id="altCuts" hidden></ul>
               <div
                 id="copyDeckMsg"
                 class="muted"
@@ -1361,7 +1419,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=20"></script>
+    <script src="core.js?v=21"></script>
     <script>
       (function () {
         "use strict";
@@ -1433,6 +1491,7 @@
           swapOff: false, // cycle 14: the cut prompt was closed with x (back with the next Add)
           swapPaired: {}, // cycle 14: pick id -> true once a cut was made from its prompt
           listAll: {}, // cycle 14: list id -> true when "Show all" is on
+          altOpen: false, // cycle 21: Deck total's other cut options shown (not saved)
           revealed: null, // cycle 14: the pile whose chip was last scrolled into view
           justSwiped: false, // cycle 17: the next card stepped up from underneath (no fade-in)
           sort: "rec", // cycle 17: order of the open pile (CS.SORTS); not saved
@@ -2853,7 +2912,7 @@
                 return {
                   rec: e && e.onEdhrec ? e : c,
                   info: S.cardInfo[c.id],
-                  fit: f ? f.score : null,
+                  fit: f ? (f.tieIn != null ? f.tieIn : f.score) + f.score / 1000 : null, // cycle 21: by tie-in (the words), then Fit
                 };
               }),
             };
@@ -3042,7 +3101,7 @@
           var line = [money(info.usd)];
           if (rec.onEdhrec) {
             line.push(
-              "in " + pct(rec.inclusion) + " of EDHREC decks", // cycle 14: say whose numbers
+              "in " + pct(rec.inclusion) + " of " + cmdShort() + " decks", // cycle 14: say whose numbers; cycle 21: the commander's, by name
             );
             line.push(
               (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + " synergy",
@@ -3269,12 +3328,39 @@
           });
         }
 
-        /** "Fit 84 - first reason", opening to all the reasons. */
+        /** The commander's short name for one-line stats (cycle 21). */
+        function cmdShort() {
+          return (S.commander && CS.shortCommander(S.commander.name)) || "this commander's";
+        }
+
+        /** A Fit readout in words (cycle 21, Nick's cycle 19 pick A): "Strong fit". */
+        function fitWordEl(f, cls) {
+          var t = f ? CS.fitTier(f.tieIn != null ? f.tieIn : f.score) : null;
+          if (!t) return null;
+          return el("span", {
+            class: (cls || "fit") + " tier-" + t.key,
+            title: "How well it ties into your deck's plan: " + t.word.toLowerCase().replace(" fit", ""),
+            text: t.word,
+          });
+        }
+
+        /** The same readout as three dots for list rows, where words would wrap the names (cycle 21). */
+        function fitMeterEl(f) {
+          var t = f ? CS.fitTier(f.tieIn != null ? f.tieIn : f.score) : null;
+          if (!t) return null;
+          return el(
+            "span",
+            { class: "fit meter tier-" + t.key, role: "img", "aria-label": t.word, title: t.word + " with your deck" },
+            [el("i"), el("i"), el("i")],
+          );
+        }
+
+        /** "Strong fit - first reason", opening to all the reasons. */
         function fitDetails(f, edh) {
           var first = f.reasons[0] || "No tie-ins with your deck found in its text";
           var d = el("details", { class: "why" }, [
             el("summary", { title: f.reasons.join("\n") }, [
-              el("span", { class: "fit", text: "Fit " + f.score }),
+              fitWordEl(f),
               " \u00b7 " + first,
             ]),
             f.reasons.length
@@ -3289,13 +3375,16 @@
             el("div", {
               class: "small",
               text:
-                "Fit (0-100) blends how well the card ties into your deck's plan (tie-in " +
+                "How it fits comes from how well the card ties into your deck's plan (tie-in " +
                   (f.tieIn != null ? f.tieIn : f.score) +
-                  ") with how strong it is in Commander (strength " +
+                  " of 100: strong from " + CS.FIT_TIERS.strong + ", some from " + CS.FIT_TIERS.some +
+                  "). Strength " +
                   (f.strength != null ? f.strength : "?") +
-                  ": how widely it's played, and how cheap and flexible it is for its job)." +
+                  " of 100: how widely it's played, and how cheap and flexible it is for its job. Together they make its Fit, " +
+                  f.score +
+                  "." +
                 (edh
-                  ? " The EDHREC numbers: the share of this commander's decks on EDHREC that run the card, and synergy, how much more often they run it than other decks in its colors."
+                  ? " The other numbers are EDHREC's: the share of " + cmdShort() + " decks on EDHREC that run the card, and synergy, how much more often they run it than other decks in its colors."
                   : ""),
             }),
           ]);
@@ -3316,18 +3405,18 @@
             return;
           }
           var fitNow = d.blend != null ? d.blend : d.score;
-          $("deckFitHead").textContent = "Your deck: Fit " + fitNow + "/100"; // cycle 14: EDHREC's "synergy" is a different number; cycle 15: with strength
+          $("deckFitHead").textContent = "Your deck: game plan and roles"; // cycle 21: no Fit number in the head (Nick's cycle 19 pick A); the score is in the first line
           // cycle 16 (Nick: the explanations don't make sense without context): say what
           // each number is, what it's compared with, and name example cards
           body.appendChild(
             el("div", {
               class: "small",
               text:
-                "Fit, 0 to 100, scores how well each card works with the rest of your deck, plus how strong it is in Commander. Your deck's " +
+                "How well your cards work together, plus how strong they are in Commander, scores " +
                 fitNow +
-                " is the average over its " +
+                " of 100 (the average over your " +
                 Object.keys(d.fits || {}).length +
-                " nonland cards: " +
+                " nonland cards): " +
                 CS.deckFitWords(fitNow) +
                 ".",
             }),
@@ -3365,7 +3454,7 @@
             body.appendChild(
               el("div", {
                 class: "muted small",
-                text: "What your cards do together. Some cards make each thing happen; others reward it. A deck whose cards feed each other has a high Fit.",
+                text: "What your cards do together. Some cards make each thing happen; others reward it. A deck whose cards feed each other scores higher.",
               }),
             );
             body.appendChild(
@@ -3703,15 +3792,18 @@
           if (!sw) {
             box.hidden = true;
             $("keysLine").hidden = false;
+            $("status").classList.remove("vh"); // cycle 21
             return;
           }
           var over = deckTotals().total - 100;
           var first = sw.ideas[0];
+          // cycle 21: at 375 px the card name shrank to "R..."; phones drop " 100" and " Other options"
           box.appendChild(
-            el("span", {
-              class: "lead",
-              text: over + " over 100. Cut",
-            }),
+            el("span", { class: "lead" }, [
+              over + " over",
+              el("span", { class: "wideonly", text: " 100" }),
+              ". Cut",
+            ]),
           );
           box.appendChild(
             el("button", {
@@ -3725,17 +3817,25 @@
               },
             }),
           );
+          var whyFull = sw.more ? "Less" : sw.ideas.length > 1 ? "Why? Other options (" + (sw.ideas.length - 1) + ")" : "Why?";
           box.appendChild(
-            el("button", {
-              type: "button",
-              "aria-expanded": sw.more ? "true" : "false",
-              "aria-controls": "swapMore",
-              text: sw.more ? "Less" : sw.ideas.length > 1 ? "Why? Other options (" + (sw.ideas.length - 1) + ")" : "Why?",
-              onclick: function () {
-                sw.more = !sw.more;
-                renderSwap();
+            el(
+              "button",
+              {
+                type: "button",
+                class: "swapwhy",
+                "aria-expanded": sw.more ? "true" : "false",
+                "aria-controls": "swapMore",
+                "aria-label": whyFull,
+                onclick: function () {
+                  sw.more = !sw.more;
+                  renderSwap();
+                },
               },
-            }),
+              sw.more || sw.ideas.length < 2
+                ? [whyFull]
+                : ["Why?", el("span", { class: "wideonly", text: " Other options" }), " (" + (sw.ideas.length - 1) + ")"],
+            ),
           );
           box.appendChild(
             el("button", {
@@ -3752,6 +3852,9 @@
           );
           box.hidden = false;
           $("keysLine").hidden = true;
+          // cycle 21 (Later list, cycle 9 audit): the status line repeats the prompt and fell
+          // below a 375x667 screen; screen readers still hear it
+          $("status").classList.add("vh");
           if (sw.more)
             box.parentNode.insertBefore(
               el(
@@ -3853,9 +3956,7 @@
                 el("li", null, [
                   thumbFor(info),
                   el("span", { text: name }),
-                  fit
-                    ? el("span", { class: "fit", title: "Fit score for this deck", text: "Fit " + fit.score })
-                    : null,
+                  fitMeterEl(fit), // cycle 21: a 3-dot meter (words on the card and in its label), not a number
                   info
                     ? el("span", { class: "price", text: money(info.usd) })
                     : null,
@@ -3962,19 +4063,20 @@
           var total = $("deckTotal");
           total.textContent = String(t.total);
           total.className = t.total > 100 ? "over" : "";
+          // cycle 21: plain sum ("100 in your deck + 2 added = 102"), no "-0 cuts"
+          var sum = t.size + " in your deck";
+          if (t.picks) sum += " + " + t.picks + " added";
+          if (t.cuts) sum += " - " + t.cuts + (t.cuts === 1 ? " cut" : " cuts");
           $("totalNote").textContent =
-            t.size +
-            " now, +" +
-            t.picks +
-            (t.picks === 1 ? " pick, -" : " picks, -") +
-            t.cuts +
-            (t.cuts === 1 ? " cut. " : " cuts. ") +
+            sum +
+            " = " +
+            t.total +
             (t.total > 100
-              ? t.total - 100 + " over 100."
+              ? ", " + (t.total - 100) + " over 100."
               : t.total < 100
-                ? 100 - t.total + " under 100."
-                : "Exactly 100.") +
-            " Copy whole deck is for Moxfield's Bulk Edit; it keeps your printings.";
+                ? ", " + (100 - t.total) + " under 100."
+                : ", exactly 100.") +
+            " Copy whole deck pastes into Moxfield's Bulk Edit and keeps your printings.";
           // cycle 14 (Nick): cut ideas until the deck is back to 100, picks included
           var over = t.total - 100;
           var oc = $("overCuts");
@@ -4052,7 +4154,14 @@
                 Object.assign(cutOpts(), { ideas: cutIdeas(over + 4) }),
               );
               if (alts.length) {
-                $("altHead").hidden = false;
+                // cycle 21: folded behind a button, so the phone page doesn't run on
+                var ah = $("altHead");
+                ah.hidden = false;
+                ah.setAttribute("aria-expanded", S.altOpen ? "true" : "false");
+                ah.textContent = S.altOpen
+                  ? "Hide the other options"
+                  : "Show " + alts.length + (alts.length === 1 ? " other cut option" : " other cut options");
+                $("altCuts").hidden = !S.altOpen;
                 alts.forEach(function (x) {
                   $("altCuts").appendChild(
                     cutRow({
@@ -4347,6 +4456,10 @@
           $("changeDeckBtn").focus();
         });
         $("copyDeckBtn").addEventListener("click", copyWholeDeck);
+        $("altHead").addEventListener("click", function () {
+          S.altOpen = !S.altOpen; // cycle 21
+          renderLists();
+        });
         $("progressLink").addEventListener("click", function (e) {
           e.preventDefault();
           $("addedHead").scrollIntoView({

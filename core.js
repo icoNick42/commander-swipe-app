@@ -1999,6 +1999,34 @@
    * Returns the fit result plus {score (blend), tieIn, strength, reasons}.
    */
   CS.FIT_STRENGTH_SHARE = 0.4;
+
+  /**
+   * Cycle 21 (Nick's cycle 19 pick A: plain readouts instead of a Fit number):
+   * how well a card ties into the deck, in words, from its tie-in (0-100).
+   * Tie-in is mostly 0 or high (Zurgo's recs: a quarter at 10 or less, half
+   * at 70 or more), so three steps cover it. Strength and popularity show as
+   * "in X% of <commander> decks" instead.
+   */
+  CS.FIT_TIERS = { strong: 70, some: 30 };
+  CS.fitTier = function (tieIn) {
+    if (typeof tieIn !== "number" || !isFinite(tieIn)) return null;
+    if (tieIn >= CS.FIT_TIERS.strong) return { key: "strong", word: "Strong fit" };
+    if (tieIn >= CS.FIT_TIERS.some) return { key: "some", word: "Some fit" };
+    return { key: "little", word: "Little fit" };
+  };
+
+  /**
+   * A commander's name short enough for a one-line stat (cycle 21): the part
+   * before a comma, the whole name when it's short or starts with "The",
+   * otherwise the first word ("Zurgo Stormrender" -> "Zurgo").
+   */
+  CS.shortCommander = function (name) {
+    var n = String(name || "").split(" // ")[0].trim();
+    if (!n) return "";
+    if (n.indexOf(",") > 0) return n.split(",")[0].trim();
+    if (n.length <= 14 || /^the /i.test(n)) return n;
+    return n.split(/\s+/)[0];
+  };
   CS.blendFit = function (fit, str) {
     var out = {};
     Object.keys(fit || {}).forEach(function (k) {
@@ -3095,8 +3123,7 @@
         score: 0,
         fit: r.fit,
         reasons: [
-          (r.fit == null ? "Fit unknown" : "Fit " + r.fit) +
-            ": one of the lowest left in the deck" +
+          "One of the weakest cards left in the deck" + // cycle 21: no Fit number in the reason
             (r.roles.length ? " (it fills a role, so check it)" : ""),
         ],
         roles: r.roles,
@@ -3435,7 +3462,7 @@
    */
   CS.SORTS = [
     { key: "rec", label: "Recommended", say: "the recommended order" },
-    { key: "fit", label: "Fit", dir: -1, say: "highest Fit first" },
+    { key: "fit", label: "Fits your deck", dir: -1, say: "best fit with your deck first" }, // cycle 21: plain words; the page sorts by tie-in, then Fit
     { key: "played", label: "Most played", dir: -1, say: "most played on EDHREC first" },
     { key: "synergy", label: "EDHREC synergy", dir: -1, say: "highest EDHREC synergy first" },
     { key: "cheap", label: "Cheapest", dir: 1, say: "cheapest first" },

@@ -2624,3 +2624,35 @@ test("cycle 20: a card's type is fuel when the commander pays off that type (Sag
   const p = CS.deckProfile([cmd, saga], "C20 Lorekeeper");
   assert.equal(CS.planJobFor(CS.cardTraits(saga), saga, p), "fuel");
 });
+
+test("cycle 21: fit in words follows tie-in (strong from 70, some from 30)", () => {
+  assert.equal(CS.fitTier(100).word, "Strong fit");
+  assert.equal(CS.fitTier(70).key, "strong");
+  assert.equal(CS.fitTier(69).key, "some");
+  assert.equal(CS.fitTier(30).key, "some");
+  assert.equal(CS.fitTier(29).word, "Little fit");
+  assert.equal(CS.fitTier(0).key, "little");
+  assert.equal(CS.fitTier(null), null, "no tie-in, no words");
+  assert.equal(CS.fitTier(NaN), null);
+  const f = CS.blendFit(CS.fitScore(byName(recSlims, "Will of the Mardu"), zurgoProfile), CS.strength(byName(recSlims, "Will of the Mardu")));
+  assert.equal(CS.fitTier(f.tieIn).key, f.tieIn >= 70 ? "strong" : f.tieIn >= 30 ? "some" : "little", "the page reads tie-in, not the blend");
+});
+
+test("cycle 21: a commander's short name for the stats line", () => {
+  assert.equal(CS.shortCommander("Zurgo Stormrender"), "Zurgo");
+  assert.equal(CS.shortCommander("Kinnan, Bonder Prodigy"), "Kinnan");
+  assert.equal(CS.shortCommander("The Wise Mothman"), "The Wise Mothman");
+  assert.equal(CS.shortCommander("Tom Bombadil"), "Tom Bombadil");
+  assert.equal(CS.shortCommander("Rin and Seri, Inseparable"), "Rin and Seri");
+  assert.equal(CS.shortCommander(""), "");
+  assert.equal(CS.shortCommander(null), "");
+});
+
+test("cycle 21: no Fit number in cut reasons or the sort menu", () => {
+  const fitSort = CS.SORTS.filter((x) => x.key === "fit")[0];
+  assert.equal(fitSort.label, "Fits your deck");
+  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const all = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, ideas.length + 5);
+  assert.ok(all.some((x) => x.filler), "fillers are in the list");
+  all.forEach((x) => assert.ok(!/\bFit (\d|unknown)/.test(x.reasons.join(" ")), x.reasons.join(" ")));
+});

@@ -48,7 +48,7 @@ Action buttons use their color as the border plus a see-through fill of the same
 - **Wide (900 px and up):** two columns. Left: deck bar, piles (wrapping chips), card, buttons. Right (340 px): Added, Maybe, Filters.
 - **Narrow (under 900 px):** one column. The deck bar stays on one row, the piles become one row you swipe sideways, and the four buttons share one row. Lists and filters sit below the card.
 - **Phone (520 px and under):** the "Commander" label and the header tagline are hidden visually (the label stays for screen readers), and the three "how it works" steps shrink to one line each.
-- **Card size:** `width = clamp(200px, min(340px, 86vw, (screen height - --chrome) x 0.7176), 340px)`, where 0.7176 is the card's width/height (488/680). `--chrome` is the height of everything around the card: 454 px wide, 364 px narrow (each raised 24 px in cycle 6 for the Fit line). If something is added above or below the card, raise `--chrome` by its height.
+- **Card size:** `width = clamp(200px, min(--card-max, 86vw, (screen height - --chrome) x 0.7176), --card-max)` (`--card-max` is 340 px, 440 px from cycle 21 on screens at least 1200 px wide and 860 px tall), where 0.7176 is the card's width/height (488/680). `--chrome` is the height of everything around the card: 454 px wide, 364 px narrow (each raised 24 px in cycle 6 for the Fit line). If something is added above or below the card, raise `--chrome` by its height.
 
 Checked in cycle 4 (Chrome, fixtures): buttons in view at 375x667, 390x844, 412x915, 768x1024, 1366x700, 1280x860 and 1920x1080. Before this pass they were off screen on all three phone sizes and on 1366x700. Checked again in cycle 5 with the new pile row: all seven still in view; the pile row is the same height as before (3 rows wide, 1 row narrow).
 
@@ -88,6 +88,13 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Empty lists (cycle 17):** an empty Added or Maybe shows one muted line on what goes there; Copy picks shows only once there are picks.
 - **Pile counts (cycle 17):** a pile that loads when opened (Budget, Everything in your colors, roles, themes) shows no count until it's opened (tooltip: "Loads when you open it"); "..." now only means loading.
 - **Deck bar (cycle 17):** the commander menu stops at 24 rem wide; on phones the deck button is a little tighter (8x10 px padding, 0.92 rem).
+
+- **Fit in words (cycle 21, Nick's cycle 19 pick A):** the fit line under the card starts with "Strong fit", "Some fit" or "Little fit" (from tie-in: 70 and up, 30 and up, below 30; `CS.fitTier`) instead of "Fit 62". "Little fit" is `--muted`; the others are `--text`, bold. The Fit number and its parts are only in the opened fit line. List rows show the same as a 3-dot meter (7 px dots, 3 px apart: strong all three in `--text`, some two in `--muted`, little one in `--muted`, unlit dots in `--line`), labeled for screen readers and in its tooltip, because the words wrapped the card names in a 340 px column. The Your deck panel's title is "Your deck: game plan and roles"; the deck's score is in its first line. The Sort option is "Fits your deck" (tie-in, then Fit).
+- **Stats line (cycle 21):** "in 64% of Zurgo decks" (the commander's short name: before a comma, the whole name if 14 characters or less or it starts with "The", else the first word; `CS.shortCommander`) instead of "of EDHREC decks"; the opened fit line says the numbers are EDHREC's.
+- **Swap prompt on phones (cycle 21):** at 520 px and under, `.wideonly` text is hidden: "2 over. Cut [card] [Why? (4)] [x]" (wider: "2 over 100. Cut ... Why? Other options (4)"). The Why? button keeps the full words as its label. At 375 px the card name now shows whole (it was "R...").
+- **Status line with the swap prompt (cycle 21):** visually hidden (`.vh`) while the prompt shows, so it doesn't repeat it or fall below a 375x667 screen; it stays a live region, so screen readers still hear each swipe.
+- **Deck total (cycle 21):** the note reads as a sum: "100 in your deck + 2 added - 1 cut = 101, 1 over 100." The other cut options fold behind a "Show N other cut options" button (not saved; closed on reload).
+- **Big screens (cycle 21):** at 1200 px wide and 860 px tall the card can grow to 440 px (1920x1080: 440; 1280x860: 373; 1366x768: unchanged).
 
 ## Audit, cycle 9 (against these notes)
 
