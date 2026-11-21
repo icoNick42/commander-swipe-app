@@ -1115,6 +1115,10 @@
     color: { g: "Changes what color things are", w: "Cares about a color", b: "Changes colors and cares about them", short: "color tricks" },
     protect: { g: "Protects your creatures", w: "Needs a creature to stay on the battlefield", b: "Protects creatures and needs them", short: "protecting a key creature" },
     stax: { g: "Taxes or slows opponents", w: "Taxes or slows opponents", b: "Taxes or slows opponents", short: "taxing opponents" },
+    // cycle 20 (from Scryfall Tagger): pile-on labels like stax, each card both gives and wants them
+    hug: { g: "Helps every player (group hug)", w: "Helps every player (group hug)", b: "Helps every player (group hug)", short: "group hug" },
+    oppmill: { g: "Mills opponents", w: "Mills opponents", b: "Mills opponents", short: "milling opponents" },
+    theft: { g: "Plays or takes opponents' cards", w: "Plays or takes opponents' cards", b: "Plays or takes opponents' cards", short: "playing opponents' cards" },
     oneturn: { g: "Does something when it enters, attacks or dies", w: "Gives creatures one turn (blitz or dash)", b: "One-turn creature that pays off", short: "one-turn creatures" },
     cast: { g: "A big creature your commander helps you cast", w: "Helps you cast big creatures", b: "Helps cast big creatures, and is one", short: "big creature spells" },
     animate: { g: "A big artifact or enchantment your commander animates", w: "Turns big artifacts or enchantments into creatures", b: "Animates big permanents, and is one", short: "big artifacts and enchantments" },
@@ -1164,6 +1168,7 @@
     var cards = n === 1 ? "1 of your cards" : n + " of your cards";
     if (label === "attacks") return "Rewards attacking, like " + cards;
     if (label === "stax") return "Taxes or slows opponents, like " + cards;
+    if (label === "hug" || label === "oppmill" || label === "theft") return lab.g + ", like " + cards;
     if (link.g && link.w) return lab.b + "; ties in with " + cards;
     if (link.g) return lab.g + "; " + cards + (n === 1 ? " uses" : " use") + " that";
     return lab.w + "; " + cards + (n === 1 ? " feeds" : " feed") + " it";
@@ -1297,6 +1302,22 @@
    * Reads one card: its gives/wants labels, roles, creature types and the
    * creature types its text cares about. Lands get labels but no roles.
    */
+  /**
+   * Cycle 20: card tags from Scryfall Tagger, trimmed to what the app's text rules miss
+   * (tools/tagger/build_tags.js writes data/card_tags.json). `data`: {v, codes: {short: label}, cards: {name key: "gstax wstax"}}.
+   * The page loads the file once; without it (offline, file missing) the text rules work alone.
+   */
+  var TAG_CARDS = null;
+  var TAG_CODE = {};
+  CS.setCardTags = function (data) {
+    TAG_CARDS = data && data.cards && typeof data.cards === "object" ? data.cards : null;
+    TAG_CODE = (data && data.codes) || {};
+    return !!TAG_CARDS;
+  };
+  CS.hasCardTags = function () {
+    return !!TAG_CARDS;
+  };
+
   CS.cardTraits = function (slim) {
     var text = CS.synText(slim);
     var types = synTypes(slim);
@@ -1548,7 +1569,23 @@
       if (w) tokenTypes[w[1]] = true;
     });
     if (/\bmobilize\b/.test(text)) tokenTypes.warrior = true;
+    // cycle 20: Scryfall Tagger tags fill what the text rules miss (data/card_tags.json, see CS.setCardTags).
+    // A tag only adds; it never removes a reading. A role the text reads as a rider (a cantrip) stays a side job.
+    var tagJobs = {};
+    var tagCodes = TAG_CARDS ? TAG_CARDS[CS.nameKey(slim && slim.name)] : null;
+    if (tagCodes)
+      String(tagCodes)
+        .split(" ")
+        .forEach(function (code) {
+          var kind = code.charAt(0);
+          var key = TAG_CODE[code.slice(1)] || code.slice(1);
+          if (kind === "g") gives[key] = true;
+          else if (kind === "w") wants[key] = true;
+          else if (kind === "r" && !sideRoles[key] && !castRoles[key]) roles[key] = true;
+          else if (kind === "j") tagJobs[key] = true;
+        });
     return {
+      tagJobs: tagJobs, // cycle 20: plan jobs from tags ("win": an alternate win, extra turns, poison)
       gives: gives,
       wants: wants,
       roles: roles,
@@ -1644,7 +1681,7 @@
       typeCount: typeCount,
       roleCount: roleCount,
       hooks: hooks,
-      route: CS.deckRoute(cards, deckSlims), // cycle 19: how the deck wins, when it's the commander attacking
+      route: CS.deckRoute(cards, deckSlims), // cycle 19: Voltron; cycle 20: every archetype (kind, also, power)
     };
   };
 
@@ -2154,6 +2191,8 @@
     WIN_KINDS.forEach(function (k) {
       if (k[1].test(bare)) out.win.push(k[0]);
     });
+    // cycle 20: Tagger marks alternate wins, extra turns and poison the regexes miss
+    if (!out.win.length && traits.tagJobs && traits.tagJobs.win) out.win.push("wins another way (an alternate win, extra turns or poison)");
     return out;
   };
 
@@ -2173,7 +2212,7 @@
    * a Voltron plan.) `cards`: profile cards;
    * `slims`: the deck's slim cards. Returns {kind: "voltron", gear, heroic} or null.
    */
-  CS.deckRoute = function (cards, slims) {
+  function voltronRoute(cards, slims) {
     var cmd = (cards || []).filter(function (c) {
       return c.commander;
     })[0];
@@ -2203,6 +2242,184 @@
     return null;
   };
 
+  /**
+   * Cycle 20: the deck's route by archetype (Nick: lessons were applied one card at a time; read the
+   * plan the way a deck is built). Each route has labels that point to it; a card counts once per route,
+   * the commander counts 12. Kindred needs the commander to share or name the type. Combo is the cEDH
+   * shape (tutors + fast mana + free spells, average mana value 2.9 or less) and is the main route only
+   * when the deck has no strong theme of its own or is very fast (20+). Voltron keeps cycle 19's rule.
+   * Measured on 73 hand-labeled benchmark decks (tools/benchmark/plans.js) and the 56 cEDH Decklist
+   * Database lists (combo or spells for 50 of them). Returns {kind, also: [up to 2], scores, power} or null.
+   */
+  var ROUTE_SIG = {
+    lands: [["landfall", "landyard", "landhand"], ["landfall", "landyard", "landhand"]],
+    aristocrats: [["deaths", "dietrig"], ["fodder", "deaths", "dietrig"]],
+    "go-wide": [["bodies", "defender"], ["bodies", "defender"]],
+    spells: [[], ["spells", "instant", "bigspell", "xspells"]],
+    counters: [["counters"], ["counters"]],
+    artifacts: [[], ["artifacts"]],
+    enchantments: [[], ["enchantments", "sagas"]],
+    graveyard: [["graveyard"], ["graveyard"]],
+    blink: [["blink"], ["etb", "blink"]],
+    lifegain: [["lifegain"], ["lifegain"]],
+    drain: [["drain", "burn", "lifeloss"], ["drain", "burn"]],
+    mill: [["oppmill"], ["oppmill"]],
+    theft: [["theft", "exile"], ["theft", "exile"]],
+    superfriends: [[], ["walkers"]],
+    stax: [["stax"], []],
+    pillowfort: [["deter"], ["deter"]],
+    "group-hug": [["hug", "oppdraw"], ["hug"]],
+    wheels: [["oppdraw"], ["oppdraw"]],
+    dungeon: [["dungeon"], ["dungeon"]],
+    aggro: [[], ["attacks", "evasion", "oneturn", "forced"]],
+  };
+  CS.ROUTE_WORDS = {
+    voltron: "Voltron (one creature suited up for commander damage)", lands: "lands and landfall", aristocrats: "aristocrats (sacrifice and death triggers)",
+    "go-wide": "going wide with tokens and creatures", spells: "spells (instants and sorceries)", counters: "+1/+1 counters", artifacts: "artifacts",
+    enchantments: "enchantments", graveyard: "the graveyard", blink: "blink (enter-the-battlefield triggers)", lifegain: "life gain", drain: "draining and burning opponents",
+    mill: "milling opponents", theft: "playing opponents' cards", superfriends: "planeswalkers", stax: "stax (taxing and locking opponents)", pillowfort: "pillow fort (keeping attackers away)",
+    "group-hug": "group hug", wheels: "wheels and punishing draws", dungeon: "dungeons and the initiative", aggro: "attacking", kindred: "a creature type", big: "big creatures and big mana",
+    combo: "fast combo (the cEDH shape)",
+  };
+  CS.deckRoute = function (cards, slims) {
+    var volt = voltronRoute(cards, slims);
+    var cmd = (cards || []).filter(function (c) {
+      return c.commander;
+    })[0];
+    if (!cmd) return volt;
+    var byId = {};
+    (slims || []).forEach(function (s) {
+      if (s) byId[s.id] = s;
+    });
+    var deck = (cards || []).filter(function (c) {
+      return !c.land && !c.commander;
+    });
+    var typeOf = function (c) {
+      var s = byId[c.id];
+      return String((s && (s.frontType || s.typeLine)) || "").toLowerCase().split("//")[0];
+    };
+    var has = function (c, sig) {
+      return sig[0].some(function (l) {
+        return c.gives[l] && !(c.typeOnly && c.typeOnly[l]);
+      }) || sig[1].some(function (l) {
+        return c.wants[l];
+      });
+    };
+    var score = {};
+    Object.keys(ROUTE_SIG).forEach(function (r) {
+      score[r] = deck.filter(function (c) {
+        return has(c, ROUTE_SIG[r]);
+      }).length + (has(cmd, ROUTE_SIG[r]) ? 12 : 0);
+    });
+    var count = function (re) {
+      return deck.filter(function (c) {
+        return re.test(typeOf(c));
+      }).length;
+    };
+    score.spells += Math.max(0, count(/\b(instant|sorcery)\b/) - 18);
+    score.artifacts += Math.max(0, count(/\bartifact\b/) - 15);
+    score.enchantments += Math.max(0, count(/\benchantment\b/) - 12);
+    score.superfriends += 2 * count(/\bplaneswalker\b/);
+    // kindred: the deck's most common creature type, when the commander shares or names it
+    var tc = {};
+    deck.forEach(function (c) {
+      Object.keys(c.subtypes || {}).forEach(function (t) {
+        tc[t] = (tc[t] || 0) + 1;
+      });
+    });
+    var top = Object.keys(tc).sort(function (a, b) {
+      return tc[b] - tc[a];
+    })[0];
+    score.kindred = 0;
+    if (top) {
+      var plural = /(f|fe)$/.test(top) ? top.replace(/fe?$/, "ves") : top + "s";
+      var named = new RegExp("\\b(" + top + "|" + plural + ")\\b").test(String(cmd.text || ""));
+      if (named || (cmd.subtypes || {})[top]) score.kindred = tc[top] + (named ? 8 : 0);
+    }
+    // combo: the cEDH shape
+    var tutors = deck.filter(function (c) {
+      return c.roles.tutors;
+    }).length;
+    var fast = deck.filter(function (c) {
+      return c.roles.ramp && byId[c.id] && byId[c.id].cmc != null && byId[c.id].cmc <= 1;
+    }).length;
+    var free = deck.filter(function (c) {
+      return /\brather than pay (this spell's|its) mana cost\b/.test(String(c.text || ""));
+    }).length;
+    var mvs = deck.map(function (c) {
+      return (byId[c.id] && byId[c.id].cmc) || 0;
+    });
+    var avg = mvs.reduce(function (a, b) {
+      return a + b;
+    }, 0) / Math.max(1, mvs.length);
+    var power = { tutors: tutors, fast: fast, free: free, avg: Math.round(avg * 100) / 100, total: tutors + fast + free };
+    score.combo = power.total >= 14 && avg <= 2.9 ? power.total * 2 : 0;
+    // big: a commander that cheats big things in or costs 7+, or 8+ creatures at 6+ mana
+    var big = deck.filter(function (c) {
+      return byId[c.id] && byId[c.id].cmc >= 6 && /\bcreature\b/.test(typeOf(c));
+    }).length;
+    var cmdCmc = (byId[cmd.id] && byId[cmd.id].cmc) || 0;
+    score.big = (cmd.wants.big ? 12 : 0) + (big >= 8 ? big : 0) + (cmdCmc >= 7 ? cmdCmc * 2 : 0);
+    var ranked = Object.keys(score).map(function (k) {
+      return [k, score[k]];
+    }).sort(function (a, b) {
+      return b[1] - a[1];
+    });
+    var theme = ranked.filter(function (x) {
+      return x[0] !== "combo";
+    })[0];
+    if (score.combo && theme && theme[1] >= 30 && power.total < 20) {
+      ranked = ranked.map(function (x) {
+        return x[0] === "combo" ? ["combo", Math.min(score.combo, theme[1] - 1)] : x;
+      }).sort(function (a, b) {
+        return b[1] - a[1];
+      });
+    }
+    var out = ranked.filter(function (x) {
+      return x[1] >= 8;
+    });
+    var kind = volt ? "voltron" : out.length ? out[0][0] : null;
+    if (!kind) return null;
+    var lead = volt ? (out[0] ? out[0][1] : 0) : out[0][1];
+    var also = out.map(function (x) {
+      return x[0];
+    }).filter(function (k) {
+      return k !== kind && score[k] >= 0.6 * lead;
+    }).slice(0, 2);
+    var res = { kind: kind, also: also, scores: score, power: power };
+    if (volt) {
+      res.gear = volt.gear;
+      res.heroic = volt.heroic;
+    }
+    return res;
+  };
+
+  /**
+   * Cycle 20: a card that closes the game for the deck's route, though its text isn't a finisher by itself:
+   * death drains in an aristocrats deck, team pumps in a wide deck, spell burn in a spells deck, life-gain
+   * drains, milling, land-drop damage. Returns the reason or null.
+   */
+  CS.routeWin = function (traits, slim, route) {
+    if (!traits || traits.land || !route) return null;
+    var r = {};
+    [route.kind].concat(route.also || []).forEach(function (k) {
+      r[k] = true;
+    });
+    var g = traits.gives, w = traits.wants;
+    var bare = String(traits.text || "").replace(/\([^)]*\)/g, "");
+    var hurts = g.drain || g.burn;
+    if ((r.aristocrats || r["go-wide"] || r.kindred) && hurts && w.deaths) return "drains the table as creatures die";
+    if ((r.lifegain || r.drain) && hurts && w.lifegain) return "turns life gain into lost life";
+    if ((r.spells || r.drain) && hurts && w.spells) return "deals damage as you cast spells";
+    if ((r.drain || r.wheels) && hurts && w.oppdraw) return "punishes opponents for drawing";
+    if (r.lands && w.landfall && (hurts || g.bodies)) return "turns land drops into damage or an army";
+    if ((r.drain || r.lands || r.artifacts || r["go-wide"]) && /\bdeals? \d+ damage to each opponent\b|\beach opponent loses \d+ life\b/.test(bare) && /\bwhenever\b/.test(bare)) return "hits every opponent again and again";
+    if (r.mill && g.oppmill) return "mills opponents out";
+    if ((r["go-wide"] || r.kindred || r.aggro || r.counters) && /\b(other )?(creatures|[a-z]+s) you control get \+(\d+|x)\/\+(\d+|x)\b/.test(bare)) return "pumps the team";
+    if (r.big && /\bcreature\b/.test(String(slim.frontType || slim.typeLine || "").toLowerCase()) && typeof slim.power === "number" && slim.power >= 6 && /\b(flying|trample)\b/.test(bare)) return "a huge flier or trampler";
+    return null;
+  };
+
   /** Cycle 19: a creature that wins by itself once it's on the battlefield (annihilator, 10+ power, big infect). */
   CS.isBigBody = function (traits, slim) {
     if (!traits || traits.land || !slim) return false;
@@ -2226,7 +2443,9 @@
     var cmd = profile.commander;
     if (profile.route && profile.route.kind === "voltron" && (traits.gives.gear || traits.gives.heroic)) return "voltron";
     if (cmd && cmd.id !== traits.id && Object.keys(traits.gives).some(function (l) {
-      return cmd.wants[l] && l !== "etb" && !(traits.typeOnly && traits.typeOnly[l]);
+      // cycle 20: a card's type counts when the commander pays off that type (Sagas for Tom Bombadil,
+      // Auras for Light-Paws); measured on the plan labels, fuel found 42% -> 49%
+      return cmd.wants[l] && l !== "etb";
     }))
       return "fuel";
     return null;
@@ -2259,6 +2478,10 @@
       }
       if (g.win.length) {
         wins.push({ name: c.name, id: c.id, why: g.win[0], commander: !!c.commander });
+        ids[c.id] = ids[c.id] || "win";
+      } else if (!c.commander && profile.route && (fits[c.id] || 0) >= 20 && CS.routeWin(c, byId[c.id], profile.route)) {
+        // cycle 20: a finisher for this deck's route (Blood Artist in aristocrats, an anthem in a wide deck)
+        wins.push({ name: c.name, id: c.id, why: CS.routeWin(c, byId[c.id], profile.route), commander: false });
         ids[c.id] = ids[c.id] || "win";
       } else if (!c.commander && CS.isBigBody(c, byId[c.id]) && CS.isCheatPayload(c, profile)) {
         // cycle 19 (Kozilek, Butcher of Truth in Zimone): a huge creature the deck puts into play for free
@@ -2328,6 +2551,16 @@
       return list.slice(0, 2).map(short).join(" and ");
     };
     var lines = [];
+    // cycle 20: the route first
+    if (g.route && g.route.kind) {
+      var rw = function (k) {
+        return CS.ROUTE_WORDS[k] || k;
+      };
+      var pw = g.route.power;
+      var plan = "Plan: " + rw(g.route.kind) + (g.route.also && g.route.also.length ? ", with " + g.route.also.map(rw).join(" and ") : "");
+      if (g.route.kind === "combo" && pw) plan += " (" + pw.tutors + " tutors, " + pw.fast + " fast mana, " + pw.free + " free spells, average mana value " + pw.avg + ")";
+      lines.push(plan + ".");
+    }
     var parts = [];
     ["cards", "mana", "creatures"].forEach(function (k) {
       if (g.kinds[k].length) parts.push(KIND_WORDS[k] + " (" + two(g.kinds[k]) + ")");

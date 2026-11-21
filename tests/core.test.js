@@ -2369,7 +2369,8 @@ test("cycle 18: The Speed Demon's game plan: drain, find, protect", () => {
   const snuff = ideas.find((x) => x.name === "Snuff Out");
   assert.ok(!snuff || snuff.reasons.every((r) => /More removal than the deck needs/.test(r)), snuff && snuff.reasons.join("; "));
   const lines = CS.gamePlanLines(syn.game, 2);
-  assert.match(lines[0], /^Engine: \d+ cards keep making cards \(The Speed Demon/);
+  assert.match(lines[0], /^Plan: draining and burning opponents/); // cycle 20: the route line comes first
+  assert.match(lines[1], /^Engine: \d+ cards keep making cards \(The Speed Demon/);
   assert.match(lines[lines.length - 1], /, or one of 2 combos in the deck\.$/);
 });
 
@@ -2483,7 +2484,8 @@ test("cycle 19: Zimone: free-flipped titans are finishers, extra land drops are 
   for (const n of ["Kozilek, Butcher of Truth", "Ulamog, the Infinite Gyre", "It That Betrays"]) assert.ok(wins.includes(n), n + " wins: " + wins.join(", "));
   assert.equal(syn.game.ids[c19card("Kozilek, Butcher of Truth").id], "win");
   assert.ok(syn.game.kinds.fuel.length >= 10, "cards that feed Zimone");
-  assert.match(CS.gamePlanLines(syn.game, 2)[0], /feed the commander/);
+  assert.match(CS.gamePlanLines(syn.game, 2)[0], /^Plan: lands and landfall/); // cycle 20
+  assert.match(CS.gamePlanLines(syn.game, 2)[1], /feed the commander/);
   const ideas = CS.cutSuggestions(profile, syn, slims, {});
   for (const n of ["Exploration", "Dryad of the Ilysian Grove", "Burgeoning", "Lotus Cobra", "Kozilek, Butcher of Truth", "Ulamog, the Infinite Gyre"])
     assert.ok(!ideas.some((x) => x.name === n), n + " isn't a cut idea");
@@ -2541,7 +2543,7 @@ test("cycle 19: Rayami: Voltron with borrowed keywords", () => {
   assert.equal(profile.route.kind, "voltron");
   assert.ok(profile.route.gear >= 6, "gear " + profile.route.gear);
   assert.equal(syn.game.wins[0].name, "Rayami, First of the Fallen");
-  assert.match(CS.gamePlanLines(syn.game, 0)[4], /^Wins with: Rayami \(attacking for commander damage, suited up by \d+ Equipment and Auras/);
+  assert.match(CS.gamePlanLines(syn.game, 0)[5], /^Wins with: Rayami \(attacking for commander damage, suited up by \d+ Equipment and Auras/);
   const ideas = CS.cutSuggestions(profile, syn, slims, {});
   for (const n of ["Sword of Feast and Famine", "Genji Glove", "Blade of the Bloodchief", "Helm of the Host", "Swiftfoot Boots", "Alpha Authority",
     "Slippery Bogle", "Rhonas the Indomitable", "Wilson, Refined Grizzly", "Venomthrope", "Sire of Seven Deaths", "Nightveil Predator", "Stonecoil Serpent"])
@@ -2553,10 +2555,72 @@ test("cycle 19: Rayami: Voltron with borrowed keywords", () => {
 });
 
 test("cycle 19: routes only where the deck is built for one", () => {
-  assert.equal(zurgoProfile.route, null, "Zurgo's tokens deck isn't Voltron");
-  assert.equal(c19deck("zimone", "Zimone, Mystery Unraveler").profile.route, null);
+  // cycle 20: every deck now gets an archetype route; Voltron still only where the deck is built for it
+  assert.notEqual(zurgoProfile.route && zurgoProfile.route.kind, "voltron", "Zurgo's tokens deck isn't Voltron");
+  const zr = [zurgoProfile.route.kind].concat(zurgoProfile.route.also); // tokens and sacrifice: go wide and aristocrats
+  assert.ok(zr.includes("go-wide") && zr.includes("aristocrats"), zr.join(", "));
+  assert.equal(c19deck("zimone", "Zimone, Mystery Unraveler").profile.route.kind, "lands");
   // a big body counts as a finisher only when the deck puts it into play for free
   const koz = c19card("Kozilek, Butcher of Truth");
   assert.ok(CS.isBigBody(CS.cardTraits(koz), koz) && !CS.isBigBody(CS.cardTraits(c19card("Sol Ring")), c19card("Sol Ring")));
   assert.notEqual(CS.planJobFor(CS.cardTraits(koz), koz, zurgoProfile), "win", "Zurgo doesn't cheat Kozilek in");
+});
+
+// ---- cycle 20: Scryfall Tagger tags, archetype routes, route finishers ----
+const sc20 = (name, type, text, cmc, extra) =>
+  CS.slimCard(Object.assign({ id: "c20-" + name, name: name, type_line: type, oracle_text: text, cmc: cmc || 0, mana_cost: "", color_identity: [], legalities: { commander: "legal" } }, extra || {}));
+const TAGS20 = JSON.parse(require("fs").readFileSync(require("path").join(__dirname, "..", "data", "card_tags.json"), "utf8"));
+
+test("cycle 20: Tagger tags fill a reading the text rules miss, and the page works without them", () => {
+  const prop = sc20("Propaganda", "Enchantment", "Creatures can't attack you unless their controller pays {2} for each creature they control that's attacking you.", 3);
+  CS.setCardTags(null);
+  const before = CS.cardTraits(prop);
+  assert.ok(CS.setCardTags(TAGS20), "the built file loads");
+  const after = CS.cardTraits(prop);
+  CS.setCardTags(null);
+  assert.ok(!before.gives.deter || after.gives.deter, "never loses a reading");
+  assert.ok(after.gives.deter, "Propaganda keeps attackers away (pillow fort)");
+  assert.ok(!CS.hasCardTags(), "and the page reads cards without the file");
+  // the file only holds what the text rules miss, in short codes
+  assert.ok(Object.keys(TAGS20.cards).length > 1000 && TAGS20.codes && TAGS20.v === 1);
+});
+
+test("cycle 20: a tag never turns a rider into a main role", () => {
+  CS.setCardTags({ v: 1, codes: { a: "draw" }, cards: { "c20 pump": "ra" } });
+  const pump = sc20("C20 Pump", "Instant", "Target creature gets +2/+2 until end of turn.\nDraw a card.", 1);
+  const t = CS.cardTraits(pump);
+  CS.setCardTags(null);
+  assert.ok(!t.roles.draw, "a cantrip stays a side job: " + JSON.stringify(t.roles));
+});
+
+test("cycle 20: alternate wins from tags count as finishers", () => {
+  CS.setCardTags({ v: 1, codes: { w: "win" }, cards: { "c20 odd win": "jw" } });
+  const odd = sc20("C20 Odd Win", "Enchantment", "At the beginning of your upkeep, if you control seven or more Plains, something happens.", 4);
+  const kinds = CS.gameKinds(CS.cardTraits(odd), odd);
+  CS.setCardTags(null);
+  assert.ok(kinds.win.length, "reads as a win");
+});
+
+test("cycle 20: route finishers follow the deck's archetype", () => {
+  const artist = sc20("Blood Artist", "Creature \u2014 Vampire", "Whenever Blood Artist or another creature dies, target player loses 1 life and you gain 1 life.", 2, { power: "0", toughness: "1" });
+  const t = CS.cardTraits(artist);
+  assert.match(String(CS.routeWin(t, artist, { kind: "aristocrats", also: [] })), /drains the table/);
+  assert.equal(CS.routeWin(t, artist, { kind: "lands", also: [] }), null, "not a finisher in a lands deck");
+  assert.ok(CS.ROUTE_WORDS.combo && CS.ROUTE_WORDS.lands);
+});
+
+test("cycle 20: a tag adds a reading the text doesn't have", () => {
+  const bland = sc20("C20 Bland Wall", "Enchantment", "When this enchantment enters, scry 1.", 2);
+  CS.setCardTags({ v: 1, codes: { d: "deter" }, cards: { "c20 bland wall": "gd" } });
+  const t = CS.cardTraits(bland);
+  CS.setCardTags(null);
+  assert.ok(t.gives.deter, "the tag's label is read");
+  assert.ok(!CS.cardTraits(bland).gives.deter, "and only while the tags are loaded");
+});
+
+test("cycle 20: a card's type is fuel when the commander pays off that type (Sagas for a Saga commander)", () => {
+  const cmd = sc20("C20 Lorekeeper", "Legendary Creature \u2014 Human Wizard", "Whenever you cast a Saga spell, draw a card. Sagas you control have hexproof.", 3);
+  const saga = sc20("C20 Old Tale", "Enchantment \u2014 Saga", "I \u2014 Scry 2.\nII \u2014 Draw a card.\nIII \u2014 You gain 3 life.", 2);
+  const p = CS.deckProfile([cmd, saga], "C20 Lorekeeper");
+  assert.equal(CS.planJobFor(CS.cardTraits(saga), saga, p), "fuel");
 });

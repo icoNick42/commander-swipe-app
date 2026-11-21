@@ -1361,7 +1361,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=19"></script>
+    <script src="core.js?v=20"></script>
     <script>
       (function () {
         "use strict";
@@ -1441,6 +1441,27 @@
 
         // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
         var SAMPLE_DECK = "1 Zurgo Stormrender (TDC) 10\n1 Adeline, Resplendent Cathar (MID) 312\n1 Ainok Strike Leader (TDC) 51\n1 Anim Pakal, Thousandth Moon (LCI) 300 *F*\n1 Arcane Signet (PIP) 356\n1 Arid Mesa (MH2) 244\n1 Ashnod's Altar (5ED) 349\n1 Badlands (3ED) 282\n1 Bastion of Remembrance (PLST) IKO-73\n1 Battle Angels of Tyr (PCLB) 9p\n1 Black Market (JMP) 204\n1 Black Market Connections (MSC) 155\n1 Blade of Selves (CM2) 174\n1 Blood Artist (SLD) 42\n1 Blood Crypt (ECL) 262\n1 Bloodstained Mire (KTK) 230\n1 Brimaz, King of Oreskos (J25) 58\n1 Caesar, Legion's Emperor (PIP) 1 *F*\n1 Carrion Feeder (PLST) MH1-81\n1 Cathars' Crusade (JMP) 95\n1 Command Tower (PIP) 259\n1 Crowded Crypt (DRC) 88\n1 Dalkovan Encampment (PTDM) 253p\n1 Dark Prophecy (M14) 93\n1 Dawn Charm (UMA) 13\n1 Deadly Dispute (SLD) IFIYW-6 *F*\n1 Deathgreeter (PLST) DDD-33\n1 Duty Beyond Death (SOA) 4\n1 Eiganjo, Seat of the Empire (PNEO) 268p\n1 Elas il-Kor, Sadistic Pilgrim (DMU) 198\n1 Elenda, the Dusk Rose (LCC) 268\n1 Emeritus of Woe / Demonic Tutor (SOS) 324\n1 Endless Foot Assault (TMC) 8\n1 Enduring Innocence (DSK) 368\n1 Esper Sentinel (MH2) 328\n1 Flooded Strand (KTK) 233\n1 Generous Plunderer (BIG) 76\n1 Goblin Bombardment (WOT) 43\n1 Godless Shrine (CLU) 276 *F*\n1 Grand Crescendo (FRC) 26\n1 Grim Hireling (PLST) AFC-25\n1 Gut, True Soul Zealot (CLB) 180\n1 Impact Tremors (WOT) 44\n1 Indulge / Excess (NCC) 46\n1 Jadar, Ghoulcaller of Nephalia (DBL) 108\n1 Lightning Greaves (SLD) IFIYW-9 *F*\n1 Luxury Suite (MSC) 252\n1 Mace of the Valiant (CMM) 41\n1 Mahadi, Emporium Master (CLB) 282\n1 Marsh Flats (SPG) 115 *F*\n1 Mentor of the Meek (SCD) 28\n2 Mountain (THB) 253 *F*\n1 Ocelot Pride (MH3) 38\n1 Ophiomancer (TDC) 193\n1 Phyrexian Altar (2X2) 563 *E*\n1 Phyrexian Tower (MH3) 303\n1 Pitiless Plunderer (PIP) 187\n2 Plains (THB) 250 *F*\n1 Plateau (3ED) 284\n1 Polluted Delta (KTK) 239\n1 Professional Face-Breaker (M3C) 216\n1 Reconnaissance (ACR) 179 *E*\n1 Ruinous Ultimatum (SPG) 108\n1 Sacred Foundry (PEOE) 256p\n1 Scalding Tarn (MH2) 254\n1 Scrubland (3ED) 286\n1 Sephiroth, Fabled SOLDIER / Sephiroth, One-Winged Angel (FIN) 115\n1 Shinka, the Bloodsoaked Keep (PLST) CHK-282\n1 Skullclamp (TDC) 103\n1 Sol Ring (PFDN) 1 *F*\n1 Soul Warden (MD1) 1\n1 Soul's Attendant (PLST) ROE-44\n1 Spectator Seating (MSC) 268\n1 Spirit Mantle (PLST) M12-35\n1 Stadium Headliner (PTDM) 122p\n1 Staff of the Storyteller (ONC) 48\n2 Swamp (THB) 252 *F*\n1 Swords to Plowshares (CMR) 627\n1 Takenuma, Abandoned Mire (NEO) 278\n1 Talisman of Conviction (M3C) 307\n1 Talisman of Hierarchy (PIP) 775 *F*\n1 Talisman of Indulgence (FRC) 63\n1 The Masamune (FIN) 264\n1 Trouble in Pairs (MKC) 326\n1 True Conviction (C14) 93\n1 Untimely Malfunction (DSK) 161\n1 Urborg, Tomb of Yawgmoth (TSR) 287\n1 Urza's Saga (MH2) 259\n1 Vault of Champions (CMR) 360 *F*\n1 Verdant Catacombs (SPG) 113\n1 Viscera Seer (SOC) 229\n1 Voice of Victory (PTDM) 33p\n1 Warleader's Call (MKM) 242\n1 Warren Soultrader (PMH3) 110p\n1 Windswept Heath (MH3) 235\n1 Woe Strider (NCC) 262\n1 Wooded Foothills (KTK) 249";
+        // Cycle 20: card tags from Scryfall Tagger (data/card_tags.json, built by tools/tagger/build_tags.js).
+        // Fetched once per visit. Until it arrives, or if it never does (offline, opened from the folder),
+        // the text rules read the cards alone; a deck read before it arrived is read again with it.
+        var tagsNote = "";
+        fetch("data/card_tags.json?v=20", { headers: { Accept: "application/json" } })
+          .then(function (res) {
+            if (!res.ok) throw new Error("the site answered " + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            if (!CS.setCardTags(data)) return;
+            if (!S.commander || !S.deckSlimList || !S.deckSlimList.length) return;
+            S.profile = CS.deckProfile(S.deckSlimList, S.commander.name);
+            S.fitCache = {};
+            S.deckFit = CS.deckSynergy(S.profile, S.deckSlimList);
+            renderDeckFit();
+            render();
+          })
+          .catch(function (e) {
+            tagsNote = String((e && e.message) || e);
+          });
         var edhrecCache = {}; // URL -> EDHREC page (or null if it failed); each page fetched at most once per visit
         var preloaded = [];
 
