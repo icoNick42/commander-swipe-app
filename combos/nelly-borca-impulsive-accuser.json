@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Nelly Borca, Impulsive Accuser",
+  "identity": "RW",
+  "made": "2026-11-23",
+  "combos": [
+    {"id":"553-1891","cards":["Approach of the Second Sun","Reprieve"],"identity":"W","produces":["Win the game"],"bracket":"C","popularity":22883,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3422-3587","cards":["Boros Reckoner","Boros Charm"],"identity":"RW","produces":["Infinite lifegain","Infinite lifegain triggers"],"bracket":"S","popularity":14412,"needs":[],"note":"You have a way to give Boros Reckoner lifelink. You have a way to deal damage to Boros Reckoner.","commanderOnly":[]},
+    {"id":"1694-3011","cards":["Gisela, Blade of Goldnight","Heartless Hidetsugu"],"identity":"RW","produces":["Each opponent with an even life total loses the game","Near-infinite damage"],"bracket":"R","popularity":4608,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1984-3473","cards":["Transcendence","Angel's Grace"],"identity":"W","produces":["Draw the game"],"bracket":"P","popularity":1180,"needs":[],"note":"","commanderOnly":[]}
+  ]
+}

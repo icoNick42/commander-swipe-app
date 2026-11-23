@@ -1419,7 +1419,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=23"></script>
+    <script src="core.js?v=26"></script>
     <script>
       (function () {
         "use strict";
@@ -3374,18 +3374,11 @@
               : null,
             el("div", {
               class: "small",
+              // cycle 26 (Nick: explanations are too wordy): the numbers, one line
               text:
-                "How it fits comes from how well the card ties into your deck's plan (tie-in " +
-                  (f.tieIn != null ? f.tieIn : f.score) +
-                  " of 100: strong from " + CS.FIT_TIERS.strong + ", some from " + CS.FIT_TIERS.some +
-                  "). Strength " +
-                  (f.strength != null ? f.strength : "?") +
-                  " of 100: how widely it's played, and how cheap and flexible it is for its job. Together they make its Fit, " +
-                  f.score +
-                  "." +
-                (edh
-                  ? " The other numbers are EDHREC's: the share of " + cmdShort() + " decks on EDHREC that run the card, and synergy, how much more often they run it than other decks in its colors."
-                  : ""),
+                "Tie-in " + (f.tieIn != null ? f.tieIn : f.score) + " (strong from " + CS.FIT_TIERS.strong + "), strength " +
+                  (f.strength != null ? f.strength : "?") + ", Fit " + f.score + "." +
+                (edh ? " EDHREC: share of " + cmdShort() + " decks running it, and synergy." : ""),
             }),
           ]);
           d.open = S.whyOpen;
@@ -4151,7 +4144,7 @@
                   return x.name;
                 }),
                 4,
-                Object.assign(cutOpts(), { ideas: cutIdeas(over + 4) }),
+                Object.assign(cutOpts(), { ideas: cutIdeas(over + 4), avgTie: S.deckFit ? S.deckFit.score : null }), // cycle 26
               );
               if (alts.length) {
                 // cycle 21: folded behind a button, so the phone page doesn't run on

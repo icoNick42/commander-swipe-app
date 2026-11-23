@@ -1488,7 +1488,11 @@ test("swap ideas: same job first; a land pairs with a basic", () => {
     {},
   );
   assert.ok(landSwaps.length >= 1);
-  assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null), JSON.stringify(landSwaps));
+  // cycle 26: the land target now weighs mana value and cheap ramp and draw (Karsten), so Zurgo's 32 lands at
+  // its curve count as short: a new land takes a spell's place. A deck with its lands still swaps land for land.
+  const zl = CS.landCount(zurgoProfile, parsed.cards, {}, zurgoSlims);
+  if (zl.count >= zl.target - 4) assert.ok(landSwaps.every((x) => CS.isBasicLand(x.name) && x.id === null), JSON.stringify(landSwaps));
+  else assert.ok(landSwaps[0].id !== null && !CS.isBasicLand(landSwaps[0].name), JSON.stringify(zl) + JSON.stringify(landSwaps));
   // with both Mountains cut the deck is down to 30 of its 32 lands (about 36 typical):
   // now the new land takes a spell's place, and no Mountain is offered
   const shortSwaps = CS.swapSuggestions(land, sugg, zurgoProfile, parsed.cards, { Mountain: 2 });
@@ -2178,7 +2182,9 @@ test("cycle 15: cut ideas weigh EDHREC's numbers and strength, and don't hold st
   assert.ok(off.inc === 0 && off.reasons.some((r) => /^Few decks with this commander run it/.test(r)), off.reasons.join("; "));
   assert.ok(withE.find((x) => x.name === "Doom Blade").keep > withE.find((x) => x.name === "Removal 0").keep, "an often-run card is kept over the same card EDHREC doesn't list");
   const ideas = CS.cutSuggestions(d.prof, d.syn, d.cards, Object.assign({ edhrec: edh }, d.opts));
-  assert.ok(ideas.length && ideas.every((x) => x.tie < 75 && !x.locked && !x.staple && !x.land));
+  // cycle 26: 36 lands at a 2.1 curve with 20 cheap ramp and draw is more than Karsten's count, so a land can be a cut idea
+  const dl = CS.landCount(d.prof, d.lines, {}, d.cards);
+  assert.ok(ideas.length && ideas.every((x) => x.tie < 75 && !x.locked && !x.staple && (!x.land || dl.count > dl.target)), JSON.stringify(dl));
   assert.ok(!ideas.some((x) => x.reasons.length === 1 && /^Few decks with this commander run it/.test(x.reasons[0]) && x.roles.length), "a note alone doesn't make a role card a cut idea");
 });
 
@@ -2737,4 +2743,125 @@ test("cycle 23: K'rrik: Necropotence and Asmodeus are draw engines; Necrotic Ooz
     assert.ok(CS.gameKinds(c23find(d, n), c23slim(d, n)).engine.includes("cards"), n);
   assert.ok(c23find(d, "Necrotic Ooze").wants.graveyard, "creature cards in all graveyards");
   assert.equal(d.profile.route.kind, "combo");
+});
+
+// ---------------------------------------------------------------- cycle 25: outcome check fixes
+// Playgroup win methods for ~1,500 commanders (tools/benchmark/outcomes.js) showed three general misses.
+const sc25 = (name, type, text, cmc, extra) =>
+  CS.slimCard(Object.assign({ id: "c25-" + name, name: name, type_line: type, oracle_text: text, cmc: cmc || 0, mana_cost: "", color_identity: [], legalities: { commander: "legal" } }, extra || {}));
+const c25filler = (n, type, text) => Array.from({ length: n }, (_, i) => sc25(type.split(" ")[0] + " Filler " + i, type, text, 3));
+
+test("cycle 25: a legendary card's first name is its own name (Karlov of the Ghost Council)", () => {
+  const karlov = sc25("Karlov of the Ghost Council", "Legendary Creature — Spirit Advisor", "Whenever you gain life, put two +1/+1 counters on Karlov.", 2, { power: 2, toughness: 2 });
+  assert.match(CS.cardTraits(karlov).text, /counters on ~/);
+  const lord = sc25("Lord of the Pit", "Creature — Demon", "At the beginning of your upkeep, sacrifice a creature other than Lord of the Pit.", 7);
+  assert.ok(!/~ of the pit/.test(CS.cardTraits(lord).text), "nonlegendary names stay whole");
+});
+
+test("cycle 25: commanders that grow themselves read as a commander-damage threat", () => {
+  const t = (name, text, power) => CS.cardTraits(sc25(name, "Legendary Creature — Test", text, 3, { power: power || 2, toughness: 2 }));
+  assert.ok(CS.selfGrows(t("Karlov of the Ghost Council", "Whenever you gain life, put two +1/+1 counters on Karlov.")));
+  assert.ok(CS.selfGrows(t("Tifa Lockhart", "Trample\nLandfall — Whenever a land you control enters, double Tifa Lockhart's power until end of turn.")));
+  assert.ok(CS.selfGrows(t("Omnath, Locus of Mana", "Omnath gets +1/+1 for each unspent green mana you have.")));
+  assert.ok(!CS.selfGrows(t("Grow Others", "Whenever you gain life, put a +1/+1 counter on target creature.")), "pumping others isn't growing itself");
+  // a Karlov deck: life gain feeds the commander, so Voltron joins the plan with no Equipment
+  const cmd = sc25("Karlov of the Ghost Council", "Legendary Creature — Spirit Advisor", "Whenever you gain life, put two +1/+1 counters on Karlov.", 2, { power: 2, toughness: 2 });
+  const deck = [cmd].concat(c25filler(30, "Creature — Cleric", "Lifelink\nWhenever this creature attacks, you gain 1 life."), c25filler(5, "Instant", "Target creature you control gains hexproof and indestructible until end of turn."));
+  const prof = CS.deckProfile(deck, cmd.name);
+  assert.ok(prof.route.kind === "voltron" || prof.route.also.includes("voltron"), JSON.stringify(prof.route.scores));
+  assert.ok(prof.route.grows);
+  const syn = CS.deckSynergy(prof, deck);
+  assert.match(syn.game.wins[0].why, /commander damage \(it grows itself/);
+});
+
+test("cycle 25: milling opponents is its own route, apart from filling your graveyard", () => {
+  const opp = CS.cardTraits(sc25("Opp Mill", "Sorcery", "Each opponent mills four cards.", 2));
+  assert.ok(opp.gives.oppmill && !opp.gives.graveyard, JSON.stringify(opp.gives));
+  const self = CS.cardTraits(sc25("Self Mill", "Sorcery", "Mill four cards. Return a creature card from your graveyard to your hand.", 2));
+  assert.ok(self.gives.graveyard && !self.gives.oppmill, JSON.stringify(self.gives));
+  const either = CS.cardTraits(sc25("Either Mill", "Artifact", "{T}: Target player mills two cards.", 1));
+  assert.ok(either.gives.graveyard && either.gives.oppmill, "target player: either");
+  const bruvac = sc25("Bruvac the Grandiloquent", "Legendary Creature — Human Advisor", "If an opponent would mill one or more cards, they mill twice that many cards instead. (To mill a card, a player puts the top card of their library into their graveyard.)", 3, { power: 1, toughness: 5 });
+  const bt = CS.cardTraits(bruvac);
+  assert.ok(bt.wants.oppmill && !bt.gives.graveyard, "the reminder text isn't self-mill: " + JSON.stringify(bt.gives));
+  const deck = [bruvac].concat(c25filler(20, "Sorcery", "Target opponent mills three cards."), c25filler(10, "Creature — Crab", "Whenever a land you control enters, target player mills three cards."));
+  const prof = CS.deckProfile(deck, bruvac.name);
+  assert.equal(prof.route.kind, "mill");
+  assert.ok(CS.deckSynergy(prof, deck).game.wins.some((w) => /mills opponents/.test(w.why)));
+});
+
+test("cycle 25: one ping card is a backup finisher unless the deck is built to drain", () => {
+  const cmd = sc25("Artifact Boss", "Legendary Creature — Artificer", "Whenever an artifact you control enters, draw a card.", 4, { power: 3, toughness: 3 });
+  const tremors = sc25("Ping Tremors", "Enchantment", "Whenever a creature you control enters, this enchantment deals 1 damage to each opponent.", 2);
+  const merchant = sc25("Devotion Drain", "Creature — Zombie", "When this creature enters, each opponent loses X life, where X is your devotion to black.", 5, { power: 2, toughness: 4 });
+  const base = [cmd].concat(c25filler(30, "Artifact", "{T}: Add {C}. Artifacts you control have hexproof."));
+  const winsOf = (extra) => {
+    const deck = base.concat(extra);
+    const prof = CS.deckProfile(deck, cmd.name);
+    assert.ok(!["drain", "aristocrats", "lifegain", "spells", "wheels"].includes(prof.route.kind), prof.route.kind);
+    const game = CS.deckSynergy(prof, deck).game;
+    return { main: game.wins.filter((w) => !w.backup).map((w) => w.name), backup: game.wins.filter((w) => w.backup).map((w) => w.name), game };
+  };
+  const one = winsOf([tremors, merchant]);
+  assert.ok(!one.main.includes("Ping Tremors") && one.backup.includes("Ping Tremors"), "one ping card: a backup finisher, not the plan");
+  assert.ok(one.main.includes("Devotion Drain"), "a drain that scales still is");
+  assert.equal(one.game.ids["c25-Ping Tremors"], "win", "still a finisher's job, so cut ideas keep it");
+  assert.match(CS.gamePlanLines(one.game, 0).slice(-1)[0], /backup Ping Tremors/);
+  const four = [0, 1, 2, 3].map((i) => sc25("Ping Tremors " + i, "Enchantment", "Whenever a creature you control enters, this enchantment deals 1 damage to each opponent.", 2));
+  assert.equal(winsOf(four).main.filter((n) => /^Ping Tremors/.test(n)).length, 4, "four add up");
+});
+
+// ---------------------------------------------------------------- cycle 26: Nick's notes, fixed at the rule
+test("cycle 26: a creature that borrows your creatures' activated abilities wants untappers (Marvin)", () => {
+  const marvin = CS.cardTraits(sc25("Marvin, Murderous Mimic", "Legendary Artifact Creature — Toy", "Marvin has all activated abilities of creatures you control that don't have the same name as this creature.", 2, { power: 2, toughness: 2 }));
+  assert.ok(marvin.wants.untapc && marvin.wants.tap, JSON.stringify(marvin.wants));
+});
+
+test("cycle 26: half a life loop isn't a finisher without the other half", () => {
+  const cmd = sc25("Loop Boss", "Legendary Creature — Vampire", "Flying", 3, { power: 3, toughness: 3 });
+  const half = sc25("Loss Half", "Creature — Vampire Knight", "Flying, deathtouch\nWhenever an opponent loses life, you gain that much life.", 4, { power: 3, toughness: 3 });
+  const other = sc25("Gain Half", "Enchantment", "Whenever you gain life, target opponent loses that much life.", 6);
+  const base = [cmd].concat(c25filler(30, "Creature — Vampire", "Lifelink"));
+  const ids = (extra) => {
+    const deck = base.concat(extra);
+    const prof = CS.deckProfile(deck, cmd.name);
+    return CS.deckSynergy(prof, deck).game.wins.map((w) => w.name);
+  };
+  assert.ok(!ids([half]).includes("Loss Half"), "alone it only gains life");
+  const both = ids([half, other]);
+  assert.ok(both.includes("Loss Half") && both.includes("Gain Half"), both.join(", "));
+});
+
+test("cycle 26: other cuts are offered only with a reason that's true of the card", () => {
+  const cands = [
+    { name: "Protect Spell", id: "a", cut: 0.6, tie: 30, roles: ["protection"], reasons: [], planJob: null },
+    { name: "Big Finisher", id: "b", cut: 0.5, tie: 40, roles: [], reasons: [], planJob: "win" },
+    { name: "Plain Low", id: "c", cut: 0.55, tie: 30, roles: [], reasons: [], planJob: null },
+    { name: "Plain High", id: "d", cut: 0.5, tie: 80, roles: [], reasons: [], planJob: null },
+    { name: "Extra Draw", id: "e", cut: 0.4, tie: 50, roles: ["draw"], reasons: ["More card draw than the deck needs: 13 cards, most decks run about 10"], planJob: null },
+  ];
+  const alts = CS.cutAlternates([], cands, zurgoProfile, null, {}, [], 10, { avgTie: 60 });
+  const names = alts.map((a) => a.name);
+  assert.deepEqual(names.sort(), ["Extra Draw", "Plain Low"], names.join(", "));
+  assert.ok(alts.every((a) => !/weaker ties/.test(a.why)));
+});
+
+test("cycle 26: a card with no role isn't called weak; its cut reason says what strength means for it", () => {
+  const ideas = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {}).concat(CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {}));
+  const plain = ideas.filter((x) => !x.roles.length && !x.land);
+  assert.ok(plain.length, "some plain cut ideas");
+  assert.ok(plain.every((x) => !/^Tie-in \d+ and strength/.test(x.reasons[0])), plain.map((x) => x.name + ": " + x.reasons[0]).join("; "));
+});
+
+test("cycle 26: the land count weighs the curve and cheap ramp and draw (Karsten)", () => {
+  const mk = (n, cmc, text) => Array.from({ length: n }, (_, i) => fc("C26 " + cmc + " " + text.slice(0, 6) + i, "Creature \u2014 Elf", text, cmc));
+  const cmd = fc("C26 Cmdr", "Legendary Creature \u2014 Elf", "Trample", 3);
+  const elves = [cmd].concat(mk(20, 1, "{T}: Add {G}."), mk(20, 4, "Trample"));
+  const fatties = [cmd].concat(mk(40, 4, "Trample"));
+  const lines = (cards) => cards.map((c) => ({ qty: 1, name: c.name })).concat([{ qty: 35, name: "Forest" }]);
+  const t = (cards) => CS.landCount(CS.deckProfile(cards, cmd.name), lines(cards), {}, cards);
+  const a = t(elves), b = t(fatties);
+  assert.equal(a.cheap, 20);
+  assert.ok(a.target < b.target - 5, JSON.stringify([a, b]));
+  assert.ok(a.target >= 31 && b.target <= 42);
 });

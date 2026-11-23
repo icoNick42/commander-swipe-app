@@ -919,6 +919,10 @@
         names.push(n);
         var short = n.split(",")[0].trim();
         if (short.length > 3 && short !== n) names.push(short);
+        // cycle 25 (Karlov, Bruvac): a legendary card's text uses its first name when the name has no comma
+        var lead = /^([a-z'-]+) (of|the) /.exec(n);
+        if (lead && lead[1].length > 3 && lead[1] !== "the" && /\blegendary\b/i.test(String((slim && (slim.typeLine || slim.types)) || "")))
+          names.push(lead[1]);
       });
     names.sort(function (a, b) {
       return b.length - a.length;
@@ -977,7 +981,8 @@
     // graveyard fillers
     ["graveyard", /\brad counters?\b/],
     ["graveyard", /\bput (the rest|all other cards revealed this way|all other revealed cards|the other cards?|those cards|them|that card) [^.]*\binto your graveyard\b/],
-    ["graveyard", /\bmills?\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b|\bdiscards? (their|your) hands?\b/],
+    // cycle 25: milling yourself fills your graveyard; "each opponent mills" doesn't (that's oppmill)
+    ["graveyard", /\b(you|~|target player|each player|that player|its owner|their owner|controller)( may)? mills?\b|(^|[.:,;\n]\s*|\b(then|and|may|or) )mill (a|an|one|two|three|four|five|six|seven|eight|nine|ten|x|that many|half|cards|\d+)\b|\bwhenever you mill\b|\bsurveil\b|\bdiscard (a|two|three|x|your hand|that many)\b|\bdiscards? (their|your) hands?\b/],
     // blink
     ["blink", /\bexile\b[^.]*\breturn (it|them|that card|those cards) to the battlefield\b/],
     ["blink", /\breturn (another )?target (creature|nonland permanent|permanent) you control to (its owner's|your) hand\b/],
@@ -1014,6 +1019,8 @@
     ["attacks", /\briot\b/],
     ["lifegain", /\b(target player|you) gains? (\d+|x|twice x|that much|life)\b/],
     ["oppdraw", /\byou and (target|that|each) (opponent|player)s? each draws?\b|\beach opponent may draw\b|\bthat player draws (two|three|four|five|six|seven|x|\d+) cards\b/],
+    // cycle 25 (outcome check: Bruvac, Phenax, Zellix read as graveyard): milling opponents
+    ["oppmill", /\b(each opponent|target opponent|target player|each player|that player|defending player|each other player|any number of target players|those players|each of those players|controller) mills?\b|\bopponents? mills?\b|\bif an opponent would mill\b/],
   ];
 
   var WANTS = [
@@ -1059,6 +1066,8 @@
     // cycle 11 payoffs
     ["dungeon", /\broom abilit(y|ies)\b|\bcompleted? (a|that) dungeon\b|\bdungeons? you own\b/],
     ["oppdraw", /\bwhenever (an opponent|a player) draws\b/],
+    // cycle 25: payoffs for opponents' milled cards and full graveyards
+    ["oppmill", /\bwhenever (a player|an opponent|one or more opponents) mills?\b|\bcards? (are|is) milled\b|\b(if|whenever) an opponent would mill\b|\bcards? in (target|each|an|that) (opponent's|player's) graveyard\b|\bcards? in (your )?opponents' graveyards\b|\bwhenever (a|one or more) (creature )?cards? (is|are) put into an opponent's graveyard from (their|anywhere|a) library\b|\bno cards in (their|his or her) library\b/],
     ["drawing", /\bwhenever you draw (a|your second|one or more) cards?\b/],
     ["oppsac", /\bwhenever (an opponent|a player|one or more opponents) (sacrifices|discards)\b/],
     ["burn", /\bnoncombat damage\b|\bif a source you control would deal damage\b|\bwould deal damage to an opponent\b|\bwhenever an opponent is dealt damage\b|\bwhenever (a|another) (red )?source you control deals damage\b/],
@@ -1574,6 +1583,12 @@
     // a creature whose mana grows with the board (Priest of Titania, Kami of Whispered Hopes) is worth untapping
     if (!isLand && /\bcreature\b/.test(mainTypes) && /\{t\}[^:\n]*: add [^.\n]*\b(for each|equal to|where x is)\b/.test(bare)) wants.untapc = true;
     if (!isLand && /\}: untap ~/.test(bare)) wants.copyab = true; // Basalt Monolith wants Rings of Brighthearth
+    // cycle 26 (Nick: Marvin "works with almost nothing else" in a deck of mana Elves): a creature that borrows your
+    // creatures' activated abilities taps for their mana and abilities, so untappers and tap-ability creatures feed it
+    if (!isLand && /\bcreature\b/.test(mainTypes) && /\b(has|have|gains?) all activated abilities of (all |each )?(other )?(creatures?|permanents?)( cards?)?( you control| in (all )?graveyards?| exiled with ~)?\b/.test(bare)) {
+      wants.untapc = true;
+      wants.tap = true;
+    }
     if (!isLand && /\bartifact\b/.test(mainTypes) && /\{t\}[^:\n]*: add \{/.test(bare)) wants.untap = true; // mana rocks (Dramatic Reversal)
     // creature types: from creature type lines, and from tokens it makes
     var subtypes = {};
@@ -1881,11 +1896,13 @@
     });
     if (tribal) {
       var T = tribal[1].charAt(0).toUpperCase() + tribal[1].slice(1);
+      // cycle 26: "an Elf", "Elves" (was "a Elf", "Elfs")
+      var Ts = /(f|fe)$/.test(T) ? T.replace(/fe?$/, "ves") : T + "s";
       rest.push([
         tribal[0],
         tribal[2] === "deck"
-          ? "It's a " + T + ", and your deck cares about " + T + "s"
-          : "Cares about " + T + "s; your deck has " + profile.typeCount[tribal[1]],
+          ? "It's " + (/^[AEIOU]/.test(T) ? "an " : "a ") + T + ", and your deck cares about " + Ts
+          : "Cares about " + Ts + "; your deck has " + profile.typeCount[tribal[1]],
       ]);
     }
     if (cmdTie) rest.push([CMD_BONUS + 0.5, cmdTie]);
@@ -2279,6 +2296,22 @@
    * a Voltron plan.) `cards`: profile cards;
    * `slims`: the deck's slim cards. Returns {kind: "voltron", gear, heroic} or null.
    */
+  /**
+   * Cycle 25 (outcome check: Ygra, Wolverine, Tifa, Hulk win by commander damage with no gear):
+   * a commander that grows itself or hits extra times is a commander-damage threat by itself.
+   * `cmd`: the commander's traits. Returns the reason or null.
+   */
+  CS.selfGrows = function (cmd) {
+    if (!cmd) return null;
+    var bare = String(cmd.text || "").replace(/\([^)]*\)/g, "");
+    if (/\bput (a|an|one|two|three|four|x|that many|\d+) \+1\/\+1 counters? on (~|him|her)(?![a-z])/.test(bare) ||
+      /(^|[^a-z])~ enters with (x|\d+|that many) \+1\/\+1 counters\b/.test(bare)) return "grows itself with counters";
+    if (/(^|[^a-z])~ gets \+(\d+|x)\/\+(\d+|x) for each\b|(^|[^a-z])~ gets \+\d+\/\+0 for each\b|(^|[^a-z])~'s power (and toughness )?(is|are each) equal to\b/.test(bare)) return "grows with the game";
+    if (/\bdouble ~'s power\b|\bdouble all (combat )?damage ~ would deal\b/.test(bare)) return "doubles its own damage";
+    if (/\badditional combat phase\b/.test(bare) && /\bwhenever ~ (attacks|becomes blocked|deals combat damage|is dealt damage)\b|\bif (he|she|it)'s attacking\b/.test(bare)) return "takes extra combats";
+    return null;
+  };
+
   function voltronRoute(cards, slims) {
     var cmd = (cards || []).filter(function (c) {
       return c.commander;
@@ -2352,6 +2385,7 @@
     "group-hug": "group hug", wheels: "wheels and punishing draws", dungeon: "dungeons and the initiative", aggro: "attacking", kindred: "a creature type", big: "big creatures and big mana",
     combo: "fast combo (the cEDH shape)",
   };
+  var GROW_SKIP = { etb: true, copyab: true, untapc: true, tap: true, targets: true };
   CS.deckRoute = function (cards, slims) {
     var volt = voltronRoute(cards, slims);
     var cmd = (cards || []).filter(function (c) {
@@ -2432,6 +2466,25 @@
     }).length;
     var cmdCmc = (byId[cmd.id] && byId[cmd.id].cmc) || 0;
     score.big = (cmd.wants.big ? 12 : 0) + (big >= 8 ? big : 0) + (cmdCmc >= 7 ? cmdCmc * 2 : 0);
+    // cycle 25: a creature commander that grows itself wins by commander damage without gear
+    var grows = !volt && /\bcreature\b/.test(String((byId[cmd.id] && (byId[cmd.id].frontType || byId[cmd.id].typeLine)) || "").toLowerCase().split("//")[0]) ? CS.selfGrows(cmd) : null;
+    if (grows) {
+      var suits = deck.filter(function (c) {
+        return c.roles.protection || c.gives.gear || c.gives.heroic; // protection, gear and pump spells
+      }).length;
+      var fed = deck.filter(function (c) {
+        // the cards that feed its growth (life gain for Karlov)
+        return !(c.roles.protection || c.gives.gear || c.gives.heroic) && Object.keys(c.gives).some(function (l) {
+          return cmd.wants[l] && !GROW_SKIP[l];
+        });
+      }).length;
+      // the fuel is already counted by the theme it comes from (spells for a spells commander), so it can
+      // lift Voltron next to that theme but not past it (cycle 25: a spells deck read Voltron first)
+      var topOther = Math.max.apply(null, Object.keys(score).map(function (k) {
+        return score[k];
+      }));
+      score.voltron = Math.min(12 + suits + fed, Math.max(12 + suits, Math.floor(0.95 * topOther)));
+    }
     var ranked = Object.keys(score).map(function (k) {
       return [k, score[k]];
     }).sort(function (a, b) {
@@ -2459,6 +2512,7 @@
       return k !== kind && score[k] >= 0.6 * lead;
     }).slice(0, 2);
     var res = { kind: kind, also: also, scores: score, power: power };
+    if (grows && (kind === "voltron" || also.indexOf("voltron") !== -1)) res.grows = grows;
     if (volt) {
       res.gear = volt.gear;
       res.heroic = volt.heroic;
@@ -2523,6 +2577,10 @@
     return null;
   };
 
+  var DRAIN_ROUTES = { drain: true, aristocrats: true, lifegain: true, spells: true, wheels: true };
+  var SMALL_DRAIN_WHY = { "drains the table": true, "hits every opponent": true, "turns spare mana into damage": true };
+  var DRAIN_SCALES = /\b(loses|deals) x\b|\bx (life|damage)\b|\bthat much\b|\b(life|damage) equal to\b|\bfor each\b|\bwhere x is\b|\bhalf (their|his or her)\b/;
+  var DRAIN_STACK = 4; // cycle 25: this many small drains add up to a finisher (outcome check: 3, 4 and 5 keep 95%, 94% and 94% of real drain decks)
   CS.gamePlan = function (profile, byId, fits) {
     var engine = [];
     var wins = [];
@@ -2593,9 +2651,55 @@
     if (engine.length < 4)
       notes.push("Few repeat engines (" + engine.length + "): most of the deck's advantage comes from one-time cards.");
     var route = profile.route || null;
+    // cycle 25 (outcome check: 952 of 1,497 decks got a drain finisher, most from one ping card such as Impact
+    // Tremors in an artifacts deck): a small repeat drain or ping closes games only when the deck is built to
+    // drain (its route) or runs several that add up. One that scales (X, "that much") or the commander still
+    // counts. The others stay finishers (they can close a game, and the cut ideas keep them) but as backup:
+    // listed after the main ones, so the plan reads "wins in combat, with Sanctum Seeker as backup".
+    // cycle 26 (Tyvar: Bloodthirsty Conqueror "drains the table"): "whenever an opponent loses life, you gain that
+    // much" is half of a loop (Exquisite Blood + Sanguine Bond). Alone it only gains life, so it's a finisher only
+    // when the deck has the other half ("whenever you gain life, an opponent loses that much").
+    var cardText = function (w) {
+      return String((byId[w.id] && byId[w.id].text) || "").toLowerCase().replace(/\([^)]*\)/g, "");
+    };
+    var LOSS_TO_GAIN = /\bwhenever (an opponent|a player) loses life, you gain\b/;
+    var GAIN_TO_LOSS = /\bwhenever you gain life, (target|each|that) (opponent|player)s? loses?\b/;
+    var gainToLoss = profile.cards.some(function (c) {
+      return !c.land && GAIN_TO_LOSS.test(String(c.text || "").replace(/\([^)]*\)/g, ""));
+    });
+    if (!gainToLoss) {
+      var halves = wins.filter(function (w) {
+        var t = cardText(w);
+        return w.why === "drains the table" && LOSS_TO_GAIN.test(t) && !/\beach opponent loses\b|\btarget (opponent|player) loses\b/.test(t);
+      });
+      wins = wins.filter(function (w) {
+        return halves.indexOf(w) === -1;
+      });
+      halves.forEach(function (w) {
+        if (ids[w.id] === "win") delete ids[w.id];
+      });
+    }
+    var drainRoute = route && [route.kind].concat(route.also || []).some(function (k) {
+      return DRAIN_ROUTES[k];
+    });
+    if (!drainRoute) {
+      var pings = wins.filter(function (w) {
+        return !w.commander && SMALL_DRAIN_WHY[w.why] && !DRAIN_SCALES.test(String((byId[w.id] && byId[w.id].text) || "").toLowerCase().replace(/\([^)]*\)/g, ""));
+      });
+      if (pings.length < DRAIN_STACK) {
+        pings.forEach(function (w) {
+          w.backup = true;
+        });
+        wins = wins.filter(function (w) {
+          return !w.backup;
+        }).concat(pings);
+      }
+    }
     if (route && route.kind === "voltron" && cmd) {
       var suit = route.gear + " Equipment and Auras" + (route.heroic ? " and " + route.heroic + " spells that target it" : "");
-      wins.unshift({ name: cmd.name, id: cmd.id, why: "attacking for commander damage, suited up by " + suit, commander: true });
+      wins.unshift({ name: cmd.name, id: cmd.id, why: route.grows && !route.gear ? "attacking for commander damage (it " + route.grows + ")" : "attacking for commander damage, suited up by " + suit, commander: true });
+    } else if (route && route.grows && cmd) {
+      wins.unshift({ name: cmd.name, id: cmd.id, why: "attacking for commander damage (it " + route.grows + ")", commander: true });
     }
     return {
       engine: engine,
@@ -2650,9 +2754,17 @@
     lines.push("Tutors to find the pieces: " + g.tutors.length + (g.tutors.length ? " (" + g.tutors.slice(0, 3).map(short).join(", ") + (g.tutors.length > 3 ? " and others" : "") + ")" : "") + ".");
     lines.push("Mana: " + g.ramp + " sources" + (g.ramp >= 18 && g.bigMana !== false ? ", built to make a lot of mana" : g.kinds.mana.length >= 3 ? ", plus " + g.kinds.mana.length + " mana engines" : "") +
       ". Interaction: " + g.removal + " removal, " + g.wipes + " board wipes.");
-    var w = g.wins.slice(0, 3).map(function (x) {
+    var main = g.wins.filter(function (x) {
+      return !x.backup;
+    });
+    var backup = g.wins.filter(function (x) {
+      return x.backup;
+    });
+    var w = main.slice(0, 3).map(function (x) {
       return short(x.name) + " (" + x.why + ")";
     });
+    // cycle 25: a lone ping or drain outside a drain plan is a backup finisher
+    if (backup.length) w.push("backup " + two(backup.map(function (x) { return x.name; })) + (backup.length > 2 ? " and " + (backup.length - 2) + " more" : ""));
     var comboWords = combos === 1 ? "the 1 combo in the deck" : "one of " + combos + " combos in the deck";
     var win = "Wins with: " + (w.length ? w.join(", ") + (combos ? ", or " + comboWords : "") : combos ? comboWords : "no clear finisher found, so combat or the engine's advantage");
     lines.push(win + ".");
@@ -2827,13 +2939,22 @@
     });
     var sum = 0;
     var n = 0;
+    var cheapById = {};
     (slims || []).forEach(function (s) {
       if (!s || typeof s.cmc !== "number" || landNames[CS.nameKey(s.name)] || CS.isBasicLand(s.name)) return;
       sum += s.cmc;
       n++;
+      if (s.cmc <= 2) cheapById[s.id] = true;
     });
-    var target = Math.round(34.2 + 0.6 * (n ? sum / n : 3));
-    return { count: count, target: Math.max(32, Math.min(40, target)) };
+    // cycle 26 (Nick: land cuts should weigh the deck's mana value, ramp and lands): Frank Karsten's 99-card
+    // regression (ChannelFireball, 2022), lands = 31.42 + 3.13 x average mana value - 0.28 x cheap ramp and
+    // card draw (mana value 2 or less). It was 34.2 + 0.6 x average, which ignored ramp. Casual guides run more
+    // (Playgroup: 38-42, ramp on top), so it's kept between 31 and 42.
+    var cheap = ((profile && profile.cards) || []).filter(function (c) {
+      return !c.land && !c.commander && cheapById[c.id] && (c.roles.ramp || c.roles.draw);
+    }).length;
+    var target = Math.round(31.42 + 3.13 * (n ? sum / n : 3) - 0.28 * cheap);
+    return { count: count, target: Math.max(31, Math.min(42, target)), cheap: cheap, avg: n ? Math.round((sum / n) * 100) / 100 : null };
   };
 
   /**
@@ -3116,7 +3237,14 @@
       var hasConcrete = x.reasons.some(function (r) {
         return !/^Game Changer: the deck has \d+ \(any|^Few decks with this commander run it/.test(r);
       });
-      if (!hasConcrete) x.reasons.unshift("Tie-in " + x.tie + " and strength " + x.strength + ": lower than most of the deck");
+      // cycle 26 (Nick: Mirri's Guile and Roil Elemental called weak in Zimone): for a card with no role, strength
+      // is only how widely it's played, so say that instead of calling it weak
+      if (!hasConcrete)
+        x.reasons.unshift(
+          x.roles.length || x.land
+            ? "Tie-in " + x.tie + " and strength " + x.strength + ": lower than most of the deck"
+            : "Ties in less than most of the deck (tie-in " + x.tie + "), and few decks play it",
+        );
     });
     out.sort(function (a, b) {
       return b.cut - a.cut || a.fit - b.fit || (a.name < b.name ? -1 : 1);
@@ -3296,7 +3424,7 @@
           if (spare >= 2 && me.roles.ramp) {
             why = why || "a land: with " + lands.count + " lands and more ramp coming, the deck can spare one";
           } else if (spare >= 3) {
-            why = why || "a land: " + lands.count + " lands, about " + lands.target + " is typical for this deck";
+            why = why || "a land: " + lands.count + " lands, about " + lands.target + " fits this curve and ramp";
             pair -= 0.2;
           } else return; // like for like: don't cut a land for a spell
         }
@@ -3419,15 +3547,24 @@
     (o.ideas || []).forEach(function (x) {
       add(x);
     });
+    // cycle 26 (Nick: Imp's Mischief offered as "one of the weaker ties to its plan", though its job is
+    // protection; Craterhoof and Green Sun's Zenith got the same line): the deck's other easy cuts, each with a
+    // reason that's true of it. A card with a concrete reason uses it. Otherwise only a plain card (no role,
+    // no finisher's job) that ties in below the deck's average. A role card is judged by its role, so it's
+    // offered only when the cut ideas give it a reason (more of that role than the deck needs).
+    var avg = o.avgTie != null ? o.avgTie : null;
     (cands || [])
       .filter(function (c) {
-        return !c.locked && !c.engine && !c.land;
+        if (c.locked || c.engine || c.land) return false;
+        if (c.reasons && c.reasons.length) return true;
+        if ((c.roles || []).length || c.planJob === "win" || c.planJob === "voltron") return false;
+        return avg == null || c.tie < avg;
       })
       .sort(function (a, b) {
         return b.cut - a.cut;
       })
       .forEach(function (c) {
-        add({ name: c.name, id: c.id, why: c.reasons[0] || "One of the deck's weaker ties to its plan (tie-in " + c.tie + ")" });
+        add({ name: c.name, id: c.id, why: c.reasons[0] || "Ties in less than most of the deck (tie-in " + c.tie + ")" });
       });
     return out;
   };
