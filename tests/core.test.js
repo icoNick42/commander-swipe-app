@@ -1409,7 +1409,8 @@ test("cut ideas: never the commander, lands, staples, role keepers or combo piec
   // cycle 11: wider labels raised the deck's average Fit (Impact Tremors and
   // Warleader's Call now pay off creatures entering), so fewer weak-fit ideas
   // cycle 15: 3 without EDHREC numbers (Reconnaissance feeds Zurgo's attacks)
-  assert.ok(ideas.length >= 3, ideas.length);
+  // cycle 23: 2 (Dark Prophecy draws on every death: an engine that ties in isn't spare card draw)
+  assert.ok(ideas.length >= 2, ideas.length);
   assert.ok(!names.includes("Zurgo Stormrender"));
   assert.ok(
     !names.some((n) => /Badlands|Command Tower|Arid Mesa|Urza's Saga/.test(n)),
@@ -1605,7 +1606,8 @@ test("cycle 9: ramp counts steady mana, not every Treasure", () => {
   assert.ok(!roles("An Offer You Can't Refuse").ramp && !roles("Crop Rotation").ramp);
   assert.ok(roles("An Offer You Can't Refuse").removal, "still a counterspell");
   assert.equal(zurgoProfile.roleCount.ramp, 10);
-  assert.ok(zimoneProfile.roleCount.ramp >= 14 && zimoneProfile.roleCount.ramp <= 16, "Zimone ramp " + zimoneProfile.roleCount.ramp);
+  // cycle 23: putting a land from your hand onto the battlefield is ramp too (Sakura-Tribe Scout, Burgeoning)
+  assert.ok(zimoneProfile.roleCount.ramp >= 17 && zimoneProfile.roleCount.ramp <= 19, "Zimone ramp " + zimoneProfile.roleCount.ramp);
   // other roles read the same with or without reminder text
   assert.equal(zurgoProfile.roleCount.draw, 14);
   assert.equal(zimoneProfile.roleCount.removal, 8); // cycle 19: Ulamog's cast trigger is a side job (Zimone puts it into play)
@@ -1766,7 +1768,9 @@ test("cycle 10: cut ideas", () => {
   const crop = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {}).find((i) => i.name === "Crop Rotation");
   assert.ok(!crop || crop.reasons.some((r) => !/^Game Changer/.test(r)), crop && crop.reasons.join("; "));
   // over three Game Changers: bracket 4
-  const gcSlims = zimoneSlims.map((s, i) => (i > 0 && i < 6 ? Object.assign({}, s, { gameChanger: true }) : s));
+  // cycle 23: Zimone's rocks are no longer spare ramp (a lands deck makes lots of mana), so mark a card that is a cut idea
+  const firstIdea = CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {})[0];
+  const gcSlims = zimoneSlims.map((s, i) => ((i > 0 && i < 5) || s.id === firstIdea.id ? Object.assign({}, s, { gameChanger: true }) : s));
   const gcIdeas = CS.cutSuggestions(zimoneProfile, zimoneSyn, gcSlims, {});
   assert.ok(gcIdeas.some((i) => i.reasons.some((r) => /^Game Changer: the deck has \d+ \(over 3 means bracket 4\)$/.test(r))));
   // a role card a little over the usual count isn't a surplus; a strong-fit one isn't cut for it
@@ -2655,4 +2659,82 @@ test("cycle 21: no Fit number in cut reasons or the sort menu", () => {
   const all = CS.fillCuts(ideas, zurgoProfile, zurgoSyn, zurgoSlims, {}, ideas.length + 5);
   assert.ok(all.some((x) => x.filler), "fillers are in the list");
   all.forEach((x) => assert.ok(!/\bFit (\d|unknown)/.test(x.reasons.join(" ")), x.reasons.join(" ")));
+});
+
+// ---- cycle 23: plan shapes from five Most Likes decks (Winota, K'rrik, Ovika, Wilhelt, Shroofus) ----
+const c23 = JSON.parse(read("scryfall_2026-11-23_decks.json"));
+const c23deck = (k, cmd) => {
+  const slims = c23[k].map(CS.slimCard);
+  const profile = CS.deckProfile(slims, cmd);
+  return { slims, profile, syn: CS.deckSynergy(profile, slims) };
+};
+const c23find = (d, n) => d.profile.cards.find((c) => c.name === n);
+const c23slim = (d, n) => d.slims.find((s) => s.name === n);
+
+test("cycle 23: Winota: non-Humans attack to find Humans; both halves are the plan", () => {
+  const d = c23deck("winota", "Winota, Joiner of Forces");
+  assert.equal(d.profile.hooks.attackNot, "human");
+  assert.ok(d.profile.commander.wants.attacks, "Winota pays off attacking");
+  for (const n of ["Kitesail Scout", "Ornithopter", "Raise the Alarm"])
+    assert.ok(c23find(d, n).gives.attacks, n + " attacks for Winota (a non-Human, or non-Human tokens)");
+  assert.ok(!c23find(d, "Th\u00e9oden, King of Rohan").gives.attacks, "a Human is what she finds, not what triggers her");
+  assert.equal(CS.planJobFor(c23find(d, "Kitesail Scout"), c23slim(d, "Kitesail Scout"), d.profile), "fuel");
+  const ideas = CS.cutSuggestions(d.profile, d.syn, d.slims, {}).map((x) => x.name);
+  for (const n of ["Kitesail Scout", "Raise the Alarm", "Hop to It", "Th\u00e9oden, King of Rohan", "Fallaji Vanguard"])
+    assert.ok(!ideas.includes(n), n + " is part of the plan: " + ideas.join(", "));
+  // the commander names Humans, so Humans count as its type even though Human is too common elsewhere
+  const thc = CS.cutCandidates(d.profile, d.syn, d.slims, {}).find((x) => x.name === "Th\u00e9oden, King of Rohan");
+  assert.ok(thc.engine, "a Human in Winota's deck is the commander's own type");
+});
+
+test("cycle 23: Shroofus: a commander whose own type has the combat-damage trigger is a Voltron plan", () => {
+  const d = c23deck("shroofus", "Shroofus Sproutsire");
+  assert.equal(d.profile.route.kind, "voltron");
+  assert.ok(!d.profile.route.also.includes("combo"), "mana Elves and land droppers aren't the cEDH shape: " + d.profile.route.also);
+  assert.ok(d.profile.commander.wants.heroic && d.profile.commander.wants.gear, "a Voltron commander wants what suits it up");
+  const ideas = CS.cutSuggestions(d.profile, d.syn, d.slims, {}).map((x) => x.name);
+  for (const n of ["Primal Bellow", "Invigorate", "Tyvar's Stand", "Overprotect"])
+    assert.ok(!ideas.includes(n), n + " suits up Shroofus: " + ideas.join(", "));
+  assert.ok(ideas.includes("Savage Summoning"), "a weak card still goes");
+  for (const n of ["Sakura-Tribe Scout", "Elvish Pioneer", "Arboreal Grazer"])
+    assert.ok(c23find(d, n).roles.ramp, n + " puts a land from your hand onto the battlefield: ramp");
+  // but a land dropper doesn't make a deck "built to make a lot of mana": Zimone's rocks can still be spare ramp
+  assert.ok(!zimoneSyn.game.bigMana, "Zimone: " + zimoneProfile.roleCount.ramp + " ramp, not a big-mana deck");
+  assert.ok(CS.cutSuggestions(zimoneProfile, zimoneSyn, zimoneSlims, {}).some((x) => x.name === "Simic Signet"));
+});
+
+test("cycle 23: Ovika: noncreature spells feed it, and a rock that draws by sacrificing itself is ramp", () => {
+  const d = c23deck("ovika", "Ovika, Enigma Goliath");
+  assert.ok(d.profile.commander.wants.noncreature && d.profile.commander.wants.bigspell, "noncreature spells, more mana value = more Goblins");
+  const mind = c23find(d, "Mind Stone");
+  assert.ok(mind.roles.ramp && !mind.roles.draw && mind.sideRoles.draw, "Mind Stone: ramp, its draw a side job");
+  assert.ok(c23find(d, "Coveted Jewel").roles.draw, "drawing three when it enters is still card draw");
+  assert.ok(!c23find(d, "Dig Through Time").gives.noncreature, "instants link through spells, not twice");
+  assert.equal(CS.planJobFor(mind, c23slim(d, "Mind Stone"), d.profile), "fuel");
+  assert.ok(d.profile.roleCount.draw <= 16, "draw " + d.profile.roleCount.draw);
+  const ideas = CS.cutSuggestions(d.profile, d.syn, d.slims, {});
+  for (const n of ["Mind Stone", "Commander's Sphere", "Hedron Archive", "Izzet Locket", "Dreamstone Hedron", "Stonespeaker Crystal"])
+    assert.ok(!ideas.some((x) => x.name === n && x.reasons.some((r) => /More card draw/.test(r))), n + " isn't spare card draw");
+});
+
+test("cycle 23: Wilhelt: Grave Pact is the engine; Gravecrawler is fodder that comes back", () => {
+  const d = c23deck("wilhelt", "Wilhelt, the Rotcleaver");
+  const gp = c23find(d, "Grave Pact");
+  assert.ok(CS.gameKinds(gp, c23slim(d, "Grave Pact")).engine.includes("removal"));
+  assert.equal(d.syn.game.ids[gp.id], "engine");
+  assert.ok(!CS.cutSuggestions(d.profile, d.syn, d.slims, {}).some((x) => x.name === "Grave Pact"));
+  assert.ok(c23find(d, "Gravecrawler").gives.fodder, "castable from the graveyard: fodder");
+  assert.match(CS.gamePlanLines(d.syn.game, 0)[1], /opponents sacrifice \(Grave Pact\)/);
+  // an engine piece that ties in is never "more X than the deck needs" (Dark Prophecy draws on every death in Zurgo)
+  const dp = zurgoProfile.cards.find((c) => c.name === "Dark Prophecy");
+  assert.equal(zurgoSyn.game.ids[dp.id], "engine");
+  assert.ok(!CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {}).some((x) => x.name === "Dark Prophecy"));
+});
+
+test("cycle 23: K'rrik: Necropotence and Asmodeus are draw engines; Necrotic Ooze uses graveyards", () => {
+  const d = c23deck("krrik", "K'rrik, Son of Yawgmoth");
+  for (const n of ["Necropotence", "Asmodeus the Archfiend"])
+    assert.ok(CS.gameKinds(c23find(d, n), c23slim(d, n)).engine.includes("cards"), n);
+  assert.ok(c23find(d, "Necrotic Ooze").wants.graveyard, "creature cards in all graveyards");
+  assert.equal(d.profile.route.kind, "combo");
 });

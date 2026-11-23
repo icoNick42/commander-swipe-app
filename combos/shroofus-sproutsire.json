@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Shroofus Sproutsire",
+  "identity": "G",
+  "made": "2026-11-23",
+  "combos": [
+    {"id":"1189-2488","cards":["Apex Altisaur","Eldrazi Monument"],"identity":"G","produces":["Infinite damage to most creatures"],"bracket":"E","popularity":635,"needs":[],"note":"You have a way to deal damage to Apex Altisaur.","commanderOnly":[]},
+    {"id":"2127-3575","cards":["Tribute to the World Tree","Aerie Ouphes"],"identity":"G","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":415,"needs":[],"note":"A player controls a creature with flying. Aerie Ouphes does not have a -1/-1 counter on it.","commanderOnly":[]},
+    {"id":"466-2034-2835","cards":["Saproling Cluster","Fecundity","Ashnod's Altar"],"identity":"G","produces":["Infinite draw triggers","Infinite rummaging","Near-infinite colorless mana"],"bracket":"E","popularity":171,"needs":[],"note":"You have one or more cards in hand.","commanderOnly":[]},
+    {"id":"466-2835-4050","cards":["Saproling Cluster","Fecundity","Phyrexian Altar"],"identity":"G","produces":["Infinite draw triggers","Infinite rummaging","Near-infinite death triggers"],"bracket":"E","popularity":97,"needs":[],"note":"You have one or more cards in hand.","commanderOnly":[]}
+  ]
+}

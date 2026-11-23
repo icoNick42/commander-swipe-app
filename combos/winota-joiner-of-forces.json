@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Winota, Joiner of Forces",
+  "identity": "RW",
+  "made": "2026-11-23",
+  "combos": [
+    {"id":"33-3259","cards":["Breath of Fury","Loyal Apprentice"],"identity":"R","produces":["Infinite combat damage","Infinite combat phases","Infinite death triggers"],"bracket":"S","popularity":8457,"needs":[],"note":"An opponent cannot block creatures you control.","commanderOnly":[]},
+    {"id":"276-3011","cards":["Heartless Hidetsugu","Angrath's Marauders"],"identity":"R","produces":["Each opponent with an even life total loses the game"],"bracket":"S","popularity":4785,"needs":[],"note":"Heartless Hidetsugu does not have summoning sickness At least one opponent has an even life total You have an odd life total","commanderOnly":[]},
+    {"id":"2067-5719","cards":["Storm Herd","Molten Gatekeeper"],"identity":"RW","produces":["Near-infinite creature ETB","Near-infinite creature tokens","Near-infinite damage"],"bracket":"E","popularity":1901,"needs":[],"note":"","commanderOnly":[]}
+  ]
+}

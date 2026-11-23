@@ -1038,6 +1038,8 @@
     // attack payoffs
     ["attacks", /\bwhenever (~|you|one or more (other )?creatures( you control)?|a creature you control|another creature you control|equipped creature|enchanted creature|a (\w+ )?token you control) attacks?\b/],
     ["attacks", /\bwhenever ~ (enters|blocks) or attacks\b|\bwhenever ~ attacks or blocks\b/],
+    // cycle 23 (Winota): "whenever a non-Human creature you control attacks" pays off attacking too
+    ["attacks", /\bwhenever (a|an|one or more|another) non-?[a-z]+ creatures? you control attacks?\b/],
     ["attacks", /\bwhenever you attack\b|\b(myriad|mobilize|battle cry|exalted|melee|dethrone)\b|\battacking creatures?\b|\bcreature attacking causes\b|\bwhenever a creature you control that's [^.]*\battacks\b|\bdeals? combat damage to (a player|an opponent)\b|\bif it was attacking\b|\b(equipped|enchanted) creature is attacking\b/],
     // treasure and artifact payoffs
     ["treasure", /\bsacrifice (a|an|x|one or more|two) (treasures?|artifacts?|clues?|foods?)\b|\bsacrifice an artifact\b|\bwhenever you sacrifice\b/],
@@ -1048,7 +1050,7 @@
     // life gain payoffs
     ["lifegain", /\bwhenever you gain life\b|\bif you gained life\b|\bgained life this turn\b|\bamount of life you gained\b|\bif you would gain life\b|\b(\d+|thirty|forty|fifty) or more life\b/],
     // graveyard payoffs
-    ["graveyard", /\bleaves? your graveyard\b|\bcards? (are|is) milled\b|\bcards? (are )?in your graveyard\b/],
+    ["graveyard", /\bleaves? your graveyard\b|\bcards? (are|is) milled\b|\bcards? (are )?in (your|all|each player's) graveyards?\b/],
     ["graveyard", /\bfrom your graveyard\b|\bfrom a graveyard\b|\b(escape|flashback|unearth|aftermath|embalm|eternalize|disturb|delve|jump-start|retrace)\b/],
     // blink payoffs: the card's own enter trigger
     ["blink", /\bwhen ~ enters\b|\bentering( the battlefield)? causes a triggered ability\b/],
@@ -1084,7 +1086,7 @@
     ["monarch", /\bmonarch\b/],
     ["deter", /\byou become the monarch\b|\bwhenever (an opponent|a player) attacks (another one of your opponents|one of your opponents|a player other than you)\b|\bgoaded\b/],
     ["tap", /\bbecomes? tapped\b/],
-    ["bigspell", /\bat least (\w+) mana (was )?spent\b|\b(four|five|six|\d+) or more mana (was )?spent\b|\bif (four|five|six|seven|\d+) or more mana was spent\b|\bamount of mana spent to cast (it|that spell)\b/],
+    ["bigspell", /\bat least (\w+) mana (was )?spent\b|\b(four|five|six|\d+) or more mana (was )?spent\b|\bif (four|five|six|seven|\d+) or more mana was spent\b|\bamount of mana spent to cast (it|that spell)\b|\bwhere x is (that spell's|the) mana value( of that spell)?\b/],
   ];
 
   /**
@@ -1147,6 +1149,7 @@
     bigspell: { g: "A noncreature spell costing 4 or more (or X)", w: "Pays off spells with 4 or more mana spent", b: "Big spell payoff", short: "big noncreature spells" },
 
     evasion: { g: "A hard-to-block creature", w: "Pays off creatures connecting (combat damage, ninjutsu)", b: "Evasive creature with a combat-damage payoff", short: "evasive attackers" },
+    noncreature: { g: "A noncreature spell", w: "Pays off noncreature spells", b: "Noncreature spell that pays off noncreature spells", short: "noncreature spells" }, // cycle 23
     copyab: { g: "Copies or doubles abilities", w: "Has abilities worth copying", b: "Copies abilities and has its own", short: "copying abilities" },
     untap: { g: "Untaps your artifacts or other permanents", w: "Has a tap ability worth untapping", b: "Untaps and has a tap ability", short: "untapping" },
     // cycle 16 synergy audit (10 hand-mapped decks; Nick's Nelly Borca and Land Tax notes)
@@ -1180,7 +1183,7 @@
    * tutors 2, protection 3.
    */
   CS.SYN_ROLES = [
-    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b|\\bspells you cast cost \\{\\d+\\} less\\b|\\badd x mana\\b|\\beach spell you cast that'?s [^.]*\\bcosts \\{\\d+\\} less\\b") },
+    { key: "ramp", label: "Ramp", target: 10, re: new RegExp("\\{t\\}[^:]*: add \\{|\\badd (one|two|three) mana\\b|\\badd \\{[wubrgc]\\}|\\badds? an additional (one )?(mana|\\{)|\\badds? (one|two) additional mana\\b|\\bsearch your library for [^.]*\\b" + LAND_WORD + " cards?\\b[^.]*battlefield|\\bcreate (a|two|x|that many) ([a-z]+ token or a )?treasure|\\bplay (an|up to (two|three)|two|three) additional lands?\\b|\\bput (a|up to (one|two)) (basic )?land cards? from your hand onto the battlefield\\b|\\bspells you cast cost \\{\\d+\\} less\\b|\\badd x mana\\b|\\beach spell you cast that'?s [^.]*\\bcosts \\{\\d+\\} less\\b") },
     { key: "draw", label: "Card draw", target: 10, re: /\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+) cards?\b|\bdraws? (an|one|two|three|x|\d+) additional cards?\b|\bdraw cards equal\b|\bexile the top [^.]*\. (until [^.]*, )?you may play\b|\bat the beginning of your upkeep\b[^.]*\bsearch your library for up to (two|three) basic land cards\b[^.]*\binto your hand\b/ },
     { key: "removal", label: "Removal", target: 8, re: /\b(destroy|exile) (up to (one|two) )?target ((white|blue|black|red|green|multicolored|monocolored|nonland|nontoken|tapped|nonartifact|noncreature|non[a-z]+) )*(creature|artifact|enchantment|planeswalker|permanent|nonland|attacking)|-1\/-1 counters? on (up to (one|two) )?target creature|\b(destroy|exile) each (nonland )?permanents? with the most votes\b|\beach (player|opponent) (sacrifices|exiles) (a|an|one) (creature|nonland permanent|attacking creature)\b|\bthe owner of target (nonland )?permanent shuffles it into\b|\bdeals? (\d+|x) damage to (any target|target (creature|attacking|blocking))|\btarget creature (an opponent controls )?gets -|\btarget creature gets -x\/-x|\bcounter target\b|\breturn (up to (one|two) )?target (creature|nonland permanent|permanent|artifact|enchantment|planeswalker)s?( or [a-z]+)?( an opponent controls| you don't control)? to (its|their) owner('s|s'|s)? hands?\b/ },
     { key: "wipes", label: "Board wipes", target: 3, re: /\b(destroy|exile) all (other )?((tapped|untapped|attacking|non-[a-z]+|non[a-z]+) )?(creatures|nonland permanents|nontoken|artifacts|enchantments|permanents)|\beach creature gets -|\ball creatures get -|\bdamage to each creature\b|\bsacrifices? all (other )?creatures\b|\beach player sacrifices (x|\d+|ten|twenty|[a-z]*teen) creatures\b|\bairbend all (other )?creatures\b|\bthen sacrifices the rest\b|\breturn (all|each) (other )?(creatures?|nonland permanents?)[^.]*to (their|its) owners?('s|s'|s)? hands?\b/ },
@@ -1278,6 +1281,10 @@
       hooks.permMin = parseInt(pm[3], 10);
       hooks.permTypes = /artifact/.test(pm[0]) && /enchantment/.test(pm[0]) ? "both" : /artifact/.test(pm[1]) ? "artifact" : "enchantment";
     }
+    // cycle 23 (Winota): a commander that triggers when a creature that ISN'T a type attacks. Creatures
+    // outside that type, and tokens of another type, are what make it go (the type itself is the payoff).
+    var an = /\bwhenever (a|an|one or more|another) non-?([a-z]+) creatures? you control attacks?\b/.exec(t);
+    if (an) hooks.attackNot = an[2];
     return hooks;
   };
 
@@ -1289,6 +1296,14 @@
       var f0 = front.split("//")[0];
       var kind = /\bartifact\b/.test(f0) && !/\bequipment\b/.test(f0) ? "artifact" : /\benchantment\b/.test(f0) && !/\baura\b/.test(f0) ? "enchantment" : null;
       if (kind && !/\bcreature\b/.test(f0) && (hooks.permTypes === "both" || hooks.permTypes === kind)) traits.gives.animate = true;
+    }
+    if (hooks.attackNot) {
+      var fa = front.split("//")[0];
+      var other = /\bcreature\b/.test(fa) && !(traits.subtypes || {})[hooks.attackNot] && !/\bchangeling\b/.test(traits.text || "");
+      var otherTokens = traits.gives.bodies && Object.keys(traits.tokenTypes || {}).some(function (k) {
+        return k !== hooks.attackNot;
+      });
+      if (other || otherTokens) traits.gives.attacks = true;
     }
     if (!hooks.castMin) return;
     if (/\bcreature\b/.test(front.split("//")[0]) && typeof slim.cmc === "number" && slim.cmc >= hooks.castMin) {
@@ -1376,6 +1391,7 @@
       /\b(have|has|gains?|gets? [^.]* and (have|has)) [^.]*\b(undying|persist)\b/.test(bare)) gives.blink = true;
     // a creature that returns itself from the graveyard (Reassembling Skeleton) is fodder
     if (/\breturn ~ from your graveyard to the battlefield\b/.test(bare)) gives.fodder = true;
+    if (/\bcreature\b/.test(types.split("\u2014")[0]) && /\byou may cast ~ from your graveyard\b/.test(bare)) gives.fodder = true; // cycle 23 (Gravecrawler)
     // Skullclamp-style Equipment and small-creature reanimation want fodder
     if (/\bwhenever equipped creature dies\b/.test(bare) || /\breturn (up to (one|two) )?target creature cards? with (power|mana value) \d or less from your graveyard to the battlefield\b/.test(bare))
       wants.fodder = true;
@@ -1397,6 +1413,7 @@
     else if (/\bequipped creature\b|\bwhenever (an|one or more) (equipment|auras?)\b|\b(equipment|auras?) you control\b|\bfor each (aura|equipment)\b|\bequip abilities\b|\bsearch your library for an? (equipment|aura)\b|\b(equipment|aura)( and vehicle)? spells?\b|\b(enchanted or equipped|equipped or enchanted)\b|\b(equipment|aura) cards?\b|\bas long as ~ is (equipped|enchanted)\b/.test(text))
       wants.gear = true;
     if (/\b(instant|sorcery)\b/.test(types)) gives.spells = true;
+    if (/\bwhenever you cast (a|an|your first) noncreature spell\b/.test(bare)) wants.noncreature = true; // cycle 23 (Ovika)
     // cycle 11: what a card is (its card types), for payoffs that count them
     var mainTypes = types
       .split("//")
@@ -1414,6 +1431,9 @@
     if (/\bartifact\b/.test(mainTypes)) gives.artifacts = true;
     if (/\binstant\b/.test(mainTypes) || /\bflash\b/.test(bare)) gives.instant = true;
     if (/\benchantment\b/.test(mainTypes) && !isLand) gives.enchantments = true;
+    // cycle 23 (Ovika): artifacts, enchantments and planeswalkers are noncreature spells too (instants and
+    // sorceries already link through "spells", so they don't count twice)
+    if (!isLand && !/\b(creature|instant|sorcery)\b/.test(mainTypes)) gives.noncreature = true;
     if (/\bplaneswalker\b/.test(mainTypes)) gives.walkers = true;
     if (/\bcreature\b/.test(mainTypes.split(" ")[0] + " " + mainTypes) && !isLand) gives.etb = true;
     if (/\bsaga\b/.test(subLine)) gives.sagas = true;
@@ -1479,6 +1499,15 @@
           return r.key !== "draw" && r.re.test(r.key === "ramp" ? CS.rampText(noCantrip) : noCantrip);
         }) || /\btarget ([a-z]+ )?creature\b|\bcreatures you control (get|gain)\b/.test(noCantrip);
         if (other) mainText = noCantrip;
+      }
+      // cycle 23 (Ovika's 30 rocks read as 24 card draw): a noncreature permanent that makes mana and
+      // draws only by sacrificing itself is ramp; the draw is a side job
+      if (permanentCard && !/\bcreature\b/.test(mainTypes) && allRoles.ramp && allRoles.draw) {
+        var noSacDraw = mainText.replace(/(^|\n)[^\n]*\bsacrifice ~[^\n:]*:[^\n]*/g, "$1");
+        var drawRe = CS.SYN_ROLES.filter(function (r) {
+          return r.key === "draw";
+        })[0].re;
+        if (!drawRe.test(noSacDraw)) mainText = noSacDraw;
       }
       if (mainText !== bare) {
         roles = {};
@@ -1673,23 +1702,32 @@
         roleCount[r] = (roleCount[r] || 0) + 1;
       });
     });
+    var route = CS.deckRoute(cards, deckSlims); // cycle 19: Voltron; cycle 20: every archetype (kind, also, power)
+    var cmdCard = cards.filter(function (c) {
+      return c.commander;
+    })[0] || null;
+    // cycle 23 (Shroofus: the pump spells were its top cut ideas): when the deck wins by suiting up the
+    // commander, spells that target it and gear feed the commander itself
+    if (route && route.kind === "voltron" && cmdCard) {
+      cmdCard.wants.heroic = true;
+      cmdCard.wants.gear = true;
+    }
     return {
       cards: cards,
-      commander: cards.filter(function (c) {
-        return c.commander;
-      })[0] || null,
+      commander: cmdCard,
       typeCount: typeCount,
       roleCount: roleCount,
       hooks: hooks,
-      route: CS.deckRoute(cards, deckSlims), // cycle 19: Voltron; cycle 20: every archetype (kind, also, power)
+      route: route,
     };
   };
 
   /** Creature types a card's text names as a group ("Warriors you control"). */
-  function namedTypes(text, typeCount) {
+  function namedTypes(text, typeCount, allowCommon) {
     var out = [];
     Object.keys(typeCount).forEach(function (t) {
-      if (COMMON_TYPES[t] || t.length < 3) return;
+      // cycle 23 (Winota names Humans): a common type counts when the commander itself names it
+      if ((COMMON_TYPES[t] && !allowCommon) || t.length < 3) return;
       var plural = t + "s";
       if (/(f|fe)$/.test(t)) plural = t.replace(/fe?$/, "ves");
       var re = new RegExp("\\b(" + t + "|" + plural + ")\\b(?! creature tokens?)(?! token)");
@@ -1767,7 +1805,7 @@
       });
     profile.cards.forEach(function (c) {
       if (c.id === slim.id || c.id === skipId) return;
-      namedTypes(c.text, me.subtypes).forEach(function (t) {
+      namedTypes(c.text, me.subtypes, c.commander).forEach(function (t) {
         cares[t] = (cares[t] || 0) + (c.commander ? 3 : 1);
       });
     });
@@ -2188,11 +2226,12 @@
    * Per card: {engine: [kind], win: [why]}; kinds are cards, mana, creatures, doubling.
    */
   var ENGINE_KINDS = [
-    ["cards", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bdraws? (a|an|one|two|three|x|that many|\d+|cards equal)\b|\byou may (play|cast) [^.]*\bfrom the top of your library\b|\bplay lands from the top of your library\b|\bwhenever [^.]*\binvestigate\b/], // cycle 19: a cast trigger ("when you cast ~, draw") happens once, so it isn't an engine
+    ["cards", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bdraws? (a|an|one|two|three|four|five|six|seven|x|that many|\d+|cards equal)\b|(^|\n)[^\n:]*:[^.\n]*\bexile the top card of your library\b[^.]*\.\s*put (that|the exiled) card into your hand\b|\byou may (play|cast) [^.]*\bfrom the top of your library\b|\bplay lands from the top of your library\b|\bwhenever [^.]*\binvestigate\b/], // cycle 19: a cast trigger ("when you cast ~, draw") happens once, so it isn't an engine
     ["mana", /\bwhenever [^.]*\badd (one|two|three|x|\{)|\bwhenever [^.]*\bcreate [^.]*\btreasure\b|\badds? an additional\b|\badds? (one|two) additional mana\b|\{t\}[^:\n]*: add [^.\n]*\b(for each|equal to|where x is)\b|\{t\}[^:\n]*: add \{[wubrgc]\}\{[wubrgc]\}\{[wubrgc]\}|\bcreatures you control have "\{t\}: add|\bwhenever you tap [^.]*\bfor mana\b|\buntap (all|target|another target)( other)? (artifacts?|permanents?|lands?)\b|\}: untap ~/],
     ["creatures", /(\bwhenever\b|\bat the beginning of\b|(^|\n)[^\n:]*\{[^}]*\}[^\n:]*:|(^|\n)[+-]?[0-9x]+:)[^.\n]*\bcreates? [^.\n]*\bcreature tokens?\b|\bcreate a token that'?s a copy of\b|\bwhenever [^\n]*\bif it'?s a creature card, put it onto the battlefield\b/],
     ["doubling", /\benters? as a copy of (any|a|an|another|target) (creature|artifact or creature|creature or planeswalker)\b|\btriggers? an additional time\b|\bplay (an|two|three|up to (two|three)) additional lands?\b|\bcopy (that|target|it|the) (activated or triggered |triggered |activated )?abilit(y|ies)\b|\bplay lands from your graveyard\b|\bwhenever you cast [^.]*\bcopy (it|that spell)\b/],
   ];
+  ENGINE_KINDS.push(["removal", /\bwhenever [^.]*, (each (other player|opponent)|target (player|opponent)|that player) sacrifices (a|an) (creature|nonland permanent|permanent)\b/]); // cycle 23 (Grave Pact)
   var WIN_KINDS = [
     ["wins the game outright", /\byou win the game\b|\beach opponent loses the game\b/],
     ["takes extra turns", /\btake an extra turn\b|\bextra turn after this one\b/],
@@ -2264,7 +2303,11 @@
       } else if (c.gives.heroic) heroic++;
     });
     var bare = String(cmd.text || "").replace(/\([^)]*\)/g, "");
-    var threat = cmd.wants.gear || cmd.wants.keywords || cmd.wants.heroic ||
+    // cycle 23 (Shroofus: "whenever a Saproling you control deals combat damage to a player, create that
+    // many"): when the commander is that type, pumping it is the plan
+    var typeHit = /\bwhenever (a|an|another) ([a-z]+) you control deals combat damage to (a player|an opponent)\b/.exec(bare);
+    var selfHit = !!(typeHit && typeHit[2] !== "creature" && (cmd.subtypes || {})[typeHit[2]]);
+    var threat = selfHit || cmd.wants.gear || cmd.wants.keywords || cmd.wants.heroic ||
       /\bwhenever ~ deals (combat )?damage to (a player|an opponent|one or more players)\b/.test(bare);
     if (threatGear >= 6 || (threat && gear + heroic >= 6)) return { kind: "voltron", gear: gear, heroic: heroic };
     return null;
@@ -2369,7 +2412,8 @@
       return c.roles.tutors;
     }).length;
     var fast = deck.filter(function (c) {
-      return c.roles.ramp && byId[c.id] && byId[c.id].cmc != null && byId[c.id].cmc <= 1;
+      // cycle 23: a land dropper (Sakura-Tribe Scout) is ramp but not fast mana
+      return c.roles.ramp && byId[c.id] && byId[c.id].cmc != null && byId[c.id].cmc <= 1 && /\badds?\b/.test(String(c.text || ""));
     }).length;
     var free = deck.filter(function (c) {
       return /\brather than pay (this spell's|its) mana cost\b/.test(String(c.text || ""));
@@ -2484,7 +2528,7 @@
     var wins = [];
     var protection = [];
     var tutors = [];
-    var kinds = { cards: [], mana: [], creatures: [], doubling: [], fuel: [] };
+    var kinds = { cards: [], mana: [], creatures: [], removal: [], doubling: [], fuel: [] };
     var ids = {};
     var manaCards = 0; // mana engines whether or not they tie in: what the deck was built to do with mana
     var byFit = function (a, b) {
@@ -2532,7 +2576,10 @@
     var cmdSlim = cmd ? byId[cmd.id] : null;
     var cmdCmc = cmdSlim && typeof cmdSlim.cmc === "number" ? cmdSlim.cmc : 0;
     // built to make a lot of mana: many sources on purpose, or mana engines, or a huge commander
-    var bigMana = (rc.ramp || 0) >= 18 || manaCards >= 3 || cmdCmc >= 7;
+    var manaRamp = profile.cards.filter(function (c) {
+      return !c.land && c.roles.ramp && /\badds?\b/.test(String(c.text || "")); // cycle 23: a land dropper is ramp, not a mana maker
+    }).length;
+    var bigMana = manaRamp >= 18 || manaCards >= 3 || cmdCmc >= 7;
     var notes = [];
     var cmdEngine = engine.some(function (e) {
       return e.commander;
@@ -2567,7 +2614,7 @@
     };
   };
 
-  var KIND_WORDS = { cards: "cards", mana: "mana", creatures: "creatures", doubling: "double what other cards do" };
+  var KIND_WORDS = { cards: "cards", mana: "mana", creatures: "creatures", removal: "opponents sacrifice", doubling: "double what other cards do" };
 
   /** The game plan as short lines for the Your deck panel and run.js; `combos`: complete combos in the deck. */
   CS.gamePlanLines = function (g, combos) {
@@ -2590,8 +2637,8 @@
       lines.push(plan + ".");
     }
     var parts = [];
-    ["cards", "mana", "creatures"].forEach(function (k) {
-      if (g.kinds[k].length) parts.push(KIND_WORDS[k] + " (" + two(g.kinds[k]) + ")");
+    ["cards", "mana", "creatures", "removal"].forEach(function (k) {
+      if ((g.kinds[k] || []).length) parts.push(KIND_WORDS[k] + " (" + two(g.kinds[k]) + ")");
     });
     var eng = "Engine: " + g.engineCount + (g.engineCount === 1 ? " card keeps" : " cards keep") + " making " +
       (parts.length ? parts.join(", ") : "an advantage");
@@ -2601,7 +2648,7 @@
     lines.push(eng + ".");
     lines.push("Protection: " + g.protection.length + (g.protection.length ? " (" + g.protection.slice(0, 3).map(short).join(", ") + (g.protection.length > 3 ? " and others" : "") + ")" : "") + ".");
     lines.push("Tutors to find the pieces: " + g.tutors.length + (g.tutors.length ? " (" + g.tutors.slice(0, 3).map(short).join(", ") + (g.tutors.length > 3 ? " and others" : "") + ")" : "") + ".");
-    lines.push("Mana: " + g.ramp + " sources" + (g.ramp >= 18 ? ", built to make a lot of mana" : g.kinds.mana.length >= 3 ? ", plus " + g.kinds.mana.length + " mana engines" : "") +
+    lines.push("Mana: " + g.ramp + " sources" + (g.ramp >= 18 && g.bigMana !== false ? ", built to make a lot of mana" : g.kinds.mana.length >= 3 ? ", plus " + g.kinds.mana.length + " mana engines" : "") +
       ". Interaction: " + g.removal + " removal, " + g.wipes + " board wipes.");
     var w = g.wins.slice(0, 3).map(function (x) {
       return short(x.name) + " (" + x.why + ")";
@@ -2849,7 +2896,7 @@
       return p.label;
     });
     var cmd = profile.commander || null;
-    var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount) : [];
+    var cmdTypes = cmd ? namedTypes(cmd.text, profile.typeCount, true) : [];
     var protectPlan = !!(cmd && (cmd.gives.protect || cmd.wants.protect || cmd.wants.gear));
     var cmdCmc = cmd && byId[cmd.id] && typeof byId[cmd.id].cmc === "number" ? byId[cmd.id].cmc : 0;
     var gcCount = 0;
@@ -2952,7 +2999,9 @@
         if (r === "ramp" && cmdCmc >= 6) t += cmdCmc - 4; // Gishath, Sauron
         if (r === "ramp" && game && game.bigMana) return; // cycle 18: Kozilek, Kinnan, a lands deck: mana is the plan
         if (r === "ramp" && fuel) return; // cycle 19: Exploration and Farseek in Zimone feed landfall, not spare ramp
-        if (r === "ramp" && planJob === "engine") return; // a mana engine that ties in (Lotus Cobra in a landfall deck) is the plan
+        // an engine that ties in (Lotus Cobra in a landfall deck) is the plan; cycle 23: any role, when it ties in
+        // well and works with the commander (Grave Pact in Wilhelt); a weak or off-plan engine can still be spare (cut test)
+        if (planJob === "engine" && (r === "ramp" || (tiesToCommander(c) && fit >= Math.min(avgTie, 60)))) return;
         var x = Math.min(1, Math.max(0, ((roleCount[r] || 0) - 1.25 * t) / t)); // a quarter over
         if (x > surplus) {
           surplus = x;
@@ -2989,7 +3038,7 @@
       }
       // cycle 19: not for a finisher or a piece that suits up the commander (its job is the plan, not the role)
       // (nor for an engine piece that ties in at or above the deck's average: Electro for Elsha)
-      if (!c.land && roles.length && !payload && planJob !== "win" && planJob !== "voltron" && !(planJob === "engine" && fit >= avgTie)) {
+      if (!c.land && roles.length && !payload && planJob !== "win" && planJob !== "voltron" && !(planJob === "engine" && fit >= Math.min(avgTie, 60))) {
         if (isNew && CS.strength(slim, c).quality < 45) reasons.push("There are cheaper or better cards for its job (it's new, so few decks run it yet)");
         else if (!isNew && str < 30) reasons.push("There are stronger cards for its job (strength " + str + " of 100)");
       }

@@ -1,0 +1,31 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Obeka, Splitter of Seconds",
+  "identity": "UBR",
+  "made": "2026-11-23",
+  "combos": [
+    {"id":"513-5034--46","cards":["Hullbreaker Horror","Sol Ring"],"identity":"U","produces":["Infinite colorless mana","Infinite storm count"],"bracket":"E","popularity":371144,"needs":["Permanent Castable for {C}"],"note":"","commanderOnly":[]},
+    {"id":"542-5034","cards":["Tidespout Tyrant","Sol Ring"],"identity":"U","produces":["Infinite colorless mana","Infinite storm count"],"bracket":"S","popularity":38255,"needs":[],"note":"You control a nontoken permanent that can be cast using {C}.","commanderOnly":[]},
+    {"id":"2047-5471","cards":["Obeka, Splitter of Seconds","Mechanized Production"],"identity":"UBR","produces":["Win the game"],"bracket":"S","popularity":11733,"needs":[],"note":"Obeka's power is greater than or equal to 8 minus the number of artifacts you control that share a name with the artifact that has Mechanized Production attached. An opponent cannot block Obeka.","commanderOnly":[]},
+    {"id":"2047-6465","cards":["James, Wandering Dad // Follow Him","Mechanized Production"],"identity":"U","produces":["Win the game"],"bracket":"C","popularity":6355,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1427-2047","cards":["Mechanized Production","Masterful Replication"],"identity":"U","produces":["Win the game at the beginning of your next upkeep"],"bracket":"S","popularity":6346,"needs":[],"note":"You control at least seven artifacts.","commanderOnly":[]},
+    {"id":"5228-5471","cards":["Obeka, Splitter of Seconds","Descent into Avernus"],"identity":"UBR","produces":["Near-infinite Treasure tokens for all players","Near-infinite damage to all players"],"bracket":"R","popularity":5437,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2047-5211","cards":["Brass's Bounty","Mechanized Production"],"identity":"UR","produces":["Win the game at the beginning of your next upkeep"],"bracket":"O","popularity":5306,"needs":[],"note":"You control at least eight lands.","commanderOnly":[]},
+    {"id":"876-4944","cards":["Crackdown Construct","Lightning Greaves"],"identity":"C","produces":["Infinitely large creature until end of turn"],"bracket":"O","popularity":4056,"needs":[],"note":"You control another creature.","commanderOnly":[]},
+    {"id":"876-2904","cards":["Cephalid Illusionist","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":2281,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1061-2061","cards":["Timestream Navigator","Extravagant Replication"],"identity":"U","produces":["Infinite turns","Lock"],"bracket":"R","popularity":1049,"needs":[],"note":"You have the city's blessing.","commanderOnly":[]},
+    {"id":"1469-1558-5471","cards":["Obeka, Splitter of Seconds","Time Sieve","Court of Vantress"],"identity":"UBR","produces":["Infinite turns","Lock"],"bracket":"R","popularity":477,"needs":[],"note":"Obeka has power 4 or greater and cannot be blocked by an opponent. You are the monarch.","commanderOnly":[]},
+    {"id":"2047-7748","cards":["Ant-Man, Elusive Avenger","Mechanized Production"],"identity":"UR","produces":["Win the game at the beginning of your next upkeep"],"bracket":"S","popularity":409,"needs":[],"note":"An opponent cannot block Ant-Man.","commanderOnly":[]},
+    {"id":"1558-5085-5471","cards":["Obeka, Splitter of Seconds","Time Sieve","Thopter Spy Network"],"identity":"UBR","produces":["Infinite turns","Lock"],"bracket":"R","popularity":354,"needs":[],"note":"Obeka has power 4 or greater and cannot be blocked by an opponent.","commanderOnly":[]},
+    {"id":"2047-2882","cards":["Infinite Reflection","Mechanized Production"],"identity":"U","produces":["Win the game at the beginning of your next upkeep"],"bracket":"S","popularity":318,"needs":[],"note":"Mechanized Production attached to an artifact creature you control. You control at least seven nontoken creatures.","commanderOnly":[]},
+    {"id":"876-2796","cards":["Cephalid Aristocrat","Lightning Greaves"],"identity":"U","produces":["Infinite self-mill"],"bracket":"R","popularity":207,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3750-5471-7651","cards":["Obeka, Splitter of Seconds","Smaug the Magnificent","Aggravated Assault"],"identity":"UBR","produces":["Infinite artifact ETB","Infinite artifact LTB","Infinite artifact sacrifice triggers"],"bracket":"E","popularity":179,"needs":[],"note":"An opponent cannot block Obeka.","commanderOnly":[]},
+    {"id":"2061-2120","cards":["Wanderwine Prophets","Extravagant Replication"],"identity":"U","produces":["Infinite turns","Lock"],"bracket":"R","popularity":137,"needs":[],"note":"Wanderwine Prophets cannot be blocked by opponents.","commanderOnly":[]},
+    {"id":"2047-3888","cards":["Olivia's Attendants","Mechanized Production"],"identity":"UR","produces":["Win the game at the beginning of your next upkeep"],"bracket":"S","popularity":123,"needs":[],"note":"Olivia's Attendants does not have summoning sickness. An opponent is unable to block and kill Olivia's Attendants.","commanderOnly":[]},
+    {"id":"1530-2061","cards":["Second Chance","Extravagant Replication"],"identity":"U","produces":["Infinite turns","Lock"],"bracket":"R","popularity":119,"needs":[],"note":"You have 5 or less life.","commanderOnly":[]},
+    {"id":"1469-1530","cards":["Second Chance","Court of Vantress"],"identity":"U","produces":["Infinite turns","Lock"],"bracket":"R","popularity":101,"needs":[],"note":"You have 5 or less life. You are the monarch.","commanderOnly":[]},
+    {"id":"1558-5471-7651","cards":["Obeka, Splitter of Seconds","Smaug the Magnificent","Time Sieve"],"identity":"UBR","produces":["Infinite turns","Lock"],"bracket":"R","popularity":73,"needs":[],"note":"An opponent cannot block Obeka.","commanderOnly":[]},
+    {"id":"914-2047","cards":["Dockside Extortionist","Mechanized Production"],"identity":"UR","produces":["Win the game at the beginning of your next upkeep"],"bracket":"B","popularity":0,"needs":[],"note":"Opponents control at least seven artifacts and/or enchantments; additional permanents beyond this minimum can reduce the mana needed.","commanderOnly":[]}
+  ]
+}
