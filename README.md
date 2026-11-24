@@ -6,15 +6,15 @@ Swipe through card ideas for a Magic: The Gathering Commander deck.
 2. **Swipe.** Right adds a card, left skips it, up puts it on a "maybe" list. The next card waits underneath, and the line under the buttons says what happened (green for an add). On a computer, the arrow keys do the same, and Z undoes. Tap a card's picture in any list to see it whole. Skipped cards aren't lost: open **Skipped** to put one back in its pile or add it.
 3. **Copy back.** **Copy picks** copies your picks as `1 Card Name` lines, ready for Moxfield's bulk edit. If you also cut cards, **Copy whole deck** copies the full list with your cuts taken out and your picks added (your printings kept): in Moxfield's Bulk Edit, select all and paste over it.
 
-**Changing your deck.** Cut cards right on the page (Your deck > Cut ideas, or Your deck > All cards), and the Deck total line keeps count against 100. While your picks keep the deck over 100, a line under the buttons offers a card to cut, one at a time, until it's back to 100 (x hides it until your next Add; **Why? Other options** shows a few more), and Deck total lists that many cut ideas, plus four other options in case you'd rather cut something else. After you update the deck in Moxfield, press **Update or switch deck** and paste the new export: your swipes, picks and cuts carry over (picks that are in the deck now leave the Added list, and cuts you made in Moxfield are done). If it picked up the wrong deck, **Start fresh instead** is under the deck line until you make a change (the earlier version keeps its own copy either way). **Back to swiping** returns you to where you were. To work on a different deck, press **Update or switch deck**, then **Start a different deck**: the box empties for the other deck's export, and the first deck's swipes stay saved for when you paste it again.
+**Changing your deck.** Cut cards right on the page (Your deck > Cut ideas, or Your deck > All cards), and the Deck total line keeps count against 100. While your picks keep the deck over 100, a line under the buttons offers a card to cut, one at a time, until it's back to 100 (x hides it until your next Add; **Why? Other options** shows a few more), and Deck total lists that many cut ideas, plus four other options in case you'd rather cut something else. After you update the deck in Moxfield, press **Update or switch deck** and paste the new export: your swipes, picks and cuts carry over (picks that are in the deck now leave the Added list, and cuts you made in Moxfield are done). If it picked up the wrong deck, **Start fresh instead** is under the deck line until you make a change (the earlier version keeps its own copy either way). **Back to swiping** returns you to where you were. To work on a different deck, press **Update or switch deck**, then **Start a different deck**: the box empties for the other deck's export, and the first deck's swipes stay saved for when you paste it again. **Start over on this deck** (same place) clears this deck's swipes, picks and cuts, and those of earlier versions of the list, after asking first; your other decks stay as they are, and **Undo start over** puts everything back until you close the tab.
 
-Recommendations come from EDHREC's page for your commander, sorted into piles (best cards, creatures, lands and so on), plus its Budget page and its theme pages (Tokens, Aristocrats and the like, under Themes).
+Recommendations come from EDHREC's page for your commander, sorted into piles (best cards, creatures, lands and so on), plus its theme pages (Tokens, Aristocrats and the like, under Themes).
 
 The first pile, **Best for your deck**, ranks every card the page knows about at once: how often decks with your commander run it (EDHREC), how much more they run it than other decks do (synergy), how strong the card is (below), and a little of how it ties into your deck. That order was picked by testing: take a card out of a well-liked deck and see where each method ranks it. Across 57 such decks, this order put about 3.6 of every 10 missing cards in the first 20 swipes before strength was added, and 42% of them in the first 20 after (from 40%); Fit alone found about 1.4, and EDHREC's short "best cards" list about 1.8.
 
 From Scryfall, searched in your commander's colors:
 
-- **Everything in your colors:** every Commander-legal card, most played first. It loads more as you swipe.
+- **Good in any deck:** strong cards in your colors that your commander's EDHREC page doesn't list (the page's own cards are in the piles above). It starts from the most played cards in Commander and puts the strongest first (how widely played, and how good at its job). It loads more as you swipe.
 - **Roles:** removal, ramp, card draw, protection, board wipes, tutors, recursion, sacrifice outlets, token makers, haste, anthems, extra combats and graveyard hate. These load more as you swipe, too.
 
 The Scryfall piles still work if EDHREC is down or has no page for your commander.
@@ -31,9 +31,9 @@ The Scryfall piles still work if EDHREC is down or has no page for your commande
 
 No deck handy? **Try a sample deck** loads a Zurgo Stormrender list.
 
-Game Changers are hidden by default. You can change that, set a max price, or pick card types under Filters.
+Game Changers are hidden by default. You can change that, or pick card types under Filters. Prices aren't shown or used anywhere: proxies are fine.
 
-**Sort.** The Sort menu next to the deck line reorders the pile you're swiping: Recommended (the pile's own order), Fits your deck (by tie-in, then Fit), Most played (EDHREC), EDHREC synergy, Cheapest, or Mana value. It only changes the order, so your swipes and the pile's count stay the same, and it goes back to Recommended when you reload. In piles that load more as you swipe, it sorts the cards loaded so far. Cards without the number (no price, not on EDHREC) come last. Recommended stays the default because testing found it surfaces the cards strong decks actually run best; the others are for browsing (say, the cheapest cards first).
+**Sort.** The Sort menu next to the deck line reorders the pile you're swiping: Recommended (the pile's own order), Fits your deck (by tie-in, then Fit), Most played (EDHREC), EDHREC synergy, or Mana value. It only changes the order, so your swipes and the pile's count stay the same, and it goes back to Recommended when you reload. In piles that load more as you swipe, it sorts the cards loaded so far. Cards without the number (not on EDHREC, say) come last. Recommended stays the default because testing found it surfaces the cards strong decks actually run best; the others are for browsing (say, the lowest mana value first).
 
 ## Synergy data
 
@@ -80,7 +80,7 @@ It's built for any commander, not one deck. Checked on 2026-11-17 against Scryfa
 ## Credits
 
 - Card recommendations: [EDHREC](https://edhrec.com/) (unofficial data feed; the page fetches one commander page per visit).
-- Card data, images and prices: [Scryfall](https://scryfall.com/). Card images are shown whole, with the artist and copyright line.
+- Card data and images: [Scryfall](https://scryfall.com/). Card images are shown whole, with the artist and copyright line.
 - Card tags: [Scryfall Tagger](https://tagger.scryfall.com/), the community's card-function tags, from Scryfall's bulk data.
 - Combos and their bracket tags: [Commander Spellbook](https://commanderspellbook.com/). Each combo links to its page there for the full steps.
 

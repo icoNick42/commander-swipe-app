@@ -44,7 +44,7 @@ Action buttons use their color as the border plus a see-through fill of the same
 
 ## Layout
 
-- **Pile row:** chips for the main piles (Best for your deck first since cycle 12, then EDHREC's sections, Budget, Everything in your colors), then two dropdowns styled as chips: Roles and Themes. A dropdown gets the selected look when one of its piles is open. Under 900 px the dropdowns come first in the row (at most 8.5 rem wide each), so a phone shows them without scrolling sideways.
+- **Pile row:** chips for the main piles (Best for your deck first since cycle 12, then EDHREC's sections, Combos, Good in any deck; cycle 29 took out Budget and Everything in your colors), then two dropdowns styled as chips: Roles and Themes. A dropdown gets the selected look when one of its piles is open. Under 900 px the dropdowns come first in the row (at most 8.5 rem wide each), so a phone shows them without scrolling sideways.
 - **Wide (900 px and up):** two columns. Left: deck bar, piles (wrapping chips), card, buttons. Right (340 px): Added, Maybe, Filters.
 - **Narrow (under 900 px):** one column. The deck bar stays on one row, the piles become one row you swipe sideways, and the four buttons share one row. Lists and filters sit below the card.
 - **Phone (520 px and under):** the "Commander" label and the header tagline are hidden visually (the label stays for screen readers), and the three "how it works" steps shrink to one line each.
@@ -68,7 +68,7 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Deck line (cycle 8):** one line that cuts off with an ellipsis: "100 cards", plus problems or "swipes kept from your last version" when there are any. The details (lines read, Start fresh) are behind it.
 - **Change deck (cycle 8):** opens the first screen with Back to swiping and a line saying an updated paste keeps your swipes; the how-it-works steps are hidden then.
 
-- **Lists (cycle 9):** each Added and Maybe row shows the card's Fit ("Fit 72") before its price, in the same muted small text.
+- **Lists (cycle 9):** each Added and Maybe row shows the card's Fit ("Fit 72") in muted small text (cycle 21: a 3-dot meter; cycle 29: no price).
 - **Pile dropdowns (cycle 9):** a mouse or touch pick opens the pile at once; with the arrow keys the page waits until they stop (0.7 s) or Enter, then opens it and moves focus off, so the arrow keys swipe again.
 - **First screen (cycle 9):** pasting a deck into the box fills it and says how many cards it got; it doesn't load until Load deck.
 
@@ -86,7 +86,7 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Status line (cycle 17):** colored by the choice (green with a check mark for an add, red for a skip, amber for a maybe); the Added or Maybe count, and the phone's progress link, pulse once.
 - **Action buttons on touch (cycle 17):** the arrows (keyboard hints) are hidden on touch screens, so the row has room on narrow phones and wide system fonts; the touch hint reads "Swipe right to add, left to skip, up for maybe." and fits one line at 375 px.
 - **Empty lists (cycle 17):** an empty Added or Maybe shows one muted line on what goes there; Copy picks shows only once there are picks.
-- **Pile counts (cycle 17):** a pile that loads when opened (Budget, Everything in your colors, roles, themes) shows no count until it's opened (tooltip: "Loads when you open it"); "..." now only means loading.
+- **Pile counts (cycle 17):** a pile that loads when opened (roles, themes) shows no count until it's opened (tooltip: "Loads when you open it"); "..." now only means loading.
 - **Deck bar (cycle 17):** the commander menu stops at 24 rem wide; on phones the deck button is a little tighter (8x10 px padding, 0.92 rem).
 
 - **Fit in words (cycle 21, Nick's cycle 19 pick A):** the fit line under the card starts with "Strong fit", "Some fit" or "Little fit" (from tie-in: 70 and up, 30 and up, below 30; `CS.fitTier`) instead of "Fit 62". "Little fit" is `--muted`; the others are `--text`, bold. The Fit number and its parts are only in the opened fit line. List rows show the same as a 3-dot meter (7 px dots, 3 px apart: strong all three in `--text`, some two in `--muted`, little one in `--muted`, unlit dots in `--line`), labeled for screen readers and in its tooltip, because the words wrapped the card names in a 340 px column. The Your deck panel's title is "Your deck: game plan and roles"; the deck's score is in its first line. The Sort option is "Fits your deck" (tie-in, then Fit).

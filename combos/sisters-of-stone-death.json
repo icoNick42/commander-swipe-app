@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Sisters of Stone Death",
+  "identity": "BG",
+  "made": "2026-11-24",
+  "combos": [
+    {"id":"1478-3875-5856","cards":["Hazel's Brewmaster","Tireless Provisioner","Sakura-Tribe Elder"],"identity":"BG","produces":["Near-infinite landfall triggers","Put all basic lands from your library onto the battlefield tapped"],"bracket":"E","popularity":6298,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"283-3457","cards":["Seeker of Skybreak","Illusionist's Bracers"],"identity":"G","produces":["Infinite mana creatures you control can produce","Infinite untap of creatures you control"],"bracket":"S","popularity":4374,"needs":[],"note":"Seeker of Skybreak does not have summoning sickness. Illusionist's Bracer attached to Seeker of Skybreak.","commanderOnly":[]},
+    {"id":"4475-6109","cards":["Aphelia, Viper Whisperer","Wound Reflection"],"identity":"BG","produces":["Target opponent loses the game","Infinite lifeloss for target opponent"],"bracket":"S","popularity":3243,"needs":[],"note":"You control a Gorgon and/or Snake that does not have summoning sickness and that cannot be blocked by an opponent","commanderOnly":[]},
+    {"id":"5342-6109","cards":["Aphelia, Viper Whisperer","Bloodletter of Aclazotz"],"identity":"BG","produces":["Target opponent loses the game","Infinite lifeloss for target opponent"],"bracket":"S","popularity":2476,"needs":[],"note":"You control a Gorgon and/or Snake that does not have summoning sickness and that cannot be blocked by an opponent","commanderOnly":[]},
+    {"id":"1642-6109","cards":["Aphelia, Viper Whisperer","Warlock Class"],"identity":"BG","produces":["Target opponent loses the game","Infinite lifeloss for target opponent"],"bracket":"S","popularity":869,"needs":[],"note":"You control a Gorgon and/or Snake that does not have summoning sickness and that cannot be blocked by an opponent","commanderOnly":[]},
+    {"id":"2178-4117","cards":["Visara the Dreadful","Thornbite Staff"],"identity":"B","produces":["Destroy each creature that enters the battlefield under an opponent's control","Destroy any number of creatures","Lock"],"bracket":"S","popularity":634,"needs":[],"note":"Thornbite Staff attached to Visara. Visara does not have summoning sickness.","commanderOnly":[]},
+    {"id":"2607-6109","cards":["Aphelia, Viper Whisperer","Archfiend of Despair"],"identity":"BG","produces":["Target opponent loses the game","Infinite lifeloss for target opponent"],"bracket":"S","popularity":358,"needs":[],"note":"You control a Gorgon and/or Snake that does not have summoning sickness and that cannot be blocked by an opponent","commanderOnly":[]},
+    {"id":"283-2143","cards":["Spawnsire of Ulamog","Illusionist's Bracers"],"identity":"C","produces":["Infinite death triggers","Infinite creature ETB","Infinite creature LTB"],"bracket":"E","popularity":215,"needs":[],"note":"Illusionist's Bracers is attached to Spawnsire of Ulamog.","commanderOnly":[]},
+    {"id":"5008-6109","cards":["Aphelia, Viper Whisperer","Blitzwing, Cruel Tormentor // Blitzwing, Adaptive Assailant"],"identity":"BG","produces":["Infinite lifeloss for target opponent","Target opponent loses the game"],"bracket":"S","popularity":157,"needs":[],"note":"You control a Gorgon and/or Snake that does not have summoning sickness and that cannot be blocked by an opponent","commanderOnly":[]}
+  ]
+}

@@ -278,6 +278,25 @@
       .backbar span {
         font-size: 0.9rem;
       }
+      /* cycle 30: Start over asks first, on the page (no browser pop-up) */
+      .startover {
+        flex-basis: 100%;
+        display: flex;
+        gap: var(--space-3);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .startover p {
+        margin: 0;
+        flex-basis: 100%;
+      }
+      .notice button {
+        margin-left: var(--space-2);
+      }
+      .startover .danger {
+        color: var(--error-text);
+        border-color: var(--error-text);
+      }
       .layout {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
@@ -813,7 +832,6 @@
         min-width: 0;
         overflow-wrap: anywhere;
       }
-      .list li .price,
       .list li .fit {
         flex: none;
         color: var(--muted);
@@ -1194,11 +1212,17 @@
         <div class="backbar" id="backBar" hidden>
           <button id="backBtn" type="button">&larr; Back to swiping</button>
           <button id="newDeckBtn" type="button">Start a different deck</button>
+          <button id="startOverBtn" type="button">Start over on this deck</button>
           <span class="muted">
             Pasting an updated version of this deck (picks added, cards cut)
             keeps your swipes and cuts. Working on another deck? Start a
             different deck; this one's swipes stay saved.
           </span>
+          <div id="startOverAsk" class="startover" role="group" aria-labelledby="startOverText" hidden>
+            <p id="startOverText"></p>
+            <button id="startOverYes" type="button" class="danger">Clear and start over</button>
+            <button id="startOverNo" type="button">Keep them</button>
+          </div>
         </div>
         <ol class="how">
           <li>
@@ -1377,15 +1401,6 @@
                 ><input type="checkbox" id="fGameChangers" /> Hide Game
                 Changers</label
               >
-              <label
-                >Max price (USD)
-                <input
-                  type="number"
-                  id="fMaxPrice"
-                  min="0"
-                  step="0.5"
-                  placeholder="any"
-              /></label>
               <div class="muted">Card types (none ticked = all):</div>
               <div class="types" id="fTypes"></div>
             </details>
@@ -1419,7 +1434,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=26"></script>
+    <script src="core.js?v=29"></script>
     <script>
       (function () {
         "use strict";
@@ -1554,9 +1569,6 @@
           });
         }
         function noop() {}
-        function money(usd) {
-          return usd == null ? "no price" : "$" + usd.toFixed(2);
-        }
         function pct(x) {
           return Math.round(x * 100) + "%";
         }
@@ -1683,7 +1695,7 @@
         /**
          * The commander's EDHREC page. Returns {page, slug}; slug is the
          * page's own slug (it differs when EDHREC points to another page),
-         * used for the budget and theme pages.
+         * used for the theme pages.
          */
         function edhrecPage(name) {
           var slug = CS.commanderSlug(name);
@@ -1977,9 +1989,10 @@
 
         function searchPiles(cmd) {
           return [
+            // cycle 29 (Nick's pick 2A): replaces Everything in your colors
             searchPileShell(
-              "all",
-              "Everything in your colors",
+              "any",
+              "Good in any deck",
               "main",
               CS.everythingQuery(cmd.colorIdentity),
             ),
@@ -1996,7 +2009,7 @@
           );
         }
 
-        /** A pile from one more EDHREC page (budget or a theme), fetched when opened. */
+        /** A pile from one more EDHREC page (a theme), fetched when opened. */
         function edhrecPageShell(key, label, group, url) {
           return {
             key: key,
@@ -2087,6 +2100,8 @@
           var token = ++S.token;
           S.commander = cmd;
           S.deckId = CS.deckId(cmd.name, S.parsed.cards);
+          S.startOverPlan = null; // cycle 30: a confirm left open belongs to the old deck
+          $("startOverAsk").hidden = true;
           S.swap = null;
           S.swapPaired = {};
           S.swapOff = false;
@@ -2126,11 +2141,13 @@
               if (!piles.length)
                 throw new Error("no recommendations on the page");
               S.edhrecMap = CS.edhrecById(page);
-              var budgetUrl = CS.edhrecSubUrl(found.slug, "budget");
-              if (budgetUrl)
-                piles.push(
-                  edhrecPageShell("edhrec:budget", "Budget", "main", budgetUrl),
-                );
+              // cycle 29: no Budget pile (Nick proxies). Good in any deck
+              // may have loaded first: take out cards this page has.
+              var any = pileByKey("any");
+              if (any)
+                any.cards = any.cards.filter(function (c) {
+                  return !CS.onEdhrecPage(c.id, S.edhrecMap);
+                });
               var themes = CS.edhrecThemes(page)
                 .map(function (t) {
                   var url = CS.edhrecSubUrl(found.slug, t.slug);
@@ -2163,7 +2180,7 @@
                 cmd.name +
                 " (" +
                 err.message +
-                "). The Scryfall piles still work: Everything in your colors, and the role piles.";
+                "). The Scryfall piles still work: Good in any deck, and the role piles.";
             });
           // Combos wait for EDHREC, so a combo card EDHREC knows keeps its numbers.
           edhrecP.then(function () {
@@ -2227,7 +2244,7 @@
                 loaded: false,
                 error: "",
               };
-              var at = S.piles.indexOf(pileByKey("all"));
+              var at = S.piles.indexOf(pileByKey("any"));
               S.piles.splice(at === -1 ? S.piles.length : at, 0, pile);
               render();
               return collection(
@@ -2273,7 +2290,7 @@
         /**
          * Once the first details are in: open a pile that has cards. If the
          * pile opened on its own (Best, say) is used up, move on to the next
-         * main pile with cards left, or to Everything in your colors.
+         * main pile with cards left, or to Good in any deck.
          */
         function settleFirstPile() {
           var cur = pileByKey(S.current);
@@ -2290,7 +2307,7 @@
               remaining(p) > 0
             );
           })[0];
-          var key = next ? next.key : "all";
+          var key = next ? next.key : "any";
           if (cur && key !== cur.key)
             status(cur.label + " is used up, so " + pileByKey(key).label + " is open.");
           openPile(key, true);
@@ -2405,8 +2422,8 @@
           S.justSwiped = false; // cycle 17: a new pile's first card fades in
           if (!auto) S.userPicked = true;
           if (pile.kind === "fit") {
-            // rank what's loaded now; also load Everything's first page to rank
-            var all = pileByKey("all");
+            // rank what's loaded now; also load Good in any deck's first page to rank
+            var all = pileByKey("any");
             if (all && !all.loaded && !all.loading) {
               all.rebuildFit = true;
               loadSearchPage(all, CS.searchUrl(all.query), true);
@@ -2450,7 +2467,9 @@
                       S.deckNames,
                       Infinity,
                     ).cards
-                  : CS.moreSearchCards(pile, list, S.edhrecMap, S.deckNames);
+                  : pile.key === "any"
+                    ? CS.anyDeckCards(pile, list, S.edhrecMap, S.deckNames, S.cardInfo)
+                    : CS.moreSearchCards(pile, list, S.edhrecMap, S.deckNames);
               pile.cards = pile.cards.concat(add);
               pile.next = CS.safeNextPage(res);
               pile.loaded = true;
@@ -2518,7 +2537,7 @@
           render();
         }
 
-        /** A budget or theme pile: its EDHREC page, fetched once, when first opened. */
+        /** A theme pile: its EDHREC page, fetched once, when first opened. */
         function loadEdhrecPagePile(pile) {
           var token = S.token;
           pile.loading = true;
@@ -2778,6 +2797,151 @@
           }
           if (S.edhrecNote)
             box.appendChild(el("div", { class: "notice", text: S.edhrecNote }));
+          if (startOverBackup())
+            box.appendChild(
+              el("div", { class: "notice" }, [
+                "You started over on this deck. Undo puts the old swipes back (and drops any made since) until you close this tab.",
+                el("button", {
+                  type: "button",
+                  id: "undoStartBtn",
+                  text: "Undo start over",
+                  onclick: undoStartOver,
+                }),
+              ]),
+            );
+        }
+
+        // ----------------------------------------------- start over (cycle 30)
+        // Nick's picks 3A and 6A: clear this deck's swipes, picks and cuts
+        // (and earlier versions that would carry into it), after a confirm,
+        // with undo until the tab closes. The undo copy lives in this tab's
+        // sessionStorage (cs:undo:<deck id>), and in memory if that fails.
+
+        // The undo copy for the deck on screen; kept in S.undoMem too (the
+        // full copy, so Undo works even when tab storage fails) and read from
+        // tab storage only after a reload.
+        function startOverBackup() {
+          if (!S.deckId) return null;
+          if (S.undoMem && S.undoMem.deckId === S.deckId) return S.undoMem;
+          if (S.undoRead === S.deckId) return null;
+          S.undoRead = S.deckId; // read tab storage once per deck, not on every render
+          S.undoMem = CS.checkStartOverBackup(
+            tabStore.get("undo:" + S.deckId, null),
+            S.deckId,
+          );
+          return S.undoMem;
+        }
+
+        function startOverAsk() {
+          if (!S.state || !S.commander) return;
+          var plan = CS.startOverPlan(
+            store,
+            CS.commanderSlug(S.commander.name),
+            S.deckId,
+            CS.deckKeys(S.parsed.cards),
+            latestState(),
+          );
+          var c = plan.counts;
+          var parts = [];
+          var say = function (n, one, many) {
+            if (n) parts.push(n + " " + (n === 1 ? one : many));
+          };
+          say(c.add, "pick", "picks");
+          say(c.maybe, "maybe", "maybes");
+          say(c.skip, "skip", "skips");
+          say(c.cuts, "cut", "cuts");
+          var others = plan.keys.filter(function (k) {
+            return k !== CS.deckKey(S.deckId) && k !== CS.oldDeckKey(S.deckId);
+          }).length;
+          S.startOverPlan = plan;
+          var name = CS.frontName(S.commander.name).split(",")[0];
+          if (!parts.length && !others) {
+            S.startOverPlan = null;
+            $("startOverAsk").hidden = true;
+            setupMsg("Nothing to clear yet for " + name + ".");
+            return;
+          }
+          $("startOverText").textContent =
+            "Clear " +
+            (parts.length ? parts.join(", ") : "the swipes") +
+            " for " +
+            name +
+            (others
+              ? ", and " + others + (others === 1 ? " other version" : " other versions") + " of this list"
+              : "") +
+            "? Your other decks stay as they are. You can undo until you close this tab.";
+          $("startOverAsk").hidden = false;
+          $("startOverNo").focus();
+        }
+
+        function startOverCancel() {
+          S.startOverPlan = null;
+          $("startOverAsk").hidden = true;
+          $("startOverBtn").focus();
+        }
+
+        function startOverDo() {
+          var plan = S.startOverPlan;
+          S.startOverPlan = null;
+          $("startOverAsk").hidden = true;
+          // review Should 4: a plan made for another deck never runs
+          if (!plan || !S.state || plan.deckId !== String(S.deckId)) return;
+          flushPending();
+          hideSwap();
+          var older = startOverBackup();
+          var shown = S.state;
+          var backup = CS.startOver(store, plan, S.deckId, Date.now(), older);
+          if (!backup.state) backup.state = shown; // the screen's copy, for when storage isn't working
+          S.undoMem = backup; // review Must 1: the full copy, always
+          S.undoRead = S.deckId;
+          tabStore.set("undo:" + S.deckId, backup);
+          S.state = CS.newDeckState(
+            S.commander.name,
+            Date.now(),
+            CS.deckKeys(S.parsed.cards),
+          );
+          // review Should 3: an empty save (never carried) rather than none,
+          // so another tab on this deck takes it up instead of saving its old swipes back
+          persist();
+          S.carried = null;
+          S.swap = null;
+          S.swapPaired = {};
+          $("setup").hidden = true;
+          $("app").hidden = false;
+          fillDeckReport();
+          renderDeckFit();
+          renderNotices();
+          render();
+          status(
+            backup.failed.length
+              ? "Started over on screen, but this browser wouldn't clear every save, so a reload may bring old swipes back."
+              : "Started over: this deck's swipes, picks and cuts are cleared.",
+            backup.failed.length ? "skip" : null, // red, like a skip
+          );
+          $("changeDeckBtn").focus();
+        }
+
+        function undoStartOver() {
+          var b = startOverBackup();
+          if (!b) return;
+          flushPending();
+          hideSwap();
+          var back = CS.undoStartOver(store, b);
+          tabStore.remove("undo:" + S.deckId);
+          S.undoMem = null;
+          if (back && storageAvailable && !S.saveFailed) openDeckState(S.commander);
+          else if (b.state) {
+            S.state = CS.migrateDeckState(b.state) || S.state;
+            persist(); // review Must 1: keep it if saving works at all
+          }
+          S.swap = null;
+          loadDecidedNames(); // review Should 5: names for picks restored after a reload
+          fillDeckReport();
+          renderDeckFit();
+          renderNotices();
+          render();
+          status("Undone: your earlier swipes, picks and cuts are back.");
+          $("changeDeckBtn").focus();
         }
 
         function remaining(pile) {
@@ -3098,7 +3262,7 @@
             el("div", { class: "cardbox" }, under ? [under, card] : [card]),
           );
 
-          var line = [money(info.usd)];
+          var line = []; // cycle 29: no price (Nick proxies)
           if (rec.onEdhrec) {
             line.push(
               "in " + pct(rec.inclusion) + " of " + cmdShort() + " decks", // cycle 14: say whose numbers; cycle 21: the commander's, by name
@@ -3129,7 +3293,7 @@
               title: rec.onEdhrec
                 ? "EDHREC: " + rec.potentialDecks.toLocaleString() + " decks with this commander"
                 : "",
-              text: line.join(" \u00b7 "),
+              text: line.join(" \u00b7 ") || "\u00a0", // keeps the line's height
             }),
           ];
           var f = fitFor(rec.id);
@@ -3950,9 +4114,6 @@
                   thumbFor(info),
                   el("span", { text: name }),
                   fitMeterEl(fit), // cycle 21: a 3-dot meter (words on the card and in its label), not a number
-                  info
-                    ? el("span", { class: "price", text: money(info.usd) })
-                    : null,
                   choice !== "add"
                     ? el("button", {
                         type: "button",
@@ -4275,8 +4436,6 @@
 
         function fillFilters() {
           $("fGameChangers").checked = settings.hideGameChangers;
-          $("fMaxPrice").value =
-            settings.maxPrice == null ? "" : String(settings.maxPrice);
           Array.prototype.forEach.call(
             document.querySelectorAll("#fTypes input"),
             function (box) {
@@ -4286,7 +4445,6 @@
         }
 
         function readFilters() {
-          var price = parseFloat($("fMaxPrice").value);
           var types = [];
           Array.prototype.forEach.call(
             document.querySelectorAll("#fTypes input"),
@@ -4297,7 +4455,7 @@
           settings = {
             v: 1,
             hideGameChangers: $("fGameChangers").checked,
-            maxPrice: isNaN(price) || price < 0 ? null : price,
+            maxPrice: null, // cycle 29: no price filter; kept so the saved format is unchanged
             types: types,
           };
           CS.saveSettings(store, settings);
@@ -4319,7 +4477,6 @@
             );
           });
           $("fGameChangers").addEventListener("change", readFilters);
-          $("fMaxPrice").addEventListener("input", readFilters);
           fillFilters();
         }
 
@@ -4437,6 +4594,9 @@
           );
           $("exportText").focus();
         });
+        $("startOverBtn").addEventListener("click", startOverAsk);
+        $("startOverYes").addEventListener("click", startOverDo);
+        $("startOverNo").addEventListener("click", startOverCancel);
         $("backBtn").addEventListener("click", function () {
           if (!S.state) return;
           loadSeq++; // a load still on its way won't replace the deck

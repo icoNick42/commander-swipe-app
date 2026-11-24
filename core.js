@@ -170,8 +170,7 @@
       (sc.image_uris && sc.image_uris.normal) ||
       (f.image_uris && f.image_uris.normal) ||
       null;
-    var usd =
-      sc.prices && sc.prices.usd != null ? parseFloat(sc.prices.usd) : null;
+    // cycle 29: no price (Nick proxies; price never counts, AGENTS.md)
     return {
       id: sc.id,
       name: sc.name,
@@ -190,7 +189,6 @@
       types: sc.type_line || f.type_line || "",
       manaCost: sc.mana_cost || f.mana_cost || "",
       image: img,
-      usd: isNaN(usd) ? null : usd,
       gameChanger: sc.game_changer === true,
       colorIdentity: sc.color_identity || [],
       edhrecRank: sc.edhrec_rank != null ? sc.edhrec_rank : null,
@@ -303,8 +301,8 @@
   var SUB_OK = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
   /**
-   * One of a commander's extra EDHREC pages: "budget", or a theme slug from
-   * the main page ("tokens"). `slug` is the commander's page slug. Returns
+   * One of a commander's extra EDHREC pages: a theme slug from the main
+   * page ("tokens"). ("budget" also works; the page stopped using it in cycle 29.) `slug` is the commander's page slug. Returns
    * null for anything that isn't a plain slug.
    */
   CS.edhrecSubUrl = function (slug, sub) {
@@ -545,7 +543,7 @@
   var BEST_TAGS = ["topcards", "highliftcards"];
 
   /**
-   * One pile from a whole EDHREC page (a theme page or the budget page):
+   * One pile from a whole EDHREC page (a theme page):
    * its Top and High Lift cards first, in that order, then every other card
    * by synergy (highest first; New Cards go here, since they have few decks
    * behind them yet). Deck cards and basics are left out; each card once.
@@ -616,6 +614,38 @@
       );
     });
     return out;
+  };
+
+  /**
+   * Cycle 29 (Nick's pick 2A): the Good in any deck pile. One more page of
+   * the colors' most played cards (Scryfall, order:edhrec), minus the cards
+   * on the commander's EDHREC page (its own piles have those), the deck and
+   * basics. Each page's new cards go strongest first (CS.strength: how
+   * widely played, and how good at its job), so the pile is strong cards
+   * this commander's page misses. Works with an empty edhrecMap (EDHREC
+   * down): then it's simply the strongest popular cards in the colors.
+   * `cardInfo`: slim cards by id, for strength. Returns the new cards.
+   */
+  CS.anyDeckCards = function (pile, scryCards, edhrecMap, deckNames, cardInfo) {
+    var info = cardInfo || {};
+    var add = CS.moreSearchCards(pile, scryCards, edhrecMap, deckNames).filter(
+      function (c) {
+        return !CS.onEdhrecPage(c.id, edhrecMap);
+      },
+    );
+    var str = {};
+    add.forEach(function (c, i) {
+      str[c.id] = [info[c.id] ? CS.strength(info[c.id]).score : -1, i];
+    });
+    return add.sort(function (a, b) {
+      return str[b.id][0] - str[a.id][0] || str[a.id][1] - str[b.id][1];
+    });
+  };
+
+  /** Whether a card is on the commander's EDHREC page (cycle 29). */
+  CS.onEdhrecPage = function (id, edhrecMap) {
+    var e = edhrecMap && edhrecMap[id];
+    return !!(e && e.onEdhrec !== false);
   };
 
   /**
@@ -3597,19 +3627,14 @@
   };
 
   /**
-   * Whether a card passes the filters. Unknown price passes a price limit
-   * (the card shows "no price"). An empty type list means every type.
+   * Whether a card passes the filters. An empty type list means every type.
+   * Cycle 29: price never filters. `maxPrice` stays in the settings format
+   * (read as before, written as null by the page), so `v` is unchanged.
    */
   CS.passesFilters = function (slim, settings) {
     var s = settings || CS.defaultSettings();
     if (!slim) return false;
     if (s.hideGameChangers && slim.gameChanger) return false;
-    if (
-      typeof s.maxPrice === "number" &&
-      slim.usd != null &&
-      slim.usd > s.maxPrice
-    )
-      return false;
     if (s.types && s.types.length) {
       var t = CS.cardTypes(slim);
       if (
@@ -3644,14 +3669,14 @@
   /**
    * Sort orders for the open pile (cycle 17). "rec" keeps the pile's own
    * order. Each other order says which way is best first; a card without the
-   * number (no price, not on EDHREC, details not loaded) goes last.
+   * number (not on EDHREC, details not loaded) goes last. Cycle 29: no
+   * Cheapest order (price never counts; Nick proxies).
    */
   CS.SORTS = [
     { key: "rec", label: "Recommended", say: "the recommended order" },
     { key: "fit", label: "Fits your deck", dir: -1, say: "best fit with your deck first" }, // cycle 21: plain words; the page sorts by tie-in, then Fit
     { key: "played", label: "Most played", dir: -1, say: "most played on EDHREC first" },
     { key: "synergy", label: "EDHREC synergy", dir: -1, say: "highest EDHREC synergy first" },
-    { key: "cheap", label: "Cheapest", dir: 1, say: "cheapest first" },
     { key: "cmc", label: "Mana value", dir: 1, say: "lowest mana value first" },
   ];
 
@@ -3668,7 +3693,6 @@
     if (key === "fit") return num(fit);
     if (key === "played") return edh ? num(edh.inclusion) : null;
     if (key === "synergy") return edh ? num(edh.synergy) : null;
-    if (key === "cheap") return info ? num(info.usd) : null;
     if (key === "cmc") return info ? num(info.cmc) : null;
     return null;
   };
@@ -4214,6 +4238,112 @@
       .filter(function (e) {
         return e.state;
       });
+  };
+
+  // ---------------------------------------------------------- start over (cycle 30)
+
+  /**
+   * What Start over would clear for the deck on screen (Nick's picks 3A and
+   * 6A): this deck's save (v2, and its v1 save if it has one) plus every
+   * other save for the same commander that would carry into this list
+   * (the carry-over rule: 60%+ of cards shared, not empty). Another deck
+   * with the same commander shares less than that and is left alone.
+   * `keys`: CS.deckKeys of the deck on screen; `state`: its swipes now.
+   * Returns {deckId, keys: [storage keys], counts: {add, maybe, skip, cuts}}.
+   */
+  CS.startOverPlan = function (store, slug, deckId, keys, state) {
+    var out = [];
+    var own = [CS.deckKey(deckId), CS.oldDeckKey(deckId)];
+    own.forEach(function (k) {
+      if (store.get(k, null) != null) out.push(k);
+    });
+    var newSet = {};
+    (keys || []).forEach(function (k) {
+      newSet[k] = true;
+    });
+    var prefix = CS.deckKey(slug + "-");
+    CS.savedDecksFor(store, slug).forEach(function (e) {
+      if (out.indexOf(e.key) !== -1) return;
+      if (!/^[0-9a-f]{8}$/.test(e.key.slice(prefix.length))) return; // another commander's slug
+      var s = e.state;
+      if (!s.cards) return; // v1: never carried
+      if (!Object.keys(s.decisions).length && !Object.keys(s.cuts || {}).length)
+        return;
+      var shared = s.cards.filter(function (k) {
+        return newSet[k];
+      }).length;
+      var size = Math.max(s.cards.length, (keys || []).length);
+      if (size && shared / size >= CARRY_MIN) out.push(e.key);
+    });
+    var counts = { add: 0, maybe: 0, skip: 0, cuts: 0 };
+    var d = (state && state.decisions) || {};
+    Object.keys(d).forEach(function (id) {
+      if (counts[d[id]] != null) counts[d[id]]++;
+    });
+    var cuts = (state && state.cuts) || {};
+    Object.keys(cuts).forEach(function (n) {
+      counts.cuts += cuts[n] || 0;
+    });
+    return { deckId: String(deckId), keys: out, counts: counts };
+  };
+
+  /**
+   * Clears the saves in `plan` and returns the copy needed to undo it:
+   * {v: 1, deckId, at, saves: {key: saved value}, failed: [keys not removed]}.
+   * Nothing is lost until that copy is dropped (the page keeps it for the
+   * tab's life). `older`: an undo copy from an earlier Start over on the
+   * same deck that wasn't undone; its values win, so one Undo goes all the
+   * way back (review Should 1).
+   */
+  CS.startOver = function (store, plan, deckId, now, older) {
+    var prev = CS.checkStartOverBackup(older, deckId);
+    var backup = {
+      v: 1,
+      deckId: String(deckId),
+      at: prev ? prev.at : now || 0,
+      saves: {},
+      failed: [],
+    };
+    plan.keys.forEach(function (k) {
+      var v = store.get(k, null);
+      if (v != null) backup.saves[k] = v;
+    });
+    Object.keys(backup.saves).forEach(function (k) {
+      if (!store.remove(k)) backup.failed.push(k);
+    });
+    if (prev) {
+      Object.keys(prev.saves).forEach(function (k) {
+        backup.saves[k] = prev.saves[k];
+      });
+      if (prev.state) backup.state = prev.state;
+    }
+    return backup;
+  };
+
+  /** Checks an undo copy from tab storage; null if it can't be used. */
+  CS.checkStartOverBackup = function (b, deckId) {
+    if (!b || typeof b !== "object" || b.v !== 1) return null;
+    if (deckId != null && b.deckId !== String(deckId)) return null;
+    if (!b.saves || typeof b.saves !== "object" || Array.isArray(b.saves))
+      return null;
+    var ok = Object.keys(b.saves).every(function (k) {
+      return /^deck2?:/.test(k);
+    });
+    return ok ? b : null;
+  };
+
+  /**
+   * Puts the cleared saves back. Swipes made since the start over on this
+   * deck are replaced by the old ones. Returns true if every save went back.
+   */
+  CS.undoStartOver = function (store, backup) {
+    var b = CS.checkStartOverBackup(backup, null);
+    if (!b) return false;
+    var all = true;
+    Object.keys(b.saves).forEach(function (k) {
+      if (!store.set(k, b.saves[k])) all = false;
+    });
+    return all;
   };
 
   /** Loads the filters, falling back to defaults for anything missing or odd. */

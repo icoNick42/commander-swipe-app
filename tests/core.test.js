@@ -277,7 +277,7 @@ test("slimCard: front face of double-faced cards, prices, Game Changers", () => 
     "every recommendation has an image",
   );
   assert.ok(all.some((c) => c.gameChanger));
-  assert.ok(all.every((c) => c.usd === null || typeof c.usd === "number"));
+  assert.ok(all.every((c) => !("usd" in c)), "cycle 29: no price kept");
 });
 
 test("role query and URL", () => {
@@ -398,7 +398,7 @@ test("role pile works with EDHREC missing", () => {
 
 // ------------------------------------------------------------- filters
 
-test("filters: Game Changers hidden by default, price, types", () => {
+test("filters: Game Changers hidden by default, types; price never filters (cycle 29)", () => {
   const d = CS.defaultSettings();
   const gc = { gameChanger: true, usd: 1, frontType: "Artifact" };
   const bolt = { gameChanger: false, usd: 0.5, frontType: "Instant" };
@@ -410,7 +410,7 @@ test("filters: Game Changers hidden by default, price, types", () => {
   const noPrice = { gameChanger: false, usd: null, frontType: "Land" };
   assert.equal(CS.passesFilters(gc, d), false);
   assert.equal(CS.passesFilters(gc, { ...d, hideGameChangers: false }), true);
-  assert.equal(CS.passesFilters(golem, { ...d, maxPrice: 10 }), false);
+  assert.equal(CS.passesFilters(golem, { ...d, maxPrice: 10 }), true, "an old saved max price does nothing");
   assert.equal(CS.passesFilters(noPrice, { ...d, maxPrice: 10 }), true);
   assert.deepEqual(CS.cardTypes(golem), ["creature", "artifact"]);
   assert.equal(CS.passesFilters(golem, { ...d, types: ["creature"] }), true);
@@ -844,9 +844,10 @@ test("synergy: the deck's own score, plan, weakest links and staples", () => {
 // ------------------------------------------------------------------ combos
 
 // The combo file for Zurgo (made by tools/spellbook_combos.js from Commander
-// Spellbook). It's in the public repo, since the page reads it.
+// Spellbook). Cycle 28: a fixed copy of the 2026-11-17 file, so refreshing
+// the live combos/ files (as every benchmark now does) can't move the tests.
 const comboFile = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "..", "combos", "zurgo-stormrender.json"), "utf8"),
+  fs.readFileSync(path.join(__dirname, "fixtures", "combos_zurgo_2026-11-17.json"), "utf8"),
 );
 const MARDU = ["R", "W", "B"];
 
@@ -2298,12 +2299,39 @@ test("cycle 17: sortCards orders the open pile without touching it; cards withou
   assert.equal(ids("fit"), "badc", "Fit high first; no Fit last");
   assert.equal(ids("played"), "cdab", "Most played high first, ties keep pile order; not on EDHREC last even with a number");
   assert.equal(ids("synergy"), "dacb");
-  assert.equal(ids("cheap"), "cdab", "Cheapest first; no price last");
+  assert.equal(ids("cheap"), "abcd", "cycle 29: no Cheapest sort (an old key keeps the pile's order)");
   assert.equal(ids("cmc"), "bcda", "Mana value low first, ties keep pile order");
   assert.equal(cards.map((c) => c.id).join(""), before, "the pile itself is untouched");
   assert.deepEqual(CS.sortCards([], "fit", look), []);
-  assert.equal(CS.sortCards(cards, "cheap", () => null).map((c) => c.id).join(""), "abcd", "no details: pile order");
-  assert.deepEqual(CS.SORTS.map((x) => x.key), ["rec", "fit", "played", "synergy", "cheap", "cmc"]);
+  assert.equal(CS.sortCards(cards, "cmc", () => null).map((c) => c.id).join(""), "abcd", "no details: pile order");
+  assert.deepEqual(CS.SORTS.map((x) => x.key), ["rec", "fit", "played", "synergy", "cmc"]);
+});
+
+test("cycle 29: Good in any deck leaves out the commander's EDHREC page, strongest first", needsEdhrec, () => {
+  const edMap = CS.edhrecById(edhrec);
+  const info = {};
+  searchAll1.data.forEach((sc) => (info[sc.id] = CS.slimCard(sc)));
+  const pile = { key: "any", cards: [] };
+  const add = CS.anyDeckCards(pile, searchAll1.data, edMap, deckNames, info);
+  assert.ok(add.length > 20, "plenty left after the page's cards: " + add.length);
+  const onPage = searchAll1.data.filter((sc) => edMap[sc.id]).length;
+  assert.ok(onPage > 20, "the fixture page has EDHREC cards to leave out: " + onPage);
+  for (const c of add) {
+    assert.ok(!CS.onEdhrecPage(c.id, edMap), c.name + " is on the commander's page");
+    assert.ok(!deckNames[CS.nameKey(c.name)], c.name + " is in the deck");
+    assert.equal(c.section, "any");
+  }
+  const st = add.map((c) => CS.strength(info[c.id]).score);
+  assert.deepEqual(st, st.slice().sort((a, b) => b - a), "strongest first");
+  // EDHREC down: the strongest popular cards in the colors
+  const noEd = CS.anyDeckCards({ key: "any", cards: [] }, searchAll1.data, {}, deckNames, info);
+  assert.ok(noEd.length > add.length);
+  // page 1 again adds nothing
+  pile.cards = add;
+  assert.deepEqual(CS.anyDeckCards(pile, searchAll1.data, edMap, deckNames, info), []);
+  assert.equal(CS.onEdhrecPage("x", { x: { onEdhrec: true } }), true);
+  assert.equal(CS.onEdhrecPage("x", { x: { onEdhrec: false } }), false);
+  assert.equal(CS.onEdhrecPage("x", null), false);
 });
 
 // cycle 18: Frumpmanfresh's decks (via Nick): "the machine is unable to grasp the concept of a gameplan"
@@ -2864,4 +2892,97 @@ test("cycle 26: the land count weighs the curve and cheap ramp and draw (Karsten
   assert.equal(a.cheap, 20);
   assert.ok(a.target < b.target - 5, JSON.stringify([a, b]));
   assert.ok(a.target >= 31 && b.target <= 42);
+});
+
+// ---------------------------------------------------- start over (cycle 30)
+
+test("cycle 30: Start over clears this deck and versions that would carry into it, not other decks", () => {
+  const mem = memoryStorage();
+  mem.setItem("tb:settings", '{"theme":"dark"}');
+  mem.setItem("cs:settings", '{"v":1,"hideGameChangers":true,"maxPrice":null,"types":[]}');
+  const store = CS.makeStore(mem);
+  const slug = "zurgo-stormrender";
+  const keys = CS.deckKeys(parsed.cards);
+  const id = CS.deckId("Zurgo Stormrender", parsed.cards);
+  let st = CS.newDeckState("Zurgo Stormrender", 1, keys);
+  st = CS.decide(st, "a", "add", 2);
+  st = CS.decide(st, "b", "add", 3);
+  st = CS.decide(st, "c", "maybe", 4);
+  st = CS.decide(st, "d", "skip", 5);
+  st = CS.cutOne(st, "Spirit Mantle", 1, 6);
+  CS.saveDeckState(store, id, st);
+  store.set(CS.oldDeckKey(id), { v: 1, commander: "Zurgo Stormrender", decisions: { z: "add" }, history: ["z"] });
+  // an earlier version of the same list (one card different): would carry over
+  const edited = CS.parseExport(editedExport(["Dawn Charm"], ["Teysa Karlov"]));
+  const oldId = CS.deckId("Zurgo Stormrender", edited.cards);
+  let olds = CS.newDeckState("Zurgo Stormrender", 1, CS.deckKeys(edited.cards));
+  olds = CS.decide(olds, "q", "add", 2);
+  CS.saveDeckState(store, oldId, olds);
+  // another Zurgo deck: shares few cards, stays
+  const otherKeys = ["zurgo stormrender", "sol ring", "a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"];
+  let other = CS.newDeckState("Zurgo Stormrender", 1, otherKeys);
+  other = CS.decide(other, "w", "add", 2);
+  store.set("deck2:zurgo-stormrender-00000000", other);
+  // another commander whose slug starts the same: stays
+  store.set("deck2:zurgo-stormrender-ii-11111111", st);
+  const plan = CS.startOverPlan(store, slug, id, keys, st);
+  assert.deepEqual(plan.counts, { add: 2, maybe: 1, skip: 1, cuts: 1 });
+  assert.deepEqual(plan.keys.slice().sort(), [CS.oldDeckKey(id), CS.deckKey(id), CS.deckKey(oldId)].sort());
+  const before = JSON.stringify(mem.keys().sort());
+  const backup = CS.startOver(store, plan, id, 9);
+  assert.equal(store.get(CS.deckKey(id), null), null);
+  assert.equal(store.get(CS.oldDeckKey(id), null), null);
+  assert.equal(store.get(CS.deckKey(oldId), null), null);
+  assert.ok(store.get("deck2:zurgo-stormrender-00000000", null), "the other Zurgo deck stays");
+  assert.ok(store.get("deck2:zurgo-stormrender-ii-11111111", null), "another commander stays");
+  assert.ok(store.get("settings", null), "settings stay");
+  assert.equal(mem.getItem("tb:settings"), '{"theme":"dark"}', "other apps' keys untouched");
+  assert.equal(CS.findCarrySource(CS.savedDecksFor(store, slug), slug, keys), null, "nothing carries back in on the next paste");
+  // the undo copy survives a JSON round trip (tab storage) and puts everything back
+  const copy = JSON.parse(JSON.stringify(backup));
+  assert.ok(CS.checkStartOverBackup(copy, id));
+  assert.equal(CS.checkStartOverBackup(copy, oldId), null, "only for its own deck");
+  assert.equal(CS.undoStartOver(store, copy), true);
+  assert.deepEqual(CS.readDeckState(store, id).decisions, st.decisions);
+  assert.ok(store.get(CS.oldDeckKey(id), null));
+  assert.deepEqual(CS.readDeckState(store, oldId).decisions, { q: "add" });
+  assert.equal(JSON.stringify(mem.keys().sort()), before);
+  // review Should 1: a second Start over before Undo keeps the first copy's values,
+  // so one Undo goes all the way back
+  const first = CS.startOver(store, CS.startOverPlan(store, slug, id, keys, st), id, 10);
+  let fresh = CS.decide(CS.newDeckState("Zurgo Stormrender", 11, keys), "n", "add", 12);
+  CS.saveDeckState(store, id, fresh);
+  const second = CS.startOver(store, CS.startOverPlan(store, slug, id, keys, fresh), id, 13, JSON.parse(JSON.stringify(first)));
+  assert.equal(second.at, 10);
+  assert.deepEqual(second.saves[CS.deckKey(id)].decisions, st.decisions, "the first copy's value wins");
+  assert.ok(second.saves[CS.deckKey(oldId)], "the earlier version is still in the copy");
+  assert.equal(CS.startOver(store, { deckId: id, keys: [], counts: {} }, id, 14, { v: 1, deckId: oldId, saves: {} }).at, 14, "another deck's copy is ignored");
+  assert.equal(CS.undoStartOver(store, second), true);
+  assert.deepEqual(CS.readDeckState(store, id).decisions, st.decisions);
+});
+
+test("cycle 30: Start over with nothing saved, odd undo copies, and storage that throws", () => {
+  const store = CS.makeStore(memoryStorage());
+  const keys = CS.deckKeys(parsed.cards);
+  const id = CS.deckId("Zurgo Stormrender", parsed.cards);
+  const plan = CS.startOverPlan(store, "zurgo-stormrender", id, keys, CS.newDeckState("Zurgo Stormrender", 1, keys));
+  assert.deepEqual(plan, { deckId: id, keys: [], counts: { add: 0, maybe: 0, skip: 0, cuts: 0 } });
+  for (const bad of [null, 5, { v: 2, deckId: id, saves: {} }, { v: 1, deckId: id, saves: [] }, { v: 1, deckId: id, saves: { "settings": {} } }])
+    assert.equal(CS.checkStartOverBackup(bad, id), null, JSON.stringify(bad));
+  assert.equal(CS.undoStartOver(store, { v: 1, deckId: id, saves: { settings: { v: 9 } } }), false, "never writes outside deck saves");
+  assert.equal(store.get("settings", null), null);
+  const throwing = CS.makeStore({
+    getItem() { throw new Error("no"); }, setItem() { throw new Error("no"); },
+    removeItem() { throw new Error("no"); }, key() { throw new Error("no"); }, length: 0,
+  });
+  const p2 = CS.startOverPlan(throwing, "zurgo-stormrender", id, keys, null);
+  assert.deepEqual(p2.keys, []);
+  assert.deepEqual(CS.startOver(throwing, p2, id, 1).saves, {});
+  // a remove that fails is reported (review Note)
+  const mem3 = memoryStorage();
+  const sticky = CS.makeStore({ ...mem3, getItem: mem3.getItem, setItem: mem3.setItem, key: (i) => mem3.keys()[i], get length() { return mem3.keys().length; }, removeItem() { throw new Error("no"); } });
+  sticky.set(CS.deckKey(id), CS.decide(CS.newDeckState("Zurgo Stormrender", 1, keys), "a", "add", 2));
+  const p3 = CS.startOverPlan(sticky, "zurgo-stormrender", id, keys, null);
+  assert.deepEqual(CS.startOver(sticky, p3, id, 1).failed, [CS.deckKey(id)]);
+  assert.equal(CS.undoStartOver(throwing, { v: 1, deckId: id, saves: { ["deck2:" + id]: {} } }), false);
 });

@@ -3,7 +3,7 @@
   "source": "Commander Spellbook (commanderspellbook.com)",
   "commander": "Nelly Borca, Impulsive Accuser",
   "identity": "RW",
-  "made": "2026-11-23",
+  "made": "2026-11-24",
   "combos": [
     {"id":"553-1891","cards":["Approach of the Second Sun","Reprieve"],"identity":"W","produces":["Win the game"],"bracket":"C","popularity":22883,"needs":[],"note":"","commanderOnly":[]},
     {"id":"3422-3587","cards":["Boros Reckoner","Boros Charm"],"identity":"RW","produces":["Infinite lifegain","Infinite lifegain triggers"],"bracket":"S","popularity":14412,"needs":[],"note":"You have a way to give Boros Reckoner lifelink. You have a way to deal damage to Boros Reckoner.","commanderOnly":[]},

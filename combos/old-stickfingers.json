@@ -1,0 +1,19 @@
+{
+  "v": 1,
+  "source": "Commander Spellbook (commanderspellbook.com)",
+  "commander": "Old Stickfingers",
+  "identity": "BG",
+  "made": "2026-11-24",
+  "combos": [
+    {"id":"326-613","cards":["Professor Onyx","Chain of Smog"],"identity":"B","produces":["Infinite lifegain","Infinite lifegain triggers","Infinite lifeloss"],"bracket":"R","popularity":22502,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"326-2522","cards":["Chain of Smog","Witherbloom Apprentice"],"identity":"BG","produces":["Infinite lifegain","Infinite lifegain triggers","Infinite lifeloss"],"bracket":"R","popularity":21335,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"3209-7496","cards":["Witherbloom, the Balancer","Sprout Swarm"],"identity":"BG","produces":["Infinite creature ETB","Infinite magecraft triggers","Infinite storm count"],"bracket":"R","popularity":12669,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"326-4258","cards":["Sedgemoor Witch","Chain of Smog"],"identity":"B","produces":["Infinite creature tokens","Infinite creature ETB","Infinite magecraft triggers"],"bracket":"R","popularity":9798,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"2585-3430","cards":["Grim Monolith","Nyxbloom Ancient"],"identity":"G","produces":["Infinite colorless mana"],"bracket":"R","popularity":8721,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"579-2585","cards":["Grim Monolith","Mana Reflection"],"identity":"G","produces":["Infinite colorless mana"],"bracket":"R","popularity":963,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"326-2667","cards":["Chain of Smog","Witherbloom Pledgemage"],"identity":"BG","produces":["Infinite lifegain","Infinite lifegain triggers","Infinite magecraft triggers"],"bracket":"R","popularity":259,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"326-5194","cards":["Chain of Smog","Dragonsguard Elite"],"identity":"BG","produces":["Infinite +1/+1 counters on a creature","Infinite magecraft triggers"],"bracket":"S","popularity":77,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"187-326","cards":["Chain of Smog","Karok Wrangler"],"identity":"BG","produces":["Infinite magecraft triggers","Infinite +1/+1 counters on creatures you control"],"bracket":"R","popularity":60,"needs":[],"note":"","commanderOnly":[]},
+    {"id":"1261-5720","cards":["Shifting Woodland","Time Vault"],"identity":"G","produces":["Infinite turns","Lock"],"bracket":"B","popularity":0,"needs":[],"note":"There are at least four card types among cards in your graveyard.","commanderOnly":[]}
+  ]
+}
