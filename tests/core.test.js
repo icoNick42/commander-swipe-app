@@ -2257,9 +2257,10 @@ test("cycle 16: untapping: creatures vs artifacts, mana creatures, self-untappin
 });
 
 test("cycle 16: the Your deck panel's context: deck Fit words, role words, plan examples, grouped combos, other cut options", () => {
-  assert.match(CS.deckFitWords(60), /^higher than all 57 /);
-  assert.match(CS.deckFitWords(48), /^about the same as most/);
-  assert.match(CS.deckFitWords(40), /^lower than most/);
+  // cycle 33: where the score sits against the usual range, with no "higher than all 57"
+  assert.equal(CS.deckFitWords(60), "above the 45-52 range most well-liked decks score");
+  assert.match(CS.deckFitWords(48), /^in the 45-52 range/);
+  assert.match(CS.deckFitWords(40), /^below the 45-52 range/);
   assert.equal(CS.roleWord(5, 8), "light");
   assert.equal(CS.roleWord(10, 10), "about right");
   assert.equal(CS.roleWord(14, 10), "heavy");
@@ -3032,4 +3033,38 @@ test("cycle 32: finishers owners file that the app missed (Archidekt tag test)",
   assert.equal(win(boots, "voltron"), null, "small gear isn't the finisher");
   const awaken = sl("Cyberdrive Awakener", "Artifact Creature \u2014 Construct", "Flying\nOther artifact creatures you control have flying.\nWhen this creature enters, until end of turn, each noncreature artifact you control becomes an artifact creature with base power and toughness 4/4.", { power: 4, toughness: 4 });
   assert.equal(win(awaken, "artifacts"), "turns your artifacts into an army");
+});
+
+test("cycle 33: the Your deck panel in plain words (summary, roles, combos)", () => {
+  assert.match(CS.deckScoreLine(62), /^Deck score 62\/100: how well your cards work together, and how strong they are\. That's above /);
+  assert.deepEqual(CS.roleAdvice(1, 3), { word: "fewer than most", advice: "consider 1-2 more" });
+  assert.deepEqual(CS.roleAdvice(4, 10), { word: "fewer than most", advice: "consider 2-3 more" });
+  assert.deepEqual(CS.roleAdvice(14, 10), { word: "more than most", advice: "fine, unless you need room" });
+  assert.deepEqual(CS.roleAdvice(10, 10), { word: "about right", advice: "" });
+  const sum = CS.deckSummary(62, { ramp: 10, draw: 14, removal: 8, wipes: 1, tutors: 2, protection: 3 }, "Plan: going wide.", { inDeck: 0, oneAway: 45 }, 1);
+  assert.equal(sum.length, 4);
+  assert.equal(sum[1], "Plan: going wide.");
+  assert.equal(sum[2], "Fewer than most: board wipes (1; most run 3). More than most: card draw (14).");
+  assert.equal(sum[3], "Combos: 0 complete in the deck, 45 cards would complete one; 1 cut idea.");
+  assert.match(CS.deckSummary(48, { ramp: 10, draw: 10, removal: 8, wipes: 3, tutors: 2, protection: 3 }, "", null, 0)[1], /all about what most decks run/);
+  assert.equal(CS.comboWords(["Infinite creature ETB", "Infinite creature LTB"]), "Infinite creatures entering, creatures leaving");
+  assert.equal(CS.comboWords(["Infinite artifact ETB", "Lock"]), "Infinite artifacts entering, a lock (opponents can't do much)");
+  assert.equal(CS.comboWords(["a", "b", "c", "d", "e"]), "A, b, c, and 2 more");
+  assert.equal(CS.comboNeedWords("Persist Creature"), "a creature with persist (it comes back when it dies)");
+  assert.equal(CS.comboNeedWords("Haste Enabler"), "a card that gives haste");
+  assert.equal(CS.comboNeedWords("Zombie Creature"), "a zombie Creature");
+  assert.equal(CS.comboBracketWords(1), "fine at casual tables (bracket 1)");
+  assert.equal(CS.comboBracketWords(4), "high-power tables only (bracket 4)");
+});
+
+test("cycle 33: a land that tutors counts as a tutor in the game plan, as in Roles", () => {
+  const sl = (name, type, text) => CS.slimCard({ id: "c33-" + name, name: name, type_line: type, oracle_text: text, cmc: 0, color_identity: [] });
+  const saga = sl("Test Saga Land", "Land", "{T}: Add {C}.\n{2}, {T}: Search your library for an artifact card with mana value 0 or 1, put it onto the battlefield, then shuffle.");
+  // (Urza's Saga's tutor role comes from its Scryfall Tagger tag, which the tests don't load, so it's set here)
+  const base = CS.deckProfile(deckSlims, "Zurgo Stormrender");
+  const land = Object.assign(CS.cardTraits(saga), { id: saga.id, name: saga.name, roles: { tutors: true } });
+  const prof = Object.assign({}, base, { cards: base.cards.concat([land]), roleCount: Object.assign({}, base.roleCount, { tutors: (base.roleCount.tutors || 0) + 1 }) });
+  const syn = CS.deckSynergy(prof, deckSlims.concat([saga]));
+  assert.equal(syn.game.tutors.length, prof.roleCount.tutors, "the game plan and Roles count the same tutors");
+  assert.ok(syn.game.tutors.includes("Test Saga Land"));
 });

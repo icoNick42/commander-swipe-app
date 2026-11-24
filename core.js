@@ -2698,6 +2698,13 @@
       if (!c.commander && c.roles.protection) protection.push(CS.frontName(c.name));
       if (!c.commander && c.roles.tutors) tutors.push(CS.frontName(c.name));
     });
+    // cycle 33 (UI review: the game plan said 1 tutor, Roles said 2): a land that finds a card or protects
+    // (Urza's Saga, a land that gives hexproof) does that job too, so both lists count it, as Roles does
+    profile.cards.forEach(function (c) {
+      if (!c.land || c.commander) return;
+      if (c.roles.tutors) tutors.push(CS.frontName(c.name));
+      if (c.roles.protection) protection.push(CS.frontName(c.name));
+    });
     var rc = profile.roleCount || {};
     var cmd = profile.commander;
     var cmdSlim = cmd ? byId[cmd.id] : null;
@@ -2848,13 +2855,97 @@
   CS.DECK_FIT_BENCH = { n: 57, min: 32, low: 45, high: 52, max: 56 }; // cycle 18 rescore (was 31, 45, 51, 56)
   CS.deckFitWords = function (score) {
     var b = CS.DECK_FIT_BENCH;
-    var where =
-      score > b.max ? "higher than all " + b.n :
-      score > b.high ? "higher than most of the " + b.n :
-      score >= b.low ? "about the same as most of the " + b.n :
-      score >= b.min ? "lower than most of the " + b.n :
-      "lower than all " + b.n;
-    return where + " well-liked Moxfield decks we've measured (most score " + b.low + "-" + b.high + ")";
+    // cycle 33 (UI review: "higher than all 57" read as "your deck is done"): where it sits, plainly
+    var where = score > b.high ? "above" : score >= b.low ? "in" : "below";
+    return where + " the " + b.low + "-" + b.high + " range most well-liked decks score";
+  };
+
+  /** Cycle 33: the deck's score as one plain line for the top of the Your deck panel. */
+  CS.deckScoreLine = function (score) {
+    return "Deck score " + score + "/100: how well your cards work together, and how strong they are. That's " + CS.deckFitWords(score) + ".";
+  };
+
+  /**
+   * Cycle 33 (UI review: "heavy" and "light" don't say good or bad): a role count in words with what to do.
+   * Returns {word, advice}: "fewer than most" with "consider 1-2 more", "more than most" with "fine, unless
+   * you need room", or "about right".
+   */
+  CS.roleAdvice = function (have, target) {
+    var w = CS.roleWord(have, target);
+    if (w === "light") return { word: "fewer than most", advice: "consider " + (target - have >= 3 ? "2-3" : "1-2") + " more" };
+    if (w === "heavy") return { word: "more than most", advice: "fine, unless you need room" };
+    return { word: "about right", advice: "" };
+  };
+
+  /**
+   * Cycle 33 (UI review: the panel was about 600 words): the deck in 3-4 short lines, for the top of the panel.
+   * `roleCount`: CS.deckProfile's; `plan`: the game plan's first line ("Plan: ..."); `combos`: {inDeck, oneAway}
+   * counts or null; `cuts`: how many cut ideas. Returns an array of strings.
+   */
+  CS.deckSummary = function (score, roleCount, plan, combos, cuts) {
+    var lines = [CS.deckScoreLine(score)];
+    if (plan) lines.push(plan);
+    var more = [], fewer = [];
+    CS.SYN_ROLES.forEach(function (r) {
+      var have = (roleCount || {})[r.key] || 0;
+      var a = CS.roleAdvice(have, r.target);
+      var name = r.label.toLowerCase();
+      if (a.word === "more than most") more.push(name + " (" + have + ")");
+      if (a.word === "fewer than most") fewer.push(name + " (" + have + "; most run " + r.target + ")");
+    });
+    var roles = [];
+    if (fewer.length) roles.push("Fewer than most: " + fewer.join(", ") + ".");
+    if (more.length) roles.push("More than most: " + more.join(", ") + ".");
+    lines.push(roles.length ? roles.join(" ") : "Ramp, draw, removal, wipes, tutors and protection: all about what most decks run.");
+    var tail = [];
+    if (combos) tail.push("Combos: " + combos.inDeck + " complete in the deck, " + combos.oneAway + " cards would complete one");
+    if (typeof cuts === "number") tail.push(cuts ? cuts + (cuts === 1 ? " cut idea" : " cut ideas") : "no clear cuts");
+    if (tail.length) lines.push(tail.join("; ") + ".");
+    return lines;
+  };
+
+  /**
+   * Cycle 33 (UI review: "persist", "ETB/LTB", "bracket 1, Exhibition" were jargon): Commander Spellbook's
+   * words, plain. comboWords: what a combo makes ("Infinite creature ETB" -> "infinite creatures entering").
+   * comboNeedWords: a kind of card a combo needs ("Persist Creature" -> "a creature with persist (it comes back
+   * when it dies)"). comboBracketWords: the table it suits.
+   */
+  CS.comboWords = function (produces) {
+    var list = (produces || []).map(function (t) {
+      return String(t)
+        .replace(/\b(creature|artifact|land|permanent|token|nontoken creature|enchantment) (ETB|LTB)\b/gi, function (m, k, w) {
+          var noun = k.toLowerCase() === "nontoken creature" ? "nontoken creatures" : k.toLowerCase() + "s";
+          return noun + (w.toUpperCase() === "ETB" ? " entering" : " leaving");
+        })
+        .replace(/\bETB\b/g, "entering")
+        .replace(/\bLTB\b/g, "leaving")
+        .replace(/^Lock$/, "a lock (opponents can't do much)")
+        .replace(/\bstorm count\b/, "storm count (spells cast this turn)");
+    });
+    if (!list.length) return "";
+    // "Infinite death triggers, creatures entering and creatures leaving": say "Infinite" once
+    list = list.map(function (t, i) {
+      return i && /^infinite /i.test(t) && /^infinite /i.test(list[0]) ? t.replace(/^infinite /i, "") : t;
+    });
+    var shown = list.slice(0, 3).join(", ");
+    if (list.length > 3) shown += ", and " + (list.length - 3) + " more";
+    return shown.charAt(0).toUpperCase() + shown.slice(1);
+  };
+  CS.comboNeedWords = function (need) {
+    var n = String(need || "");
+    var back = " (it comes back when it dies)";
+    if (/^persist creature$/i.test(n)) return "a creature with persist" + back;
+    if (/^(undying creature|creature with undying)$/i.test(n)) return "a creature with undying" + back;
+    if (/^creature with persist or undying$/i.test(n)) return "a creature with persist or undying" + back;
+    if (/^haste enabler$/i.test(n)) return "a card that gives haste";
+    if (/^mana dork or mana dork creator$/i.test(n)) return "a creature that taps for mana (or makes one)";
+    return "a " + n.charAt(0).toLowerCase() + n.slice(1);
+  };
+  CS.comboBracketWords = function (n) {
+    if (n <= 2) return "fine at casual tables (bracket " + n + ")";
+    if (n === 3) return "for upgraded tables (bracket 3)";
+    if (n === 4) return "high-power tables only (bracket 4)";
+    return "cEDH only (bracket " + n + ")";
   };
 
   /** "light", "about right" or "heavy" for a role count against its rough target. */

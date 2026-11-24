@@ -538,6 +538,32 @@
       .deckfit p {
         margin: 8px 0 2px;
       }
+      /* cycle 33: the deck in a few lines, then each part behind its own header */
+      .deck-summary p {
+        margin: 0 0 6px;
+        font-size: 0.85rem;
+      }
+      .deckfit details.sec {
+        border-top: 1px solid var(--line-soft);
+        padding: 6px 0;
+      }
+      .deckfit details.sec > summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .keys .quickcopy {
+        display: none;
+      }
+      .linkbtn {
+        background: none;
+        border: 0;
+        padding: 0;
+        min-height: 0;
+        color: var(--accent);
+        font: inherit;
+        text-decoration: underline;
+        cursor: pointer;
+      }
       .badge {
         display: inline-block;
         font-size: 0.75rem;
@@ -1103,6 +1129,10 @@
         .keys.has-progress .progress {
           display: inline;
         }
+        .keys.has-progress .quickcopy:not([hidden]) {
+          display: inline;
+          margin-left: 8px;
+        }
       }
       /* cycle 16 visual review: on wide screens the piles get their own column,
          so the card isn't squeezed by three rows of chips (the Later list's
@@ -1316,7 +1346,10 @@
               </button>
             </div>
             <p class="keys muted" id="keysLine">
-              <a href="#addedHead" class="progress" id="progressLink"></a>
+              <a href="#addedHead" class="progress" id="progressLink"></a
+              ><button type="button" class="linkbtn quickcopy" id="quickCopyBtn" hidden>
+                Copy picks
+              </button>
               <span class="mouse"
                 >Drag the card, or use the arrow keys: &rarr; add, &larr; skip,
                 &uarr; maybe, Z undo.</span
@@ -1448,7 +1481,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=32"></script>
+    <script src="core.js?v=33"></script>
     <script>
       (function () {
         "use strict";
@@ -3335,29 +3368,27 @@
 
         /** One combo as a line: its other pieces, what it does, its bracket and a link. */
         function comboLine(c, withOthers) {
-          var what = c.produces.length
-            ? spellbookWords(c.produces.join("; "))
-            : "see Spellbook for what it does";
-          var parts = [];
+          // cycle 33 (UI review): what it makes first, in plain words, then the pieces and the table it suits
+          var what = CS.comboWords(c.produces) || "A combo (see Spellbook for what it does)";
+          var pieces = [];
           if (withOthers) {
-            var pieces = c.others.slice();
+            pieces = c.others.slice();
             c.needs.forEach(function (n) {
-              pieces.push("a " + n.toLowerCase());
+              pieces.push(CS.comboNeedWords(n));
             });
-            parts.push("With " + pieces.join(" + ") + ": ");
           }
-          parts.push(what + " ");
           return el("li", null, [
-            parts.join(""),
+            el("strong", { text: what + (pieces.length ? ": " : ". ") }),
+            pieces.length ? "with " + pieces.join(" + ") + ". " : null,
             el("span", {
               class: "muted",
-              text: "(bracket " + c.bracketN + ", " + c.bracketLabel + ") ",
+              text: CS.comboBracketWords(c.bracketN).replace(/^./, function (m) { return m.toUpperCase(); }) + ". ",
             }),
             el("a", {
               href: CS.comboLink(c.id),
               target: "_blank",
               rel: "noopener",
-              text: "steps",
+              text: "How it works",
             }),
             c.note
               ? el("div", { class: "muted small", text: "Needs: " + c.note })
@@ -3413,7 +3444,6 @@
 
         /** The combo part of the Your deck panel. */
         function renderDeckCombos(body) {
-          body.appendChild(el("p", { text: "Combos" }));
           if (!S.combos) {
             body.appendChild(
               el("div", {
@@ -3440,7 +3470,7 @@
             el("div", {
               class: "small",
               text:
-                "Combos: two or three cards that together win or make something endless. Complete in your deck: " +
+                "Two or three cards that together win or make something endless. Complete in your deck: " +
                 d.inDeck.length +
                 ". Cards that would complete one: " +
                 d.oneAway.length +
@@ -3471,7 +3501,7 @@
                   "Close: you have the named cards for " +
                   d.needsPiece.length +
                   (d.needsPiece.length === 1 ? " more combo" : " more combos") +
-                  ", but each also needs a kind of card you don't have:",
+                  ", but each also needs a kind of card the deck doesn't have yet:",
               }),
             );
             body.appendChild(
@@ -3482,15 +3512,17 @@
                   var pieces = g.common.slice();
                   if (g.oneOf.length) pieces.push("any one of " + g.oneOf.join(", "));
                   g.needs.forEach(function (n) {
-                    pieces.push("a " + n.toLowerCase());
+                    pieces.push(CS.comboNeedWords(n));
                   });
+                  // cycle 33 (UI review: jargon first, outcome last): what it makes, then the pieces, then the table it suits
                   return el("li", null, [
-                    pieces.join(" + ") + ": " + spellbookWords(g.produces.join("; ") || "see Spellbook for what it does") + " ",
+                    el("strong", { text: (CS.comboWords(g.produces) || "A combo (see Spellbook for what it does)") + ": " }),
+                    pieces.join(" + ") + ". ",
                     el("span", {
                       class: "muted",
-                      text: "(" + (g.ids.length > 1 ? g.ids.length + " combos, " : "") + "bracket " + g.bracketN + ", " + g.bracketLabel + ") ",
+                      text: (g.ids.length > 1 ? g.ids.length + " versions, " : "") + CS.comboBracketWords(g.bracketN) + ". ",
                     }),
-                    el("a", { href: CS.comboLink(g.ids[0]), target: "_blank", rel: "noopener", text: "steps" }),
+                    el("a", { href: CS.comboLink(g.ids[0]), target: "_blank", rel: "noopener", text: "How it works" }),
                   ]);
                 }),
               ),
@@ -3505,13 +3537,6 @@
                 ". Brackets are Spellbook's estimates.",
             }),
           );
-        }
-
-        /** Spellbook's shorthand in plain words (cycle 16): ETB/LTB. */
-        function spellbookWords(t) {
-          return String(t).replace(/\b(creature )?(ETB|LTB)\b/g, function (m, cr, w) {
-            return (cr ? "creatures " : "") + (w === "ETB" ? "entering" : "leaving") + " (" + w + ")";
-          });
         }
 
         /** The commander's short name for one-line stats (cycle 21). */
@@ -3590,58 +3615,72 @@
           }
           var fitNow = d.blend != null ? d.blend : d.score;
           $("deckFitHead").textContent = "Your deck: game plan and roles"; // cycle 21: no Fit number in the head (Nick's cycle 19 pick A); the score is in the first line
-          // cycle 16 (Nick: the explanations don't make sense without context): say what
-          // each number is, what it's compared with, and name example cards
-          body.appendChild(
-            el("div", {
-              class: "small",
-              text:
-                "How well your cards work together, plus how strong they are in Commander, scores " +
-                fitNow +
-                " of 100 (the average over your " +
-                Object.keys(d.fits || {}).length +
-                " nonland cards): " +
-                CS.deckFitWords(fitNow) +
-                ".",
-            }),
-          );
           var shortName = function (n) {
             return n.split(",")[0];
           };
           var examples = function (names) {
             return names && names.length ? " (like " + names.map(shortName).join(" and ") + ")" : "";
           };
+          var comboN = S.combos && S.combos.deck ? S.combos.deck.inDeck.length : 0;
+          var planLines = d.game ? CS.gamePlanLines(d.game, comboN) : [];
+          var ideas = cutIdeas();
+          // cycle 33 (UI review: about 600 words to read): the deck in 3-4 lines first; each part opens on its own
+          body.appendChild(
+            el(
+              "div",
+              { class: "deck-summary", id: "deckSummary" },
+              CS.deckSummary(
+                fitNow,
+                d.roleCount,
+                planLines[0] && /^Plan: /.test(planLines[0]) ? planLines[0] : "",
+                S.combos && S.combos.deck ? { inDeck: S.combos.deck.inDeck.length, oneAway: S.combos.deck.oneAway.length } : null,
+                Math.min(ideas.length, 6),
+              ).map(function (t) {
+                return el("p", { text: t });
+              }),
+            ),
+          );
+          if (!S.secOpen) S.secOpen = { cuts: true }; // remembered for this visit only (not saved): cut ideas start open
+          var section = function (key, title) {
+            var box = el("details", { class: "sec sec-" + key });
+            box.open = !!S.secOpen[key];
+            box.addEventListener("toggle", function () {
+              S.secOpen[key] = box.open;
+            });
+            box.appendChild(el("summary", { text: title }));
+            body.appendChild(box);
+            return box;
+          };
           // cycle 18 (a friend of Nick's: "unable to grasp the concept of a gameplan"): what each card is for,
           // before the themes: the engine, its protection, the tutors, the mana and the ways to win
           if (d.game) {
-            var comboN = S.combos && S.combos.deck ? S.combos.deck.inDeck.length : 0;
-            body.appendChild(el("p", { text: "Game plan" }));
-            body.appendChild(
+            var gp = section("plan", "Game plan");
+            gp.appendChild(
               el("div", {
                 class: "muted small",
                 text: "How the deck builds an advantage and wins: an engine of cards that keep paying off, protection that keeps it alive, tutors that find the pieces, then a finish.",
               }),
             );
-            body.appendChild(
+            gp.appendChild(
               el(
                 "ul",
                 { id: "gamePlan" },
-                CS.gamePlanLines(d.game, comboN).map(function (t) {
+                planLines.map(function (t) {
                   return el("li", { text: t });
                 }),
               ),
             );
-            if (d.game.notes.length) body.appendChild(el("div", { class: "small", text: d.game.notes.join(" ") }));
+            if (d.game.notes.length) gp.appendChild(el("div", { class: "small", text: d.game.notes.join(" ") }));
           }
           if (d.plan.length) {
-            body.appendChild(el("p", { text: "Themes" }));
-            body.appendChild(
+            var th = section("themes", "Themes");
+            th.appendChild(
               el("div", {
                 class: "muted small",
                 text: "What your cards do together. Some cards make each thing happen; others reward it. A deck whose cards feed each other scores higher.",
               }),
             );
-            body.appendChild(
+            th.appendChild(
               el(
                 "ul",
                 null,
@@ -3656,40 +3695,41 @@
               ),
             );
           }
-          renderCutIdeas(body);
-          body.appendChild(el("p", { text: "Roles" }));
-          body.appendChild(
+          renderCutIdeas(section("cuts", "Cut ideas (" + Math.min(ideas.length, 6) + ")"), ideas);
+          var ro = section("roles", "Roles");
+          ro.appendChild(
             el("div", {
               class: "muted small",
               text: "Jobs every deck needs, whatever its plan. The typical counts are a common rule of thumb, not a law, and one card can do two jobs.",
             }),
           );
-          body.appendChild(
+          ro.appendChild(
             el(
               "ul",
               null,
               CS.SYN_ROLES.map(function (r) {
                 var have = d.roleCount[r.key] || 0;
+                var a = CS.roleAdvice(have, r.target); // cycle 33: say whether that's good or bad
                 return el("li", {
-                  text: r.label + ": " + have + ", " + CS.roleWord(have, r.target) + " (most decks run about " + r.target + ")",
+                  text: r.label + ": " + have + ", " + a.word + " (most decks run about " + r.target + ")" + (a.advice ? "; " + a.advice : "") + ".",
                 });
               }),
             ),
           );
           if (d.staples.length)
-            body.appendChild(
+            ro.appendChild(
               el("div", {
                 class: "muted small",
                 title: d.staples.join("\n"),
                 text:
                   d.staples.length +
-                  " cards are here for one of these jobs rather than the plan (" +
+                  " cards do one of these basic jobs (" +
                   d.staples.slice(0, 3).map(shortName).join(", ") +
                   (d.staples.length > 3 ? " and others" : "") +
-                  "), so working with little else doesn't make them cut ideas.",
+                  "), so they aren't suggested as cuts even when they don't tie in to the plan.",
               }),
             );
-          renderDeckCombos(body);
+          renderDeckCombos(section("combos", "Combos"));
           renderAllCards(body);
         }
 
@@ -3778,15 +3818,14 @@
           renderSwap();
         }
 
-        function renderCutIdeas(body) {
-          body.appendChild(el("p", { text: "Cut ideas" }));
+        function renderCutIdeas(body, all) {
           body.appendChild(
             el("div", {
               class: "muted small",
               text: "The cards doing the least for this deck, each with the reason. Nothing is cut until you press Cut, and the Cuts list can put a card back.",
             }),
           );
-          var ideas = cutIdeas().slice(0, 6);
+          var ideas = (all || cutIdeas()).slice(0, 6);
           if (!ideas.length) {
             body.appendChild(
               el("div", {
@@ -4368,6 +4407,7 @@
             ? bits.join(" \u00b7 ") + " \u2193"
             : "";
           $("keysLine").classList.toggle("has-progress", bits.length > 0);
+          $("quickCopyBtn").hidden = !t.pending.length; // cycle 33: copy without scrolling down to Added
         }
 
         // ------------------------------------------------------------ copy out
@@ -4452,7 +4492,7 @@
               $("copyMsg").textContent =
                 "Copied " +
                 ids.length +
-                " cards. In Moxfield, open Bulk Edit and paste.";
+                (ids.length === 1 ? " card" : " cards") + ". In Moxfield, open Bulk Edit and paste.";
             }, fallback);
           } else {
             fallback();
@@ -4714,6 +4754,17 @@
           });
         })();
         $("copyBtn").addEventListener("click", copyForMoxfield);
+        // cycle 33 (UI review: on a phone the picks and Copy are below the card): copy from the line under
+        // the buttons and say so there; if the browser blocks copying, go to the list, which shows it selected
+        $("quickCopyBtn").addEventListener("click", function () {
+          copyForMoxfield();
+          setTimeout(function () {
+            var msg = $("copyMsg").textContent;
+            if (!$("copyBox").hidden)
+              $("addedHead").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+            else if (msg) status(msg);
+          }, 400);
+        });
         // cycle 14: the Skipped list and the card view
         $("skipSec").addEventListener("toggle", function () {
           if (S.state) renderLists();
