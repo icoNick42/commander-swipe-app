@@ -554,6 +554,54 @@
       .keys .quickcopy {
         display: none;
       }
+      /* cycle 34: the plan check before the first pick, in the card's place */
+      .planask {
+        text-align: left;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+        padding: 16px;
+        width: min(100%, 440px);
+        margin: 0 auto;
+      }
+      .planask h2 {
+        font-size: 1rem;
+        margin: 0 0 8px;
+      }
+      .planask p {
+        margin: 0 0 12px;
+      }
+      .planask fieldset {
+        border: 0;
+        margin: 0 0 12px;
+        padding: 0;
+      }
+      .planask legend {
+        font-weight: 600;
+        margin-bottom: 8px;
+        padding: 0;
+      }
+      .planask .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .planask .chips button,
+      .planask .chips select {
+        padding: 4px 12px;
+        font-size: 0.85rem;
+        border-radius: 999px;
+      }
+      .planask .chips button[aria-pressed="true"] {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      .planask .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
       .linkbtn {
         background: none;
         border: 0;
@@ -1481,7 +1529,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=34"></script>
+    <script src="core.js?v=35"></script>
     <script>
       (function () {
         "use strict";
@@ -1558,6 +1606,11 @@
           justSwiped: false, // cycle 17: the next card stepped up from underneath (no fade-in)
           sort: "rec", // cycle 17: order of the open pile (CS.SORTS); not saved
           sortView: null, // cycle 17: {key, cards} the last sorted copy of a pile
+          planAnswer: null, // cycle 34: the player's plan answer for this commander (CS.cleanPlanAnswer), or null
+          planAsk: false, // cycle 34: show the plan check in the card's place
+          planDraft: null, // cycle 34: {runs, wins} while the plan check is open
+          planLocked: false, // cycle 34: the plan save is from a newer version (left alone)
+          planFocused: false, // cycle 34: focus went to the check once
         };
 
         // A sample deck (Nick's Zurgo list) for trying the page without Moxfield.
@@ -1574,11 +1627,8 @@
           .then(function (data) {
             if (!CS.setCardTags(data)) return;
             if (!S.commander || !S.deckSlimList || !S.deckSlimList.length) return;
-            S.profile = CS.deckProfile(S.deckSlimList, S.commander.name);
-            S.fitCache = {};
-            S.deckFit = CS.deckSynergy(S.profile, S.deckSlimList);
-            renderDeckFit();
-            render();
+            if (S.planAsk) S.planDraft = S.planDraft && S.planDraft.touched ? S.planDraft : null; // an untouched check follows the new read
+            rebuildProfile();
           })
           .catch(function (e) {
             tagsNote = String((e && e.message) || e);
@@ -2160,7 +2210,15 @@
           S.comboNote = "";
           var slims = deckSlims();
           S.deckSlimList = slims;
-          S.profile = CS.deckProfile(slims, cmd.name);
+          // cycle 34: the plan answer for this commander; none yet asks before the first pick
+          var rawPlan = store.get(CS.planKey(cmd.name), null);
+          // review Should 3: a save from a newer version is never asked over or written over
+          S.planLocked = !!(rawPlan && typeof rawPlan === "object" && typeof rawPlan.v === "number" && rawPlan.v > 1);
+          S.planAnswer = S.planLocked ? null : CS.cleanPlanAnswer(rawPlan);
+          S.planAsk = !S.planAnswer && !S.planLocked;
+          S.planFocused = false;
+          S.planDraft = null;
+          S.profile = CS.deckProfile(slims, cmd.name, S.planAnswer);
           S.fitCache = {};
           S.deckFit = CS.deckSynergy(S.profile, slims);
           renderDeckFit();
@@ -2371,6 +2429,212 @@
             });
         }
 
+        /** Cycle 34: reads the deck again with the plan answer, then reorders Best for your deck. */
+        function rebuildProfile() {
+          if (!S.commander || !S.deckSlimList) return;
+          S.profile = CS.deckProfile(S.deckSlimList, S.commander.name, S.planAnswer);
+          S.fitCache = {};
+          S.sortView = null;
+          S.deckFit = CS.deckSynergy(S.profile, S.deckSlimList);
+          var fit = pileByKey("fit");
+          if (fit && fit.loaded && !S.detailsLoading) rebuildFitPile(fit);
+          renderDeckFit();
+          render();
+        }
+
+        /** Cycle 34: a creature type's plural for the plan check ("warrior" -> "Warriors", "fox" -> "Foxes"). */
+        function typePlural(t) {
+          var T = t.charAt(0).toUpperCase() + t.slice(1);
+          if (/(f|fe)$/.test(T)) return T.replace(/fe?$/, "ves");
+          return /(s|x|z|ch|sh)$/.test(T) ? T + "es" : T + "s";
+        }
+
+        function planWord(k) {
+          var r = S.profile && S.profile.route;
+          if (k === "kindred" && r && r.topType) return typePlural(r.topType);
+          return CS.PLAN_WORDS[k] || k;
+        }
+
+        /** Cycle 34: the plan check (Nick: "a little questionnaire beforehand to make sure the recs make sense"). */
+        function planAskBox() {
+          var read = CS.planRead(S.profile && S.profile.route);
+          if (!S.planDraft) {
+            var a = S.planAnswer && !S.planAnswer.skipped && (S.planAnswer.runs.length || S.planAnswer.wins) ? S.planAnswer : read;
+            S.planDraft = { runs: a.runs.slice(), wins: a.wins || null, touched: false };
+          }
+          var dr = S.planDraft;
+          var readWords = read.runs.map(planWord).join(" and ");
+          if (read.wins) readWords += (readWords ? ", winning by " : "winning by ") + planWord(read.wins);
+          var name = CS.shortCommander ? CS.shortCommander(S.commander.name) : S.commander.name.split(",")[0];
+          var box = el("div", { class: "planask", id: "planAsk", role: "group", "aria-labelledby": "planAskHead" });
+          box.appendChild(el("h2", { id: "planAskHead", tabindex: "-1", text: "Quick check before the picks" }));
+          box.appendChild(
+            el("p", {
+              class: "muted small",
+              text: (readWords ? "I read this " + name + " deck as " + readWords + "." : "I couldn't read a clear plan for this " + name + " deck.") +
+                " Fix anything that's off: cards for the plan you pick move up, and cards that only serve a plan you turn down can become cut ideas. You can come back to this from Your deck.",
+            }),
+          );
+          var redraw = function () {
+            dr.touched = true;
+            var old = $("planAsk");
+            if (old) old.replaceWith(planAskBox());
+            var f = $("planAsk") && $("planAsk").querySelector("[data-focus]");
+            if (f) f.focus();
+          };
+          // runs on: the common plans, plus the read and the draft
+          var runKeys = CS.PLAN_COMMON.slice();
+          if (S.profile && S.profile.route && S.profile.route.topType) runKeys.push("kindred");
+          read.runs.concat(dr.runs).forEach(function (k) {
+            if (runKeys.indexOf(k) === -1) runKeys.push(k);
+          });
+          var runs = el("div", { class: "chips" });
+          runKeys.forEach(function (k) {
+            var on = dr.runs.indexOf(k) !== -1;
+            runs.appendChild(
+              el("button", {
+                type: "button",
+                "aria-pressed": on ? "true" : "false",
+                "data-run": k,
+                text: planWord(k) + (read.runs.indexOf(k) !== -1 ? " (my read)" : ""),
+                onclick: function () {
+                  var i = dr.runs.indexOf(k);
+                  if (i !== -1) dr.runs.splice(i, 1);
+                  else {
+                    dr.runs.push(k);
+                    if (dr.runs.length > 2) dr.runs.shift(); // up to 2: the oldest pick goes
+                  }
+                  dr.focusKey = "run:" + k;
+                  redraw();
+                },
+              }),
+            );
+          });
+          var rest = CS.PLAN_RUNS.filter(function (k) {
+            return runKeys.indexOf(k) === -1;
+          });
+          if (rest.length) {
+            var more = el("select", { id: "planMore", "aria-label": "Something else the deck runs on" }, [el("option", { value: "", text: "Something else..." })].concat(
+              rest.map(function (k) {
+                return el("option", { value: k, text: planWord(k) });
+              }),
+            ));
+            // review Should 4: arrowing through a closed list fires change on each press, so adding waits for a button
+            runs.appendChild(more);
+            runs.appendChild(
+              el("button", {
+                type: "button",
+                id: "planMoreAdd",
+                text: "Add",
+                onclick: function () {
+                  var k = more.value;
+                  if (!k) return;
+                  if (dr.runs.indexOf(k) === -1) {
+                    dr.runs.push(k);
+                    if (dr.runs.length > 2) dr.runs.shift();
+                  }
+                  dr.focusKey = "run:" + k;
+                  redraw();
+                },
+              }),
+            );
+          }
+          box.appendChild(el("fieldset", null, [el("legend", { text: "It runs on (pick up to 2)" }), runs]));
+          var wins = el("div", { class: "chips" });
+          CS.PLAN_WINS.concat([null]).forEach(function (k) {
+            var on = (dr.wins || null) === k;
+            wins.appendChild(
+              el("button", {
+                type: "button",
+                "aria-pressed": on ? "true" : "false",
+                "data-win": k || "",
+                text: (k ? planWord(k) : "not sure") + (k && read.wins === k ? " (my read)" : ""),
+                onclick: function () {
+                  dr.wins = k;
+                  dr.focusKey = "win:" + (k || "");
+                  redraw();
+                },
+              }),
+            );
+          });
+          box.appendChild(el("fieldset", null, [el("legend", { text: "It usually wins by" }), wins]));
+          var same = CS.samePlan(dr, read);
+          var empty = !dr.runs.length && !dr.wins;
+          var use = el("button", { type: "button", class: "primary", id: "planUseBtn", text: same ? "Looks right" : "Use this plan", onclick: savePlanAnswer });
+          use.disabled = empty && !same; // nothing picked: Skip says that better
+          box.appendChild(
+            el("div", { class: "row" }, [
+              use,
+              el("button", { type: "button", id: "planSkipBtn", text: S.planAnswer ? "Cancel" : "Skip", onclick: skipPlanAnswer }),
+            ]),
+          );
+          if (dr.focusKey) {
+            var parts = dr.focusKey.split(":");
+            var sel = box.querySelector("[data-" + parts[0] + '="' + parts[1] + '"]');
+            if (sel) sel.setAttribute("data-focus", "1");
+          }
+          return box;
+        }
+
+        /** Saves a plan answer; a failed write shows the saving notice (review Should 2). */
+        function storePlan(ans) {
+          if (S.planLocked) return;
+          if (!store.set(CS.planKey(S.commander.name), ans) && !S.saveFailed) {
+            S.saveFailed = true;
+            renderNotices();
+          }
+        }
+
+        function savePlanAnswer() {
+          var dr = S.planDraft || { runs: [], wins: null };
+          // review Must 1: keep the read the player saw, so a later read of an edited deck is steered only by the change
+          var ans = { v: 1, runs: dr.runs.slice(), wins: dr.wins || null, read: CS.planRead(S.profile && S.profile.route), updated: Date.now() };
+          storePlan(ans);
+          S.planAnswer = CS.cleanPlanAnswer(ans);
+          closePlanAsk();
+          rebuildProfile();
+          status(S.profile && S.profile.route && S.profile.route.steer ? "Plan saved. Best for your deck is in a new order." : "Plan confirmed.");
+        }
+
+        function skipPlanAnswer() {
+          // Cancel keeps an earlier answer; Skip for now remembers the skip, so the check doesn't come back each visit
+          if (!S.planAnswer) {
+            // review Must 3: another tab may have saved an answer since this one loaded; take it rather than write over it
+            var other = CS.cleanPlanAnswer(store.get(CS.planKey(S.commander.name), null));
+            if (other && !other.skipped) {
+              S.planAnswer = other;
+              closePlanAsk();
+              rebuildProfile();
+              return;
+            }
+            var ans = { v: 1, skipped: true, updated: Date.now() };
+            storePlan(ans);
+            S.planAnswer = CS.cleanPlanAnswer(ans);
+          }
+          closePlanAsk();
+          render();
+        }
+
+        function closePlanAsk() {
+          S.planAsk = false;
+          S.planDraft = null;
+        }
+
+        /** Cycle 34: opens the plan check again (from Your deck). */
+        function openPlanAsk() {
+          if (S.planLocked) return;
+          S.planAsk = true;
+          S.planFocused = true;
+          S.planDraft = null;
+          render();
+          var b = $("planAsk");
+          if (b) {
+            b.scrollIntoView({ block: "nearest" });
+            var f = b.querySelector("button");
+            if (f) f.focus();
+          }
+        }
+
         /**
          * Fit for a card, worked out once per commander. Cycle 15: the shown
          * Fit blends tie-in (CS.fitScore) with strength (CS.strength);
@@ -2430,7 +2694,7 @@
             list.push({
               rec: recs[id],
               fit: f.score,
-              score: CS.recScore(f.tieIn, e && e.onEdhrec ? e : null, info, f.strength),
+              score: CS.recScore(f.tieIn, e && e.onEdhrec ? e : null, info, f.strength, f.plan),
             });
           });
           list.sort(function (a, b) {
@@ -3164,6 +3428,11 @@
 
         function renderStage() {
           var stage = $("stage");
+          // cycle 34: a redraw of the plan check keeps focus where it was
+          var act = document.activeElement;
+          var planFocus = act && $("planAsk") && $("planAsk").contains(act)
+            ? act.id ? "#" + act.id : act.hasAttribute("data-run") ? '[data-run="' + act.getAttribute("data-run") + '"]' : act.hasAttribute("data-win") ? '[data-win="' + act.getAttribute("data-win") + '"]' : null
+            : null;
           stage.textContent = "";
           S.shown = null;
           var pile = pileByKey(S.current);
@@ -3174,6 +3443,18 @@
             });
           };
           $("undoBtn").disabled = !S.state.history.length;
+          if (S.planAsk && S.profile && S.commander) {
+            setButtons(false);
+            stage.appendChild(planAskBox());
+            var back = planFocus && $("planAsk").querySelector(planFocus);
+            if (back) back.focus({ preventScroll: true });
+            else if (!S.planFocused) {
+              S.planFocused = true; // review Should 6: screen readers hear the check once, when it first shows
+              var h = $("planAskHead");
+              if (h) h.focus({ preventScroll: true });
+            }
+            return;
+          }
           if (!pile) {
             setButtons(false);
             stage.appendChild(
@@ -3632,7 +3913,7 @@
               CS.deckSummary(
                 fitNow,
                 d.roleCount,
-                planLines[0] && /^Plan: /.test(planLines[0]) ? planLines[0] : "",
+                planLines[0] && /^(Your plan|Plan): /.test(planLines[0]) ? planLines[0] : "",
                 S.combos && S.combos.deck ? { inDeck: S.combos.deck.inDeck.length, oneAway: S.combos.deck.oneAway.length } : null,
                 Math.min(ideas.length, 6),
               ).map(function (t) {
@@ -3640,6 +3921,24 @@
               }),
             ),
           );
+          // cycle 34: the plan check again
+          // (at the end of the plan line, so the summary stays 3-4 lines)
+          var sumPs = $("deckFitSummary").querySelectorAll("p");
+          var planP = Array.prototype.filter.call(sumPs, function (x) {
+            return /^(Your plan|Plan): /.test(x.textContent);
+          })[0] || sumPs[0];
+          if (planP && !S.planLocked) {
+            planP.appendChild(document.createTextNode(" "));
+            planP.appendChild(
+              el("button", {
+                type: "button",
+                class: "linkbtn",
+                id: "planChangeBtn",
+                text: S.planAnswer && !S.planAnswer.skipped ? "Change the plan you picked" : "Check the plan",
+                onclick: openPlanAsk,
+              }),
+            );
+          }
           if (!S.secOpen) S.secOpen = { cuts: true }; // remembered for this visit only (not saved): cut ideas start open
           var section = function (key, title) {
             var box = el("details", { class: "sec sec-" + key });
@@ -3671,6 +3970,30 @@
               ),
             );
             if (d.game.notes.length) gp.appendChild(el("div", { class: "small", text: d.game.notes.join(" ") }));
+            // cycle 34: cards that serve only a plan the player turned down
+            var offCards = S.profile && S.profile.route && S.profile.route.steer ? cutCands().filter(function (x) {
+              return x.offPlan;
+            }) : [];
+            if (offCards.length) {
+              var ideaIds = {};
+              ideas.forEach(function (x) {
+                ideaIds[x.id] = true;
+              });
+              var kept = offCards.filter(function (x) {
+                return !ideaIds[x.id];
+              }).length;
+              gp.appendChild(
+                el("div", {
+                  class: "small",
+                  id: "offPlanNote",
+                  text: offCards.length + (offCards.length === 1 ? " card mostly serves" : " cards mostly serve") + " a plan you turned down (" +
+                    CS.listWords(offCards.slice(0, 3).map(function (x) {
+                      return shortName(x.name);
+                    })) + (offCards.length > 3 ? " and others" : "") + "). " +
+                    (!kept ? "They're in the cut ideas." : kept === offCards.length ? "They tie in well with the rest of the deck, so they aren't cut ideas." : "The ones that tie in well with the rest of the deck aren't cut ideas."),
+                }),
+              );
+            }
           }
           if (d.plan.length) {
             var th = section("themes", "Themes");
@@ -4791,9 +5114,9 @@
           if (map[e.key]) {
             e.preventDefault();
             decide(map[e.key]);
-          } else if (e.key === "z" || e.key === "Z") {
+          } else if ((e.key === "z" || e.key === "Z") && !S.planAsk) {
             e.preventDefault();
-            undo();
+            undo(); // (not behind the plan check, where the card can't be seen)
           }
         });
 

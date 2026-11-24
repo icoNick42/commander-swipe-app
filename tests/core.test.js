@@ -3068,3 +3068,108 @@ test("cycle 33: a land that tutors counts as a tutor in the game plan, as in Rol
   assert.equal(syn.game.tutors.length, prof.roleCount.tutors, "the game plan and Roles count the same tutors");
   assert.ok(syn.game.tutors.includes("Test Saga Land"));
 });
+
+test("cycle 34: a saved plan answer is checked before use", () => {
+  assert.equal(CS.cleanPlanAnswer(null), null);
+  assert.equal(CS.cleanPlanAnswer({ v: 2, runs: ["go-wide"] }), null);
+  assert.equal(CS.cleanPlanAnswer(["go-wide"]), null);
+  assert.deepEqual(CS.cleanPlanAnswer({ v: 1, runs: ["go-wide", "nonsense", "go-wide", "spells", "lands"], wins: "voltron", updated: 5 }),
+    { v: 1, runs: ["go-wide", "spells"], wins: "voltron", skipped: false, updated: 5 });
+  assert.deepEqual(CS.cleanPlanAnswer({ v: 1, runs: "go-wide", wins: "go-wide" }), { v: 1, runs: [], wins: null, skipped: false, updated: 0 });
+  assert.deepEqual(CS.cleanPlanAnswer({ v: 1, skipped: true, runs: ["spells"], wins: "drain" }), { v: 1, runs: [], wins: null, skipped: true, updated: 0 });
+  assert.equal(CS.planKey("Zurgo Stormrender"), "plan:" + CS.commanderSlug("Zurgo Stormrender"));
+  assert.ok(CS.samePlan({ runs: ["a", "b"], wins: null }, { runs: ["b", "a"] }));
+  assert.ok(!CS.samePlan({ runs: ["a"], wins: "drain" }, { runs: ["a"], wins: null }));
+  assert.equal(CS.listWords(["a", "b", "c"]), "a, b and c");
+  // every route the app can read is a choice in one of the two questions
+  Object.keys(CS.ROUTE_WORDS).forEach((k) => assert.ok(CS.PLAN_RUNS.indexOf(k) + CS.PLAN_WINS.indexOf(k) > -2, k));
+  Object.keys(CS.ROUTE_WORDS).forEach((k) => assert.ok(CS.PLAN_WORDS[k], k));
+});
+
+test("cycle 34: saying yes to the app's read changes nothing; a different answer steers recs and cuts", () => {
+  const base = CS.deckProfile(deckSlims, "Zurgo Stormrender");
+  const read = CS.planRead(base.route);
+  assert.deepEqual(read, { runs: ["aristocrats", "go-wide"], wins: "aggro" });
+  const yes = CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer(Object.assign({ v: 1 }, read)));
+  assert.equal(yes.route.answered, true);
+  assert.equal(yes.route.steer, undefined);
+  const synB = CS.deckSynergy(base, deckSlims), synY = CS.deckSynergy(yes, deckSlims);
+  assert.deepEqual(synY.fits, synB.fits);
+  assert.deepEqual(CS.cutSuggestions(yes, synY, deckSlims, {}).map((x) => x.name), CS.cutSuggestions(base, synB, deckSlims, {}).map((x) => x.name));
+  assert.match(CS.gamePlanLines(synY.game, 0)[0], /^Your plan: aristocrats/);
+  // a skipped check and an empty answer are no answer
+  assert.equal(CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, skipped: true })).route.answered, undefined);
+  assert.equal(CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, runs: [], wins: null })).route.answered, undefined);
+
+  // "it goes wide and wins by commander damage": Voltron added, aristocrats and attacking turned down
+  const volt = CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, runs: ["go-wide"], wins: "voltron" }));
+  assert.equal(volt.route.kind, "voltron");
+  assert.deepEqual(volt.route.also, ["go-wide"]);
+  assert.deepEqual(volt.route.steer.added, ["voltron"]);
+  assert.deepEqual(volt.route.steer.dropped.sort(), ["aggro", "aristocrats"]);
+  assert.equal(volt.commander.wants.gear, true, "the commander wants gear once Voltron is the plan");
+  const synV = CS.deckSynergy(volt, deckSlims);
+  const lines = CS.gamePlanLines(synV.game, 0);
+  assert.match(lines[0], /^Your plan: Voltron .*\(I read it as sacrificing creatures, going wide and attacking with the team\)\.$/);
+  assert.match(lines[lines.length - 1], /Zurgo Stormrender \(attacking for commander damage, suited up by \d+ Equipment/);
+  const sl = (name) => deckSlims.find((s) => s.name === name);
+  const tr = (name) => volt.cards.find((c) => c.name === name);
+  assert.deepEqual(CS.planMatch(tr("Mace of the Valiant"), sl("Mace of the Valiant"), volt), { match: 1, kind: "voltron" });
+  assert.deepEqual(CS.planMatch(tr("Blood Artist"), sl("Blood Artist"), volt), { match: -1, kind: "aristocrats" });
+  assert.equal(CS.planMatch(tr("Blood Artist"), sl("Blood Artist"), base), null, "no answer: no plan match");
+  // a card that feeds the commander's own ability is never off the plan (Zurgo wants creatures dying)
+  assert.deepEqual(CS.planMatch(tr("Phyrexian Altar"), sl("Phyrexian Altar"), volt), { match: 0 });
+  // gear that doesn't suit up the commander isn't a Voltron piece
+  assert.notEqual((CS.planMatch(tr("Lightning Greaves"), sl("Lightning Greaves"), volt) || {}).match, 1);
+  // a card with a role is never off the plan (it does its job whatever the theme)
+  const sw = tr("Swords to Plowshares");
+  assert.notEqual((CS.planMatch(sw, sl("Swords to Plowshares"), volt) || {}).match, -1);
+  // cuts: a card only for the plan you turned down gets the reason and a higher cut score, but one that
+  // ties in strongly (Blood Artist, tie-in 80) still isn't a cut idea
+  const altar = CS.cutCandidates(volt, synV, deckSlims, {}).find((x) => x.name === "Blood Artist");
+  const altar0 = CS.cutCandidates(base, synB, deckSlims, {}).find((x) => x.name === "Blood Artist");
+  assert.equal(altar.offPlan, true);
+  assert.equal(altar0.offPlan, false);
+  assert.ok(altar.reasons.includes("Mostly for sacrificing creatures, which you said isn't the plan"));
+  assert.ok(altar.cut > altar0.cut);
+  assert.ok(!CS.cutSuggestions(volt, synV, deckSlims, {}).some((x) => x.name === "Blood Artist"));
+  // a pick: the fit reason and the rec score
+  const blade = CS.slimCard({ id: "c34-blade", name: "Test Blade", type_line: "Artifact \u2014 Equipment", oracle_text: "Equipped creature gets +3/+0 and has double strike.\nEquip {2}", cmc: 2, color_identity: [] });
+  const f = CS.fitScore(blade, volt);
+  assert.equal(f.plan, 1);
+  assert.equal(f.reasons[0], "For the plan you picked: commander damage (Voltron)");
+  assert.equal(CS.fitScore(blade, base).plan, 0);
+  const rec = { onEdhrec: true, inclusion: 0.3, synergy: 0.1 };
+  assert.ok(Math.abs(CS.recScore(50, rec, blade, 50, 1) - CS.recScore(50, rec, blade, 50) - CS.PLAN_REC_WEIGHT) < 1e-9);
+  assert.ok(Math.abs(CS.recScore(50, null, blade, 50, -1) - CS.recScore(50, null, blade, 50) + CS.PLAN_REC_WEIGHT) < 1e-9);
+});
+
+test("cycle 34: an answer for a deck with no read, and a creature type answer", () => {
+  const base = CS.deckProfile(deckSlims, "Zurgo Stormrender");
+  const kin = CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, runs: ["kindred", "go-wide"], wins: "aggro" }));
+  assert.equal(kin.route.topType, base.route.topType);
+  assert.deepEqual(kin.route.steer.added, ["kindred"]);
+  const human = kin.cards.find((c) => !c.commander && !c.land && c.subtypes[kin.route.topType]);
+  assert.equal(CS.planMatch(human, deckSlims.find((s) => s.id === human.id), kin).match, 1);
+});
+
+test("cycle 34 review: steer only by what the player changed from the read they saw", () => {
+  const base = CS.deckProfile(deckSlims, "Zurgo Stormrender");
+  // "not sure" keeps the read's win plan (Must 2)
+  const ns = CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, runs: ["go-wide", "aristocrats"], wins: null }));
+  assert.equal(ns.route.steer, undefined);
+  assert.deepEqual([ns.route.kind].concat(ns.route.also).sort(), [base.route.kind].concat(base.route.also).sort());
+  // a "Looks right" saved for another version of the deck adds nothing this version doesn't read (Must 1)
+  const agreed = CS.cleanPlanAnswer({ v: 1, runs: ["aristocrats", "lands"], wins: "drain", read: { runs: ["aristocrats", "lands"], wins: "drain" } });
+  assert.deepEqual(agreed.read, { runs: ["aristocrats", "lands"], wins: "drain" });
+  const p = CS.deckProfile(deckSlims, "Zurgo Stormrender", agreed);
+  assert.equal(p.route.steer, undefined);
+  assert.equal(p.route.kind, base.route.kind);
+  // a change from that read still counts: turning down attacking, adding Voltron
+  const ch = CS.deckProfile(deckSlims, "Zurgo Stormrender", CS.cleanPlanAnswer({ v: 1, runs: ["go-wide", "aristocrats"], wins: "voltron", read: { runs: ["go-wide", "aristocrats"], wins: "aggro" } }));
+  assert.deepEqual(ch.route.steer.added, ["voltron"]);
+  assert.deepEqual(ch.route.steer.dropped, ["aggro"]);
+  // junk in the saved read is dropped
+  assert.deepEqual(CS.cleanPlanAnswer({ v: 1, runs: ["spells"], wins: null, read: { runs: ["x", "spells"], wins: 5 } }).read, { runs: ["spells"], wins: null });
+  assert.equal(CS.cleanPlanAnswer({ v: 1, runs: ["spells"], read: [1] }).read, undefined);
+});

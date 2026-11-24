@@ -1704,7 +1704,11 @@
     return traits;
   };
 
-  CS.deckProfile = function (deckSlims, commanderName) {
+  /**
+   * `answer` (cycle 34, optional): the player's plan answer (CS.cleanPlanAnswer). When it differs from the
+   * app's read, the route is the answer's and `route.steer` says which plans were added and turned down.
+   */
+  CS.deckProfile = function (deckSlims, commanderName, answer) {
     var cmdKey = CS.nameKey(commanderName || "");
     var cards = [];
     var seen = {};
@@ -1751,6 +1755,7 @@
       });
     });
     var route = CS.deckRoute(cards, deckSlims); // cycle 19: Voltron; cycle 20: every archetype (kind, also, power)
+    if (answer && !answer.skipped && (answer.runs.length || answer.wins)) route = answerRoute(route, answer, cards, deckSlims); // cycle 34
     var cmdCard = cards.filter(function (c) {
       return c.commander;
     })[0] || null;
@@ -1904,6 +1909,9 @@
     var reasons = [];
     var cmd = profile.commander;
     var planJob = CS.planJobFor(me, slim, profile); // cycle 19
+    var planHit = CS.planMatch(me, slim, profile); // cycle 34: the plan the player picked
+    if (planHit && planHit.match === 1) reasons.push("For the plan you picked: " + CS.PLAN_WORDS[planHit.kind]);
+    else if (planHit && planHit.match === -1) reasons.push("Mostly for " + CS.PLAN_WORDS[planHit.kind] + ", which you said isn't the plan");
     if (cmd && planJob === "voltron")
       reasons.push("For the game plan: suits up " + CS.frontName(cmd.name).split(",")[0] + " for commander damage");
     else if (cmd && planJob === "win" && CS.isBigBody(me, slim))
@@ -1960,6 +1968,7 @@
       reasons: reasons.slice(0, 3),
       links: linkCounts,
       roles: Object.keys(me.roles),
+      plan: planHit ? planHit.match : 0, // cycle 34: 1 serves a plan you added, -1 only one you turned down
     };
   };
 
@@ -1977,15 +1986,19 @@
    */
   CS.REC_FIT_WEIGHT = 0.15;
   CS.REC_STRENGTH_WEIGHT = 0.4; // cycle 15: tuned on half the 57 decks (0.4-0.5 best), checked on the other half
-  CS.recScore = function (fit, rec, slim, strength) {
+  // cycle 34: `plan` (fitScore's plan, -1/0/1) moves a card this much. Hold-out test with the 73 hand-labeled plans as
+  // answers (AUC / top 20): no answer 0.774 / 0.439; weight 0.05: 0.774 / 0.441; 0.1: 0.773 / 0.438; 0.2: 0.769 / 0.438
+  CS.PLAN_REC_WEIGHT = 0.05;
+  CS.recScore = function (fit, rec, slim, strength, plan) {
     var f = typeof fit === "number" ? Math.max(0, Math.min(100, fit)) / 100 : 0;
     var st = typeof strength === "number" ? strength : CS.strength(slim).score;
     st = Math.max(0, Math.min(100, st)) / 100;
+    var pl = plan === 1 || plan === -1 ? CS.PLAN_REC_WEIGHT * plan : 0;
     if (rec && rec.onEdhrec)
-      return (rec.inclusion || 0) + 0.5 * (rec.synergy || 0) + CS.REC_FIT_WEIGHT * f + CS.REC_STRENGTH_WEIGHT * st;
+      return (rec.inclusion || 0) + 0.5 * (rec.synergy || 0) + CS.REC_FIT_WEIGHT * f + CS.REC_STRENGTH_WEIGHT * st + pl;
     // not on the commander's page: below most cards EDHREC lists, ordered by
     // tie-in and strength (which includes how much it's played overall)
-    return CS.REC_FIT_WEIGHT * f + 0.1 * st;
+    return CS.REC_FIT_WEIGHT * f + 0.1 * st + pl;
   };
 
   // ---------------------------------------------------------------- strength (cycle 15)
@@ -2357,6 +2370,24 @@
   };
 
   var VOLTRON_CREATURE_CAP = 28; // cycle 32: tagged voltron decks run 3-27 other creatures, mostly under 25
+  // Equipment and Auras (gear), the gear that makes its wearer hit harder or get through (not Greaves,
+  // Skullclamp, Blade of Selves), and spells that target your creature (heroic). Cycle 34: its own function.
+  function isThreatGear(c) {
+    var gt = String(c.text || "").replace(/\([^)]*\)/g, "");
+    return !!c.gives.gear && /\b(gets|get) \+\d+\/\+\d+|\+1\/\+1 counters?\b|\bdouble strike\b|\badditional combat\b|\bcan't be blocked\b|\bhas flying\b|\btrample\b|\bdeals combat damage to a player\b/.test(gt) &&
+      !/\bwhenever equipped creature dies\b|\bmyriad\b/.test(gt);
+  }
+  function suitCounts(cards) {
+    var gear = 0, threatGear = 0, heroic = 0;
+    (cards || []).forEach(function (c) {
+      if (c.commander || c.land) return;
+      if (c.gives.gear) {
+        gear++;
+        if (isThreatGear(c)) threatGear++;
+      } else if (c.gives.heroic) heroic++;
+    });
+    return { gear: gear, threatGear: threatGear, heroic: heroic };
+  }
   function voltronRoute(cards, slims) {
     var cmd = (cards || []).filter(function (c) {
       return c.commander;
@@ -2367,19 +2398,8 @@
     })[0];
     var ct = String((cs && (cs.frontType || cs.typeLine)) || "").toLowerCase();
     if (!/\bcreature\b/.test(ct.split("//")[0])) return null;
-    var gear = 0;
-    var threatGear = 0; // gear that makes its wearer hit harder or get through (not Greaves, Skullclamp, Blade of Selves)
-    var heroic = 0;
-    cards.forEach(function (c) {
-      if (c.commander || c.land) return;
-      if (c.gives.gear) {
-        gear++;
-        var gt = String(c.text || "").replace(/\([^)]*\)/g, "");
-        if (/\b(gets|get) \+\d+\/\+\d+|\+1\/\+1 counters?\b|\bdouble strike\b|\badditional combat\b|\bcan't be blocked\b|\bhas flying\b|\btrample\b|\bdeals combat damage to a player\b/.test(gt) &&
-          !/\bwhenever equipped creature dies\b|\bmyriad\b/.test(gt))
-          threatGear++;
-      } else if (c.gives.heroic) heroic++;
-    });
+    var suit = suitCounts(cards);
+    var gear = suit.gear, threatGear = suit.threatGear, heroic = suit.heroic;
     var bare = String(cmd.text || "").replace(/\([^)]*\)/g, "");
     // cycle 23 (Shroofus: "whenever a Saproling you control deals combat damage to a player, create that
     // many"): when the commander is that type, pumping it is the plan
@@ -2575,12 +2595,205 @@
       return k !== kind && score[k] >= 0.6 * lead;
     }).slice(0, 2);
     var res = { kind: kind, also: also, scores: score, power: power };
+    if (top) res.topType = top; // cycle 34: the deck's most common creature type, for a kindred answer
     if (grows && (kind === "voltron" || also.indexOf("voltron") !== -1)) res.grows = grows;
     if (volt) {
       res.gear = volt.gear;
       res.heroic = volt.heroic;
     }
     return res;
+  };
+
+  // ---------------------------------------------------------------- plan answers (cycle 34)
+
+  /**
+   * Cycle 34 (Nick: "a little questionnaire beforehand to make sure the recs make sense"; Later list Next up 1):
+   * the player confirms or corrects the app's read of the plan in two parts: what the deck runs on (up to 2)
+   * and how it wins (one, or not sure). Saved per commander under cs:plan:<commander slug>. Saying yes to the
+   * app's read changes nothing; a plan the player adds moves its cards up (recs, keeps), and a plan the player
+   * turns down stops protecting cards that only serve it.
+   */
+  CS.PLAN_WINS = ["aggro", "voltron", "drain", "combo", "big", "mill"];
+  CS.PLAN_RUNS = ["go-wide", "aristocrats", "spells", "counters", "artifacts", "enchantments", "lands", "graveyard", "blink", "lifegain", "kindred", "superfriends", "theft", "wheels", "stax", "pillowfort", "group-hug", "dungeon"];
+  CS.PLAN_WORDS = {
+    aggro: "attacking with the team", voltron: "commander damage (Voltron)", drain: "draining the table", combo: "a combo", big: "big creatures", mill: "milling",
+    "go-wide": "going wide", aristocrats: "sacrificing creatures", spells: "instants and sorceries", counters: "+1/+1 counters", artifacts: "artifacts",
+    enchantments: "enchantments", lands: "lands and landfall", graveyard: "the graveyard", blink: "blink", lifegain: "life gain", kindred: "a creature type",
+    superfriends: "planeswalkers", theft: "opponents' cards", wheels: "wheels", stax: "stax", pillowfort: "pillow fort", "group-hug": "group hug", dungeon: "dungeons",
+  };
+  CS.PLAN_COMMON = ["go-wide", "aristocrats", "spells", "counters", "artifacts", "lands", "graveyard", "blink"]; // shown as chips; the rest in a list
+
+  /** "a", "a and b", "a, b and c". */
+  CS.listWords = function (list) {
+    var l = (list || []).slice();
+    if (l.length < 2) return l.join("");
+    return l.slice(0, -1).join(", ") + " and " + l[l.length - 1];
+  };
+
+  /** Storage key (without "cs:") of a commander's plan answer. */
+  CS.planKey = function (commanderName) {
+    return "plan:" + CS.commanderSlug(commanderName);
+  };
+
+  /** The app's read as an answer: {runs: [up to 2], wins: kind or null}. `route`: CS.deckRoute's result. */
+  CS.planRead = function (route) {
+    // an answered route keeps the app's own read in `read`
+    var ks = route && route.read ? route.read.slice() : route && route.kind ? [route.kind].concat(route.also || []) : [];
+    return {
+      runs: ks.filter(function (k) {
+        return CS.PLAN_RUNS.indexOf(k) !== -1;
+      }).slice(0, 2),
+      wins: ks.filter(function (k) {
+        return CS.PLAN_WINS.indexOf(k) !== -1;
+      })[0] || null,
+    };
+  };
+
+  /** Checks a saved plan answer. Returns {v: 1, runs, wins, skipped, updated, read?: {runs, wins}} or null. */
+  CS.cleanPlanAnswer = function (saved) {
+    if (!saved || typeof saved !== "object" || Array.isArray(saved) || saved.v !== 1) return null;
+    var runs = Array.isArray(saved.runs)
+      ? saved.runs.filter(function (k, i, a) {
+          return typeof k === "string" && CS.PLAN_RUNS.indexOf(k) !== -1 && a.indexOf(k) === i;
+        }).slice(0, 2)
+      : [];
+    var wins = typeof saved.wins === "string" && CS.PLAN_WINS.indexOf(saved.wins) !== -1 ? saved.wins : null;
+    var skipped = saved.skipped === true;
+    var out = { v: 1, runs: skipped ? [] : runs, wins: skipped ? null : wins, skipped: skipped, updated: typeof saved.updated === "number" ? saved.updated : 0 };
+    // the app's read the player saw when answering (review Must 1)
+    var r = saved.read;
+    if (!skipped && r && typeof r === "object" && !Array.isArray(r))
+      out.read = {
+        runs: Array.isArray(r.runs) ? r.runs.filter(function (k, i, a) {
+          return typeof k === "string" && CS.PLAN_RUNS.indexOf(k) !== -1 && a.indexOf(k) === i;
+        }).slice(0, 2) : [],
+        wins: typeof r.wins === "string" && CS.PLAN_WINS.indexOf(r.wins) !== -1 ? r.wins : null,
+      };
+    return out;
+  };
+
+  /** Same plan (the order of `runs` doesn't matter). */
+  CS.samePlan = function (a, b) {
+    if (!a || !b) return false;
+    var ra = (a.runs || []).slice().sort().join(","), rb = (b.runs || []).slice().sort().join(",");
+    return ra === rb && (a.wins || null) === (b.wins || null);
+  };
+
+  function routeHas(c, sig) {
+    return sig[0].some(function (l) {
+      return c.gives[l] && !(c.typeOnly && c.typeOnly[l]);
+    }) || sig[1].some(function (l) {
+      return c.wants[l];
+    });
+  }
+
+  /** True when card `c` (traits) serves plan `k`; `slim` for its type and mana value; `topType` for kindred. */
+  function servesPlan(k, c, slim, topType) {
+    if (ROUTE_SIG[k]) return routeHas(c, ROUTE_SIG[k]);
+    var types = String((slim && (slim.frontType || slim.typeLine)) || "").toLowerCase().split("//")[0];
+    if (k === "voltron") return !!(c.gives.heroic || isThreatGear(c)); // review Should 7: not Greaves or Skullclamp
+    if (k === "kindred") return !!(topType && c.subtypes && c.subtypes[topType]);
+    if (k === "big") return !!(c.gives.big || (/\bcreature\b/.test(types) && slim && typeof slim.cmc === "number" && slim.cmc >= 6));
+    if (k === "combo") return !!(c.roles && c.roles.tutors);
+    return false;
+  }
+
+  function answerRoute(route, answer, cards, slims) {
+    var cur = route && route.kind ? [route.kind].concat(route.also || []) : [];
+    // review Must 1: an answer is kept per commander, but the read is worked out per deck (and can change with an
+    // edit, new tags or a later cycle). Steer only by what the player changed from the read they saw, on top of
+    // this deck's read now: a "Looks right" never adds a plan the deck no longer reads.
+    var seen = answer.read || CS.planRead(route);
+    var seenKs = seen.runs.concat(seen.wins ? [seen.wins] : []);
+    var picked = answer.runs.concat(answer.wins ? [answer.wins] : []);
+    var added = picked.filter(function (k) {
+      return seenKs.indexOf(k) === -1 && cur.indexOf(k) === -1;
+    });
+    var dropped = seenKs.filter(function (k) {
+      if (picked.indexOf(k) !== -1 || cur.indexOf(k) === -1) return false;
+      return !(answer.wins == null && CS.PLAN_WINS.indexOf(k) !== -1); // review Must 2: "not sure" keeps the read's win plan
+    });
+    if (!added.length && !dropped.length) {
+      if (!route) return route;
+      var same = {};
+      Object.keys(route).forEach(function (k) {
+        same[k] = route[k];
+      });
+      same.answered = true;
+      return same;
+    }
+    var kinds = cur.filter(function (k) {
+      return dropped.indexOf(k) === -1;
+    }).concat(added);
+    var kind = answer.wins === "voltron" ? "voltron" : picked.filter(function (k) {
+      return kinds.indexOf(k) !== -1;
+    })[0] || kinds[0] || null;
+    var out = {
+      kind: kind,
+      also: kinds.filter(function (k) {
+        return k !== kind;
+      }),
+      scores: (route && route.scores) || {},
+      power: (route && route.power) || null,
+      answered: true,
+      read: cur,
+      steer: { added: added, dropped: dropped, picked: kinds },
+    };
+    if (route && route.topType) out.topType = route.topType;
+    else {
+      var tc = {};
+      cards.forEach(function (c) {
+        if (c.commander || c.land) return;
+        Object.keys(c.subtypes || {}).forEach(function (t) {
+          tc[t] = (tc[t] || 0) + 1;
+        });
+      });
+      var top = Object.keys(tc).sort(function (a, b) {
+        return tc[b] - tc[a];
+      })[0];
+      if (top) out.topType = top;
+    }
+    if (picked.indexOf("voltron") !== -1) {
+      var sc = suitCounts(cards);
+      out.gear = sc.gear;
+      out.heroic = sc.heroic;
+      var cmd = cards.filter(function (c) {
+        return c.commander;
+      })[0];
+      var grows = cmd ? CS.selfGrows(cmd) : null;
+      if (grows) out.grows = grows;
+    }
+    return out;
+  }
+
+  /**
+   * Cycle 34: how a card sits with the plan the player picked. Returns null when there's no answer or it
+   * matches the app's read; otherwise {match: 1, kind} for a card that serves a plan the player added,
+   * {match: -1, kind} for a card with no role that serves only a plan the player turned down, or {match: 0}.
+   */
+  CS.planMatch = function (traits, slim, profile) {
+    var route = profile && profile.route;
+    var st = route && route.steer;
+    if (!st || !traits || traits.land || (traits.commander)) return null;
+    var top = route.topType || null;
+    var on = st.added.filter(function (k) {
+      return servesPlan(k, traits, slim, top);
+    })[0];
+    if (on) return { match: 1, kind: on };
+    if (Object.keys(traits.roles || {}).length) return { match: 0 };
+    var cmd = profile.commander;
+    if (cmd && Object.keys(traits.gives || {}).some(function (l) {
+      return cmd.wants[l] && !(traits.typeOnly && traits.typeOnly[l]);
+    }))
+      return { match: 0 }; // review Should 1: feeds the commander's own ability (Zurgo wants deaths)
+    var off = st.dropped.filter(function (k) {
+      return servesPlan(k, traits, slim, top);
+    })[0];
+    if (off && !st.picked.some(function (k) {
+      return servesPlan(k, traits, slim, top);
+    }))
+      return { match: -1, kind: off };
+    return { match: 0 };
   };
 
   /**
@@ -2773,7 +2986,7 @@
     }
     if (route && route.kind === "voltron" && cmd) {
       var suit = route.gear + " Equipment and Auras" + (route.heroic ? " and " + route.heroic + " spells that target it" : "");
-      wins.unshift({ name: cmd.name, id: cmd.id, why: route.grows && !route.gear ? "attacking for commander damage (it " + route.grows + ")" : "attacking for commander damage, suited up by " + suit, commander: true });
+      wins.unshift({ name: cmd.name, id: cmd.id, why: route.grows && !route.gear ? "attacking for commander damage (it " + route.grows + ")" : route.gear || route.heroic ? "attacking for commander damage, suited up by " + suit : "attacking for commander damage", commander: true });
     } else if (route && route.grows && cmd) {
       wins.unshift({ name: cmd.name, id: cmd.id, why: "attacking for commander damage (it " + route.grows + ")", commander: true });
     }
@@ -2812,7 +3025,12 @@
         return CS.ROUTE_WORDS[k] || k;
       };
       var pw = g.route.power;
-      var plan = "Plan: " + rw(g.route.kind) + (g.route.also && g.route.also.length ? ", with " + g.route.also.map(rw).join(" and ") : "");
+      var plan = (g.route.answered ? "Your plan: " : "Plan: ") + rw(g.route.kind) + (g.route.also && g.route.also.length ? ", with " + g.route.also.map(rw).join(" and ") : "");
+      // cycle 34: when the player's answer differs from the app's read, say what the app read
+      if (g.route.read && g.route.read.length) plan += " (I read it as " + CS.listWords(g.route.read.map(function (k) {
+        return CS.PLAN_WORDS[k] || k;
+      })) + ")";
+      else if (g.route.steer) plan += " (I couldn't read a plan)";
       if (g.route.kind === "combo" && pw) plan += " (" + pw.tutors + " tutors, " + pw.fast + " fast mana, " + pw.free + " free spells, average mana value " + pw.avg + ")";
       lines.push(plan + ".");
     }
@@ -3136,6 +3354,7 @@
    * typical count), staple}] in deck order.
    */
   CS.CUT_WEIGHTS = { tie: 0.5, str: 0.2, inc: 0.3, offPage: 0.15, noEdhTie: 0.65, noEdhStr: 0.35 };
+  CS.PLAN_CUT_WEIGHT = 0.15; // cycle 34: a card only for a plan the player turned down (like offCurve)
   // cycle 19: a card in its first year has little play history yet (EDHREC pages, popularity)
   CS.NEW_CARD_DAYS = 365;
   function dayNum(d) {
@@ -3222,13 +3441,16 @@
       var kin = cmdTypes.some(function (t) {
         return c.subtypes[t]; // a Dragon in a Dragon commander's deck is the plan
       });
-      var inPlan = kin || planLabels.some(function (l) {
+      var planHit = CS.planMatch(c, slim, profile); // cycle 34: the plan the player picked
+      var offPlan = !!(planHit && planHit.match === -1);
+      var inPlan = !offPlan && (kin || (planHit && planHit.match === 1) || planLabels.some(function (l) {
         return c.gives[l] || c.wants[l];
-      });
+      }));
       var reasons = [];
       // ---- how much the deck wants to keep it, 0-1
       var tie = fit / 100;
       if (feeds || kin || payload) tie = Math.min(1, tie + 0.15); // part of the commander's own engine
+      if (planHit && planHit.match === 1) tie = Math.min(1, tie + 0.15); // cycle 34: serves a plan the player added
       // a role card does its job whatever the theme (taxonomy "staple damping"),
       // so a low tie-in counts for less
       if (roles.length) tie = Math.max(tie, 0.5);
@@ -3301,7 +3523,8 @@
         return (KEEP_ROLES[r] || r === "protection" || r === "tutors") && (roleCount[r] || 0) <= roleInfo[r].target;
       });
       var staple = roles.length > 0 && str >= 70;
-      var cut = 1 - keep + 0.25 * surplus * (1 - keep) + 0.15 * offCurve + (gc && gcCount > 3 ? 0.1 : 0);
+      var cut = 1 - keep + 0.25 * surplus * (1 - keep) + 0.15 * offCurve + (offPlan ? CS.PLAN_CUT_WEIGHT : 0) + (gc && gcCount > 3 ? 0.1 : 0);
+      if (offPlan) reasons.push("Mostly for " + CS.PLAN_WORDS[planHit.kind] + ", which you said isn't the plan");
       if (!c.land && fit < 40 && !roles.length && !payload && planJob === "win")
         reasons.push("A finisher, though it ties in to little else here (tie-in " + fit + " of 100)");
       else if (!c.land && fit < 40 && !roles.length && !payload && planJob === "voltron")
@@ -3350,6 +3573,7 @@
         cmc: cmc,
         land: !!c.land,
         landInfo: li,
+        offPlan: offPlan, // cycle 34: serves only a plan the player turned down
         locked: locked,
         staple: staple,
         engine: !!(feeds || kin || payload), // feeds the commander, is its creature type, or a payload
@@ -3378,7 +3602,9 @@
     var spareLands = lands ? lands.count - lands.target : 0;
     var out = cands.filter(function (x) {
       if (x.land && spareLands < 1) return false;
-      if (x.locked || x.staple || x.keep >= 0.7 || x.tie >= 75) return false; // strong tie-ins stay (as before cycle 15)
+      // strong tie-ins stay (as before cycle 15); cycle 34: even when they serve only a plan the player turned down
+      // (dropping that guard for them pushed more of a deck's own hand-labeled plan cards into the cut test's top 10)
+      if (x.locked || x.staple || x.keep >= 0.7 || x.tie >= 75) return false;
       var concrete = x.reasons.some(function (r) {
         return !/^Game Changer: the deck has \d+ \(any|^Few decks with this commander run it/.test(r);
       });
