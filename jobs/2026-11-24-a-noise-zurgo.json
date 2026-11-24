@@ -1,0 +1,6 @@
+{"id": "2026-11-24-a-noise-zurgo",
+ "note": "Noise test: the same Zurgo list entered twice with different seeds. Any difference is pure luck, which shows how big a real change has to be before the sims can see it.",
+ "tests": {"zurgo-a": "decks/nick/zurgo.dck", "zurgo-b": "decks/nick/zurgo.dck"},
+ "opponents": ["decks/gauntlet-a/*.dck"], "paired": false,
+ "games_per_test": 200, "games_per_batch": 4, "clock": 1200, "seed": 11,
+ "machines": ["desktop", "laptop"], "priority": 30}

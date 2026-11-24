@@ -1,0 +1,6 @@
+{"id": "2026-11-24-b-planted-zurgo",
+ "note": "Instrument test: Zurgo vs. Zurgo with 8 good cards (Sol Ring, 3 mana rocks, Swords, Skullclamp, Adeline, Cathars' Crusade) swapped for vanilla filler. The sims must clearly see this damage; if they can't, nothing finer counts.",
+ "tests": {"zurgo": "decks/nick/zurgo.dck", "zurgo-planted": "decks/test/zurgo-planted.dck"},
+ "opponents": ["decks/gauntlet-a/*.dck"],
+ "games_per_test": 200, "games_per_batch": 4, "clock": 1200, "seed": 22,
+ "machines": ["desktop", "laptop"], "priority": 20}

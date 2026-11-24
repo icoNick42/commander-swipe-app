@@ -1,0 +1,7 @@
+machine.json
+PAUSE
+board.log
+board.log.old
+board.lock
+__pycache__/
+*.tmp
