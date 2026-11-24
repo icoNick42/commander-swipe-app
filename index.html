@@ -507,6 +507,20 @@
         color: var(--text);
         font-weight: 600;
       }
+      /* cycle 31: a marker shows the line opens; open, the reasons list replaces the first reason */
+      .why summary::before {
+        content: "\25B8  ";
+        color: var(--muted);
+      }
+      .why[open] summary::before {
+        content: "\25BE  ";
+      }
+      .why[open] summary .first {
+        display: none;
+      }
+      .why .strongcard {
+        color: var(--text);
+      }
       /* cycle 21: fit in words; "little" steps back to the muted color */
       .why .fit.tier-little {
         color: var(--muted);
@@ -1418,8 +1432,8 @@
     <footer>
       <p>
         Recommendations from
-        <a href="https://edhrec.com/" rel="noopener">EDHREC</a>; card data,
-        images and prices from
+        <a href="https://edhrec.com/" rel="noopener">EDHREC</a>; card data
+        and images from
         <a href="https://scryfall.com/" rel="noopener">Scryfall</a>. Your
         picks are saved only in this browser.
       </p>
@@ -1434,7 +1448,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=29"></script>
+    <script src="core.js?v=31"></script>
     <script>
       (function () {
         "use strict";
@@ -3263,17 +3277,27 @@
           );
 
           var line = []; // cycle 29: no price (Nick proxies)
+          // cycle 31 (Nick: "the EDHREC data seems broken" on Good in any deck; review: "+70% synergy"
+          // is jargon): the commander's share against other decks, and for a card off the commander's
+          // page, how widely it's played overall (EDHREC rank, from Scryfall) instead of a bare badge
+          var statTitle = "";
           if (rec.onEdhrec) {
-            line.push(
-              "in " + pct(rec.inclusion) + " of " + cmdShort() + " decks", // cycle 14: say whose numbers; cycle 21: the commander's, by name
-            );
-            line.push(
-              (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + " synergy",
-            );
+            var others = Math.max(0, rec.inclusion - rec.synergy);
+            line.push("in " + pct(rec.inclusion) + " of " + cmdShort() + " decks"); // cycle 14: say whose numbers; cycle 21: the commander's, by name
+            line.push(pct(others) + " of other decks");
+            statTitle =
+              "EDHREC: " + pct(rec.inclusion) + " of the " + rec.potentialDecks.toLocaleString() + " " + cmdShort() +
+              " decks play it, against " + pct(others) + " of other decks that could (synergy " +
+              (rec.synergy >= 0 ? "+" : "") + pct(rec.synergy) + ").";
+          } else {
+            var noEdh = !S.edhrecMap || !Object.keys(S.edhrecMap).length;
+            line.push(noEdh ? "no EDHREC numbers" : "not on " + cmdShort() + "'s EDHREC page");
+            if (info.edhrecRank) line.push("#" + info.edhrecRank.toLocaleString() + " most played card");
+            statTitle = (noEdh ? "EDHREC didn't answer, so there are no numbers for this commander. " :
+              "Decks with this commander rarely or never play it, so it isn't on the commander's EDHREC page. ") +
+              (info.edhrecRank ? "Across all Commander decks it's #" + info.edhrecRank.toLocaleString() + " by how many decks play it (EDHREC rank)." : "");
           }
           var badges = [];
-          if (!rec.onEdhrec)
-            badges.push(el("span", { class: "badge", text: "not on EDHREC" }));
           if (info.gameChanger)
             badges.push(
               el("span", { class: "badge gc", text: "Game Changer" }),
@@ -3290,9 +3314,7 @@
             ),
             el("div", {
               class: "stats",
-              title: rec.onEdhrec
-                ? "EDHREC: " + rec.potentialDecks.toLocaleString() + " decks with this commander"
-                : "",
+              title: statTitle,
               text: line.join(" \u00b7 ") || "\u00a0", // keeps the line's height
             }),
           ];
@@ -3522,10 +3544,15 @@
         /** "Strong fit - first reason", opening to all the reasons. */
         function fitDetails(f, edh) {
           var first = f.reasons[0] || "No tie-ins with your deck found in its text";
+          var tie = f.tieIn != null ? f.tieIn : f.score;
+          // cycle 31: a strong card with few ties says so, so "Little fit" doesn't read as "bad card"
+          var sw = tie < CS.FIT_TIERS.strong ? CS.strengthWord(f.strength) : null;
           var d = el("details", { class: "why" }, [
             el("summary", { title: f.reasons.join("\n") }, [
               fitWordEl(f),
-              " \u00b7 " + first,
+              sw ? el("span", { class: "strongcard", text: ", but " + sw }) : null,
+              // cycle 31 (review: cut off, then repeated): the first reason shows only while closed
+              el("span", { class: "first", text: " \u00b7 " + first }),
             ]),
             f.reasons.length
               ? el(
@@ -3539,10 +3566,10 @@
             el("div", {
               class: "small",
               // cycle 26 (Nick: explanations are too wordy): the numbers, one line
+              // cycle 31 (Nick: "I barely know what any of this is supposed to mean"): each number named, out of 100
               text:
-                "Tie-in " + (f.tieIn != null ? f.tieIn : f.score) + " (strong from " + CS.FIT_TIERS.strong + "), strength " +
-                  (f.strength != null ? f.strength : "?") + ", Fit " + f.score + "." +
-                (edh ? " EDHREC: share of " + cmdShort() + " decks running it, and synergy." : ""),
+                "Ties into your deck " + tie + "/100 (" + CS.FIT_TIERS.strong + "+ is strong) \u00b7 card strength " +
+                  (f.strength != null ? f.strength : "?") + "/100 \u00b7 Fit " + f.score + "/100.",
             }),
           ]);
           d.open = S.whyOpen;

@@ -1411,7 +1411,9 @@ test("cut ideas: never the commander, lands, staples, role keepers or combo piec
   // Warleader's Call now pay off creatures entering), so fewer weak-fit ideas
   // cycle 15: 3 without EDHREC numbers (Reconnaissance feeds Zurgo's attacks)
   // cycle 23: 2 (Dark Prophecy draws on every death: an engine that ties in isn't spare card draw)
-  assert.ok(ideas.length >= 2, ideas.length);
+  // cycle 31: 1 (Reconnaissance makes Zurgo's attacks free: attack help, no longer a weak tie-in)
+  assert.ok(ideas.length >= 1, ideas.length);
+  assert.ok(!names.includes("Reconnaissance"), "cycle 31: Reconnaissance isn't a cut idea in a deck full of attack triggers");
   assert.ok(!names.includes("Zurgo Stormrender"));
   assert.ok(
     !names.some((n) => /Badlands|Command Tower|Arid Mesa|Urza's Saga/.test(n)),
@@ -1435,12 +1437,12 @@ test("cut ideas: never the commander, lands, staples, role keepers or combo piec
     assert.ok(ideas[i - 1].score >= ideas[i].score);
   // what's protected or already cut drops out
   const first = ideas[0].name;
-  const fewer = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {
-    protect: { [CS.nameKey(first)]: true },
-    cuts: { [ideas[1].name]: 1 },
-  }).map((x) => x.name);
-  assert.ok(!fewer.includes(first) && !fewer.includes(ideas[1].name));
-  assert.equal(fewer.length, ideas.length - 2);
+  // cycle 31: one idea left in this deck, so protecting and cutting are checked one at a time
+  const kept = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, { protect: { [CS.nameKey(first)]: true } }).map((x) => x.name);
+  const gone = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, { cuts: { [first]: 1 } }).map((x) => x.name);
+  assert.ok(!kept.includes(first) && !gone.includes(first));
+  assert.equal(kept.length, ideas.length - 1);
+  assert.equal(gone.length, ideas.length - 1);
   assert.deepEqual(
     CS.cutSuggestions({ cards: [], roleCount: {} }, null, [], null),
     [],
@@ -2985,4 +2987,24 @@ test("cycle 30: Start over with nothing saved, odd undo copies, and storage that
   const p3 = CS.startOverPlan(sticky, "zurgo-stormrender", id, keys, null);
   assert.deepEqual(CS.startOver(sticky, p3, id, 1).failed, [CS.deckKey(id)]);
   assert.equal(CS.undoStartOver(throwing, { v: 1, deckId: id, saves: { ["deck2:" + id]: {} } }), false);
+});
+
+test("cycle 31: making attacks free (Reconnaissance, vigilance for the team) rewards an attacking deck", () => {
+  const recon = CS.cardTraits({ id: "r", name: "Reconnaissance", types: "Enchantment", text: "{0}: Remove target attacking creature you control from combat and untap it. (If you activate during end of combat, the creature will untap after it deals combat damage.)" });
+  assert.ok(recon.gives.attacks, "Reconnaissance helps attacking");
+  const gust = CS.cardTraits({ id: "g", name: "Gustcloak Savior", types: "Creature \u2014 Bird Soldier", text: "Flying\nWhenever a creature you control becomes blocked, you may untap that creature and remove it from combat." });
+  assert.ok(gust.gives.attacks, "untap that creature and remove it from combat");
+  const brave = CS.cardTraits({ id: "b", name: "Brave the Sands", types: "Enchantment", text: "Creatures you control have vigilance.\nEach creature you control can block an additional creature each combat." });
+  assert.ok(brave.gives.attacks, "vigilance for the team");
+  const maze = CS.cardTraits({ id: "m", name: "Maze of Ith", types: "Land", text: "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn." });
+  assert.ok(!maze.gives.attacks && maze.gives.deter, "Maze of Ith stays defense");
+  const own = CS.cardTraits({ id: "o", name: "Lone Guard", types: "Creature \u2014 Human", text: "Vigilance" });
+  assert.ok(!own.gives.attacks, "a creature with vigilance itself isn't team attack help");
+});
+
+test("cycle 31: a word for card strength, shown beside a low fit", () => {
+  assert.equal(CS.strengthWord(75), "strong in most decks");
+  assert.equal(CS.strengthWord(CS.STRONG_CARD), "strong in most decks");
+  assert.equal(CS.strengthWord(59), null);
+  assert.equal(CS.strengthWord(undefined), null);
 });

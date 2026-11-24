@@ -998,6 +998,9 @@
     ["attacks", /\bwhenever ~ (enters|blocks) or attacks\b|\bwhenever ~ attacks or blocks\b/],
     ["attacks", /\b(have|has|gains?|gets?)\b[^.]*\bhaste\b/],
     ["attacks", /\badditional combat phase\b/],
+    // cycle 31 (Nick: Reconnaissance in Zurgo): pulling your attackers out of combat, untapping them
+    // or giving the team vigilance makes attacking free, so it serves attack triggers like other attack help
+    ["attacks", /\bremove (target|that|an|each) attacking creatures? you control from combat\b|\buntap (that creature|it) and remove it from combat\b|\bcreatures you control (have|gain) (vigilance|[^.]*\band vigilance)\b/],
     ["attacks", /\bcreatures you control (have|gain) [^.]*(menace|trample|flying|double strike|can't be blocked)/],
     ["attacks", /\bcreatures? can't block\b|~ can't be blocked\b|\bshadow\b/],
     // treasure and other artifact tokens
@@ -2093,6 +2096,15 @@
    * "in X% of <commander> decks" instead.
    */
   CS.FIT_TIERS = { strong: 70, some: 30 };
+  /**
+   * Cycle 31 (Nick: "I barely know what any of this means"): a word for a card's
+   * strength (0-100, CS.strength), said next to the fit word so a staple with
+   * few ties (Mind Stone in Zurgo) doesn't read as a bad card. Null below 60.
+   */
+  CS.STRONG_CARD = 60;
+  CS.strengthWord = function (strength) {
+    return typeof strength === "number" && strength >= CS.STRONG_CARD ? "strong in most decks" : null;
+  };
   CS.fitTier = function (tieIn) {
     if (typeof tieIn !== "number" || !isFinite(tieIn)) return null;
     if (tieIn >= CS.FIT_TIERS.strong) return { key: "strong", word: "Strong fit" };
@@ -3444,7 +3456,10 @@
         return x.roles.indexOf(r) !== -1;
       })[0];
       if (meLand) {
-        if (x.land) pair += short ? 0 : 0.5;
+        // cycle 31: when short of lands, a spell makes room first (a land for a basic leaves the deck short);
+        // before, a spare basic could outrank every spell, and only a very weak spell (Reconnaissance read
+        // as tie-in 0) put a spell first
+        if (x.land) pair += short ? -0.3 : 0.5;
         else if (short) pair += 0.2; // the deck needed this land; a spell makes room
         else return; // like for like: a land for a land
         if (x.land && !x.basic && !why)
