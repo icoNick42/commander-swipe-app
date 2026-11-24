@@ -25,9 +25,6 @@ parse_output(text) -> list of game dicts:
 
 import re
 
-PLAYER_RE = re.compile(
-    r"Ai\((\d+)\)-(.+?)(?=$|\)| cast | triggered | activated | played | has | discards | assigned | didn't | deals | \d+ > |'s )"
-)
 LINE_RE = re.compile(
     r"^(Turn|Phase|Land|Add To Stack|Resolve Stack|Damage|Life|Mulligan|Game Outcome|Match Result|Zone Change|Combat|Mana|Discard|Replacement Effect|Player Control|Information|Ante|Sideboard|Draft): (.*)$"
 )
@@ -252,8 +249,12 @@ class _Game:
                 return lab
         return None
 
-    def finish(self, result, duration):
+    def finish(self, result, duration, named_winner=None):
         self.end_turn()
+        if result == "win" and self.winner is None and named_winner:
+            # no "has won because" line: take the winner from "Game Result"
+            m = re.match(r"^Ai\(\d+\)-(.+)$", named_winner.strip())
+            self.winner = m.group(1).strip() if m else None
         if result == "win" and self.winner is None:
             result = "error"
         for lab, pl in self.players.items():
@@ -291,7 +292,7 @@ def parse_output(text, commanders=None):
             if g is None:
                 g = _Game(int(m.group(1)), commanders)
             if m.group(2) is not None:
-                res = g.finish("win", int(m.group(2)))
+                res = g.finish("win", int(m.group(2)), m.group(3))
             else:
                 res = g.finish("timeout" if timeout else "draw", int(m.group(4)))
                 res["winner"] = None

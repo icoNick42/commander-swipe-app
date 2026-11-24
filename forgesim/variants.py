@@ -24,11 +24,13 @@ APP_FILES = ["core.js", "data/card_tags.json"]
 def fetch_app(root, dest):
     """Copy core.js and its data from the app's main branch (same repo)."""
     kw = {"creationflags": 0x08000000} if os.name == "nt" else {}
-    subprocess.run(
+    env = dict(os.environ, GIT_TERMINAL_PROMPT="0", GCM_INTERACTIVE="Never")
+    f = subprocess.run(
         ["git", "-C", root, "fetch", "-q", "--depth", "1", "origin", "main"],
-        capture_output=True,
-        **kw
+        capture_output=True, stdin=subprocess.DEVNULL, env=env, timeout=300, **kw
     )
+    if f.returncode != 0:
+        raise RuntimeError("couldn't fetch the app's main branch: %s" % f.stderr.decode("utf-8", "replace")[-300:])
     os.makedirs(os.path.join(dest, "data"), exist_ok=True)
     os.makedirs(os.path.join(dest, "combos"), exist_ok=True)
     for f in APP_FILES:
@@ -40,12 +42,11 @@ def fetch_app(root, dest):
         with open(os.path.join(dest, f), "wb") as fh:
             fh.write(p.stdout)
     p = subprocess.run(
-        ["git", "-C", root, "ls-tree", "--name-only", "FETCH_HEAD", "combos/"],
+        ["git", "-C", root, "ls-tree", "-z", "--name-only", "FETCH_HEAD", "combos/"],
         capture_output=True,
-        text=True,
         **kw
     )
-    for f in p.stdout.split():
+    for f in [x for x in p.stdout.decode("utf-8", "replace").split("\0") if x]:
         q = subprocess.run(
             ["git", "-C", root, "show", "FETCH_HEAD:" + f], capture_output=True, **kw
         )
@@ -86,7 +87,8 @@ def build(job, label, root, cfg, log=print):
     if recipe.get("edhrec"):
         cmd += ["--edhrec", os.path.join(root, recipe["edhrec"])]
     kw = {"creationflags": 0x08000000} if os.name == "nt" else {}
-    p = subprocess.run(cmd, capture_output=True, text=True, **kw)
+    p = subprocess.run(cmd, capture_output=True, encoding="utf-8", errors="replace",
+                       stdin=subprocess.DEVNULL, timeout=900, **kw)
     if p.returncode != 0:
         raise RuntimeError("app_swaps failed: " + (p.stderr or p.stdout)[-500:])
     with open(swaps, encoding="utf-8") as fh:
@@ -117,7 +119,7 @@ def build(job, label, root, cfg, log=print):
 def prepare(job, root, cfg, log=print):
     """Build this job's missing variants if this machine is the builder.
     Returns True when every test deck exists."""
-    first = (job["machines"] or ["any"])[0]
+    first = (job["machines"] or ["any"])[0].lower()
     ready = True
     for label, t in job["tests"].items():
         if isinstance(t, str):

@@ -42,6 +42,14 @@ if __name__ == "__main__":
     while True:
         try:
             board.loop()
+        except board.Restart:
+            # pulled code changed: let go of the lock, start a fresh copy, leave
+            lock.close()
+            import subprocess
+
+            kw = {"creationflags": 0x00000008 | 0x00000200} if os.name == "nt" else {}  # detached, new group
+            subprocess.Popen([sys.executable, os.path.abspath(__file__)], cwd=HERE, close_fds=True, **kw)
+            sys.exit(0)
         except KeyboardInterrupt:
             break
         except Exception as e:  # never stay down: log it and start again

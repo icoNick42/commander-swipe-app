@@ -30,10 +30,18 @@ You need Forge in a folder with `app\` and `jre\` (as already set up), plus Git 
 
 Use `-Name laptop` on the server laptop. Running it again updates the setup.
 
+## Good to know
+
+- A PC that sleeps doesn't run sims. The board asks Windows to stay awake while it works, and the installer turns off sleep when plugged in. On the laptop, set the lid-close action (plugged in) to "Do nothing".
+- After a Windows Update restart, the board waits until someone signs in.
+- The board updates itself: when the code on this branch changes, it restarts into the new version on its next round.
+- A batch that gives no games twice (a deck Forge can't load, say) is set aside. `board.log` says why.
+- Full game logs stay on each PC in `sim-work\logs` for 14 days. Only the numbers are uploaded.
+
 ## Reading the numbers
 
 - Every seat is played by Forge's AI, a mediocre pilot that's weak with combos, politics and sacrifice outlets. The numbers mean "played by a bot". They're best for mana, curve and version-against-version tests.
-- Forge replays a game exactly from its seed. Paired jobs give every test deck the same seeds and opponents, and variants keep each swapped card in the place of the card it replaced. So a deck and its variant play the same games until a swapped card matters, which cuts out most of the luck.
+- Forge replays a game exactly from its seed (same decks, same seed: the same game). Paired jobs give every test deck the same seeds, opponents and seats, so both versions face the same tables. A variant's own draws still differ from turn 1 (checked: Forge builds the library in its own order), so pairing evens out the tables, not the deck's own luck. Plan on the game counts in the brainstorm doc.
 - A win-rate difference whose 95% range includes 0 isn't one the sims can see yet.
 - Per-card win rates (17lands-style: "when cast" vs "when not") favor finishers and undersell cheap cards. Cards Forge flags as hard for its AI (`AI:RemoveDeck`) are marked.
 

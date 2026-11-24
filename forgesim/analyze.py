@@ -303,7 +303,7 @@ def report_md(summary, job):
     L.append("")
     L.append(
         "A difference whose range includes 0 isn't one the sims can see yet. Draws and timeouts count as games not won. "
-        "Paired jobs compare game by game (same seeds), which narrows the range."
+        "Paired jobs compare game by game (same seeds, opponents and seats)."
     )
     L.append("")
     for lab, s in summary["decks"].items():
@@ -408,7 +408,7 @@ def write_report(root, job):
     os.makedirs(outdir, exist_ok=True)
     slim = json.loads(json.dumps(summary))
     for s in slim["decks"].values():
-        # summary.json keeps the 25 most and least telling cards; report.md has them all
+        # summary.json keeps cards that were used (up to 200); report.md has them all
         s["cards"] = [c for c in s["cards"] if c["used_rate"] > 0][:200]
     with open(
         os.path.join(outdir, "summary.json"), "w", encoding="utf-8", newline="\n"

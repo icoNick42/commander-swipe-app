@@ -17,7 +17,10 @@ Job fields (defaults in brackets):
   opponents       [deck paths or globs]  pool the other seats are drawn from
   games_per_test  [200]     games_per_batch  [4]     pod  [4 players]
   clock           [1200]    seconds before Forge calls a game a draw
-  seed            [1]       machines  [["any"]]   which machines run which batches
+  seed            [1]
+  machines        PCs that share the batches, e.g. ["desktop", "laptop"] (required;
+                  the first builds variants and writes the report; "any" = every
+                  machine runs everything, only for one-machine tests)
   mc              ["off"]   Forge's Monte Carlo AI setting (on | max | off)
   priority        [0]       higher runs first
   paired          [true]    same seeds for every test deck (false for noise tests)
@@ -60,7 +63,7 @@ def load_job(path):
     job.setdefault("pod", 4)
     job.setdefault("clock", 1200)
     job.setdefault("seed", 1)
-    job.setdefault("machines", ["any"])
+    job.setdefault("machines", [])
     job.setdefault("mc", "off")
     job.setdefault("priority", 0)
     return job
@@ -104,7 +107,9 @@ def batches(job, root):
         )
     n = math.ceil(job["games_per_test"] / job["games_per_batch"])
     out = []
-    machines = job["machines"] or ["any"]
+    machines = [m.lower() for m in job["machines"]]
+    if not machines:
+        raise ValueError("job %s: say which machines run it (\"machines\": [\"desktop\", \"laptop\"])" % job["id"])
     paired = job.get("paired", True)
     for i in range(n):
         rng = random.Random(job["seed"] * 1000003 + i)
@@ -162,6 +167,8 @@ def forge_command(cfg, deck_dir, files, job, batch):
             "-Djava.awt.headless=true",
             "-Dio.netty.tryReflectionSetAccessible=true",
             "-Dfile.encoding=UTF-8",
+            "-Dstdout.encoding=UTF-8",
+            "-Dstderr.encoding=UTF-8",
             "-jar",
             f["jar"],
             "sim",
@@ -231,7 +238,9 @@ def run_batch(job, batch, root, cfg, stop=None):
     test = batch["test"]
     for g in games:
         # only the test deck's per-card stats are kept; opponents' cards aren't needed
-        g["cards"] = {test: g["cards"].get(test, {})}
+        # and only cards that did something, to keep the files (and git) small
+        mine = g["cards"].get(test, {})
+        g["cards"] = {test: {n: c for n, c in mine.items() if any(v for k, v in c.items() if k != "first_cast_turn")}}
     return {
         "job": job["id"],
         "batch": batch["id"],

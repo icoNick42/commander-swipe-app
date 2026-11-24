@@ -180,9 +180,9 @@ def convert(text, name, commander_names=None):
 def apply_swaps(main, outs, ins):
     """Swap cards: the i-th card of `ins` takes the i-th card of `outs`'s place
     in the list (basic lands lose one copy and the new card goes last), extra
-    `ins` go at the end. Keeping places matters: Forge replays a game from its
-    seed, so a variant that keeps the list order draws the same cards in the
-    same order except where a swapped card sits.
+    `ins` go at the end. (Keeping places doesn't make a variant draw
+    the same cards: checked 2026-11-24, Forge orders the library its own way.
+    It just keeps diffs of the files easy to read.)
     Returns (new main, names in `outs` that weren't in the deck)."""
     main = list(main)
     not_found = []
