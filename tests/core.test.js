@@ -2569,8 +2569,9 @@ test("cycle 19: Elsha: Graduation Day stays; popularity alone is never why a car
   const cand = (today) => CS.cutCandidates(profile, syn, slims, { edhrec, slims, today }).find((x) => x.name === "Graduation Day");
   assert.ok(CS.isNewCard(grad, "2026-11-21") && !CS.isNewCard(grad, "2027-06-01"));
   assert.ok(cand("2026-11-21").keep > cand("2027-06-01").keep, "new: neutral popularity");
-  // and the Voltron-ish route: Elsha is suited up by pump spells
-  assert.equal(profile.route && profile.route.kind, "voltron");
+  // cycle 32: spells first, as the hand label has it (was Voltron through its combat-damage trigger; Elsha
+  // decks win by commander damage 10% of the time on Playgroup, in combat 78%)
+  assert.equal(profile.route && profile.route.kind, "spells");
   // with a low deck average, a card missing from EDHREC still stays once it ties in at or above it
   const low = Object.assign({}, syn, { score: 30 });
   const lowIdeas = CS.cutSuggestions(profile, low, slims, { edhrec, slims });
@@ -3007,4 +3008,28 @@ test("cycle 31: a word for card strength, shown beside a low fit", () => {
   assert.equal(CS.strengthWord(CS.STRONG_CARD), "strong in most decks");
   assert.equal(CS.strengthWord(59), null);
   assert.equal(CS.strengthWord(undefined), null);
+});
+
+test("cycle 32: finishers owners file that the app missed (Archidekt tag test)", () => {
+  const sl = (name, type, text, extra) => Object.assign(CS.slimCard({ id: "c32-" + name, name: name, type_line: type, oracle_text: text, cmc: 4, color_identity: [] }), extra || {});
+  const kinds = (s) => CS.gameKinds(CS.cardTraits(s), s).win;
+  const torment = sl("Torment of Hailfire", "Sorcery", "Repeat the following process X times. Each opponent loses 3 life unless that player sacrifices a nonland permanent of their choice or discards a card.");
+  assert.deepEqual(kinds(torment), ["turns spare mana into damage"]);
+  const crackle = sl("Crackle with Power", "Sorcery", "Crackle with Power deals five times X damage to each of up to X targets.");
+  assert.deepEqual(kinds(crackle), ["turns spare mana into damage"]);
+  const shock = sl("Small Shock", "Instant", "Small Shock deals 2 damage to any target.");
+  assert.deepEqual(kinds(shock), [], "a fixed burn spell isn't a finisher");
+  const route = (kind) => ({ kind: kind, also: [] });
+  const win = (s, kind) => CS.routeWin(CS.cardTraits(s), s, route(kind));
+  const assault = sl("Aggravated Assault", "Enchantment", "{3}{R}{R}: Untap all creatures you control. After this main phase, there is an additional combat phase followed by an additional main phase. Activate only as a sorcery.");
+  assert.equal(win(assault, "aggro"), "gives an extra combat");
+  assert.equal(win(assault, "go-wide"), "gives an extra combat");
+  assert.equal(win(assault, "spells"), null, "an extra combat closes games only in a deck built to attack");
+  const hammer = sl("Colossus Hammer", "Artifact \u2014 Equipment", "Equipped creature gets +10/+10 and loses flying.\nEquip {8}");
+  assert.equal(win(hammer, "voltron"), "makes your commander lethal");
+  assert.equal(win(hammer, "go-wide"), null);
+  const boots = sl("Plain Boots", "Artifact \u2014 Equipment", "Equipped creature gets +1/+1 and has haste.\nEquip {1}");
+  assert.equal(win(boots, "voltron"), null, "small gear isn't the finisher");
+  const awaken = sl("Cyberdrive Awakener", "Artifact Creature \u2014 Construct", "Flying\nOther artifact creatures you control have flying.\nWhen this creature enters, until end of turn, each noncreature artifact you control becomes an artifact creature with base power and toughness 4/4.", { power: 4, toughness: 4 });
+  assert.equal(win(awaken, "artifacts"), "turns your artifacts into an army");
 });

@@ -1140,7 +1140,7 @@
     bodies: { g: "Makes creature tokens", w: "Pays off going wide", b: "Makes tokens and pays off going wide", short: "tokens" },
     fodder: { g: "Makes sacrifice fodder", w: "Sacrifice outlet", b: "Sacrifice outlet that makes its own fodder", short: "sacrifice" },
     deaths: { g: "Makes creatures die", w: "Pays off creatures dying", b: "Makes creatures die and pays it off", short: "death triggers" },
-    attacks: { g: "Rewards attacking", w: "Rewards attacking", b: "Rewards attacking", short: "attacking" },
+    attacks: { g: "Helps or rewards attacking", w: "Helps or rewards attacking", b: "Helps or rewards attacking", short: "attacking" }, // cycle 32: Reconnaissance helps, it doesn't reward
     treasure: { g: "Makes Treasure", w: "Uses Treasure", b: "Makes and uses Treasure", short: "Treasure" },
     artifacts: { g: "Is or makes an artifact", w: "Pays off artifacts", b: "Artifact that pays off artifacts", short: "artifacts" },
     counters: { g: "Adds +1/+1 counters", w: "Uses +1/+1 counters", b: "Adds and uses +1/+1 counters", short: "+1/+1 counters" },
@@ -1211,7 +1211,7 @@
     var lab = CS.SYN_LABELS[label];
     var n = link.n;
     var cards = n === 1 ? "1 of your cards" : n + " of your cards";
-    if (label === "attacks") return "Rewards attacking, like " + cards;
+    if (label === "attacks") return "Helps or rewards attacking, like " + cards;
     if (label === "stax") return "Taxes or slows opponents, like " + cards;
     if (label === "hug" || label === "oppmill" || label === "theft") return lab.g + ", like " + cards;
     if (link.g && link.w) return lab.b + "; ties in with " + cards;
@@ -2300,6 +2300,8 @@
     ["hits every opponent", /\bdamage to each opponent\b/],
     ["attacks using toughness", /\bassigns combat damage equal to its toughness\b/],
     ["turns spare mana into damage", /\bremove a \+1\/\+1 counter from ~: (it|~) deals \d damage to any target\b/],
+    // cycle 32 (Archidekt: owners file Torment of Hailfire 12 times and Crackle with Power 5 as finishers)
+    ["turns spare mana into damage", /\brepeat the following process x times\b[^.]*\.[^.]*\b(each opponent|that player)\b|\b(x|twice x|five times x|x times) damage to (each opponent|each of up to x targets|each of any number of target)\b/],
   ];
 
   CS.gameKinds = function (traits, slim) {
@@ -2354,6 +2356,7 @@
     return null;
   };
 
+  var VOLTRON_CREATURE_CAP = 28; // cycle 32: tagged voltron decks run 3-27 other creatures, mostly under 25
   function voltronRoute(cards, slims) {
     var cmd = (cards || []).filter(function (c) {
       return c.commander;
@@ -2384,7 +2387,19 @@
     var selfHit = !!(typeHit && typeHit[2] !== "creature" && (cmd.subtypes || {})[typeHit[2]]);
     var threat = selfHit || cmd.wants.gear || cmd.wants.keywords || cmd.wants.heroic ||
       /\bwhenever ~ deals (combat )?damage to (a player|an opponent|one or more players)\b/.test(bare);
-    if (threatGear >= 6 || (threat && gear + heroic >= 6)) return { kind: "voltron", gear: gear, heroic: heroic };
+    // cycle 32 (Archidekt: Satoru, Morska, Jin, Ezio decks with 28+ creatures read Voltron; owners tagged their
+    // ninjas, clues and assassins, and they win by commander damage 1-34% of the time): a deck with that many
+    // other creatures spreads its gear, unless the commander itself wants gear or pump spells, or is the type it pumps
+    var creatures = cards.filter(function (c) {
+      var s = (slims || []).filter(function (x) { return x && x.id === c.id; })[0];
+      return !c.commander && !c.land && s && /\bcreature\b/.test(String(s.frontType || s.typeLine || "").toLowerCase().split("//")[0]);
+    }).length;
+    if (threatGear < 6 && creatures >= VOLTRON_CREATURE_CAP && !selfHit && !cmd.wants.gear && !cmd.wants.heroic) return null; // (6+ damage gear still says Voltron: Eight-and-a-Half-Tails)
+    // cycle 32 (Archidekt tag test: Brago, Gonti, Lathril decks with Swords and protection read Voltron through
+    // the commander's combat-damage trigger, a value trigger there): when that trigger is the only sign, the
+    // path needs at least 3 pieces of gear that make the wearer hit harder or get through
+    var hitOnly = !selfHit && !cmd.wants.gear && !cmd.wants.keywords && !cmd.wants.heroic;
+    if (threatGear >= 6 || (threat && gear + heroic >= 6 && (!hitOnly || threatGear >= 3))) return { kind: "voltron", gear: gear, heroic: heroic };
     return null;
   };
 
@@ -2526,6 +2541,12 @@
         return score[k];
       }));
       score.voltron = Math.min(12 + suits + fed, Math.max(12 + suits, Math.floor(0.95 * topOther)));
+      // cycle 32 (Archidekt: Animar, Helga, Eshki and Sisay decks with 28+ creatures read Voltron first; real
+      // commander-damage wins 3-19%): with that many creatures, self-growth is a second plan, not the main one
+      var others = deck.filter(function (c) {
+        return /\bcreature\b/.test(typeOf(c));
+      }).length;
+      if (others >= VOLTRON_CREATURE_CAP) score.voltron = Math.min(score.voltron, Math.floor(0.95 * topOther));
     }
     var ranked = Object.keys(score).map(function (k) {
       return [k, score[k]];
@@ -2583,6 +2604,12 @@
     if (r.lands && w.landfall && (hurts || g.bodies)) return "turns land drops into damage or an army";
     if ((r.drain || r.lands || r.artifacts || r["go-wide"]) && /\bdeals? \d+ damage to each opponent\b|\beach opponent loses \d+ life\b/.test(bare) && /\bwhenever\b/.test(bare)) return "hits every opponent again and again";
     if (r.mill && g.oppmill) return "mills opponents out";
+    // cycle 32 (Archidekt: owners file Aurelia, Aggravated Assault, Karlach and Relentless Assault as finishers)
+    if ((r.aggro || r["go-wide"] || r.kindred || r.voltron || r.counters || r.big) && /\badditional combat phase\b/.test(bare)) return "gives an extra combat";
+    // cycle 32 (Archidekt: Kaldra Compleat, Colossus Hammer): gear that makes the commander lethal in a few hits
+    if (r.voltron && g.gear && /\b(equipped|enchanted) creature gets \+([4-9]|\d\d)\/|\b(equipped|enchanted) creature (has|gains) [^.]*\bdouble strike\b/.test(bare)) return "makes your commander lethal";
+    // cycle 32 (Archidekt: Cyberdrive Awakener, filed as a finisher 13 times): artifacts that become an army
+    if (r.artifacts && /\beach noncreature artifact you control becomes\b|\bnoncreature artifacts you control (are|become) [^.]*\bcreatures?\b/.test(bare)) return "turns your artifacts into an army";
     if ((r["go-wide"] || r.kindred || r.aggro || r.counters) && /\b(other )?(creatures|[a-z]+s) you control get \+(\d+|x)\/\+(\d+|x)\b/.test(bare)) return "pumps the team";
     if (r.big && /\bcreature\b/.test(String(slim.frontType || slim.typeLine || "").toLowerCase()) && typeof slim.power === "number" && slim.power >= 6 && /\b(flying|trample)\b/.test(bare)) return "a huge flier or trampler";
     return null;
@@ -2621,7 +2648,7 @@
 
   var DRAIN_ROUTES = { drain: true, aristocrats: true, lifegain: true, spells: true, wheels: true };
   var SMALL_DRAIN_WHY = { "drains the table": true, "hits every opponent": true, "turns spare mana into damage": true };
-  var DRAIN_SCALES = /\b(loses|deals) x\b|\bx (life|damage)\b|\bthat much\b|\b(life|damage) equal to\b|\bfor each\b|\bwhere x is\b|\bhalf (their|his or her)\b/;
+  var DRAIN_SCALES = /\brepeat the following process x times\b|\btimes x damage\b|\b(loses|deals) x\b|\bx (life|damage)\b|\bthat much\b|\b(life|damage) equal to\b|\bfor each\b|\bwhere x is\b|\bhalf (their|his or her)\b/;
   var DRAIN_STACK = 4; // cycle 25: this many small drains add up to a finisher (outcome check: 3, 4 and 5 keep 95%, 94% and 94% of real drain decks)
   CS.gamePlan = function (profile, byId, fits) {
     var engine = [];
