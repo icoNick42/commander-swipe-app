@@ -3,4 +3,4 @@
  "tests": {"zurgo": "decks/nick/zurgo.dck", "zurgo-planted": "decks/test/zurgo-planted.dck"},
  "opponents": ["decks/gauntlet-a/*.dck"],
  "games_per_test": 200, "games_per_batch": 4, "clock": 1200, "seed": 22,
- "machines": ["desktop"], "priority": 20}
+ "machines": ["desktop", "laptop"], "priority": 20}

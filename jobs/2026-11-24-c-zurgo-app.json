@@ -6,4 +6,4 @@
            "zurgo-staples5": {"base": "decks/nick/zurgo.dck", "export": "decks/nick/zurgo.txt", "app_swaps": 5, "picks": "staples"}},
  "opponents": ["decks/gauntlet-a/*.dck"],
  "games_per_test": 300, "games_per_batch": 4, "clock": 1200, "seed": 33,
- "machines": ["desktop"], "priority": 10}
+ "machines": ["desktop", "laptop"], "priority": 10}

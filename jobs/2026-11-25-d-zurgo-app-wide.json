@@ -24,7 +24,8 @@
  "clock": 1200,
  "seed": 44,
  "machines": [
-  "desktop"
+  "desktop",
+  "laptop"
  ],
  "priority": 5
 }
