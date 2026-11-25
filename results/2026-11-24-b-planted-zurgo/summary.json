@@ -1,0 +1,1756 @@
+{
+ "job": "2026-11-24-b-planted-zurgo",
+ "note": "Instrument test: Zurgo vs. Zurgo with 8 good cards (Sol Ring, 3 mana rocks, Swords, Skullclamp, Adeline, Cathars' Crusade) swapped for vanilla filler. The sims must clearly see this damage; if they can't, nothing finer counts.",
+ "made": "2026-11-25 13:05",
+ "batches_in": 100,
+ "batches_total": 100,
+ "decks": {
+  "zurgo": {
+   "games": 200,
+   "wins": 50,
+   "win_rate": 0.25,
+   "win_lo": 0.19508076816296532,
+   "win_hi": 0.3143422347961952,
+   "draws": 0,
+   "timeouts": 0,
+   "mulligan_rate": 0.225,
+   "missed_drops": 1.67,
+   "lands_t5": 4.265,
+   "screw_rate": 0.195,
+   "cmd_first_turn": 5.155440414507772,
+   "cmd_never": 0.035,
+   "spells_cast": 14.98,
+   "dmg_to_players": 42.315,
+   "cmd_damage": 4.455,
+   "own_turns": 11.325,
+   "died_rate": 0.735,
+   "cards": [
+    {
+     "card": "Zurgo Stormrender",
+     "used_rate": 0.965,
+     "wr_used": 0.25906735751295334,
+     "wr_not": 0.0,
+     "first_turn": 5.155440414507772,
+     "engine_per_game": 6.295,
+     "ai_flag": ""
+    },
+    {
+     "card": "Adeline, Resplendent Cathar",
+     "used_rate": 0.18,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.23170731707317074,
+     "first_turn": 8.416666666666666,
+     "engine_per_game": 0.135,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ainok Strike Leader",
+     "used_rate": 0.29,
+     "wr_used": 0.2413793103448276,
+     "wr_not": 0.2535211267605634,
+     "first_turn": 7.448275862068965,
+     "engine_per_game": 0.19,
+     "ai_flag": ""
+    },
+    {
+     "card": "Anim Pakal, Thousandth Moon",
+     "used_rate": 0.19,
+     "wr_used": 0.42105263157894735,
+     "wr_not": 0.20987654320987653,
+     "first_turn": 8.763157894736842,
+     "engine_per_game": 0.18,
+     "ai_flag": ""
+    },
+    {
+     "card": "Arcane Signet",
+     "used_rate": 0.175,
+     "wr_used": 0.37142857142857144,
+     "wr_not": 0.22424242424242424,
+     "first_turn": 6.314285714285714,
+     "engine_per_game": 0.0,
+     "ai_flag": "noncmd"
+    },
+    {
+     "card": "Arid Mesa",
+     "used_rate": 0.135,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.23699421965317918,
+     "first_turn": null,
+     "engine_per_game": 0.135,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ashnod's Altar",
+     "used_rate": 0.215,
+     "wr_used": 0.37209302325581395,
+     "wr_not": 0.21656050955414013,
+     "first_turn": 8.86046511627907,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Badlands",
+     "used_rate": 0.235,
+     "wr_used": 0.2978723404255319,
+     "wr_not": 0.23529411764705882,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bastion of Remembrance",
+     "used_rate": 0.19,
+     "wr_used": 0.2631578947368421,
+     "wr_not": 0.24691358024691357,
+     "first_turn": 8.0,
+     "engine_per_game": 1.19,
+     "ai_flag": ""
+    },
+    {
+     "card": "Battle Angels of Tyr",
+     "used_rate": 0.195,
+     "wr_used": 0.46153846153846156,
+     "wr_not": 0.19875776397515527,
+     "first_turn": 7.564102564102564,
+     "engine_per_game": 0.975,
+     "ai_flag": ""
+    },
+    {
+     "card": "Black Market",
+     "used_rate": 0.17,
+     "wr_used": 0.23529411764705882,
+     "wr_not": 0.25301204819277107,
+     "first_turn": 9.147058823529411,
+     "engine_per_game": 2.14,
+     "ai_flag": ""
+    },
+    {
+     "card": "Black Market Connections",
+     "used_rate": 0.145,
+     "wr_used": 0.3103448275862069,
+     "wr_not": 0.23976608187134502,
+     "first_turn": 8.931034482758621,
+     "engine_per_game": 0.335,
+     "ai_flag": ""
+    },
+    {
+     "card": "Blade of Selves",
+     "used_rate": 0.24,
+     "wr_used": 0.2916666666666667,
+     "wr_not": 0.23684210526315788,
+     "first_turn": 7.375,
+     "engine_per_game": 0.29,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Blood Artist",
+     "used_rate": 0.225,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.22580645161290322,
+     "first_turn": 7.466666666666667,
+     "engine_per_game": 2.31,
+     "ai_flag": ""
+    },
+    {
+     "card": "Blood Crypt",
+     "used_rate": 0.2,
+     "wr_used": 0.25,
+     "wr_not": 0.25,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bloodstained Mire",
+     "used_rate": 0.225,
+     "wr_used": 0.28888888888888886,
+     "wr_not": 0.23870967741935484,
+     "first_turn": null,
+     "engine_per_game": 0.225,
+     "ai_flag": ""
+    },
+    {
+     "card": "Brimaz, King of Oreskos",
+     "used_rate": 0.195,
+     "wr_used": 0.358974358974359,
+     "wr_not": 0.2236024844720497,
+     "first_turn": 7.6923076923076925,
+     "engine_per_game": 0.18,
+     "ai_flag": ""
+    },
+    {
+     "card": "Caesar, Legion's Emperor",
+     "used_rate": 0.265,
+     "wr_used": 0.2830188679245283,
+     "wr_not": 0.23809523809523808,
+     "first_turn": 8.754716981132075,
+     "engine_per_game": 0.21,
+     "ai_flag": ""
+    },
+    {
+     "card": "Carrion Feeder",
+     "used_rate": 0.2,
+     "wr_used": 0.275,
+     "wr_not": 0.24375,
+     "first_turn": 6.15,
+     "engine_per_game": 1.225,
+     "ai_flag": ""
+    },
+    {
+     "card": "Cathars' Crusade",
+     "used_rate": 0.21,
+     "wr_used": 0.47619047619047616,
+     "wr_not": 0.189873417721519,
+     "first_turn": 9.166666666666666,
+     "engine_per_game": 2.06,
+     "ai_flag": ""
+    },
+    {
+     "card": "Command Tower",
+     "used_rate": 0.25,
+     "wr_used": 0.4,
+     "wr_not": 0.2,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "noncmd"
+    },
+    {
+     "card": "Crowded Crypt",
+     "used_rate": 0.26,
+     "wr_used": 0.36538461538461536,
+     "wr_not": 0.20945945945945946,
+     "first_turn": 8.307692307692308,
+     "engine_per_game": 1.205,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dalkovan Encampment",
+     "used_rate": 0.245,
+     "wr_used": 0.3877551020408163,
+     "wr_not": 0.2052980132450331,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dark Prophecy",
+     "used_rate": 0.15,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.23529411764705882,
+     "first_turn": 9.3,
+     "engine_per_game": 0.425,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dawn Charm",
+     "used_rate": 0.155,
+     "wr_used": 0.3548387096774194,
+     "wr_not": 0.23076923076923078,
+     "first_turn": 10.32258064516129,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Deadly Dispute",
+     "used_rate": 0.16,
+     "wr_used": 0.40625,
+     "wr_not": 0.22023809523809523,
+     "first_turn": 9.71875,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Deathgreeter",
+     "used_rate": 0.255,
+     "wr_used": 0.37254901960784315,
+     "wr_not": 0.2080536912751678,
+     "first_turn": 7.196078431372549,
+     "engine_per_game": 2.25,
+     "ai_flag": ""
+    },
+    {
+     "card": "Duty Beyond Death",
+     "used_rate": 0.085,
+     "wr_used": 0.5294117647058824,
+     "wr_not": 0.22404371584699453,
+     "first_turn": 10.588235294117647,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Eiganjo, Seat of the Empire",
+     "used_rate": 0.27,
+     "wr_used": 0.3148148148148148,
+     "wr_not": 0.22602739726027396,
+     "first_turn": null,
+     "engine_per_game": 0.01,
+     "ai_flag": ""
+    },
+    {
+     "card": "Elas il-Kor, Sadistic Pilgrim",
+     "used_rate": 0.21,
+     "wr_used": 0.38095238095238093,
+     "wr_not": 0.21518987341772153,
+     "first_turn": 8.19047619047619,
+     "engine_per_game": 1.345,
+     "ai_flag": ""
+    },
+    {
+     "card": "Elenda, the Dusk Rose",
+     "used_rate": 0.17,
+     "wr_used": 0.5588235294117647,
+     "wr_not": 0.18674698795180722,
+     "first_turn": 8.382352941176471,
+     "engine_per_game": 1.825,
+     "ai_flag": ""
+    },
+    {
+     "card": "Emeritus of Woe",
+     "used_rate": 0.21,
+     "wr_used": 0.40476190476190477,
+     "wr_not": 0.2088607594936709,
+     "first_turn": 7.857142857142857,
+     "engine_per_game": 0.135,
+     "ai_flag": ""
+    },
+    {
+     "card": "Endless Foot Assault",
+     "used_rate": 0.18,
+     "wr_used": 0.3888888888888889,
+     "wr_not": 0.21951219512195122,
+     "first_turn": 8.88888888888889,
+     "engine_per_game": 0.7,
+     "ai_flag": ""
+    },
+    {
+     "card": "Enduring Innocence",
+     "used_rate": 0.15,
+     "wr_used": 0.36666666666666664,
+     "wr_not": 0.22941176470588234,
+     "first_turn": 8.6,
+     "engine_per_game": 0.625,
+     "ai_flag": ""
+    },
+    {
+     "card": "Esper Sentinel",
+     "used_rate": 0.22,
+     "wr_used": 0.29545454545454547,
+     "wr_not": 0.23717948717948717,
+     "first_turn": 6.613636363636363,
+     "engine_per_game": 0.615,
+     "ai_flag": ""
+    },
+    {
+     "card": "Flooded Strand",
+     "used_rate": 0.22,
+     "wr_used": 0.38636363636363635,
+     "wr_not": 0.21153846153846154,
+     "first_turn": null,
+     "engine_per_game": 0.22,
+     "ai_flag": ""
+    },
+    {
+     "card": "Generous Plunderer",
+     "used_rate": 0.195,
+     "wr_used": 0.3076923076923077,
+     "wr_not": 0.2360248447204969,
+     "first_turn": 7.0256410256410255,
+     "engine_per_game": 0.66,
+     "ai_flag": ""
+    },
+    {
+     "card": "Godless Shrine",
+     "used_rate": 0.18,
+     "wr_used": 0.19444444444444445,
+     "wr_not": 0.2621951219512195,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Grand Crescendo",
+     "used_rate": 0.085,
+     "wr_used": 0.5294117647058824,
+     "wr_not": 0.22404371584699453,
+     "first_turn": 9.941176470588236,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Grim Hireling",
+     "used_rate": 0.18,
+     "wr_used": 0.2222222222222222,
+     "wr_not": 0.25609756097560976,
+     "first_turn": 7.583333333333333,
+     "engine_per_game": 0.145,
+     "ai_flag": ""
+    },
+    {
+     "card": "Gut, True Soul Zealot",
+     "used_rate": 0.195,
+     "wr_used": 0.4358974358974359,
+     "wr_not": 0.20496894409937888,
+     "first_turn": 9.58974358974359,
+     "engine_per_game": 0.22,
+     "ai_flag": ""
+    },
+    {
+     "card": "Impact Tremors",
+     "used_rate": 0.15,
+     "wr_used": 0.5,
+     "wr_not": 0.20588235294117646,
+     "first_turn": 7.5,
+     "engine_per_game": 1.55,
+     "ai_flag": ""
+    },
+    {
+     "card": "Jadar, Ghoulcaller of Nephalia",
+     "used_rate": 0.205,
+     "wr_used": 0.24390243902439024,
+     "wr_not": 0.25157232704402516,
+     "first_turn": 5.195121951219512,
+     "engine_per_game": 0.37,
+     "ai_flag": ""
+    },
+    {
+     "card": "Lightning Greaves",
+     "used_rate": 0.23,
+     "wr_used": 0.391304347826087,
+     "wr_not": 0.2077922077922078,
+     "first_turn": 6.217391304347826,
+     "engine_per_game": 0.395,
+     "ai_flag": ""
+    },
+    {
+     "card": "Luxury Suite",
+     "used_rate": 0.285,
+     "wr_used": 0.3684210526315789,
+     "wr_not": 0.20279720279720279,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mace of the Valiant",
+     "used_rate": 0.15,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.23529411764705882,
+     "first_turn": 7.166666666666667,
+     "engine_per_game": 2.09,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Mahadi, Emporium Master",
+     "used_rate": 0.225,
+     "wr_used": 0.35555555555555557,
+     "wr_not": 0.21935483870967742,
+     "first_turn": 6.5777777777777775,
+     "engine_per_game": 0.64,
+     "ai_flag": ""
+    },
+    {
+     "card": "Marsh Flats",
+     "used_rate": 0.2,
+     "wr_used": 0.225,
+     "wr_not": 0.25625,
+     "first_turn": null,
+     "engine_per_game": 0.195,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mentor of the Meek",
+     "used_rate": 0.225,
+     "wr_used": 0.3111111111111111,
+     "wr_not": 0.23225806451612904,
+     "first_turn": 6.7555555555555555,
+     "engine_per_game": 1.04,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mountain",
+     "used_rate": 0.435,
+     "wr_used": 0.2988505747126437,
+     "wr_not": 0.21238938053097345,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ocelot Pride",
+     "used_rate": 0.265,
+     "wr_used": 0.41509433962264153,
+     "wr_not": 0.19047619047619047,
+     "first_turn": 6.471698113207547,
+     "engine_per_game": 0.295,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ophiomancer",
+     "used_rate": 0.27,
+     "wr_used": 0.37037037037037035,
+     "wr_not": 0.2054794520547945,
+     "first_turn": 8.166666666666666,
+     "engine_per_game": 0.365,
+     "ai_flag": ""
+    },
+    {
+     "card": "Phyrexian Altar",
+     "used_rate": 0.165,
+     "wr_used": 0.21212121212121213,
+     "wr_not": 0.25748502994011974,
+     "first_turn": 8.515151515151516,
+     "engine_per_game": 0.0,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Phyrexian Tower",
+     "used_rate": 0.255,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.2214765100671141,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "all"
+    },
+    {
+     "card": "Pitiless Plunderer",
+     "used_rate": 0.195,
+     "wr_used": 0.358974358974359,
+     "wr_not": 0.2236024844720497,
+     "first_turn": 8.666666666666666,
+     "engine_per_game": 0.705,
+     "ai_flag": ""
+    },
+    {
+     "card": "Plains",
+     "used_rate": 0.41,
+     "wr_used": 0.32926829268292684,
+     "wr_not": 0.19491525423728814,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Plateau",
+     "used_rate": 0.22,
+     "wr_used": 0.3409090909090909,
+     "wr_not": 0.22435897435897437,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Polluted Delta",
+     "used_rate": 0.255,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.2214765100671141,
+     "first_turn": null,
+     "engine_per_game": 0.255,
+     "ai_flag": ""
+    },
+    {
+     "card": "Professional Face-Breaker",
+     "used_rate": 0.22,
+     "wr_used": 0.45454545454545453,
+     "wr_not": 0.19230769230769232,
+     "first_turn": 7.5,
+     "engine_per_game": 0.515,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ruinous Ultimatum",
+     "used_rate": 0.195,
+     "wr_used": 0.5128205128205128,
+     "wr_not": 0.18633540372670807,
+     "first_turn": 9.615384615384615,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Sacred Foundry",
+     "used_rate": 0.225,
+     "wr_used": 0.24444444444444444,
+     "wr_not": 0.25161290322580643,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Scalding Tarn",
+     "used_rate": 0.265,
+     "wr_used": 0.33962264150943394,
+     "wr_not": 0.21768707482993196,
+     "first_turn": null,
+     "engine_per_game": 0.265,
+     "ai_flag": ""
+    },
+    {
+     "card": "Scrubland",
+     "used_rate": 0.18,
+     "wr_used": 0.25,
+     "wr_not": 0.25,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Sephiroth, Fabled SOLDIER",
+     "used_rate": 0.185,
+     "wr_used": 0.4594594594594595,
+     "wr_not": 0.20245398773006135,
+     "first_turn": 7.216216216216216,
+     "engine_per_game": 1.865,
+     "ai_flag": ""
+    },
+    {
+     "card": "Shinka, the Bloodsoaked Keep",
+     "used_rate": 0.25,
+     "wr_used": 0.4,
+     "wr_not": 0.2,
+     "first_turn": null,
+     "engine_per_game": 0.03,
+     "ai_flag": ""
+    },
+    {
+     "card": "Skullclamp",
+     "used_rate": 0.26,
+     "wr_used": 0.28846153846153844,
+     "wr_not": 0.23648648648648649,
+     "first_turn": 5.634615384615385,
+     "engine_per_game": 0.815,
+     "ai_flag": ""
+    },
+    {
+     "card": "Sol Ring",
+     "used_rate": 0.215,
+     "wr_used": 0.18604651162790697,
+     "wr_not": 0.267515923566879,
+     "first_turn": 5.3023255813953485,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Soul Warden",
+     "used_rate": 0.165,
+     "wr_used": 0.42424242424242425,
+     "wr_not": 0.2155688622754491,
+     "first_turn": 7.363636363636363,
+     "engine_per_game": 3.34,
+     "ai_flag": ""
+    },
+    {
+     "card": "Soul's Attendant",
+     "used_rate": 0.17,
+     "wr_used": 0.4411764705882353,
+     "wr_not": 0.21084337349397592,
+     "first_turn": 6.411764705882353,
+     "engine_per_game": 2.66,
+     "ai_flag": ""
+    },
+    {
+     "card": "Spectator Seating",
+     "used_rate": 0.23,
+     "wr_used": 0.3695652173913043,
+     "wr_not": 0.21428571428571427,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Spirit Mantle",
+     "used_rate": 0.2,
+     "wr_used": 0.5,
+     "wr_not": 0.1875,
+     "first_turn": 7.625,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Stadium Headliner",
+     "used_rate": 0.2,
+     "wr_used": 0.35,
+     "wr_not": 0.225,
+     "first_turn": 7.85,
+     "engine_per_game": 0.235,
+     "ai_flag": ""
+    },
+    {
+     "card": "Staff of the Storyteller",
+     "used_rate": 0.2,
+     "wr_used": 0.275,
+     "wr_not": 0.24375,
+     "first_turn": 7.475,
+     "engine_per_game": 1.275,
+     "ai_flag": ""
+    },
+    {
+     "card": "Swamp",
+     "used_rate": 0.385,
+     "wr_used": 0.3116883116883117,
+     "wr_not": 0.21138211382113822,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Swords to Plowshares",
+     "used_rate": 0.2,
+     "wr_used": 0.4,
+     "wr_not": 0.2125,
+     "first_turn": 5.975,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Takenuma, Abandoned Mire",
+     "used_rate": 0.27,
+     "wr_used": 0.3148148148148148,
+     "wr_not": 0.22602739726027396,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Talisman of Conviction",
+     "used_rate": 0.165,
+     "wr_used": 0.21212121212121213,
+     "wr_not": 0.25748502994011974,
+     "first_turn": 6.303030303030303,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Talisman of Hierarchy",
+     "used_rate": 0.215,
+     "wr_used": 0.20930232558139536,
+     "wr_not": 0.2611464968152866,
+     "first_turn": 6.8604651162790695,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Talisman of Indulgence",
+     "used_rate": 0.235,
+     "wr_used": 0.3191489361702128,
+     "wr_not": 0.22875816993464052,
+     "first_turn": 7.0638297872340425,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "The Masamune",
+     "used_rate": 0.255,
+     "wr_used": 0.35294117647058826,
+     "wr_not": 0.21476510067114093,
+     "first_turn": 6.9411764705882355,
+     "engine_per_game": 0.42,
+     "ai_flag": ""
+    },
+    {
+     "card": "Trouble in Pairs",
+     "used_rate": 0.135,
+     "wr_used": 0.4074074074074074,
+     "wr_not": 0.2254335260115607,
+     "first_turn": 9.444444444444445,
+     "engine_per_game": 0.68,
+     "ai_flag": ""
+    },
+    {
+     "card": "True Conviction",
+     "used_rate": 0.17,
+     "wr_used": 0.6176470588235294,
+     "wr_not": 0.1746987951807229,
+     "first_turn": 9.235294117647058,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Untimely Malfunction",
+     "used_rate": 0.235,
+     "wr_used": 0.2978723404255319,
+     "wr_not": 0.23529411764705882,
+     "first_turn": 6.425531914893617,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Urborg, Tomb of Yawgmoth",
+     "used_rate": 0.185,
+     "wr_used": 0.32432432432432434,
+     "wr_not": 0.2331288343558282,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Urza's Saga",
+     "used_rate": 0.135,
+     "wr_used": 0.4074074074074074,
+     "wr_not": 0.2254335260115607,
+     "first_turn": null,
+     "engine_per_game": 0.345,
+     "ai_flag": ""
+    },
+    {
+     "card": "Vault of Champions",
+     "used_rate": 0.26,
+     "wr_used": 0.36538461538461536,
+     "wr_not": 0.20945945945945946,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Verdant Catacombs",
+     "used_rate": 0.265,
+     "wr_used": 0.2830188679245283,
+     "wr_not": 0.23809523809523808,
+     "first_turn": null,
+     "engine_per_game": 0.265,
+     "ai_flag": ""
+    },
+    {
+     "card": "Voice of Victory",
+     "used_rate": 0.24,
+     "wr_used": 0.4166666666666667,
+     "wr_not": 0.19736842105263158,
+     "first_turn": 7.9375,
+     "engine_per_game": 0.165,
+     "ai_flag": ""
+    },
+    {
+     "card": "Warleader's Call",
+     "used_rate": 0.215,
+     "wr_used": 0.37209302325581395,
+     "wr_not": 0.21656050955414013,
+     "first_turn": 7.209302325581396,
+     "engine_per_game": 2.065,
+     "ai_flag": ""
+    },
+    {
+     "card": "Warren Soultrader",
+     "used_rate": 0.21,
+     "wr_used": 0.2857142857142857,
+     "wr_not": 0.24050632911392406,
+     "first_turn": 7.619047619047619,
+     "engine_per_game": 0.265,
+     "ai_flag": ""
+    },
+    {
+     "card": "Windswept Heath",
+     "used_rate": 0.26,
+     "wr_used": 0.17307692307692307,
+     "wr_not": 0.27702702702702703,
+     "first_turn": null,
+     "engine_per_game": 0.26,
+     "ai_flag": ""
+    },
+    {
+     "card": "Woe Strider",
+     "used_rate": 0.25,
+     "wr_used": 0.3,
+     "wr_not": 0.23333333333333334,
+     "first_turn": 6.74,
+     "engine_per_game": 0.445,
+     "ai_flag": ""
+    },
+    {
+     "card": "Wooded Foothills",
+     "used_rate": 0.28,
+     "wr_used": 0.32142857142857145,
+     "wr_not": 0.2222222222222222,
+     "first_turn": null,
+     "engine_per_game": 0.28,
+     "ai_flag": ""
+    }
+   ]
+  },
+  "zurgo-planted": {
+   "games": 200,
+   "wins": 39,
+   "win_rate": 0.195,
+   "win_lo": 0.14605441564505764,
+   "win_hi": 0.25544164796511815,
+   "draws": 0,
+   "timeouts": 0,
+   "mulligan_rate": 0.065,
+   "missed_drops": 1.865,
+   "lands_t5": 4.125,
+   "screw_rate": 0.27,
+   "cmd_first_turn": 5.374331550802139,
+   "cmd_never": 0.065,
+   "spells_cast": 13.505,
+   "dmg_to_players": 25.005,
+   "cmd_damage": 3.37,
+   "own_turns": 11.15,
+   "died_rate": 0.79,
+   "cards": [
+    {
+     "card": "Zurgo Stormrender",
+     "used_rate": 0.935,
+     "wr_used": 0.20855614973262032,
+     "wr_not": 0.0,
+     "first_turn": 5.374331550802139,
+     "engine_per_game": 4.47,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bog Imp",
+     "used_rate": 0.225,
+     "wr_used": 0.24444444444444444,
+     "wr_not": 0.18064516129032257,
+     "first_turn": 6.222222222222222,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ainok Strike Leader",
+     "used_rate": 0.195,
+     "wr_used": 0.2564102564102564,
+     "wr_not": 0.18012422360248448,
+     "first_turn": 7.205128205128205,
+     "engine_per_game": 0.185,
+     "ai_flag": ""
+    },
+    {
+     "card": "Anim Pakal, Thousandth Moon",
+     "used_rate": 0.195,
+     "wr_used": 0.38461538461538464,
+     "wr_not": 0.14906832298136646,
+     "first_turn": 9.58974358974359,
+     "engine_per_game": 0.15,
+     "ai_flag": ""
+    },
+    {
+     "card": "Gray Ogre",
+     "used_rate": 0.145,
+     "wr_used": 0.20689655172413793,
+     "wr_not": 0.19298245614035087,
+     "first_turn": 9.0,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Arid Mesa",
+     "used_rate": 0.17,
+     "wr_used": 0.3235294117647059,
+     "wr_not": 0.1686746987951807,
+     "first_turn": null,
+     "engine_per_game": 0.17,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ashnod's Altar",
+     "used_rate": 0.125,
+     "wr_used": 0.16,
+     "wr_not": 0.2,
+     "first_turn": 7.96,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Badlands",
+     "used_rate": 0.24,
+     "wr_used": 0.22916666666666666,
+     "wr_not": 0.18421052631578946,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bastion of Remembrance",
+     "used_rate": 0.185,
+     "wr_used": 0.24324324324324326,
+     "wr_not": 0.18404907975460122,
+     "first_turn": 8.972972972972974,
+     "engine_per_game": 1.42,
+     "ai_flag": ""
+    },
+    {
+     "card": "Battle Angels of Tyr",
+     "used_rate": 0.275,
+     "wr_used": 0.32727272727272727,
+     "wr_not": 0.14482758620689656,
+     "first_turn": 7.9818181818181815,
+     "engine_per_game": 0.85,
+     "ai_flag": ""
+    },
+    {
+     "card": "Black Market",
+     "used_rate": 0.17,
+     "wr_used": 0.23529411764705882,
+     "wr_not": 0.18674698795180722,
+     "first_turn": 8.588235294117647,
+     "engine_per_game": 2.9,
+     "ai_flag": ""
+    },
+    {
+     "card": "Black Market Connections",
+     "used_rate": 0.11,
+     "wr_used": 0.2727272727272727,
+     "wr_not": 0.1853932584269663,
+     "first_turn": 8.772727272727273,
+     "engine_per_game": 0.315,
+     "ai_flag": ""
+    },
+    {
+     "card": "Blade of Selves",
+     "used_rate": 0.17,
+     "wr_used": 0.2647058823529412,
+     "wr_not": 0.18072289156626506,
+     "first_turn": 6.794117647058823,
+     "engine_per_game": 0.245,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Blood Artist",
+     "used_rate": 0.205,
+     "wr_used": 0.17073170731707318,
+     "wr_not": 0.20125786163522014,
+     "first_turn": 7.7317073170731705,
+     "engine_per_game": 1.565,
+     "ai_flag": ""
+    },
+    {
+     "card": "Blood Crypt",
+     "used_rate": 0.255,
+     "wr_used": 0.27450980392156865,
+     "wr_not": 0.16778523489932887,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bloodstained Mire",
+     "used_rate": 0.225,
+     "wr_used": 0.17777777777777778,
+     "wr_not": 0.2,
+     "first_turn": null,
+     "engine_per_game": 0.225,
+     "ai_flag": ""
+    },
+    {
+     "card": "Brimaz, King of Oreskos",
+     "used_rate": 0.29,
+     "wr_used": 0.3275862068965517,
+     "wr_not": 0.14084507042253522,
+     "first_turn": 7.5344827586206895,
+     "engine_per_game": 0.2,
+     "ai_flag": ""
+    },
+    {
+     "card": "Caesar, Legion's Emperor",
+     "used_rate": 0.19,
+     "wr_used": 0.23684210526315788,
+     "wr_not": 0.18518518518518517,
+     "first_turn": 8.078947368421053,
+     "engine_per_game": 0.125,
+     "ai_flag": ""
+    },
+    {
+     "card": "Carrion Feeder",
+     "used_rate": 0.22,
+     "wr_used": 0.20454545454545456,
+     "wr_not": 0.19230769230769232,
+     "first_turn": 5.0227272727272725,
+     "engine_per_game": 1.275,
+     "ai_flag": ""
+    },
+    {
+     "card": "Eager Cadet",
+     "used_rate": 0.2,
+     "wr_used": 0.3,
+     "wr_not": 0.16875,
+     "first_turn": 7.0,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Command Tower",
+     "used_rate": 0.185,
+     "wr_used": 0.2972972972972973,
+     "wr_not": 0.17177914110429449,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "noncmd"
+    },
+    {
+     "card": "Crowded Crypt",
+     "used_rate": 0.19,
+     "wr_used": 0.39473684210526316,
+     "wr_not": 0.14814814814814814,
+     "first_turn": 7.2894736842105265,
+     "engine_per_game": 1.085,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dalkovan Encampment",
+     "used_rate": 0.215,
+     "wr_used": 0.2558139534883721,
+     "wr_not": 0.17834394904458598,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dark Prophecy",
+     "used_rate": 0.085,
+     "wr_used": 0.4117647058823529,
+     "wr_not": 0.17486338797814208,
+     "first_turn": 11.0,
+     "engine_per_game": 0.32,
+     "ai_flag": ""
+    },
+    {
+     "card": "Dawn Charm",
+     "used_rate": 0.18,
+     "wr_used": 0.3055555555555556,
+     "wr_not": 0.17073170731707318,
+     "first_turn": 10.63888888888889,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Deadly Dispute",
+     "used_rate": 0.12,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.17613636363636365,
+     "first_turn": 9.375,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Deathgreeter",
+     "used_rate": 0.21,
+     "wr_used": 0.38095238095238093,
+     "wr_not": 0.14556962025316456,
+     "first_turn": 6.238095238095238,
+     "engine_per_game": 1.875,
+     "ai_flag": ""
+    },
+    {
+     "card": "Duty Beyond Death",
+     "used_rate": 0.11,
+     "wr_used": 0.4090909090909091,
+     "wr_not": 0.16853932584269662,
+     "first_turn": 10.318181818181818,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Eiganjo, Seat of the Empire",
+     "used_rate": 0.265,
+     "wr_used": 0.1320754716981132,
+     "wr_not": 0.21768707482993196,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Elas il-Kor, Sadistic Pilgrim",
+     "used_rate": 0.185,
+     "wr_used": 0.2972972972972973,
+     "wr_not": 0.17177914110429449,
+     "first_turn": 5.891891891891892,
+     "engine_per_game": 1.845,
+     "ai_flag": ""
+    },
+    {
+     "card": "Elenda, the Dusk Rose",
+     "used_rate": 0.185,
+     "wr_used": 0.3783783783783784,
+     "wr_not": 0.15337423312883436,
+     "first_turn": 8.756756756756756,
+     "engine_per_game": 1.76,
+     "ai_flag": ""
+    },
+    {
+     "card": "Emeritus of Woe",
+     "used_rate": 0.195,
+     "wr_used": 0.3076923076923077,
+     "wr_not": 0.16770186335403728,
+     "first_turn": 7.538461538461538,
+     "engine_per_game": 0.05,
+     "ai_flag": ""
+    },
+    {
+     "card": "Endless Foot Assault",
+     "used_rate": 0.16,
+     "wr_used": 0.34375,
+     "wr_not": 0.16666666666666666,
+     "first_turn": 8.3125,
+     "engine_per_game": 0.565,
+     "ai_flag": ""
+    },
+    {
+     "card": "Enduring Innocence",
+     "used_rate": 0.16,
+     "wr_used": 0.28125,
+     "wr_not": 0.17857142857142858,
+     "first_turn": 8.25,
+     "engine_per_game": 0.7,
+     "ai_flag": ""
+    },
+    {
+     "card": "Esper Sentinel",
+     "used_rate": 0.125,
+     "wr_used": 0.28,
+     "wr_not": 0.18285714285714286,
+     "first_turn": 5.8,
+     "engine_per_game": 0.505,
+     "ai_flag": ""
+    },
+    {
+     "card": "Flooded Strand",
+     "used_rate": 0.235,
+     "wr_used": 0.2553191489361702,
+     "wr_not": 0.17647058823529413,
+     "first_turn": null,
+     "engine_per_game": 0.235,
+     "ai_flag": ""
+    },
+    {
+     "card": "Generous Plunderer",
+     "used_rate": 0.185,
+     "wr_used": 0.2702702702702703,
+     "wr_not": 0.17791411042944785,
+     "first_turn": 7.945945945945946,
+     "engine_per_game": 0.395,
+     "ai_flag": ""
+    },
+    {
+     "card": "Godless Shrine",
+     "used_rate": 0.175,
+     "wr_used": 0.2571428571428571,
+     "wr_not": 0.18181818181818182,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Grand Crescendo",
+     "used_rate": 0.15,
+     "wr_used": 0.2,
+     "wr_not": 0.19411764705882353,
+     "first_turn": 9.966666666666667,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Grim Hireling",
+     "used_rate": 0.18,
+     "wr_used": 0.25,
+     "wr_not": 0.18292682926829268,
+     "first_turn": 7.583333333333333,
+     "engine_per_game": 0.145,
+     "ai_flag": ""
+    },
+    {
+     "card": "Gut, True Soul Zealot",
+     "used_rate": 0.205,
+     "wr_used": 0.2926829268292683,
+     "wr_not": 0.16981132075471697,
+     "first_turn": 8.024390243902438,
+     "engine_per_game": 0.19,
+     "ai_flag": ""
+    },
+    {
+     "card": "Impact Tremors",
+     "used_rate": 0.175,
+     "wr_used": 0.2857142857142857,
+     "wr_not": 0.17575757575757575,
+     "first_turn": 6.6571428571428575,
+     "engine_per_game": 1.52,
+     "ai_flag": ""
+    },
+    {
+     "card": "Jadar, Ghoulcaller of Nephalia",
+     "used_rate": 0.215,
+     "wr_used": 0.27906976744186046,
+     "wr_not": 0.17197452229299362,
+     "first_turn": 6.1395348837209305,
+     "engine_per_game": 0.325,
+     "ai_flag": ""
+    },
+    {
+     "card": "Lightning Greaves",
+     "used_rate": 0.195,
+     "wr_used": 0.1794871794871795,
+     "wr_not": 0.19875776397515527,
+     "first_turn": 5.641025641025641,
+     "engine_per_game": 0.34,
+     "ai_flag": ""
+    },
+    {
+     "card": "Luxury Suite",
+     "used_rate": 0.22,
+     "wr_used": 0.2727272727272727,
+     "wr_not": 0.17307692307692307,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mace of the Valiant",
+     "used_rate": 0.255,
+     "wr_used": 0.2549019607843137,
+     "wr_not": 0.174496644295302,
+     "first_turn": 7.1568627450980395,
+     "engine_per_game": 2.56,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Mahadi, Emporium Master",
+     "used_rate": 0.185,
+     "wr_used": 0.21621621621621623,
+     "wr_not": 0.1901840490797546,
+     "first_turn": 7.621621621621622,
+     "engine_per_game": 0.535,
+     "ai_flag": ""
+    },
+    {
+     "card": "Marsh Flats",
+     "used_rate": 0.22,
+     "wr_used": 0.25,
+     "wr_not": 0.1794871794871795,
+     "first_turn": null,
+     "engine_per_game": 0.215,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mentor of the Meek",
+     "used_rate": 0.2,
+     "wr_used": 0.175,
+     "wr_not": 0.2,
+     "first_turn": 6.65,
+     "engine_per_game": 1.125,
+     "ai_flag": ""
+    },
+    {
+     "card": "Mountain",
+     "used_rate": 0.4,
+     "wr_used": 0.2625,
+     "wr_not": 0.15,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ocelot Pride",
+     "used_rate": 0.2,
+     "wr_used": 0.275,
+     "wr_not": 0.175,
+     "first_turn": 6.5,
+     "engine_per_game": 0.32,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ophiomancer",
+     "used_rate": 0.195,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.16149068322981366,
+     "first_turn": 8.487179487179487,
+     "engine_per_game": 0.27,
+     "ai_flag": ""
+    },
+    {
+     "card": "Phyrexian Altar",
+     "used_rate": 0.16,
+     "wr_used": 0.1875,
+     "wr_not": 0.19642857142857142,
+     "first_turn": 8.4375,
+     "engine_per_game": 0.0,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Phyrexian Tower",
+     "used_rate": 0.195,
+     "wr_used": 0.1794871794871795,
+     "wr_not": 0.19875776397515527,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "all"
+    },
+    {
+     "card": "Pitiless Plunderer",
+     "used_rate": 0.185,
+     "wr_used": 0.40540540540540543,
+     "wr_not": 0.147239263803681,
+     "first_turn": 8.675675675675675,
+     "engine_per_game": 0.86,
+     "ai_flag": ""
+    },
+    {
+     "card": "Plains",
+     "used_rate": 0.4,
+     "wr_used": 0.2375,
+     "wr_not": 0.16666666666666666,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Plateau",
+     "used_rate": 0.18,
+     "wr_used": 0.19444444444444445,
+     "wr_not": 0.1951219512195122,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Polluted Delta",
+     "used_rate": 0.18,
+     "wr_used": 0.16666666666666666,
+     "wr_not": 0.20121951219512196,
+     "first_turn": null,
+     "engine_per_game": 0.175,
+     "ai_flag": ""
+    },
+    {
+     "card": "Professional Face-Breaker",
+     "used_rate": 0.185,
+     "wr_used": 0.21621621621621623,
+     "wr_not": 0.1901840490797546,
+     "first_turn": 7.297297297297297,
+     "engine_per_game": 0.245,
+     "ai_flag": ""
+    },
+    {
+     "card": "Ruinous Ultimatum",
+     "used_rate": 0.135,
+     "wr_used": 0.5555555555555556,
+     "wr_not": 0.13872832369942195,
+     "first_turn": 10.407407407407407,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Sacred Foundry",
+     "used_rate": 0.185,
+     "wr_used": 0.32432432432432434,
+     "wr_not": 0.1656441717791411,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Scalding Tarn",
+     "used_rate": 0.24,
+     "wr_used": 0.2708333333333333,
+     "wr_not": 0.17105263157894737,
+     "first_turn": null,
+     "engine_per_game": 0.24,
+     "ai_flag": ""
+    },
+    {
+     "card": "Scrubland",
+     "used_rate": 0.155,
+     "wr_used": 0.0967741935483871,
+     "wr_not": 0.21301775147928995,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Sephiroth, Fabled SOLDIER",
+     "used_rate": 0.21,
+     "wr_used": 0.3333333333333333,
+     "wr_not": 0.15822784810126583,
+     "first_turn": 7.4523809523809526,
+     "engine_per_game": 1.94,
+     "ai_flag": ""
+    },
+    {
+     "card": "Shinka, the Bloodsoaked Keep",
+     "used_rate": 0.26,
+     "wr_used": 0.2692307692307692,
+     "wr_not": 0.16891891891891891,
+     "first_turn": null,
+     "engine_per_game": 0.005,
+     "ai_flag": ""
+    },
+    {
+     "card": "Raging Goblin",
+     "used_rate": 0.165,
+     "wr_used": 0.24242424242424243,
+     "wr_not": 0.18562874251497005,
+     "first_turn": 5.787878787878788,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Hill Giant",
+     "used_rate": 0.17,
+     "wr_used": 0.2647058823529412,
+     "wr_not": 0.18072289156626506,
+     "first_turn": 7.470588235294118,
+     "engine_per_game": 0.02,
+     "ai_flag": ""
+    },
+    {
+     "card": "Soul Warden",
+     "used_rate": 0.16,
+     "wr_used": 0.15625,
+     "wr_not": 0.20238095238095238,
+     "first_turn": 6.40625,
+     "engine_per_game": 2.645,
+     "ai_flag": ""
+    },
+    {
+     "card": "Soul's Attendant",
+     "used_rate": 0.16,
+     "wr_used": 0.1875,
+     "wr_not": 0.19642857142857142,
+     "first_turn": 6.78125,
+     "engine_per_game": 2.09,
+     "ai_flag": ""
+    },
+    {
+     "card": "Spectator Seating",
+     "used_rate": 0.24,
+     "wr_used": 0.25,
+     "wr_not": 0.17763157894736842,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Spirit Mantle",
+     "used_rate": 0.185,
+     "wr_used": 0.35135135135135137,
+     "wr_not": 0.15950920245398773,
+     "first_turn": 6.837837837837838,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Stadium Headliner",
+     "used_rate": 0.205,
+     "wr_used": 0.24390243902439024,
+     "wr_not": 0.18238993710691823,
+     "first_turn": 5.829268292682927,
+     "engine_per_game": 0.31,
+     "ai_flag": ""
+    },
+    {
+     "card": "Staff of the Storyteller",
+     "used_rate": 0.185,
+     "wr_used": 0.2702702702702703,
+     "wr_not": 0.17791411042944785,
+     "first_turn": 7.405405405405405,
+     "engine_per_game": 1.14,
+     "ai_flag": ""
+    },
+    {
+     "card": "Swamp",
+     "used_rate": 0.49,
+     "wr_used": 0.20408163265306123,
+     "wr_not": 0.18627450980392157,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Pikemen",
+     "used_rate": 0.22,
+     "wr_used": 0.29545454545454547,
+     "wr_not": 0.16666666666666666,
+     "first_turn": 7.2727272727272725,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Takenuma, Abandoned Mire",
+     "used_rate": 0.265,
+     "wr_used": 0.22641509433962265,
+     "wr_not": 0.1836734693877551,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Goblin Piker",
+     "used_rate": 0.175,
+     "wr_used": 0.17142857142857143,
+     "wr_not": 0.2,
+     "first_turn": 6.4,
+     "engine_per_game": 0.01,
+     "ai_flag": ""
+    },
+    {
+     "card": "Bog Raiders",
+     "used_rate": 0.21,
+     "wr_used": 0.2619047619047619,
+     "wr_not": 0.17721518987341772,
+     "first_turn": 8.476190476190476,
+     "engine_per_game": 0.05,
+     "ai_flag": ""
+    },
+    {
+     "card": "Talisman of Indulgence",
+     "used_rate": 0.185,
+     "wr_used": 0.24324324324324326,
+     "wr_not": 0.18404907975460122,
+     "first_turn": 7.594594594594595,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "The Masamune",
+     "used_rate": 0.17,
+     "wr_used": 0.20588235294117646,
+     "wr_not": 0.1927710843373494,
+     "first_turn": 6.882352941176471,
+     "engine_per_game": 0.28,
+     "ai_flag": ""
+    },
+    {
+     "card": "Trouble in Pairs",
+     "used_rate": 0.14,
+     "wr_used": 0.32142857142857145,
+     "wr_not": 0.1744186046511628,
+     "first_turn": 8.642857142857142,
+     "engine_per_game": 1.255,
+     "ai_flag": ""
+    },
+    {
+     "card": "True Conviction",
+     "used_rate": 0.14,
+     "wr_used": 0.39285714285714285,
+     "wr_not": 0.16279069767441862,
+     "first_turn": 9.392857142857142,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Untimely Malfunction",
+     "used_rate": 0.21,
+     "wr_used": 0.21428571428571427,
+     "wr_not": 0.189873417721519,
+     "first_turn": 5.880952380952381,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Urborg, Tomb of Yawgmoth",
+     "used_rate": 0.185,
+     "wr_used": 0.16216216216216217,
+     "wr_not": 0.20245398773006135,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": "random"
+    },
+    {
+     "card": "Urza's Saga",
+     "used_rate": 0.215,
+     "wr_used": 0.3023255813953488,
+     "wr_not": 0.16560509554140126,
+     "first_turn": null,
+     "engine_per_game": 0.555,
+     "ai_flag": ""
+    },
+    {
+     "card": "Vault of Champions",
+     "used_rate": 0.265,
+     "wr_used": 0.32075471698113206,
+     "wr_not": 0.14965986394557823,
+     "first_turn": null,
+     "engine_per_game": 0.0,
+     "ai_flag": ""
+    },
+    {
+     "card": "Verdant Catacombs",
+     "used_rate": 0.225,
+     "wr_used": 0.26666666666666666,
+     "wr_not": 0.17419354838709677,
+     "first_turn": null,
+     "engine_per_game": 0.22,
+     "ai_flag": ""
+    },
+    {
+     "card": "Voice of Victory",
+     "used_rate": 0.175,
+     "wr_used": 0.2,
+     "wr_not": 0.19393939393939394,
+     "first_turn": 6.228571428571429,
+     "engine_per_game": 0.19,
+     "ai_flag": ""
+    },
+    {
+     "card": "Warleader's Call",
+     "used_rate": 0.25,
+     "wr_used": 0.42,
+     "wr_not": 0.12,
+     "first_turn": 7.54,
+     "engine_per_game": 2.155,
+     "ai_flag": ""
+    },
+    {
+     "card": "Warren Soultrader",
+     "used_rate": 0.185,
+     "wr_used": 0.2702702702702703,
+     "wr_not": 0.17791411042944785,
+     "first_turn": 7.54054054054054,
+     "engine_per_game": 0.26,
+     "ai_flag": ""
+    },
+    {
+     "card": "Windswept Heath",
+     "used_rate": 0.23,
+     "wr_used": 0.1956521739130435,
+     "wr_not": 0.19480519480519481,
+     "first_turn": null,
+     "engine_per_game": 0.23,
+     "ai_flag": ""
+    },
+    {
+     "card": "Woe Strider",
+     "used_rate": 0.185,
+     "wr_used": 0.13513513513513514,
+     "wr_not": 0.2085889570552147,
+     "first_turn": 6.594594594594595,
+     "engine_per_game": 0.34,
+     "ai_flag": ""
+    },
+    {
+     "card": "Wooded Foothills",
+     "used_rate": 0.18,
+     "wr_used": 0.25,
+     "wr_not": 0.18292682926829268,
+     "first_turn": null,
+     "engine_per_game": 0.18,
+     "ai_flag": ""
+    }
+   ],
+   "vs_base": {
+    "diff": -0.055,
+    "lo": -0.13383890960903574,
+    "hi": 0.023838909609035737,
+    "pairs": 200,
+    "same_result": 0.675
+   },
+   "swaps": {
+    "in": [
+     "Bog Imp",
+     "Bog Raiders",
+     "Eager Cadet",
+     "Goblin Piker",
+     "Gray Ogre",
+     "Hill Giant",
+     "Pikemen",
+     "Raging Goblin"
+    ],
+    "out": [
+     "Adeline, Resplendent Cathar",
+     "Arcane Signet",
+     "Cathars' Crusade",
+     "Skullclamp",
+     "Sol Ring",
+     "Swords to Plowshares",
+     "Talisman of Conviction",
+     "Talisman of Hierarchy"
+    ]
+   }
+  }
+ }
+}
