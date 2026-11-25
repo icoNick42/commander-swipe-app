@@ -1,0 +1,89 @@
+{
+ "name": "zurgo-staples5",
+ "made": "2026-11-25T01:19:32.789Z",
+ "commander": "Zurgo Stormrender",
+ "source": "edhrec",
+ "picks_from": "staples",
+ "in": [
+  "Swiftfoot Boots",
+  "Path to Exile",
+  "Fellwar Stone",
+  "Thought Vessel",
+  "Blasphemous Act"
+ ],
+ "out": [
+  "Trouble in Pairs",
+  "Reconnaissance",
+  "Blood Artist",
+  "Deathgreeter",
+  "Impact Tremors"
+ ],
+ "detail": {
+  "picks": [
+   {
+    "name": "Swiftfoot Boots",
+    "fit": null,
+    "score": null
+   },
+   {
+    "name": "Path to Exile",
+    "fit": null,
+    "score": null
+   },
+   {
+    "name": "Fellwar Stone",
+    "fit": null,
+    "score": null
+   },
+   {
+    "name": "Thought Vessel",
+    "fit": null,
+    "score": null
+   },
+   {
+    "name": "Blasphemous Act",
+    "fit": null,
+    "score": null
+   }
+  ],
+  "cuts": [
+   {
+    "name": "Trouble in Pairs",
+    "reasons": [
+     "More card draw than the deck needs: 14 cards, most decks run about 10",
+     "Few decks with this commander run it (it isn't on the commander's EDHREC page)"
+    ],
+    "score": 63
+   },
+   {
+    "name": "Reconnaissance",
+    "reasons": [
+     "One of the weakest cards left in the deck"
+    ],
+    "score": 0
+   },
+   {
+    "name": "Blood Artist",
+    "reasons": [
+     "One of the weakest cards left in the deck"
+    ],
+    "score": 0
+   },
+   {
+    "name": "Deathgreeter",
+    "reasons": [
+     "One of the weakest cards left in the deck"
+    ],
+    "score": 0
+   },
+   {
+    "name": "Impact Tremors",
+    "reasons": [
+     "One of the weakest cards left in the deck"
+    ],
+    "score": 0
+   }
+  ]
+ },
+ "app_rev": "0a344a5"
+}
