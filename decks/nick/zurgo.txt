@@ -1,4 +1,4 @@
-1 Zurgo Stormrender (TDC) 10
+1 Zurgo Stormrender (TDC) 10 *F*
 1 Adeline, Resplendent Cathar (MID) 312
 1 Ainok Strike Leader (TDC) 51
 1 Anim Pakal, Thousandth Moon (LCI) 300 *F*
@@ -29,7 +29,6 @@
 1 Eiganjo, Seat of the Empire (PNEO) 268p
 1 Elas il-Kor, Sadistic Pilgrim (DMU) 198
 1 Elenda, the Dusk Rose (LCC) 268
-1 Emeritus of Woe / Demonic Tutor (SOS) 324
 1 Endless Foot Assault (TMC) 8
 1 Enduring Innocence (DSK) 368
 1 Esper Sentinel (MH2) 328
@@ -37,11 +36,11 @@
 1 Generous Plunderer (BIG) 76
 1 Goblin Bombardment (WOT) 43
 1 Godless Shrine (CLU) 276 *F*
-1 Grand Crescendo (FRC) 26
 1 Grim Hireling (PLST) AFC-25
 1 Gut, True Soul Zealot (CLB) 180
 1 Impact Tremors (WOT) 44
 1 Indulge / Excess (NCC) 46
+1 Infantry Shield (TDC) 35
 1 Jadar, Ghoulcaller of Nephalia (DBL) 108
 1 Lightning Greaves (SLD) IFIYW-9 *F*
 1 Luxury Suite (MSC) 252
@@ -60,6 +59,7 @@
 1 Polluted Delta (KTK) 239
 1 Professional Face-Breaker (M3C) 216
 1 Reconnaissance (ACR) 179 *E*
+1 Redoubled Stormsinger (SOC) 251
 1 Ruinous Ultimatum (SPG) 108
 1 Sacred Foundry (PEOE) 256p
 1 Scalding Tarn (MH2) 254
