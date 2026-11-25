@@ -1,0 +1,41 @@
+{
+ "note": "Gauntlet A plan labels, by eye.",
+ "decks": {
+  "40k-necron-dynasties.dck": {
+   "plan": "artifacts-recursion"
+  },
+  "afc-draconic-rage.dck": {
+   "plan": "dragons"
+  },
+  "blc-family-matters.dck": {
+   "plan": "tokens-tribal"
+  },
+  "brc-urza-s-iron-alliance.dck": {
+   "plan": "artifacts"
+  },
+  "dsc-death-toll.dck": {
+   "plan": "graveyard-delirium"
+  },
+  "fdc-calling-all-angels.dck": {
+   "plan": "tribal-flyers"
+  },
+  "lcc-veloci-ramp-tor.dck": {
+   "plan": "ramp-big-creatures"
+  },
+  "ltc-riders-of-rohan.dck": {
+   "plan": "go-wide-combat"
+  },
+  "m3c-graveyard-overdrive.dck": {
+   "plan": "graveyard"
+  },
+  "moc-growing-threat.dck": {
+   "plan": "tokens"
+  },
+  "ncc-riveteer-rampage.dck": {
+   "plan": "blitz-sacrifice"
+  },
+  "otc-quick-draw.dck": {
+   "plan": "spellslinger"
+  }
+ }
+}

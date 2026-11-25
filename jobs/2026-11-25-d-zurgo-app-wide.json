@@ -1,0 +1,30 @@
+{
+ "id": "2026-11-25-d-zurgo-app-wide",
+ "note": "The app test again, against 41 opponents covering ~20 game plans (gauntlets A and B) instead of 12 precons: does the app's top-5 still beat the list as is and the staples control when the tables vary more?",
+ "tests": {
+  "zurgo": "decks/nick/zurgo.dck",
+  "zurgo-app5": {
+   "base": "decks/nick/zurgo.dck",
+   "export": "decks/nick/zurgo.txt",
+   "app_swaps": 5
+  },
+  "zurgo-staples5": {
+   "base": "decks/nick/zurgo.dck",
+   "export": "decks/nick/zurgo.txt",
+   "app_swaps": 5,
+   "picks": "staples"
+  }
+ },
+ "opponents": [
+  "decks/gauntlet-a/*.dck",
+  "decks/gauntlet-b/*.dck"
+ ],
+ "games_per_test": 300,
+ "games_per_batch": 4,
+ "clock": 1200,
+ "seed": 44,
+ "machines": [
+  "desktop"
+ ],
+ "priority": 5
+}

@@ -1,0 +1,121 @@
+{
+ "note": "Gauntlet B: Forge 2.0.16 commander precons picked to cover game plans gauntlet A lacks. Plan labels are a by-eye read of each precon's commander and theme.",
+ "decks": {
+  "cmr-arm-for-battle.dck": {
+   "deck": "CMR - Arm for Battle",
+   "plan": "voltron"
+  },
+  "afc-aura-of-courage.dck": {
+   "deck": "AFC - Aura of Courage",
+   "plan": "voltron"
+  },
+  "nec-buckle-up.dck": {
+   "deck": "NEC - Buckle Up",
+   "plan": "vehicles"
+  },
+  "tdc-abzan-armor.dck": {
+   "deck": "TDC - Abzan Armor",
+   "plan": "defenders-toughness"
+  },
+  "c21-prismari-performance.dck": {
+   "deck": "C21 - Prismari Performance",
+   "plan": "spellslinger"
+  },
+  "fic-scions-spellcraft.dck": {
+   "deck": "FIC - Scions & Spellcraft",
+   "plan": "spellslinger"
+  },
+  "c20-arcane-maelstrom.dck": {
+   "deck": "C20 - Arcane Maelstrom",
+   "plan": "spellslinger"
+  },
+  "otc-grand-larceny.dck": {
+   "deck": "OTC - Grand Larceny",
+   "plan": "theft-copy"
+  },
+  "com-mirror-mastery.dck": {
+   "deck": "COM - Mirror Mastery",
+   "plan": "theft-copy"
+  },
+  "blc-peace-offering.dck": {
+   "deck": "BLC - Peace Offering",
+   "plan": "politics-goad-hug"
+  },
+  "mkc-blame-game.dck": {
+   "deck": "MKC - Blame Game",
+   "plan": "politics-goad-hug"
+  },
+  "dsc-endless-punishment.dck": {
+   "deck": "DSC - Endless Punishment",
+   "plan": "punisher-drain"
+  },
+  "40k-the-ruinous-powers.dck": {
+   "deck": "40K - The Ruinous Powers",
+   "plan": "punisher-drain"
+  },
+  "c19-merciless-rage.dck": {
+   "deck": "C19 - Merciless Rage",
+   "plan": "punisher-drain"
+  },
+  "sld-20-ways-to-win.dck": {
+   "deck": "SLD - 20 Ways to Win",
+   "plan": "combo-altwin"
+  },
+  "sld-goblin-storm.dck": {
+   "deck": "SLD - Goblin Storm",
+   "plan": "combo-altwin"
+  },
+  "cmm-enduring-enchantments.dck": {
+   "deck": "CMM - Enduring Enchantments",
+   "plan": "enchantress"
+  },
+  "c18-adaptive-enchantment.dck": {
+   "deck": "C18 - Adaptive Enchantment",
+   "plan": "enchantress"
+  },
+  "otc-desert-bloom.dck": {
+   "deck": "OTC - Desert Bloom",
+   "plan": "lands-landfall"
+  },
+  "m3c-tricky-terrain.dck": {
+   "deck": "M3C - Tricky Terrain",
+   "plan": "lands-landfall"
+  },
+  "eoc-world-shaper.dck": {
+   "deck": "EOC - World Shaper",
+   "plan": "lands-landfall"
+  },
+  "khc-elven-empire.dck": {
+   "deck": "KHC - Elven Empire",
+   "plan": "tribal-aggro"
+  },
+  "cmm-sliver-swarm.dck": {
+   "deck": "CMM - Sliver Swarm",
+   "plan": "tribal-aggro"
+  },
+  "c17-vampiric-bloodlust.dck": {
+   "deck": "C17 - Vampiric Bloodlust",
+   "plan": "tribal-aggro"
+  },
+  "c15-plunder-the-graves.dck": {
+   "deck": "C15 - Plunder the Graves",
+   "plan": "graveyard"
+  },
+  "mic-undead-unleashed.dck": {
+   "deck": "MIC - Undead Unleashed",
+   "plan": "graveyard"
+  },
+  "cmm-eldrazi-unbound.dck": {
+   "deck": "CMM - Eldrazi Unbound",
+   "plan": "big-mana"
+  },
+  "cmm-planeswalker-party.dck": {
+   "deck": "CMM - Planeswalker Party",
+   "plan": "superfriends"
+  },
+  "lcc-blood-rites.dck": {
+   "deck": "LCC - Blood Rites",
+   "plan": "aristocrats"
+  }
+ }
+}
