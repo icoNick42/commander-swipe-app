@@ -2,16 +2,16 @@
 
 Always-on background job: Nick's decks vs. gauntlets A and B whenever there's nothing else to run. Builds up per-card data; report refreshed every 6 hours. Add a deck by putting its Moxfield export in decks/nick/<name>.txt and its label here.
 
-Made 2026-11-25 13:05. 24 of 4000 batches in. Forge AI pilots every deck; read the numbers as "played by a mediocre bot": best for mana, curve and version-vs-version tests.
+Made 2026-11-25 19:40. 192 of 4000 batches in. Forge AI pilots every deck; read the numbers as "played by a mediocre bot": best for mana, curve and version-vs-version tests.
 
 ## Decks
 
 | Deck | Games | Win rate (95% range) | vs. baseline | Mulligan | Missed land drops | Lands t5 | Screw | Cmdr turn | Cmdr never | Damage dealt |
 |---|---|---|---|---|---|---|---|---|---|---|
-| zurgo | 24 | 25% (12%-45%) | baseline | 29% | 1.8 | 4.2 | 17% | 5.9 | 0% | 36 |
-| zimone | 24 | 21% (9%-40%) | -4 pts (-28 to +20) | 33% | 1.5 | 4.4 | 21% | 4.2 | 0% | 49 |
-| nelly | 24 | 46% (28%-65%) | +21 pts (-6 to +47) | 4% | 0.6 | 4.6 | 12% | 4.3 | 0% | 60 |
-| tyvar | 24 | 17% (7%-36%) | -8 pts (-31 to +15) | 25% | 2.0 | 3.9 | 33% | 5.1 | 8% | 74 |
+| zurgo | 192 | 27% (21%-34%) | baseline | 28% | 1.6 | 4.2 | 22% | 5.5 | 3% | 32 |
+| zimone | 192 | 18% (13%-24%) | -9 pts (-17 to -1) | 29% | 1.4 | 4.6 | 17% | 4.5 | 2% | 42 |
+| nelly | 192 | 36% (30%-43%) | +9 pts (+0 to +19) | 10% | 1.1 | 4.5 | 15% | 5.2 | 5% | 50 |
+| tyvar | 192 | 15% (10%-20%) | -12 pts (-21 to -4) | 13% | 2.0 | 4.0 | 31% | 5.1 | 6% | 104 |
 
 A difference whose range includes 0 isn't one the sims can see yet. Draws and timeouts count as games not won. Paired jobs compare game by game (same seeds, opponents and seats).
 
@@ -19,84 +19,84 @@ A difference whose range includes 0 isn't one the sims can see yet. Draws and ti
 
 | In | Used | Win rate when used | when not | First turn | AI flag |
 |---|---|---|---|---|---|
-| Abhorrent Oculus | 8% | 50% | 18% | 7.5 |  |
-| Aesi, Tyrant of Gyre Strait | 8% | 0% | 23% | 10.5 |  |
-| An Offer You Can't Refuse | 8% | 50% | 18% | 9.0 |  |
-| Arboreal Grazer | 29% | 14% | 24% | 4.1 |  |
-| Arcane Denial | 21% | 20% | 21% | 4.6 |  |
-| Birds of Paradise | 17% | 0% | 25% | 4.2 |  |
-| Blightsteel Colossus | 0% | - | 21% | - |  |
-| Boseiju, Who Endures | 42% | 30% | 14% | - |  |
-| Brainstorm | 21% | 60% | 11% | 7.8 |  |
-| Breeding Pool | 4% | 100% | 17% | - |  |
-| Brine Elemental | 0% | - | 21% | - |  |
-| Burgeoning | 29% | 14% | 24% | 8.0 |  |
-| Counterspell | 8% | 0% | 23% | 5.5 |  |
-| Crop Rotation | 29% | 43% | 12% | 6.1 | random |
-| Crucible of Worlds | 8% | 100% | 14% | 11.0 |  |
-| Dark Depths | 8% | 50% | 18% | - |  |
-| Darksteel Colossus | 0% | - | 21% | - |  |
-| Deadeye Navigator | 17% | 0% | 25% | 8.0 |  |
-| Dryad of the Ilysian Grove | 25% | 17% | 22% | 8.5 |  |
-| Elvish Reclaimer | 25% | 17% | 22% | 8.0 | random |
-| Escape Tunnel | 21% | 60% | 11% | - |  |
-| Essence Flux | 25% | 17% | 22% | 6.5 |  |
-| Evolving Wilds | 17% | 0% | 25% | - |  |
-| Exploration | 17% | 50% | 15% | 7.0 |  |
-| Exploration Broodship | 21% | 40% | 16% | 6.0 |  |
-| Fabled Passage | 12% | 33% | 19% | - |  |
-| Farseek | 25% | 33% | 17% | 8.3 | random |
-| Forest | 88% | 24% | 0% | - |  |
-| Gaea's Cradle | 12% | 33% | 19% | - |  |
-| Growth Spiral | 21% | 20% | 21% | 7.2 |  |
-| Guardian Project | 8% | 50% | 18% | 10.5 |  |
-| Hauntwoods Shrieker | 17% | 75% | 10% | 7.5 |  |
-| Hedge Maze | 12% | 67% | 14% | - |  |
-| Heroic Intervention | 17% | 50% | 15% | 7.0 |  |
-| Into the Flood Maw | 17% | 50% | 15% | 5.0 |  |
-| Island | 83% | 25% | 0% | - |  |
-| It That Betrays | 8% | 50% | 18% | 10.0 |  |
-| Koma, World-Eater | 12% | 33% | 19% | 6.3 |  |
-| Kozilek, Butcher of Truth | 0% | - | 21% | - |  |
-| Lotus Cobra | 21% | 20% | 21% | 5.6 |  |
-| Mana Drain | 12% | 33% | 19% | 8.3 |  |
-| Mirri's Guile | 21% | 20% | 21% | 5.8 |  |
-| Misty Rainforest | 17% | 0% | 25% | - |  |
-| Nature's Lore | 29% | 43% | 12% | 7.6 |  |
-| Noxious Revival | 25% | 17% | 22% | 6.5 |  |
-| Oboro, Palace in the Clouds | 12% | 67% | 14% | - |  |
-| Omniscience | 8% | 50% | 18% | 12.5 | random |
-| Prismatic Vista | 17% | 25% | 20% | - |  |
-| Quirion Ranger | 0% | - | 21% | - | all |
-| Rampant Growth | 17% | 50% | 15% | 4.5 |  |
-| Ramunap Excavator | 17% | 25% | 20% | 7.2 |  |
-| Retreat to Coralhelm | 17% | 0% | 25% | 7.5 |  |
-| Rhystic Study | 25% | 17% | 22% | 6.0 |  |
-| Roil Elemental | 25% | 67% | 6% | 8.2 |  |
-| Sakura-Tribe Elder | 12% | 33% | 19% | 8.0 |  |
-| Scroll Rack | 0% | - | 21% | - | all |
-| Scroll of Fate | 21% | 20% | 21% | 6.6 |  |
-| Sensei's Divining Top | 21% | 0% | 26% | 4.0 |  |
-| Shifting Woodland | 42% | 40% | 7% | - |  |
-| Simic Signet | 38% | 33% | 13% | 4.3 |  |
-| Snap | 25% | 50% | 11% | 6.0 |  |
-| Stratus Dancer | 12% | 0% | 24% | 2.0 |  |
-| Sylvan Library | 0% | - | 21% | - | all |
-| Talisman of Curiosity | 38% | 22% | 20% | 7.4 |  |
-| Talon Gates of Madara | 17% | 0% | 25% | - |  |
-| Temple of Mystery | 29% | 43% | 12% | - |  |
-| Terramorphic Expanse | 33% | 25% | 19% | - |  |
-| The Reality Chip | 21% | 60% | 11% | 5.4 |  |
-| Three Visits | 17% | 0% | 25% | 3.8 |  |
-| Tireless Provisioner | 21% | 40% | 16% | 6.4 |  |
-| Tropical Island | 17% | 75% | 10% | - |  |
-| Ulamog, the Infinite Gyre | 17% | 50% | 15% | 11.2 |  |
-| Valgavoth's Onslaught | 21% | 20% | 21% | 6.2 |  |
-| Vannifar, Evolved Enigma | 21% | 0% | 26% | 6.4 |  |
-| Vesuvan Shapeshifter | 0% | - | 21% | - |  |
-| Yavimaya, Cradle of Growth | 0% | - | 21% | - | random |
-| Yedora, Grave Gardener | 17% | 50% | 15% | 8.0 |  |
-| Zhalfirin Void | 33% | 25% | 19% | - |  |
+| Abhorrent Oculus | 21% | 32% | 14% | 9.3 |  |
+| Aesi, Tyrant of Gyre Strait | 16% | 20% | 18% | 8.7 |  |
+| An Offer You Can't Refuse | 16% | 26% | 17% | 6.5 |  |
+| Arboreal Grazer | 23% | 22% | 17% | 5.0 |  |
+| Arcane Denial | 19% | 16% | 19% | 6.7 |  |
+| Birds of Paradise | 21% | 30% | 15% | 6.2 |  |
+| Blightsteel Colossus | 10% | 25% | 17% | 10.1 |  |
+| Boseiju, Who Endures | 29% | 31% | 13% | - |  |
+| Brainstorm | 23% | 23% | 17% | 6.2 |  |
+| Breeding Pool | 11% | 29% | 17% | - |  |
+| Brine Elemental | 2% | 25% | 18% | 12.5 |  |
+| Burgeoning | 21% | 18% | 18% | 6.5 |  |
+| Counterspell | 15% | 25% | 17% | 7.9 |  |
+| Crop Rotation | 24% | 28% | 15% | 6.9 | random |
+| Crucible of Worlds | 19% | 32% | 15% | 7.4 |  |
+| Dark Depths | 21% | 30% | 15% | - |  |
+| Darksteel Colossus | 9% | 28% | 17% | 10.2 |  |
+| Deadeye Navigator | 25% | 17% | 19% | 8.5 |  |
+| Dryad of the Ilysian Grove | 20% | 23% | 17% | 7.7 |  |
+| Elvish Reclaimer | 18% | 14% | 19% | 7.2 | random |
+| Escape Tunnel | 21% | 29% | 15% | - |  |
+| Essence Flux | 18% | 23% | 17% | 8.2 |  |
+| Evolving Wilds | 20% | 33% | 14% | - |  |
+| Exploration | 25% | 27% | 15% | 5.4 |  |
+| Exploration Broodship | 19% | 27% | 16% | 7.5 |  |
+| Fabled Passage | 22% | 23% | 17% | - |  |
+| Farseek | 23% | 31% | 14% | 6.7 | random |
+| Forest | 82% | 20% | 9% | - |  |
+| Gaea's Cradle | 27% | 31% | 13% | - |  |
+| Growth Spiral | 29% | 22% | 17% | 6.8 |  |
+| Guardian Project | 21% | 27% | 16% | 8.4 |  |
+| Hauntwoods Shrieker | 19% | 33% | 15% | 7.8 |  |
+| Hedge Maze | 19% | 19% | 18% | - |  |
+| Heroic Intervention | 15% | 38% | 15% | 9.1 |  |
+| Into the Flood Maw | 27% | 29% | 14% | 6.6 |  |
+| Island | 76% | 19% | 15% | - |  |
+| It That Betrays | 11% | 41% | 15% | 10.3 |  |
+| Koma, World-Eater | 16% | 39% | 14% | 8.2 |  |
+| Kozilek, Butcher of Truth | 9% | 24% | 18% | 11.0 |  |
+| Lotus Cobra | 19% | 17% | 19% | 7.4 |  |
+| Mana Drain | 18% | 18% | 18% | 7.6 |  |
+| Mirri's Guile | 19% | 19% | 18% | 6.6 |  |
+| Misty Rainforest | 22% | 21% | 17% | - |  |
+| Nature's Lore | 23% | 27% | 16% | 7.2 |  |
+| Noxious Revival | 25% | 23% | 17% | 6.8 |  |
+| Oboro, Palace in the Clouds | 31% | 36% | 11% | - |  |
+| Omniscience | 7% | 36% | 17% | 10.7 | random |
+| Prismatic Vista | 21% | 17% | 19% | - |  |
+| Quirion Ranger | 0% | - | 18% | - | all |
+| Rampant Growth | 24% | 24% | 16% | 6.7 |  |
+| Ramunap Excavator | 17% | 33% | 15% | 7.3 |  |
+| Retreat to Coralhelm | 22% | 19% | 18% | 7.5 |  |
+| Rhystic Study | 23% | 24% | 16% | 7.2 |  |
+| Roil Elemental | 15% | 43% | 14% | 7.9 |  |
+| Sakura-Tribe Elder | 15% | 14% | 19% | 6.6 |  |
+| Scroll Rack | 0% | - | 18% | - | all |
+| Scroll of Fate | 26% | 26% | 15% | 7.9 |  |
+| Sensei's Divining Top | 22% | 16% | 19% | 6.1 |  |
+| Shifting Woodland | 30% | 32% | 13% | - |  |
+| Simic Signet | 24% | 21% | 17% | 6.9 |  |
+| Snap | 25% | 29% | 15% | 7.0 |  |
+| Stratus Dancer | 5% | 33% | 17% | 3.2 |  |
+| Sylvan Library | 0% | - | 18% | - | all |
+| Talisman of Curiosity | 30% | 23% | 16% | 7.4 |  |
+| Talon Gates of Madara | 17% | 6% | 21% | - |  |
+| Temple of Mystery | 29% | 20% | 18% | - |  |
+| Terramorphic Expanse | 26% | 24% | 16% | - |  |
+| The Reality Chip | 25% | 29% | 15% | 6.8 |  |
+| Three Visits | 24% | 24% | 16% | 5.4 |  |
+| Tireless Provisioner | 23% | 23% | 17% | 7.6 |  |
+| Tropical Island | 18% | 29% | 16% | - |  |
+| Ulamog, the Infinite Gyre | 10% | 45% | 15% | 10.1 |  |
+| Valgavoth's Onslaught | 16% | 29% | 16% | 7.5 |  |
+| Vannifar, Evolved Enigma | 23% | 18% | 18% | 7.6 |  |
+| Vesuvan Shapeshifter | 2% | 75% | 17% | 15.2 |  |
+| Yavimaya, Cradle of Growth | 12% | 17% | 18% | - | random |
+| Yedora, Grave Gardener | 19% | 25% | 17% | 7.8 |  |
+| Zhalfirin Void | 28% | 32% | 13% | - |  |
 
 Out: Adeline, Resplendent Cathar, Ainok Strike Leader, Anim Pakal, Thousandth Moon, Arid Mesa, Ashnod's Altar, Badlands, Bastion of Remembrance, Battle Angels of Tyr, Black Market, Black Market Connections, Blade of Selves, Blood Artist, Blood Crypt, Bloodstained Mire, Brimaz, King of Oreskos, Caesar, Legion's Emperor, Carrion Feeder, Cathars' Crusade, Crowded Crypt, Dalkovan Encampment, Dark Prophecy, Dawn Charm, Deadly Dispute, Deathgreeter, Duty Beyond Death, Eiganjo, Seat of the Empire, Elas il-Kor, Sadistic Pilgrim, Elenda, the Dusk Rose, Endless Foot Assault, Enduring Innocence, Esper Sentinel, Generous Plunderer, Goblin Bombardment, Godless Shrine, Grim Hireling, Gut, True Soul Zealot, Impact Tremors, Indulge, Infantry Shield, Jadar, Ghoulcaller of Nephalia, Luxury Suite, Mace of the Valiant, Mahadi, Emporium Master, Marsh Flats, Mentor of the Meek, Mountain, Ocelot Pride, Ophiomancer, Phyrexian Altar, Phyrexian Tower, Pitiless Plunderer, Plains, Plateau, Professional Face-Breaker, Reconnaissance, Redoubled Stormsinger, Ruinous Ultimatum, Sacred Foundry, Scrubland, Sephiroth, Fabled SOLDIER, Shinka, the Bloodsoaked Keep, Skullclamp, Soul Warden, Soul's Attendant, Spectator Seating, Spirit Mantle, Stadium Headliner, Staff of the Storyteller, Swamp, Swords to Plowshares, Takenuma, Abandoned Mire, Talisman of Conviction, Talisman of Hierarchy, Talisman of Indulgence, The Masamune, Trouble in Pairs, True Conviction, Untimely Malfunction, Urborg, Tomb of Yawgmoth, Vault of Champions, Viscera Seer, Voice of Victory, Warleader's Call, Warren Soultrader, Woe Strider
 
@@ -104,70 +104,70 @@ Out: Adeline, Resplendent Cathar, Ainok Strike Leader, Anim Pakal, Thousandth Mo
 
 | In | Used | Win rate when used | when not | First turn | AI flag |
 |---|---|---|---|---|---|
-| Agrus Kos, Spirit of Justice | 12% | 33% | 48% | 7.3 |  |
-| Alexios, Deimos of Kosmos | 29% | 71% | 35% | 5.3 |  |
-| Alliance of Arms | 0% | - | 46% | - | all |
-| Ancient Tomb | 38% | 22% | 60% | - | random |
-| Angel's Grace | 0% | - | 46% | - |  |
-| Angel's Trumpet | 0% | - | 46% | - | all |
-| Arena of Glory | 29% | 86% | 29% | - |  |
-| Authority of the Consuls | 8% | 100% | 41% | 7.0 |  |
-| Boros Charm | 12% | 67% | 43% | 7.7 |  |
-| Boros Signet | 29% | 57% | 41% | 5.9 |  |
-| Bothersome Quasit | 8% | 100% | 41% | 6.5 |  |
-| Combat Calligrapher | 33% | 38% | 50% | 6.1 |  |
-| Coveted Jewel | 29% | 71% | 35% | 6.9 |  |
-| Crawlspace | 4% | 0% | 48% | 8.0 |  |
-| Crescendo of War | 17% | 75% | 40% | 8.5 | random |
-| Crystal Barricade | 8% | 50% | 45% | 5.5 |  |
-| Delney, Streetwise Lookout | 33% | 38% | 50% | 6.6 |  |
-| Descent into Avernus | 21% | 20% | 53% | 6.2 |  |
-| Disrupt Decorum | 25% | 50% | 44% | 6.2 |  |
-| Dolmen Gate | 21% | 20% | 53% | 6.4 |  |
-| Duelist's Heritage | 21% | 60% | 42% | 8.4 |  |
-| Elegant Parlor | 4% | 0% | 48% | - |  |
-| False Orders | 0% | - | 46% | - | all |
-| Fellwar Stone | 8% | 50% | 45% | 2.0 |  |
-| Firemane Commando | 25% | 83% | 33% | 7.2 |  |
-| Flumph | 25% | 17% | 56% | 5.2 |  |
-| Forbidden Orchard | 29% | 57% | 41% | - |  |
-| Ghostly Prison | 12% | 0% | 52% | 6.0 |  |
-| Gisela, Blade of Goldnight | 8% | 100% | 41% | 11.5 |  |
-| Goblin Spymaster | 29% | 57% | 41% | 7.4 |  |
-| Grenzo, Havoc Raiser | 12% | 67% | 43% | 6.7 |  |
-| Hot Pursuit | 0% | - | 46% | - | random |
-| Infinite Hourglass | 21% | 60% | 42% | 8.0 | random |
-| Insurrection | 0% | - | 46% | - |  |
-| Iroas, God of Victory | 25% | 33% | 50% | 6.7 |  |
-| Kazuul, Tyrant of the Cliffs | 29% | 43% | 47% | 5.3 |  |
-| Khârn the Betrayer | 21% | 60% | 42% | 7.8 |  |
-| Kratos, God of War | 25% | 33% | 50% | 7.2 |  |
-| Land Tax | 21% | 40% | 47% | 5.6 |  |
-| Life of the Party | 17% | 75% | 40% | 6.0 |  |
-| Master Warcraft | 0% | - | 46% | - | all |
-| Master of Ceremonies | 8% | 0% | 50% | 8.0 |  |
-| Maze of Ith | 17% | 25% | 50% | - | random |
-| Mithril Coat | 25% | 83% | 33% | 4.7 |  |
-| Nils, Discipline Enforcer | 4% | 0% | 48% | 7.0 |  |
-| Norn's Annex | 21% | 60% | 42% | 7.4 |  |
-| Rebuff the Wicked | 4% | 0% | 48% | 7.0 |  |
-| Reliquary Tower | 21% | 60% | 42% | - |  |
-| Reprieve | 17% | 50% | 45% | 6.5 |  |
-| Rite of the Raging Storm | 17% | 50% | 45% | 7.8 | random |
-| Rogue's Passage | 8% | 0% | 50% | - |  |
-| Scrawling Crawler | 21% | 80% | 37% | 5.8 |  |
-| Smothering Tithe | 17% | 75% | 40% | 7.8 |  |
-| Spectacular Showdown | 17% | 25% | 50% | 6.2 |  |
-| Sunbillow Verge | 21% | 80% | 37% | - |  |
-| Suture Priest | 12% | 33% | 48% | 5.3 |  |
-| Swiftfoot Boots | 25% | 67% | 39% | 7.2 |  |
-| Take the Bait | 0% | - | 46% | - |  |
-| Tempt with Vengeance | 38% | 56% | 40% | 4.7 |  |
-| Teyo, Geometric Tactician | 21% | 80% | 37% | 9.0 | random |
-| Thought Vessel | 25% | 33% | 50% | 6.3 |  |
-| War Room | 25% | 33% | 50% | - | noncmd |
-| Windborn Muse | 25% | 50% | 44% | 6.7 |  |
-| Yes Man, Personal Securitron | 8% | 0% | 50% | 6.0 |  |
+| Agrus Kos, Spirit of Justice | 20% | 36% | 37% | 6.8 |  |
+| Alexios, Deimos of Kosmos | 24% | 55% | 30% | 7.7 |  |
+| Alliance of Arms | 0% | - | 36% | - | all |
+| Ancient Tomb | 34% | 29% | 40% | - | random |
+| Angel's Grace | 11% | 5% | 41% | 10.1 |  |
+| Angel's Trumpet | 0% | - | 36% | - | all |
+| Arena of Glory | 26% | 38% | 36% | - |  |
+| Authority of the Consuls | 21% | 51% | 32% | 6.1 |  |
+| Boros Charm | 19% | 50% | 33% | 8.8 |  |
+| Boros Signet | 24% | 38% | 36% | 6.1 |  |
+| Bothersome Quasit | 23% | 38% | 36% | 7.2 |  |
+| Combat Calligrapher | 26% | 44% | 34% | 6.9 |  |
+| Coveted Jewel | 18% | 41% | 35% | 8.5 |  |
+| Crawlspace | 18% | 29% | 38% | 7.4 |  |
+| Crescendo of War | 18% | 43% | 35% | 9.4 | random |
+| Crystal Barricade | 25% | 27% | 40% | 6.4 |  |
+| Delney, Streetwise Lookout | 27% | 37% | 36% | 7.4 |  |
+| Descent into Avernus | 15% | 31% | 37% | 8.2 |  |
+| Disrupt Decorum | 21% | 46% | 34% | 7.5 |  |
+| Dolmen Gate | 29% | 29% | 40% | 6.0 |  |
+| Duelist's Heritage | 19% | 39% | 36% | 8.1 |  |
+| Elegant Parlor | 20% | 21% | 41% | - |  |
+| False Orders | 0% | - | 36% | - | all |
+| Fellwar Stone | 16% | 33% | 37% | 6.9 |  |
+| Firemane Commando | 33% | 44% | 33% | 7.1 |  |
+| Flumph | 21% | 35% | 37% | 6.5 |  |
+| Forbidden Orchard | 27% | 55% | 30% | - |  |
+| Ghostly Prison | 18% | 47% | 34% | 6.9 |  |
+| Gisela, Blade of Goldnight | 14% | 48% | 35% | 8.8 |  |
+| Goblin Spymaster | 21% | 40% | 36% | 7.0 |  |
+| Grenzo, Havoc Raiser | 23% | 41% | 35% | 7.7 |  |
+| Hot Pursuit | 17% | 44% | 35% | 7.4 | random |
+| Infinite Hourglass | 21% | 39% | 36% | 8.2 | random |
+| Insurrection | 2% | 75% | 36% | 10.2 |  |
+| Iroas, God of Victory | 18% | 34% | 37% | 7.7 |  |
+| Kazuul, Tyrant of the Cliffs | 21% | 40% | 36% | 7.9 |  |
+| Khârn the Betrayer | 17% | 39% | 36% | 8.4 |  |
+| Kratos, God of War | 24% | 40% | 35% | 8.1 |  |
+| Land Tax | 22% | 23% | 40% | 6.3 |  |
+| Life of the Party | 26% | 48% | 32% | 8.5 |  |
+| Master Warcraft | 0% | - | 36% | - | all |
+| Master of Ceremonies | 20% | 34% | 37% | 8.5 |  |
+| Maze of Ith | 19% | 39% | 36% | - | random |
+| Mithril Coat | 24% | 36% | 37% | 6.1 |  |
+| Nils, Discipline Enforcer | 18% | 31% | 38% | 7.3 |  |
+| Norn's Annex | 23% | 33% | 37% | 7.7 |  |
+| Rebuff the Wicked | 4% | 29% | 37% | 8.1 |  |
+| Reliquary Tower | 29% | 33% | 38% | - |  |
+| Reprieve | 15% | 34% | 37% | 7.6 |  |
+| Rite of the Raging Storm | 20% | 46% | 34% | 8.2 | random |
+| Rogue's Passage | 25% | 40% | 35% | - |  |
+| Scrawling Crawler | 24% | 46% | 34% | 7.5 |  |
+| Smothering Tithe | 19% | 39% | 36% | 8.4 |  |
+| Spectacular Showdown | 20% | 38% | 36% | 7.8 |  |
+| Sunbillow Verge | 31% | 39% | 35% | - |  |
+| Suture Priest | 19% | 41% | 35% | 7.6 |  |
+| Swiftfoot Boots | 28% | 43% | 34% | 6.5 |  |
+| Take the Bait | 0% | - | 36% | - |  |
+| Tempt with Vengeance | 24% | 36% | 37% | 6.5 |  |
+| Teyo, Geometric Tactician | 22% | 42% | 35% | 7.4 | random |
+| Thought Vessel | 22% | 33% | 37% | 5.5 |  |
+| War Room | 29% | 33% | 38% | - | noncmd |
+| Windborn Muse | 25% | 40% | 35% | 8.2 |  |
+| Yes Man, Personal Securitron | 14% | 27% | 38% | 7.5 |  |
 
 Out: Adeline, Resplendent Cathar, Ainok Strike Leader, Anim Pakal, Thousandth Moon, Ashnod's Altar, Badlands, Bastion of Remembrance, Black Market, Black Market Connections, Blade of Selves, Blood Artist, Blood Crypt, Bloodstained Mire, Brimaz, King of Oreskos, Caesar, Legion's Emperor, Carrion Feeder, Cathars' Crusade, Crowded Crypt, Dalkovan Encampment, Dark Prophecy, Dawn Charm, Deadly Dispute, Deathgreeter, Duty Beyond Death, Elas il-Kor, Sadistic Pilgrim, Elenda, the Dusk Rose, Endless Foot Assault, Enduring Innocence, Flooded Strand, Goblin Bombardment, Godless Shrine, Grim Hireling, Gut, True Soul Zealot, Impact Tremors, Indulge, Infantry Shield, Jadar, Ghoulcaller of Nephalia, Lightning Greaves, Luxury Suite, Mace of the Valiant, Mahadi, Emporium Master, Marsh Flats, Mentor of the Meek, Ocelot Pride, Ophiomancer, Phyrexian Altar, Phyrexian Tower, Pitiless Plunderer, Polluted Delta, Professional Face-Breaker, Redoubled Stormsinger, Ruinous Ultimatum, Scalding Tarn, Scrubland, Sephiroth, Fabled SOLDIER, Shinka, the Bloodsoaked Keep, Skullclamp, Soul Warden, Soul's Attendant, Spirit Mantle, Stadium Headliner, Staff of the Storyteller, Swamp, Takenuma, Abandoned Mire, Talisman of Hierarchy, Talisman of Indulgence, The Masamune, True Conviction, Urborg, Tomb of Yawgmoth, Vault of Champions, Verdant Catacombs, Viscera Seer, Voice of Victory, Warleader's Call, Warren Soultrader, Windswept Heath, Woe Strider, Wooded Foothills
 
@@ -175,88 +175,88 @@ Out: Adeline, Resplendent Cathar, Ainok Strike Leader, Anim Pakal, Thousandth Mo
 
 | In | Used | Win rate when used | when not | First turn | AI flag |
 |---|---|---|---|---|---|
-| Abrupt Decay | 17% | 25% | 15% | 8.8 |  |
-| Allosaurus Shepherd | 38% | 33% | 7% | 4.9 |  |
-| Archdruid's Charm | 38% | 11% | 20% | 6.7 |  |
-| Assassin's Trophy | 21% | 40% | 11% | 9.0 |  |
-| Ba Sing Se | 12% | 0% | 19% | - |  |
-| Badgermole Cub | 29% | 29% | 12% | 7.6 |  |
-| Bayou | 17% | 0% | 20% | - |  |
-| Beast Whisperer | 25% | 17% | 17% | 6.5 |  |
-| Benefactor's Draught | 21% | 20% | 16% | 7.0 |  |
-| Birds of Paradise | 12% | 0% | 19% | 6.3 |  |
-| Boseiju, Who Endures | 21% | 40% | 11% | - |  |
-| Castle Garenbrig | 21% | 40% | 11% | - |  |
-| Cavern of Souls | 29% | 14% | 18% | - |  |
-| Circle of Dreams Druid | 17% | 25% | 15% | 12.8 |  |
-| Copperhorn Scout | 21% | 60% | 5% | 4.0 |  |
-| Craterhoof Behemoth | 21% | 20% | 16% | 10.2 |  |
-| Deadly Rollick | 17% | 0% | 20% | 9.8 |  |
-| Devoted Druid | 0% | - | 17% | - | all |
-| Dionus, Elvish Archdruid | 17% | 25% | 15% | 8.2 |  |
-| Elves of Deep Shadow | 17% | 0% | 20% | 6.5 |  |
-| Elvish Mystic | 33% | 38% | 6% | 7.0 |  |
-| Exsanguinate | 12% | 33% | 14% | 11.3 |  |
-| Ezuri, Renegade Leader | 21% | 60% | 5% | 7.8 |  |
-| Feed the Swarm | 38% | 22% | 13% | 8.6 |  |
-| Finale of Devastation | 8% | 0% | 18% | 3.0 |  |
-| Forest | 42% | 20% | 14% | - |  |
-| Fyndhorn Elves | 25% | 17% | 17% | 7.2 |  |
-| Gaea's Cradle | 29% | 57% | 0% | - |  |
-| Golgari Signet | 12% | 0% | 19% | 6.0 |  |
-| Green Sun's Zenith | 33% | 25% | 12% | 7.2 |  |
-| Guardian Project | 25% | 50% | 6% | 10.8 |  |
-| Gyre Sage | 21% | 40% | 11% | 9.0 |  |
-| Heroic Intervention | 12% | 33% | 14% | 8.7 |  |
-| Imp's Mischief | 0% | - | 17% | - | all |
-| Incubation Druid | 17% | 50% | 10% | 6.0 |  |
-| Kami of Whispered Hopes | 25% | 33% | 11% | 11.0 |  |
-| Kindred Dominance | 8% | 50% | 14% | 8.5 |  |
-| Leaf-Crowned Visionary | 25% | 0% | 22% | 7.0 | random |
-| Legolas's Quick Reflexes | 25% | 33% | 11% | 9.8 |  |
-| Leyline Immersion | 21% | 0% | 21% | 9.6 |  |
-| Leyline of Abundance | 4% | 100% | 13% | 8.0 |  |
-| Lifecrafter's Bestiary | 21% | 20% | 16% | 11.4 | random |
-| Llanowar Elves | 25% | 33% | 11% | 5.2 |  |
-| Marwyn, the Nurturer | 8% | 0% | 18% | 10.0 |  |
-| Mirri's Guile | 42% | 10% | 21% | 8.6 |  |
-| Misty Rainforest | 29% | 14% | 18% | - |  |
-| Nature's Claim | 38% | 11% | 20% | 8.9 |  |
-| Nature's Lore | 25% | 33% | 11% | 5.5 |  |
-| Nurturing Peatland | 25% | 17% | 17% | - |  |
-| Nykthos, Shrine to Nyx | 17% | 0% | 20% | - |  |
-| Overgrown Tomb | 8% | 100% | 9% | - |  |
-| Overwhelming Stampede | 29% | 14% | 18% | 8.0 |  |
-| Ozolith, the Shattered Spire | 29% | 14% | 18% | 7.9 |  |
-| Pact of the Serpent | 0% | - | 17% | - | all |
-| Path of Ancestry | 12% | 67% | 10% | - | noncmd |
-| Priest of Titania | 21% | 20% | 16% | 6.4 |  |
-| Quest for Renewal | 12% | 33% | 14% | 7.3 |  |
-| Seedborn Muse | 21% | 40% | 11% | 10.8 |  |
-| Shang-Chi, Master of Kung Fu | 21% | 20% | 16% | 7.2 |  |
-| Shizo, Death's Storehouse | 42% | 30% | 7% | - |  |
-| Staff of Domination | 29% | 14% | 18% | 8.4 |  |
-| Swiftfoot Boots | 21% | 20% | 16% | 5.6 |  |
-| Sylvan Library | 0% | - | 17% | - | all |
-| Talisman of Resilience | 17% | 50% | 10% | 11.5 |  |
-| Terrasymbiosis | 29% | 14% | 18% | 10.4 |  |
-| The Great Henge | 25% | 33% | 11% | 9.2 |  |
-| The One Ring | 0% | - | 17% | - |  |
-| The Ozolith | 8% | 0% | 18% | 5.5 |  |
-| Thousand-Year Elixir | 21% | 0% | 21% | 8.4 |  |
-| Three Tree City | 42% | 0% | 29% | - |  |
-| Three Visits | 29% | 43% | 6% | 7.9 |  |
-| Torment of Hailfire | 17% | 50% | 10% | 5.2 |  |
-| Triumph of the Hordes | 33% | 38% | 6% | 7.1 |  |
-| Umbral Mantle | 21% | 20% | 16% | 6.4 |  |
-| Undergrowth Stadium | 17% | 25% | 15% | - |  |
-| Veil of Summer | 4% | 0% | 17% | 8.0 | random |
-| Wastewood Verge | 29% | 14% | 18% | - |  |
-| Wild Growth | 0% | - | 17% | - | all |
-| Wirewood Lodge | 12% | 0% | 19% | - | random |
-| Wirewood Symbiote | 0% | - | 17% | - | all |
-| Woodland Weavemaster | 33% | 25% | 12% | 7.1 |  |
-| Yavimaya, Cradle of Growth | 8% | 0% | 18% | - | random |
+| Abrupt Decay | 17% | 24% | 13% | 7.1 |  |
+| Allosaurus Shepherd | 23% | 25% | 11% | 6.0 |  |
+| Archdruid's Charm | 21% | 17% | 14% | 7.5 |  |
+| Assassin's Trophy | 24% | 26% | 11% | 7.1 |  |
+| Ba Sing Se | 19% | 3% | 17% | - |  |
+| Badgermole Cub | 17% | 22% | 13% | 7.2 |  |
+| Bayou | 14% | 19% | 14% | - |  |
+| Beast Whisperer | 18% | 26% | 12% | 8.1 |  |
+| Benefactor's Draught | 20% | 26% | 12% | 7.5 |  |
+| Birds of Paradise | 21% | 22% | 12% | 6.8 |  |
+| Boseiju, Who Endures | 19% | 24% | 12% | - |  |
+| Castle Garenbrig | 26% | 14% | 15% | - |  |
+| Cavern of Souls | 25% | 21% | 12% | - |  |
+| Circle of Dreams Druid | 21% | 22% | 13% | 8.7 |  |
+| Copperhorn Scout | 22% | 29% | 11% | 7.0 |  |
+| Craterhoof Behemoth | 19% | 19% | 14% | 9.0 |  |
+| Deadly Rollick | 22% | 26% | 11% | 8.2 |  |
+| Devoted Druid | 0% | - | 15% | - | all |
+| Dionus, Elvish Archdruid | 17% | 24% | 13% | 8.3 |  |
+| Elves of Deep Shadow | 22% | 10% | 16% | 6.0 |  |
+| Elvish Mystic | 19% | 31% | 11% | 7.3 |  |
+| Exsanguinate | 14% | 27% | 13% | 9.7 |  |
+| Ezuri, Renegade Leader | 19% | 33% | 10% | 7.5 |  |
+| Feed the Swarm | 21% | 20% | 13% | 7.4 |  |
+| Finale of Devastation | 21% | 22% | 12% | 7.4 |  |
+| Forest | 39% | 16% | 14% | - |  |
+| Fyndhorn Elves | 23% | 20% | 13% | 6.7 |  |
+| Gaea's Cradle | 26% | 20% | 13% | - |  |
+| Golgari Signet | 20% | 18% | 14% | 6.8 |  |
+| Green Sun's Zenith | 28% | 30% | 9% | 6.4 |  |
+| Guardian Project | 17% | 25% | 12% | 9.6 |  |
+| Gyre Sage | 22% | 26% | 11% | 7.2 |  |
+| Heroic Intervention | 14% | 30% | 12% | 9.8 |  |
+| Imp's Mischief | 0% | - | 15% | - | all |
+| Incubation Druid | 24% | 21% | 12% | 7.0 |  |
+| Kami of Whispered Hopes | 21% | 17% | 14% | 8.1 |  |
+| Kindred Dominance | 9% | 22% | 14% | 9.1 |  |
+| Leaf-Crowned Visionary | 23% | 20% | 13% | 8.0 | random |
+| Legolas's Quick Reflexes | 20% | 28% | 11% | 9.4 |  |
+| Leyline Immersion | 16% | 23% | 13% | 8.5 |  |
+| Leyline of Abundance | 13% | 24% | 13% | 9.4 |  |
+| Lifecrafter's Bestiary | 18% | 26% | 12% | 8.5 | random |
+| Llanowar Elves | 25% | 25% | 11% | 7.0 |  |
+| Marwyn, the Nurturer | 14% | 22% | 13% | 7.9 |  |
+| Mirri's Guile | 25% | 12% | 15% | 6.8 |  |
+| Misty Rainforest | 19% | 14% | 15% | - |  |
+| Nature's Claim | 25% | 17% | 14% | 7.8 |  |
+| Nature's Lore | 26% | 27% | 10% | 6.1 |  |
+| Nurturing Peatland | 27% | 17% | 14% | - |  |
+| Nykthos, Shrine to Nyx | 19% | 11% | 15% | - |  |
+| Overgrown Tomb | 12% | 21% | 14% | - |  |
+| Overwhelming Stampede | 22% | 21% | 13% | 8.5 |  |
+| Ozolith, the Shattered Spire | 17% | 16% | 14% | 6.7 |  |
+| Pact of the Serpent | 0% | - | 15% | - | all |
+| Path of Ancestry | 23% | 22% | 12% | - | noncmd |
+| Priest of Titania | 28% | 30% | 9% | 6.9 |  |
+| Quest for Renewal | 22% | 21% | 13% | 7.1 |  |
+| Seedborn Muse | 16% | 16% | 14% | 10.0 |  |
+| Shang-Chi, Master of Kung Fu | 20% | 11% | 16% | 6.5 |  |
+| Shizo, Death's Storehouse | 22% | 24% | 12% | - |  |
+| Staff of Domination | 23% | 20% | 13% | 7.7 |  |
+| Swiftfoot Boots | 21% | 12% | 15% | 6.7 |  |
+| Sylvan Library | 0% | - | 15% | - | all |
+| Talisman of Resilience | 14% | 22% | 13% | 9.3 |  |
+| Terrasymbiosis | 18% | 26% | 12% | 8.0 |  |
+| The Great Henge | 16% | 37% | 10% | 8.9 |  |
+| The One Ring | 0% | - | 15% | - |  |
+| The Ozolith | 20% | 21% | 13% | 5.4 |  |
+| Thousand-Year Elixir | 18% | 23% | 13% | 7.4 |  |
+| Three Tree City | 24% | 20% | 13% | - |  |
+| Three Visits | 21% | 28% | 11% | 6.7 |  |
+| Torment of Hailfire | 22% | 29% | 11% | 7.3 |  |
+| Triumph of the Hordes | 22% | 28% | 11% | 7.6 |  |
+| Umbral Mantle | 24% | 17% | 14% | 7.1 |  |
+| Undergrowth Stadium | 26% | 12% | 15% | - |  |
+| Veil of Summer | 7% | 31% | 13% | 10.3 | random |
+| Wastewood Verge | 24% | 20% | 13% | - |  |
+| Wild Growth | 0% | - | 15% | - | all |
+| Wirewood Lodge | 26% | 16% | 14% | - | random |
+| Wirewood Symbiote | 0% | - | 15% | - | all |
+| Woodland Weavemaster | 24% | 22% | 12% | 7.2 |  |
+| Yavimaya, Cradle of Growth | 19% | 19% | 14% | - | random |
 
 Out: Adeline, Resplendent Cathar, Ainok Strike Leader, Anim Pakal, Thousandth Moon, Arid Mesa, Ashnod's Altar, Badlands, Bastion of Remembrance, Battle Angels of Tyr, Black Market, Black Market Connections, Blade of Selves, Blood Artist, Blood Crypt, Brimaz, King of Oreskos, Caesar, Legion's Emperor, Carrion Feeder, Cathars' Crusade, Crowded Crypt, Dalkovan Encampment, Dark Prophecy, Dawn Charm, Deadly Dispute, Deathgreeter, Duty Beyond Death, Eiganjo, Seat of the Empire, Elas il-Kor, Sadistic Pilgrim, Elenda, the Dusk Rose, Endless Foot Assault, Enduring Innocence, Esper Sentinel, Flooded Strand, Generous Plunderer, Goblin Bombardment, Godless Shrine, Grim Hireling, Gut, True Soul Zealot, Impact Tremors, Indulge, Infantry Shield, Jadar, Ghoulcaller of Nephalia, Luxury Suite, Mace of the Valiant, Mahadi, Emporium Master, Mentor of the Meek, Mountain, Ocelot Pride, Ophiomancer, Phyrexian Altar, Phyrexian Tower, Pitiless Plunderer, Plains, Plateau, Professional Face-Breaker, Reconnaissance, Redoubled Stormsinger, Ruinous Ultimatum, Sacred Foundry, Scrubland, Sephiroth, Fabled SOLDIER, Shinka, the Bloodsoaked Keep, Skullclamp, Soul Warden, Soul's Attendant, Spectator Seating, Spirit Mantle, Stadium Headliner, Staff of the Storyteller, Swords to Plowshares, Talisman of Conviction, Talisman of Hierarchy, Talisman of Indulgence, The Masamune, Trouble in Pairs, True Conviction, Untimely Malfunction, Vault of Champions, Viscera Seer, Voice of Victory, Warleader's Call, Warren Soultrader, Woe Strider
 
@@ -266,102 +266,102 @@ Sorted by the gap between the deck's win rate with the card used and without. Sm
 
 | Card | Used | WR used | WR not | Gap | First turn | AI flag |
 |---|---|---|---|---|---|---|
-| Duty Beyond Death | 12% | 100% | 14% | +86 | 10.0 |  |
-| Luxury Suite | 25% | 67% | 11% | +56 | - |  |
-| Marsh Flats | 25% | 67% | 11% | +56 | - |  |
-| Badlands | 12% | 67% | 19% | +48 | - |  |
-| Esper Sentinel | 12% | 67% | 19% | +48 | 8.7 |  |
-| Ruinous Ultimatum | 12% | 67% | 19% | +48 | 9.3 |  |
-| Mentor of the Meek | 21% | 60% | 16% | +44 | 8.4 |  |
-| Ophiomancer | 42% | 50% | 7% | +43 | 8.9 |  |
-| Anim Pakal, Thousandth Moon | 25% | 50% | 17% | +33 | 8.3 |  |
-| Plateau | 38% | 44% | 13% | +31 | - |  |
-| Adeline, Resplendent Cathar | 17% | 50% | 20% | +30 | 5.8 |  |
-| Jadar, Ghoulcaller of Nephalia | 17% | 50% | 20% | +30 | 6.5 |  |
-| Spirit Mantle | 17% | 50% | 20% | +30 | 6.5 |  |
-| True Conviction | 17% | 50% | 20% | +30 | 9.0 |  |
-| Skullclamp | 8% | 50% | 23% | +27 | 10.0 |  |
-| Soul Warden | 8% | 50% | 23% | +27 | 10.5 |  |
-| Impact Tremors | 29% | 43% | 18% | +25 | 9.1 |  |
-| Soul's Attendant | 29% | 43% | 18% | +25 | 8.3 |  |
-| Bloodstained Mire | 21% | 40% | 21% | +19 | - |  |
-| Caesar, Legion's Emperor | 21% | 40% | 21% | +19 | 7.6 |  |
-| Dawn Charm | 21% | 40% | 21% | +19 | 12.0 |  |
-| Pitiless Plunderer | 21% | 40% | 21% | +19 | 7.8 |  |
-| Black Market | 33% | 38% | 19% | +19 | 7.2 |  |
-| Infantry Shield | 33% | 38% | 19% | +19 | 7.9 |  |
-| Spectator Seating | 33% | 38% | 19% | +19 | - |  |
-| The Masamune | 33% | 38% | 19% | +19 | 8.6 |  |
-| Untimely Malfunction | 33% | 38% | 19% | +19 | 5.9 |  |
-| Godless Shrine | 25% | 33% | 22% | +11 | - |  |
-| Lightning Greaves | 25% | 33% | 22% | +11 | 6.8 |  |
-| Talisman of Hierarchy | 25% | 33% | 22% | +11 | 5.8 |  |
-| Verdant Catacombs | 25% | 33% | 22% | +11 | - |  |
-| Warren Soultrader | 25% | 33% | 22% | +11 | 9.5 |  |
-| Blade of Selves | 12% | 33% | 24% | +10 | 6.3 | random |
-| Dark Prophecy | 12% | 33% | 24% | +10 | 9.3 |  |
-| Deadly Dispute | 12% | 33% | 24% | +10 | 10.3 |  |
-| Windswept Heath | 12% | 33% | 24% | +10 | - |  |
-| Carrion Feeder | 29% | 29% | 24% | +5 | 6.7 |  |
-| Scrubland | 29% | 29% | 24% | +5 | - |  |
-| Sephiroth, Fabled SOLDIER | 29% | 29% | 24% | +5 | 6.6 |  |
-| Blood Artist | 17% | 25% | 25% | +0 | 8.2 |  |
-| Blood Crypt | 17% | 25% | 25% | +0 | - |  |
-| Cathars' Crusade | 17% | 25% | 25% | +0 | 7.2 |  |
-| Flooded Strand | 17% | 25% | 25% | +0 | - |  |
-| Generous Plunderer | 17% | 25% | 25% | +0 | 6.5 |  |
-| Redoubled Stormsinger | 33% | 25% | 25% | +0 | 7.2 |  |
-| Sol Ring | 17% | 25% | 25% | +0 | 7.8 |  |
-| Talisman of Conviction | 33% | 25% | 25% | +0 | 5.8 |  |
-| Vault of Champions | 17% | 25% | 25% | +0 | - |  |
-| Dalkovan Encampment | 38% | 22% | 27% | -4 | - |  |
-| Eiganjo, Seat of the Empire | 38% | 22% | 27% | -4 | - |  |
-| Deathgreeter | 21% | 20% | 26% | -6 | 6.6 |  |
-| Elas il-Kor, Sadistic Pilgrim | 21% | 20% | 26% | -6 | 7.8 |  |
-| Endless Foot Assault | 21% | 20% | 26% | -6 | 10.8 |  |
-| Gut, True Soul Zealot | 21% | 20% | 26% | -6 | 7.4 |  |
-| Mace of the Valiant | 21% | 20% | 26% | -6 | 4.4 | random |
-| Woe Strider | 21% | 20% | 26% | -6 | 8.6 |  |
-| Wooded Foothills | 21% | 20% | 26% | -6 | - |  |
-| Arid Mesa | 25% | 17% | 28% | -11 | - |  |
-| Command Tower | 25% | 17% | 28% | -11 | - | noncmd |
-| Mahadi, Emporium Master | 25% | 17% | 28% | -11 | 6.7 |  |
-| Phyrexian Tower | 25% | 17% | 28% | -11 | - | all |
-| Trouble in Pairs | 25% | 17% | 28% | -11 | 9.7 |  |
-| Voice of Victory | 25% | 17% | 28% | -11 | 7.8 |  |
-| Warleader's Call | 25% | 17% | 28% | -11 | 10.5 |  |
-| Crowded Crypt | 29% | 14% | 29% | -15 | 9.3 |  |
-| Enduring Innocence | 29% | 14% | 29% | -15 | 7.3 |  |
-| Swords to Plowshares | 29% | 14% | 29% | -15 | 7.1 |  |
-| Battle Angels of Tyr | 33% | 12% | 31% | -19 | 5.6 |  |
-| Brimaz, King of Oreskos | 33% | 12% | 31% | -19 | 7.2 |  |
-| Professional Face-Breaker | 4% | 0% | 26% | -26 | 10.0 |  |
-| Bastion of Remembrance | 8% | 0% | 27% | -27 | 11.0 |  |
-| Takenuma, Abandoned Mire | 8% | 0% | 27% | -27 | - |  |
-| Urborg, Tomb of Yawgmoth | 8% | 0% | 27% | -27 | - | random |
-| Ainok Strike Leader | 12% | 0% | 29% | -29 | 9.7 |  |
-| Arcane Signet | 12% | 0% | 29% | -29 | 6.7 | noncmd |
-| Ashnod's Altar | 12% | 0% | 29% | -29 | 8.3 |  |
-| Black Market Connections | 12% | 0% | 29% | -29 | 8.7 |  |
-| Grim Hireling | 12% | 0% | 29% | -29 | 7.0 |  |
-| Phyrexian Altar | 12% | 0% | 29% | -29 | 12.7 | random |
-| Urza's Saga | 12% | 0% | 29% | -29 | - |  |
-| Polluted Delta | 17% | 0% | 30% | -30 | - |  |
-| Sacred Foundry | 17% | 0% | 30% | -30 | - |  |
-| Shinka, the Bloodsoaked Keep | 17% | 0% | 30% | -30 | - |  |
-| Staff of the Storyteller | 17% | 0% | 30% | -30 | 5.8 |  |
-| Ocelot Pride | 21% | 0% | 32% | -32 | 5.0 |  |
-| Stadium Headliner | 21% | 0% | 32% | -32 | 7.8 |  |
-| Talisman of Indulgence | 21% | 0% | 32% | -32 | 7.6 |  |
-| Scalding Tarn | 38% | 0% | 40% | -40 | - |  |
-| Zurgo Stormrender | 100% | 25% | - | - | 5.9 |  |
-| Elenda, the Dusk Rose | 0% | - | 25% | - | - |  |
-| Goblin Bombardment | 0% | - | 25% | - | - | all |
-| Indulge | 0% | - | 25% | - | - |  |
-| Reconnaissance | 0% | - | 25% | - | - | all |
-| Viscera Seer | 0% | - | 25% | - | - | all |
+| Duty Beyond Death | 10% | 60% | 23% | +37 | 9.8 |  |
+| Ruinous Ultimatum | 18% | 56% | 21% | +35 | 9.3 |  |
+| Elenda, the Dusk Rose | 14% | 56% | 22% | +33 | 9.3 |  |
+| Zurgo Stormrender | 97% | 28% | 0% | +28 | 5.5 |  |
+| Spirit Mantle | 21% | 45% | 22% | +23 | 6.8 |  |
+| Plateau | 21% | 44% | 23% | +21 | - |  |
+| Endless Foot Assault | 23% | 43% | 22% | +21 | 7.8 |  |
+| Sephiroth, Fabled SOLDIER | 23% | 43% | 22% | +21 | 7.5 |  |
+| Warleader's Call | 24% | 43% | 22% | +20 | 7.3 |  |
+| Esper Sentinel | 22% | 43% | 23% | +20 | 5.3 |  |
+| Elas il-Kor, Sadistic Pilgrim | 21% | 42% | 23% | +19 | 7.1 |  |
+| Luxury Suite | 26% | 40% | 23% | +17 | - |  |
+| Soul Warden | 15% | 41% | 25% | +17 | 7.1 |  |
+| Blood Artist | 19% | 41% | 24% | +17 | 6.9 |  |
+| Caesar, Legion's Emperor | 19% | 41% | 24% | +17 | 7.8 |  |
+| Ophiomancer | 19% | 41% | 24% | +17 | 8.6 |  |
+| Shinka, the Bloodsoaked Keep | 28% | 39% | 22% | +16 | - |  |
+| True Conviction | 20% | 39% | 24% | +15 | 8.1 |  |
+| Adeline, Resplendent Cathar | 24% | 38% | 23% | +15 | 7.5 |  |
+| Bastion of Remembrance | 18% | 38% | 25% | +14 | 9.0 |  |
+| Voice of Victory | 26% | 37% | 24% | +13 | 7.4 |  |
+| Jadar, Ghoulcaller of Nephalia | 18% | 37% | 25% | +12 | 6.8 |  |
+| Mahadi, Emporium Master | 20% | 37% | 25% | +12 | 6.9 |  |
+| Skullclamp | 21% | 37% | 25% | +12 | 6.5 |  |
+| Bloodstained Mire | 22% | 36% | 25% | +11 | - |  |
+| Phyrexian Tower | 22% | 36% | 25% | +11 | - | all |
+| Mentor of the Meek | 26% | 35% | 24% | +10 | 6.6 |  |
+| Eiganjo, Seat of the Empire | 22% | 35% | 25% | +10 | - |  |
+| Cathars' Crusade | 21% | 35% | 25% | +10 | 8.8 |  |
+| Ocelot Pride | 21% | 35% | 25% | +10 | 5.5 |  |
+| Talisman of Conviction | 21% | 35% | 25% | +10 | 6.4 |  |
+| Impact Tremors | 18% | 35% | 25% | +10 | 7.8 |  |
+| Lightning Greaves | 19% | 35% | 25% | +10 | 6.3 |  |
+| Redoubled Stormsinger | 23% | 34% | 25% | +9 | 6.7 |  |
+| Badlands | 21% | 34% | 25% | +9 | - |  |
+| Soul's Attendant | 20% | 34% | 25% | +9 | 7.9 |  |
+| Mace of the Valiant | 23% | 33% | 25% | +8 | 7.2 | random |
+| Swords to Plowshares | 20% | 33% | 25% | +8 | 6.5 |  |
+| Ainok Strike Leader | 19% | 33% | 26% | +8 | 7.6 |  |
+| Infantry Shield | 26% | 33% | 25% | +7 | 6.8 |  |
+| Dawn Charm | 16% | 33% | 26% | +7 | 9.4 |  |
+| Scrubland | 21% | 32% | 26% | +7 | - |  |
+| Anim Pakal, Thousandth Moon | 17% | 31% | 26% | +5 | 8.1 |  |
+| Woe Strider | 22% | 31% | 26% | +5 | 6.5 |  |
+| Sacred Foundry | 20% | 31% | 26% | +5 | - |  |
+| Talisman of Indulgence | 20% | 31% | 26% | +5 | 5.3 |  |
+| Urza's Saga | 20% | 31% | 26% | +5 | - |  |
+| Untimely Malfunction | 28% | 30% | 26% | +4 | 6.7 |  |
+| Grim Hireling | 19% | 31% | 26% | +4 | 8.3 |  |
+| Deathgreeter | 22% | 30% | 26% | +4 | 6.4 |  |
+| Flooded Strand | 22% | 30% | 26% | +4 | - |  |
+| Command Tower | 30% | 30% | 26% | +4 | - | noncmd |
+| Verdant Catacombs | 17% | 30% | 26% | +4 | - |  |
+| Crowded Crypt | 24% | 30% | 26% | +4 | 7.1 |  |
+| Marsh Flats | 27% | 29% | 26% | +3 | - |  |
+| Arcane Signet | 18% | 29% | 27% | +3 | 6.0 | noncmd |
+| Spectator Seating | 23% | 29% | 27% | +2 | - |  |
+| Staff of the Storyteller | 16% | 29% | 27% | +2 | 7.1 |  |
+| Stadium Headliner | 22% | 29% | 27% | +2 | 5.9 |  |
+| Professional Face-Breaker | 18% | 29% | 27% | +2 | 7.3 |  |
+| Warren Soultrader | 24% | 28% | 27% | +2 | 7.6 |  |
+| Gut, True Soul Zealot | 17% | 28% | 27% | +1 | 8.4 |  |
+| Windswept Heath | 19% | 28% | 27% | +1 | - |  |
+| Polluted Delta | 27% | 27% | 27% | +1 | - |  |
+| Vault of Champions | 23% | 27% | 27% | +0 | - |  |
+| Generous Plunderer | 17% | 27% | 27% | +0 | 6.6 |  |
+| Deadly Dispute | 11% | 27% | 27% | +0 | 9.9 |  |
+| Arid Mesa | 19% | 27% | 27% | +0 | - |  |
+| Carrion Feeder | 26% | 27% | 27% | -1 | 6.5 |  |
+| Sol Ring | 26% | 27% | 27% | -1 | 6.2 |  |
+| Blood Crypt | 24% | 26% | 27% | -1 | - |  |
+| Pitiless Plunderer | 18% | 26% | 27% | -2 | 7.7 |  |
+| Brimaz, King of Oreskos | 22% | 26% | 28% | -2 | 6.1 |  |
+| The Masamune | 21% | 24% | 28% | -3 | 7.4 |  |
+| Black Market | 23% | 24% | 28% | -3 | 8.2 |  |
+| Dalkovan Encampment | 23% | 24% | 28% | -3 | - |  |
+| Enduring Innocence | 15% | 24% | 28% | -3 | 7.6 |  |
+| Phyrexian Altar | 13% | 24% | 28% | -4 | 8.7 | random |
+| Takenuma, Abandoned Mire | 26% | 24% | 28% | -4 | - |  |
+| Blade of Selves | 18% | 24% | 28% | -4 | 6.2 | random |
+| Godless Shrine | 18% | 24% | 28% | -4 | - |  |
+| Ashnod's Altar | 11% | 23% | 28% | -5 | 8.9 |  |
+| Black Market Connections | 16% | 23% | 28% | -5 | 8.9 |  |
+| Scalding Tarn | 26% | 22% | 29% | -6 | - |  |
+| Trouble in Pairs | 17% | 22% | 28% | -6 | 8.7 |  |
+| Wooded Foothills | 22% | 21% | 29% | -7 | - |  |
+| Talisman of Hierarchy | 20% | 21% | 29% | -8 | 5.8 |  |
+| Dark Prophecy | 13% | 20% | 28% | -8 | 9.5 |  |
+| Urborg, Tomb of Yawgmoth | 17% | 19% | 29% | -10 | - | random |
+| Battle Angels of Tyr | 18% | 17% | 29% | -12 | 7.1 |  |
+| Goblin Bombardment | 0% | - | 27% | - | - | all |
+| Indulge | 0% | - | 27% | - | - |  |
+| Reconnaissance | 0% | - | 27% | - | - | all |
+| Viscera Seer | 0% | - | 27% | - | - | all |
 
-Never cast or played: Elenda, the Dusk Rose, Goblin Bombardment, Indulge, Reconnaissance, Viscera Seer
+Never cast or played: Goblin Bombardment, Indulge, Reconnaissance, Viscera Seer
 
 ## zimone: cards
 
@@ -369,96 +369,96 @@ Sorted by the gap between the deck's win rate with the card used and without. Sm
 
 | Card | Used | WR used | WR not | Gap | First turn | AI flag |
 |---|---|---|---|---|---|---|
-| Crucible of Worlds | 8% | 100% | 14% | +86 | 11.0 |  |
-| Breeding Pool | 4% | 100% | 17% | +83 | - |  |
-| Hauntwoods Shrieker | 17% | 75% | 10% | +65 | 7.5 |  |
-| Tropical Island | 17% | 75% | 10% | +65 | - |  |
-| Roil Elemental | 25% | 67% | 6% | +61 | 8.2 |  |
-| Hedge Maze | 12% | 67% | 14% | +52 | - |  |
-| Oboro, Palace in the Clouds | 12% | 67% | 14% | +52 | - |  |
-| Brainstorm | 21% | 60% | 11% | +49 | 7.8 |  |
-| Escape Tunnel | 21% | 60% | 11% | +49 | - |  |
-| The Reality Chip | 21% | 60% | 11% | +49 | 5.4 |  |
-| Snap | 25% | 50% | 11% | +39 | 6.0 |  |
-| Arcane Signet | 17% | 50% | 15% | +35 | 5.2 | noncmd |
-| Exploration | 17% | 50% | 15% | +35 | 7.0 |  |
-| Heroic Intervention | 17% | 50% | 15% | +35 | 7.0 |  |
-| Into the Flood Maw | 17% | 50% | 15% | +35 | 5.0 |  |
-| Rampant Growth | 17% | 50% | 15% | +35 | 4.5 |  |
-| Ulamog, the Infinite Gyre | 17% | 50% | 15% | +35 | 11.2 |  |
-| Verdant Catacombs | 17% | 50% | 15% | +35 | - |  |
-| Yedora, Grave Gardener | 17% | 50% | 15% | +35 | 8.0 |  |
-| Shifting Woodland | 42% | 40% | 7% | +33 | - |  |
-| Abhorrent Oculus | 8% | 50% | 18% | +32 | 7.5 |  |
-| An Offer You Can't Refuse | 8% | 50% | 18% | +32 | 9.0 |  |
-| Dark Depths | 8% | 50% | 18% | +32 | - |  |
-| Guardian Project | 8% | 50% | 18% | +32 | 10.5 |  |
-| It That Betrays | 8% | 50% | 18% | +32 | 10.0 |  |
-| Omniscience | 8% | 50% | 18% | +32 | 12.5 | random |
-| Polluted Delta | 8% | 50% | 18% | +32 | - |  |
-| Crop Rotation | 29% | 43% | 12% | +31 | 6.1 | random |
-| Nature's Lore | 29% | 43% | 12% | +31 | 7.6 |  |
-| Temple of Mystery | 29% | 43% | 12% | +31 | - |  |
-| Exploration Broodship | 21% | 40% | 16% | +24 | 6.0 |  |
-| Lightning Greaves | 21% | 40% | 16% | +24 | 7.6 |  |
-| Tireless Provisioner | 21% | 40% | 16% | +24 | 6.4 |  |
-| Simic Signet | 38% | 33% | 13% | +20 | 4.3 |  |
-| Farseek | 25% | 33% | 17% | +17 | 8.3 | random |
-| Boseiju, Who Endures | 42% | 30% | 14% | +16 | - |  |
-| Fabled Passage | 12% | 33% | 19% | +14 | - |  |
-| Gaea's Cradle | 12% | 33% | 19% | +14 | - |  |
-| Koma, World-Eater | 12% | 33% | 19% | +14 | 6.3 |  |
-| Mana Drain | 12% | 33% | 19% | +14 | 8.3 |  |
-| Sakura-Tribe Elder | 12% | 33% | 19% | +14 | 8.0 |  |
-| Terramorphic Expanse | 33% | 25% | 19% | +6 | - |  |
-| Zhalfirin Void | 33% | 25% | 19% | +6 | - |  |
-| Prismatic Vista | 17% | 25% | 20% | +5 | - |  |
-| Ramunap Excavator | 17% | 25% | 20% | +5 | 7.2 |  |
-| Sol Ring | 17% | 25% | 20% | +5 | 9.2 |  |
-| Talisman of Curiosity | 38% | 22% | 20% | +2 | 7.4 |  |
-| Arcane Denial | 21% | 20% | 21% | -1 | 4.6 |  |
-| Growth Spiral | 21% | 20% | 21% | -1 | 7.2 |  |
-| Lotus Cobra | 21% | 20% | 21% | -1 | 5.6 |  |
-| Mirri's Guile | 21% | 20% | 21% | -1 | 5.8 |  |
-| Scalding Tarn | 21% | 20% | 21% | -1 | - |  |
-| Scroll of Fate | 21% | 20% | 21% | -1 | 6.6 |  |
-| Valgavoth's Onslaught | 21% | 20% | 21% | -1 | 6.2 |  |
-| Dryad of the Ilysian Grove | 25% | 17% | 22% | -6 | 8.5 |  |
-| Elvish Reclaimer | 25% | 17% | 22% | -6 | 8.0 | random |
-| Essence Flux | 25% | 17% | 22% | -6 | 6.5 |  |
-| Noxious Revival | 25% | 17% | 22% | -6 | 6.5 |  |
-| Rhystic Study | 25% | 17% | 22% | -6 | 6.0 |  |
-| Windswept Heath | 25% | 17% | 22% | -6 | - |  |
-| Arboreal Grazer | 29% | 14% | 24% | -9 | 4.1 |  |
-| Burgeoning | 29% | 14% | 24% | -9 | 8.0 |  |
-| Urza's Saga | 4% | 0% | 22% | -22 | - |  |
-| Aesi, Tyrant of Gyre Strait | 8% | 0% | 23% | -23 | 10.5 |  |
-| Counterspell | 8% | 0% | 23% | -23 | 5.5 |  |
-| Wooded Foothills | 8% | 0% | 23% | -23 | - |  |
-| Stratus Dancer | 12% | 0% | 24% | -24 | 2.0 |  |
-| Birds of Paradise | 17% | 0% | 25% | -25 | 4.2 |  |
-| Deadeye Navigator | 17% | 0% | 25% | -25 | 8.0 |  |
-| Evolving Wilds | 17% | 0% | 25% | -25 | - |  |
-| Misty Rainforest | 17% | 0% | 25% | -25 | - |  |
-| Retreat to Coralhelm | 17% | 0% | 25% | -25 | 7.5 |  |
-| Talon Gates of Madara | 17% | 0% | 25% | -25 | - |  |
-| Three Visits | 17% | 0% | 25% | -25 | 3.8 |  |
-| Sensei's Divining Top | 21% | 0% | 26% | -26 | 4.0 |  |
-| Vannifar, Evolved Enigma | 21% | 0% | 26% | -26 | 6.4 |  |
-| Command Tower | 25% | 0% | 28% | -28 | - | noncmd |
-| Flooded Strand | 38% | 0% | 33% | -33 | - |  |
-| Zimone, Mystery Unraveler | 100% | 21% | - | - | 4.2 |  |
-| Blightsteel Colossus | 0% | - | 21% | - | - |  |
-| Brine Elemental | 0% | - | 21% | - | - |  |
-| Darksteel Colossus | 0% | - | 21% | - | - |  |
-| Kozilek, Butcher of Truth | 0% | - | 21% | - | - |  |
-| Quirion Ranger | 0% | - | 21% | - | - | all |
-| Scroll Rack | 0% | - | 21% | - | - | all |
-| Sylvan Library | 0% | - | 21% | - | - | all |
-| Vesuvan Shapeshifter | 0% | - | 21% | - | - |  |
-| Yavimaya, Cradle of Growth | 0% | - | 21% | - | - | random |
+| Vesuvan Shapeshifter | 2% | 75% | 17% | +58 | 15.2 |  |
+| Ulamog, the Infinite Gyre | 10% | 45% | 15% | +30 | 10.1 |  |
+| Roil Elemental | 15% | 43% | 14% | +29 | 7.9 |  |
+| It That Betrays | 11% | 41% | 15% | +26 | 10.3 |  |
+| Oboro, Palace in the Clouds | 31% | 36% | 11% | +25 | - |  |
+| Koma, World-Eater | 16% | 39% | 14% | +24 | 8.2 |  |
+| Heroic Intervention | 15% | 38% | 15% | +23 | 9.1 |  |
+| Wooded Foothills | 20% | 36% | 14% | +22 | - |  |
+| Zhalfirin Void | 28% | 32% | 13% | +19 | - |  |
+| Shifting Woodland | 30% | 32% | 13% | +19 | - |  |
+| Evolving Wilds | 20% | 33% | 14% | +19 | - |  |
+| Omniscience | 7% | 36% | 17% | +19 | 10.7 | random |
+| Hauntwoods Shrieker | 19% | 33% | 15% | +19 | 7.8 |  |
+| Zimone, Mystery Unraveler | 98% | 19% | 0% | +19 | 4.5 |  |
+| Ramunap Excavator | 17% | 33% | 15% | +18 | 7.3 |  |
+| Windswept Heath | 24% | 32% | 14% | +18 | - |  |
+| Abhorrent Oculus | 21% | 32% | 14% | +18 | 9.3 |  |
+| Gaea's Cradle | 27% | 31% | 13% | +18 | - |  |
+| Boseiju, Who Endures | 29% | 31% | 13% | +18 | - |  |
+| Crucible of Worlds | 19% | 32% | 15% | +18 | 7.4 |  |
+| Farseek | 23% | 31% | 14% | +17 | 6.7 | random |
+| Stratus Dancer | 5% | 33% | 17% | +16 | 3.2 |  |
+| Into the Flood Maw | 27% | 29% | 14% | +15 | 6.6 |  |
+| Birds of Paradise | 21% | 30% | 15% | +15 | 6.2 |  |
+| Dark Depths | 21% | 30% | 15% | +15 | - |  |
+| Snap | 25% | 29% | 15% | +15 | 7.0 |  |
+| The Reality Chip | 25% | 29% | 15% | +15 | 6.8 |  |
+| Escape Tunnel | 21% | 29% | 15% | +14 | - |  |
+| Polluted Delta | 16% | 30% | 16% | +14 | - |  |
+| Tropical Island | 18% | 29% | 16% | +14 | - |  |
+| Valgavoth's Onslaught | 16% | 29% | 16% | +13 | 7.5 |  |
+| Crop Rotation | 24% | 28% | 15% | +12 | 6.9 | random |
+| Exploration | 25% | 27% | 15% | +12 | 5.4 |  |
+| Nature's Lore | 23% | 27% | 16% | +12 | 7.2 |  |
+| Breeding Pool | 11% | 29% | 17% | +12 | - |  |
+| Verdant Catacombs | 23% | 27% | 16% | +11 | - |  |
+| Guardian Project | 21% | 27% | 16% | +11 | 8.4 |  |
+| Exploration Broodship | 19% | 27% | 16% | +11 | 7.5 |  |
+| Darksteel Colossus | 9% | 28% | 17% | +11 | 10.2 |  |
+| Scroll of Fate | 26% | 26% | 15% | +11 | 7.9 |  |
+| Sol Ring | 20% | 26% | 16% | +10 | 6.7 |  |
+| Lightning Greaves | 24% | 26% | 16% | +10 | 7.4 |  |
+| An Offer You Can't Refuse | 16% | 26% | 17% | +9 | 6.5 |  |
+| Yedora, Grave Gardener | 19% | 25% | 17% | +8 | 7.8 |  |
+| Rhystic Study | 23% | 24% | 16% | +8 | 7.2 |  |
+| Counterspell | 15% | 25% | 17% | +8 | 7.9 |  |
+| Terramorphic Expanse | 26% | 24% | 16% | +8 | - |  |
+| Blightsteel Colossus | 10% | 25% | 17% | +8 | 10.1 |  |
+| Rampant Growth | 24% | 24% | 16% | +7 | 6.7 |  |
+| Three Visits | 24% | 24% | 16% | +7 | 5.4 |  |
+| Brine Elemental | 2% | 25% | 18% | +7 | 12.5 |  |
+| Talisman of Curiosity | 30% | 23% | 16% | +7 | 7.4 |  |
+| Fabled Passage | 22% | 23% | 17% | +6 | - |  |
+| Noxious Revival | 25% | 23% | 17% | +6 | 6.8 |  |
+| Dryad of the Ilysian Grove | 20% | 23% | 17% | +6 | 7.7 |  |
+| Brainstorm | 23% | 23% | 17% | +6 | 6.2 |  |
+| Tireless Provisioner | 23% | 23% | 17% | +6 | 7.6 |  |
+| Kozilek, Butcher of Truth | 9% | 24% | 18% | +6 | 11.0 |  |
+| Essence Flux | 18% | 23% | 17% | +6 | 8.2 |  |
+| Arboreal Grazer | 23% | 22% | 17% | +5 | 5.0 |  |
+| Growth Spiral | 29% | 22% | 17% | +5 | 6.8 |  |
+| Simic Signet | 24% | 21% | 17% | +4 | 6.9 |  |
+| Misty Rainforest | 22% | 21% | 17% | +3 | - |  |
+| Temple of Mystery | 29% | 20% | 18% | +2 | - |  |
+| Aesi, Tyrant of Gyre Strait | 16% | 20% | 18% | +2 | 8.7 |  |
+| Command Tower | 30% | 19% | 18% | +2 | - | noncmd |
+| Mirri's Guile | 19% | 19% | 18% | +1 | 6.6 |  |
+| Retreat to Coralhelm | 22% | 19% | 18% | +1 | 7.5 |  |
+| Hedge Maze | 19% | 19% | 18% | +1 | - |  |
+| Arcane Signet | 23% | 18% | 18% | +0 | 6.6 | noncmd |
+| Vannifar, Evolved Enigma | 23% | 18% | 18% | -1 | 7.6 |  |
+| Mana Drain | 18% | 18% | 18% | -1 | 7.6 |  |
+| Burgeoning | 21% | 18% | 18% | -1 | 6.5 |  |
+| Yavimaya, Cradle of Growth | 12% | 17% | 18% | -1 | - | random |
+| Prismatic Vista | 21% | 17% | 19% | -1 | - |  |
+| Lotus Cobra | 19% | 17% | 19% | -2 | 7.4 |  |
+| Deadeye Navigator | 25% | 17% | 19% | -2 | 8.5 |  |
+| Arcane Denial | 19% | 16% | 19% | -2 | 6.7 |  |
+| Sensei's Divining Top | 22% | 16% | 19% | -3 | 6.1 |  |
+| Sakura-Tribe Elder | 15% | 14% | 19% | -5 | 6.6 |  |
+| Elvish Reclaimer | 18% | 14% | 19% | -5 | 7.2 | random |
+| Scalding Tarn | 20% | 13% | 19% | -6 | - |  |
+| Flooded Strand | 22% | 12% | 20% | -8 | - |  |
+| Urza's Saga | 16% | 10% | 20% | -10 | - |  |
+| Talon Gates of Madara | 17% | 6% | 21% | -15 | - |  |
+| Quirion Ranger | 0% | - | 18% | - | - | all |
+| Scroll Rack | 0% | - | 18% | - | - | all |
+| Sylvan Library | 0% | - | 18% | - | - | all |
 
-Never cast or played: Blightsteel Colossus, Brine Elemental, Darksteel Colossus, Kozilek, Butcher of Truth, Quirion Ranger, Scroll Rack, Sylvan Library, Vesuvan Shapeshifter, Yavimaya, Cradle of Growth
+Never cast or played: Quirion Ranger, Scroll Rack, Sylvan Library
 
 ## nelly: cards
 
@@ -466,90 +466,90 @@ Sorted by the gap between the deck's win rate with the card used and without. Sm
 
 | Card | Used | WR used | WR not | Gap | First turn | AI flag |
 |---|---|---|---|---|---|---|
-| Authority of the Consuls | 8% | 100% | 41% | +59 | 7.0 |  |
-| Bothersome Quasit | 8% | 100% | 41% | +59 | 6.5 |  |
-| Gisela, Blade of Goldnight | 8% | 100% | 41% | +59 | 11.5 |  |
-| Arena of Glory | 29% | 86% | 29% | +56 | - |  |
-| Firemane Commando | 25% | 83% | 33% | +50 | 7.2 |  |
-| Mithril Coat | 25% | 83% | 33% | +50 | 4.7 |  |
-| Scrawling Crawler | 21% | 80% | 37% | +43 | 5.8 |  |
-| Sunbillow Verge | 21% | 80% | 37% | +43 | - |  |
-| Teyo, Geometric Tactician | 21% | 80% | 37% | +43 | 9.0 | random |
-| Alexios, Deimos of Kosmos | 29% | 71% | 35% | +36 | 5.3 |  |
-| Coveted Jewel | 29% | 71% | 35% | +36 | 6.9 |  |
-| Crescendo of War | 17% | 75% | 40% | +35 | 8.5 | random |
-| Life of the Party | 17% | 75% | 40% | +35 | 6.0 |  |
-| Smothering Tithe | 17% | 75% | 40% | +35 | 7.8 |  |
-| Generous Plunderer | 38% | 67% | 33% | +33 | 6.7 |  |
-| Swiftfoot Boots | 25% | 67% | 39% | +28 | 7.2 |  |
-| Battle Angels of Tyr | 12% | 67% | 43% | +24 | 5.3 |  |
-| Boros Charm | 12% | 67% | 43% | +24 | 7.7 |  |
-| Grenzo, Havoc Raiser | 12% | 67% | 43% | +24 | 6.7 |  |
-| Swords to Plowshares | 12% | 67% | 43% | +24 | 4.7 |  |
-| Arcane Signet | 21% | 60% | 42% | +18 | 5.4 | noncmd |
-| Duelist's Heritage | 21% | 60% | 42% | +18 | 8.4 |  |
-| Infinite Hourglass | 21% | 60% | 42% | +18 | 8.0 | random |
-| Khârn the Betrayer | 21% | 60% | 42% | +18 | 7.8 |  |
-| Norn's Annex | 21% | 60% | 42% | +18 | 7.4 |  |
-| Reliquary Tower | 21% | 60% | 42% | +18 | - |  |
-| Sol Ring | 21% | 60% | 42% | +18 | 3.4 |  |
-| Talisman of Conviction | 21% | 60% | 42% | +18 | 5.0 |  |
-| Boros Signet | 29% | 57% | 41% | +16 | 5.9 |  |
-| Forbidden Orchard | 29% | 57% | 41% | +16 | - |  |
-| Goblin Spymaster | 29% | 57% | 41% | +16 | 7.4 |  |
-| Plateau | 29% | 57% | 41% | +16 | - |  |
-| Tempt with Vengeance | 38% | 56% | 40% | +16 | 4.7 |  |
-| Command Tower | 25% | 50% | 44% | +6 | - | noncmd |
-| Disrupt Decorum | 25% | 50% | 44% | +6 | 6.2 |  |
-| Windborn Muse | 25% | 50% | 44% | +6 | 6.7 |  |
-| Reprieve | 17% | 50% | 45% | +5 | 6.5 |  |
-| Rite of the Raging Storm | 17% | 50% | 45% | +5 | 7.8 | random |
-| Crystal Barricade | 8% | 50% | 45% | +5 | 5.5 |  |
-| Fellwar Stone | 8% | 50% | 45% | +5 | 2.0 |  |
-| Urza's Saga | 8% | 50% | 45% | +5 | - |  |
-| Kazuul, Tyrant of the Cliffs | 29% | 43% | 47% | -4 | 5.3 |  |
-| Land Tax | 21% | 40% | 47% | -7 | 5.6 |  |
-| Sacred Foundry | 21% | 40% | 47% | -7 | - |  |
-| Combat Calligrapher | 33% | 38% | 50% | -12 | 6.1 |  |
-| Delney, Streetwise Lookout | 33% | 38% | 50% | -12 | 6.6 |  |
-| Agrus Kos, Spirit of Justice | 12% | 33% | 48% | -14 | 7.3 |  |
-| Spectator Seating | 12% | 33% | 48% | -14 | - |  |
-| Suture Priest | 12% | 33% | 48% | -14 | 5.3 |  |
-| Iroas, God of Victory | 25% | 33% | 50% | -17 | 6.7 |  |
-| Kratos, God of War | 25% | 33% | 50% | -17 | 7.2 |  |
-| Thought Vessel | 25% | 33% | 50% | -17 | 6.3 |  |
-| War Room | 25% | 33% | 50% | -17 | - | noncmd |
-| Eiganjo, Seat of the Empire | 29% | 29% | 53% | -24 | - |  |
-| Arid Mesa | 17% | 25% | 50% | -25 | - |  |
-| Maze of Ith | 17% | 25% | 50% | -25 | - | random |
-| Spectacular Showdown | 17% | 25% | 50% | -25 | 6.2 |  |
-| Trouble in Pairs | 17% | 25% | 50% | -25 | 8.0 |  |
-| Untimely Malfunction | 17% | 25% | 50% | -25 | 5.0 |  |
-| Descent into Avernus | 21% | 20% | 53% | -33 | 6.2 |  |
-| Dolmen Gate | 21% | 20% | 53% | -33 | 6.4 |  |
-| Ancient Tomb | 38% | 22% | 60% | -38 | - | random |
-| Esper Sentinel | 25% | 17% | 56% | -39 | 3.3 |  |
-| Flumph | 25% | 17% | 56% | -39 | 5.2 |  |
-| Crawlspace | 4% | 0% | 48% | -48 | 8.0 |  |
-| Elegant Parlor | 4% | 0% | 48% | -48 | - |  |
-| Nils, Discipline Enforcer | 4% | 0% | 48% | -48 | 7.0 |  |
-| Rebuff the Wicked | 4% | 0% | 48% | -48 | 7.0 |  |
-| Master of Ceremonies | 8% | 0% | 50% | -50 | 8.0 |  |
-| Rogue's Passage | 8% | 0% | 50% | -50 | - |  |
-| Yes Man, Personal Securitron | 8% | 0% | 50% | -50 | 6.0 |  |
-| Ghostly Prison | 12% | 0% | 52% | -52 | 6.0 |  |
-| Nelly Borca, Impulsive Accuser | 100% | 46% | - | - | 4.3 |  |
-| Alliance of Arms | 0% | - | 46% | - | - | all |
-| Angel's Grace | 0% | - | 46% | - | - |  |
-| Angel's Trumpet | 0% | - | 46% | - | - | all |
-| False Orders | 0% | - | 46% | - | - | all |
-| Hot Pursuit | 0% | - | 46% | - | - | random |
-| Insurrection | 0% | - | 46% | - | - |  |
-| Master Warcraft | 0% | - | 46% | - | - | all |
-| Reconnaissance | 0% | - | 46% | - | - | all |
-| Take the Bait | 0% | - | 46% | - | - |  |
+| Insurrection | 2% | 75% | 36% | +39 | 10.2 |  |
+| Forbidden Orchard | 27% | 55% | 30% | +25 | - |  |
+| Alexios, Deimos of Kosmos | 24% | 55% | 30% | +25 | 7.7 |  |
+| Authority of the Consuls | 21% | 51% | 32% | +19 | 6.1 |  |
+| Boros Charm | 19% | 50% | 33% | +17 | 8.8 |  |
+| Life of the Party | 26% | 48% | 32% | +16 | 8.5 |  |
+| Urza's Saga | 11% | 50% | 35% | +15 | - |  |
+| Generous Plunderer | 23% | 48% | 33% | +15 | 7.7 |  |
+| Sacred Foundry | 28% | 46% | 33% | +14 | - |  |
+| Gisela, Blade of Goldnight | 14% | 48% | 35% | +14 | 8.8 |  |
+| Ghostly Prison | 18% | 47% | 34% | +13 | 6.9 |  |
+| Disrupt Decorum | 21% | 46% | 34% | +13 | 7.5 |  |
+| Battle Angels of Tyr | 20% | 46% | 34% | +12 | 7.2 |  |
+| Rite of the Raging Storm | 20% | 46% | 34% | +12 | 8.2 | random |
+| Scrawling Crawler | 24% | 46% | 34% | +12 | 7.5 |  |
+| Firemane Commando | 33% | 44% | 33% | +12 | 7.1 |  |
+| Untimely Malfunction | 26% | 45% | 34% | +11 | 7.0 |  |
+| Eiganjo, Seat of the Empire | 24% | 45% | 34% | +11 | - |  |
+| Combat Calligrapher | 26% | 44% | 34% | +10 | 6.9 |  |
+| Hot Pursuit | 17% | 44% | 35% | +9 | 7.4 | random |
+| Swiftfoot Boots | 28% | 43% | 34% | +9 | 6.5 |  |
+| Swords to Plowshares | 24% | 43% | 34% | +8 | 6.4 |  |
+| Crescendo of War | 18% | 43% | 35% | +8 | 9.4 | random |
+| Trouble in Pairs | 15% | 43% | 35% | +7 | 8.7 |  |
+| Teyo, Geometric Tactician | 22% | 42% | 35% | +7 | 7.4 | random |
+| Sol Ring | 19% | 42% | 35% | +6 | 4.9 |  |
+| Grenzo, Havoc Raiser | 23% | 41% | 35% | +6 | 7.7 |  |
+| Coveted Jewel | 18% | 41% | 35% | +6 | 8.5 |  |
+| Kratos, God of War | 24% | 40% | 35% | +5 | 8.1 |  |
+| Suture Priest | 19% | 41% | 35% | +5 | 7.6 |  |
+| Goblin Spymaster | 21% | 40% | 36% | +4 | 7.0 |  |
+| Kazuul, Tyrant of the Cliffs | 21% | 40% | 36% | +4 | 7.9 |  |
+| Rogue's Passage | 25% | 40% | 35% | +4 | - |  |
+| Windborn Muse | 25% | 40% | 35% | +4 | 8.2 |  |
+| Sunbillow Verge | 31% | 39% | 35% | +4 | - |  |
+| Khârn the Betrayer | 17% | 39% | 36% | +4 | 8.4 |  |
+| Plateau | 28% | 39% | 36% | +3 | - |  |
+| Infinite Hourglass | 21% | 39% | 36% | +3 | 8.2 | random |
+| Duelist's Heritage | 19% | 39% | 36% | +3 | 8.1 |  |
+| Maze of Ith | 19% | 39% | 36% | +3 | - | random |
+| Smothering Tithe | 19% | 39% | 36% | +3 | 8.4 |  |
+| Spectacular Showdown | 20% | 38% | 36% | +3 | 7.8 |  |
+| Boros Signet | 24% | 38% | 36% | +2 | 6.1 |  |
+| Arena of Glory | 26% | 38% | 36% | +2 | - |  |
+| Bothersome Quasit | 23% | 38% | 36% | +2 | 7.2 |  |
+| Delney, Streetwise Lookout | 27% | 37% | 36% | +0 | 7.4 |  |
+| Mithril Coat | 24% | 36% | 37% | +0 | 6.1 |  |
+| Tempt with Vengeance | 24% | 36% | 37% | +0 | 6.5 |  |
+| Agrus Kos, Spirit of Justice | 20% | 36% | 37% | -1 | 6.8 |  |
+| Command Tower | 27% | 35% | 37% | -2 | - | noncmd |
+| Flumph | 21% | 35% | 37% | -2 | 6.5 |  |
+| Reprieve | 15% | 34% | 37% | -2 | 7.6 |  |
+| Iroas, God of Victory | 18% | 34% | 37% | -3 | 7.7 |  |
+| Master of Ceremonies | 20% | 34% | 37% | -3 | 8.5 |  |
+| Fellwar Stone | 16% | 33% | 37% | -4 | 6.9 |  |
+| Talisman of Conviction | 20% | 33% | 37% | -4 | 6.4 |  |
+| Thought Vessel | 22% | 33% | 37% | -4 | 5.5 |  |
+| Norn's Annex | 23% | 33% | 37% | -4 | 7.7 |  |
+| Spectator Seating | 22% | 33% | 38% | -5 | - |  |
+| Reliquary Tower | 29% | 33% | 38% | -5 | - |  |
+| War Room | 29% | 33% | 38% | -5 | - | noncmd |
+| Arcane Signet | 18% | 31% | 38% | -6 | 7.0 | noncmd |
+| Nils, Discipline Enforcer | 18% | 31% | 38% | -6 | 7.3 |  |
+| Descent into Avernus | 15% | 31% | 37% | -6 | 8.2 |  |
+| Rebuff the Wicked | 4% | 29% | 37% | -8 | 8.1 |  |
+| Nelly Borca, Impulsive Accuser | 95% | 36% | 44% | -8 | 5.2 |  |
+| Crawlspace | 18% | 29% | 38% | -9 | 7.4 |  |
+| Arid Mesa | 20% | 28% | 39% | -10 | - |  |
+| Yes Man, Personal Securitron | 14% | 27% | 38% | -11 | 7.5 |  |
+| Dolmen Gate | 29% | 29% | 40% | -11 | 6.0 |  |
+| Ancient Tomb | 34% | 29% | 40% | -12 | - | random |
+| Crystal Barricade | 25% | 27% | 40% | -12 | 6.4 |  |
+| Esper Sentinel | 22% | 26% | 39% | -13 | 5.4 |  |
+| Land Tax | 22% | 23% | 40% | -17 | 6.3 |  |
+| Elegant Parlor | 20% | 21% | 41% | -20 | - |  |
+| Angel's Grace | 11% | 5% | 41% | -36 | 10.1 |  |
+| Alliance of Arms | 0% | - | 36% | - | - | all |
+| Angel's Trumpet | 0% | - | 36% | - | - | all |
+| False Orders | 0% | - | 36% | - | - | all |
+| Master Warcraft | 0% | - | 36% | - | - | all |
+| Reconnaissance | 0% | - | 36% | - | - | all |
+| Take the Bait | 0% | - | 36% | - | - |  |
 
-Never cast or played: Alliance of Arms, Angel's Grace, Angel's Trumpet, False Orders, Hot Pursuit, Insurrection, Master Warcraft, Reconnaissance, Take the Bait
+Never cast or played: Alliance of Arms, Angel's Trumpet, False Orders, Master Warcraft, Reconnaissance, Take the Bait
 
 ## tyvar: cards
 
@@ -557,102 +557,102 @@ Sorted by the gap between the deck's win rate with the card used and without. Sm
 
 | Card | Used | WR used | WR not | Gap | First turn | AI flag |
 |---|---|---|---|---|---|---|
-| Overgrown Tomb | 8% | 100% | 9% | +91 | - |  |
-| Leyline of Abundance | 4% | 100% | 13% | +87 | 8.0 |  |
-| Gaea's Cradle | 29% | 57% | 0% | +57 | - |  |
-| Path of Ancestry | 12% | 67% | 10% | +57 | - | noncmd |
-| Copperhorn Scout | 21% | 60% | 5% | +55 | 4.0 |  |
-| Ezuri, Renegade Leader | 21% | 60% | 5% | +55 | 7.8 |  |
-| Guardian Project | 25% | 50% | 6% | +44 | 10.8 |  |
-| Incubation Druid | 17% | 50% | 10% | +40 | 6.0 |  |
-| Talisman of Resilience | 17% | 50% | 10% | +40 | 11.5 |  |
-| Torment of Hailfire | 17% | 50% | 10% | +40 | 5.2 |  |
-| Three Visits | 29% | 43% | 6% | +37 | 7.9 |  |
-| Kindred Dominance | 8% | 50% | 14% | +36 | 8.5 |  |
-| Elvish Mystic | 33% | 38% | 6% | +31 | 7.0 |  |
-| Triumph of the Hordes | 33% | 38% | 6% | +31 | 7.1 |  |
-| Assassin's Trophy | 21% | 40% | 11% | +29 | 9.0 |  |
-| Boseiju, Who Endures | 21% | 40% | 11% | +29 | - |  |
-| Castle Garenbrig | 21% | 40% | 11% | +29 | - |  |
-| Gyre Sage | 21% | 40% | 11% | +29 | 9.0 |  |
-| Seedborn Muse | 21% | 40% | 11% | +29 | 10.8 |  |
-| Allosaurus Shepherd | 38% | 33% | 7% | +27 | 4.9 |  |
-| Shizo, Death's Storehouse | 42% | 30% | 7% | +23 | - |  |
-| Kami of Whispered Hopes | 25% | 33% | 11% | +22 | 11.0 |  |
-| Legolas's Quick Reflexes | 25% | 33% | 11% | +22 | 9.8 |  |
-| Llanowar Elves | 25% | 33% | 11% | +22 | 5.2 |  |
-| Nature's Lore | 25% | 33% | 11% | +22 | 5.5 |  |
-| The Great Henge | 25% | 33% | 11% | +22 | 9.2 |  |
-| Exsanguinate | 12% | 33% | 14% | +19 | 11.3 |  |
-| Heroic Intervention | 12% | 33% | 14% | +19 | 8.7 |  |
-| Quest for Renewal | 12% | 33% | 14% | +19 | 7.3 |  |
-| Urborg, Tomb of Yawgmoth | 12% | 33% | 14% | +19 | - | random |
-| Tyvar the Bellicose | 92% | 18% | 0% | +18 | 5.1 |  |
-| Badgermole Cub | 29% | 29% | 12% | +17 | 7.6 |  |
-| Lightning Greaves | 29% | 29% | 12% | +17 | 6.6 |  |
-| Green Sun's Zenith | 33% | 25% | 12% | +12 | 7.2 |  |
-| Sol Ring | 33% | 25% | 12% | +12 | 6.5 |  |
-| Woodland Weavemaster | 33% | 25% | 12% | +12 | 7.1 |  |
-| Abrupt Decay | 17% | 25% | 15% | +10 | 8.8 |  |
-| Circle of Dreams Druid | 17% | 25% | 15% | +10 | 12.8 |  |
-| Dionus, Elvish Archdruid | 17% | 25% | 15% | +10 | 8.2 |  |
-| Undergrowth Stadium | 17% | 25% | 15% | +10 | - |  |
-| Bloodstained Mire | 38% | 22% | 13% | +9 | - |  |
-| Feed the Swarm | 38% | 22% | 13% | +9 | 8.6 |  |
-| Benefactor's Draught | 21% | 20% | 16% | +4 | 7.0 |  |
-| Craterhoof Behemoth | 21% | 20% | 16% | +4 | 10.2 |  |
-| Lifecrafter's Bestiary | 21% | 20% | 16% | +4 | 11.4 | random |
-| Priest of Titania | 21% | 20% | 16% | +4 | 6.4 |  |
-| Shang-Chi, Master of Kung Fu | 21% | 20% | 16% | +4 | 7.2 |  |
-| Swiftfoot Boots | 21% | 20% | 16% | +4 | 5.6 |  |
-| Takenuma, Abandoned Mire | 21% | 20% | 16% | +4 | - |  |
-| Umbral Mantle | 21% | 20% | 16% | +4 | 6.4 |  |
-| Beast Whisperer | 25% | 17% | 17% | +0 | 6.5 |  |
-| Fyndhorn Elves | 25% | 17% | 17% | +0 | 7.2 |  |
-| Nurturing Peatland | 25% | 17% | 17% | +0 | - |  |
-| Scalding Tarn | 25% | 17% | 17% | +0 | - |  |
-| Arcane Signet | 29% | 14% | 18% | -3 | 7.6 | noncmd |
-| Cavern of Souls | 29% | 14% | 18% | -3 | - |  |
-| Command Tower | 29% | 14% | 18% | -3 | - | noncmd |
-| Misty Rainforest | 29% | 14% | 18% | -3 | - |  |
-| Overwhelming Stampede | 29% | 14% | 18% | -3 | 8.0 |  |
-| Ozolith, the Shattered Spire | 29% | 14% | 18% | -3 | 7.9 |  |
-| Staff of Domination | 29% | 14% | 18% | -3 | 8.4 |  |
-| Terrasymbiosis | 29% | 14% | 18% | -3 | 10.4 |  |
-| Verdant Catacombs | 29% | 14% | 18% | -3 | - |  |
-| Wastewood Verge | 29% | 14% | 18% | -3 | - |  |
-| Wooded Foothills | 33% | 12% | 19% | -6 | - |  |
-| Archdruid's Charm | 38% | 11% | 20% | -9 | 6.7 |  |
-| Nature's Claim | 38% | 11% | 20% | -9 | 8.9 |  |
-| Polluted Delta | 38% | 11% | 20% | -9 | - |  |
-| Mirri's Guile | 42% | 10% | 21% | -11 | 8.6 |  |
-| Veil of Summer | 4% | 0% | 17% | -17 | 8.0 | random |
-| Finale of Devastation | 8% | 0% | 18% | -18 | 3.0 |  |
-| Marwyn, the Nurturer | 8% | 0% | 18% | -18 | 10.0 |  |
-| The Ozolith | 8% | 0% | 18% | -18 | 5.5 |  |
-| Yavimaya, Cradle of Growth | 8% | 0% | 18% | -18 | - | random |
-| Ba Sing Se | 12% | 0% | 19% | -19 | - |  |
-| Birds of Paradise | 12% | 0% | 19% | -19 | 6.3 |  |
-| Golgari Signet | 12% | 0% | 19% | -19 | 6.0 |  |
-| Wirewood Lodge | 12% | 0% | 19% | -19 | - | random |
-| Bayou | 17% | 0% | 20% | -20 | - |  |
-| Deadly Rollick | 17% | 0% | 20% | -20 | 9.8 |  |
-| Elves of Deep Shadow | 17% | 0% | 20% | -20 | 6.5 |  |
-| Nykthos, Shrine to Nyx | 17% | 0% | 20% | -20 | - |  |
-| Urza's Saga | 17% | 0% | 20% | -20 | - |  |
-| Leyline Immersion | 21% | 0% | 21% | -21 | 9.6 |  |
-| Marsh Flats | 21% | 0% | 21% | -21 | - |  |
-| Thousand-Year Elixir | 21% | 0% | 21% | -21 | 8.4 |  |
-| Leaf-Crowned Visionary | 25% | 0% | 22% | -22 | 7.0 | random |
-| Windswept Heath | 25% | 0% | 22% | -22 | - |  |
-| Three Tree City | 42% | 0% | 29% | -29 | - |  |
-| Devoted Druid | 0% | - | 17% | - | - | all |
-| Imp's Mischief | 0% | - | 17% | - | - | all |
-| Pact of the Serpent | 0% | - | 17% | - | - | all |
-| Sylvan Library | 0% | - | 17% | - | - | all |
-| The One Ring | 0% | - | 17% | - | - |  |
-| Wild Growth | 0% | - | 17% | - | - | all |
-| Wirewood Symbiote | 0% | - | 17% | - | - | all |
+| The Great Henge | 16% | 37% | 10% | +26 | 8.9 |  |
+| Ezuri, Renegade Leader | 19% | 33% | 10% | +23 | 7.5 |  |
+| Priest of Titania | 28% | 30% | 9% | +22 | 6.9 |  |
+| Green Sun's Zenith | 28% | 30% | 9% | +21 | 6.4 |  |
+| Elvish Mystic | 19% | 31% | 11% | +20 | 7.3 |  |
+| Copperhorn Scout | 22% | 29% | 11% | +18 | 7.0 |  |
+| Torment of Hailfire | 22% | 29% | 11% | +18 | 7.3 |  |
+| Heroic Intervention | 14% | 30% | 12% | +18 | 9.8 |  |
+| Veil of Summer | 7% | 31% | 13% | +17 | 10.3 | random |
+| Triumph of the Hordes | 22% | 28% | 11% | +17 | 7.6 |  |
+| Legolas's Quick Reflexes | 20% | 28% | 11% | +17 | 9.4 |  |
+| Three Visits | 21% | 28% | 11% | +16 | 6.7 |  |
+| Nature's Lore | 26% | 27% | 10% | +16 | 6.1 |  |
+| Tyvar the Bellicose | 94% | 15% | 0% | +15 | 5.1 |  |
+| Deadly Rollick | 22% | 26% | 11% | +15 | 8.2 |  |
+| Assassin's Trophy | 24% | 26% | 11% | +14 | 7.1 |  |
+| Beast Whisperer | 18% | 26% | 12% | +14 | 8.1 |  |
+| Terrasymbiosis | 18% | 26% | 12% | +14 | 8.0 |  |
+| Exsanguinate | 14% | 27% | 13% | +14 | 9.7 |  |
+| Gyre Sage | 22% | 26% | 11% | +14 | 7.2 |  |
+| Llanowar Elves | 25% | 25% | 11% | +14 | 7.0 |  |
+| Benefactor's Draught | 20% | 26% | 12% | +14 | 7.5 |  |
+| Lifecrafter's Bestiary | 18% | 26% | 12% | +14 | 8.5 | random |
+| Allosaurus Shepherd | 23% | 25% | 11% | +14 | 6.0 |  |
+| Command Tower | 29% | 24% | 11% | +13 | - | noncmd |
+| Guardian Project | 17% | 25% | 12% | +12 | 9.6 |  |
+| Boseiju, Who Endures | 19% | 24% | 12% | +12 | - |  |
+| Shizo, Death's Storehouse | 22% | 24% | 12% | +12 | - |  |
+| Abrupt Decay | 17% | 24% | 13% | +12 | 7.1 |  |
+| Dionus, Elvish Archdruid | 17% | 24% | 13% | +12 | 8.3 |  |
+| Sol Ring | 25% | 23% | 12% | +11 | 5.9 |  |
+| Leyline of Abundance | 13% | 24% | 13% | +11 | 9.4 |  |
+| Thousand-Year Elixir | 18% | 23% | 13% | +10 | 7.4 |  |
+| Birds of Paradise | 21% | 22% | 12% | +10 | 6.8 |  |
+| Finale of Devastation | 21% | 22% | 12% | +10 | 7.4 |  |
+| Marsh Flats | 23% | 22% | 12% | +10 | - |  |
+| Path of Ancestry | 23% | 22% | 12% | +10 | - | noncmd |
+| Takenuma, Abandoned Mire | 23% | 22% | 12% | +10 | - |  |
+| Leyline Immersion | 16% | 23% | 13% | +10 | 8.5 |  |
+| Woodland Weavemaster | 24% | 22% | 12% | +9 | 7.2 |  |
+| Circle of Dreams Druid | 21% | 22% | 13% | +9 | 8.7 |  |
+| Marwyn, the Nurturer | 14% | 22% | 13% | +9 | 7.9 |  |
+| Talisman of Resilience | 14% | 22% | 13% | +9 | 9.3 |  |
+| Incubation Druid | 24% | 21% | 12% | +9 | 7.0 |  |
+| Lightning Greaves | 22% | 21% | 13% | +9 | 7.7 |  |
+| Overwhelming Stampede | 22% | 21% | 13% | +9 | 8.5 |  |
+| Quest for Renewal | 22% | 21% | 13% | +9 | 7.1 |  |
+| Badgermole Cub | 17% | 22% | 13% | +9 | 7.2 |  |
+| Kindred Dominance | 9% | 22% | 14% | +8 | 9.1 |  |
+| Cavern of Souls | 25% | 21% | 12% | +8 | - |  |
+| The Ozolith | 20% | 21% | 13% | +8 | 5.4 |  |
+| Gaea's Cradle | 26% | 20% | 13% | +8 | - |  |
+| Fyndhorn Elves | 23% | 20% | 13% | +8 | 6.7 |  |
+| Overgrown Tomb | 12% | 21% | 14% | +7 | - |  |
+| Leaf-Crowned Visionary | 23% | 20% | 13% | +7 | 8.0 | random |
+| Staff of Domination | 23% | 20% | 13% | +7 | 7.7 |  |
+| Feed the Swarm | 21% | 20% | 13% | +7 | 7.4 |  |
+| Three Tree City | 24% | 20% | 13% | +7 | - |  |
+| Wastewood Verge | 24% | 20% | 13% | +7 | - |  |
+| Verdant Catacombs | 24% | 19% | 13% | +6 | - |  |
+| Craterhoof Behemoth | 19% | 19% | 14% | +5 | 9.0 |  |
+| Yavimaya, Cradle of Growth | 19% | 19% | 14% | +5 | - | random |
+| Golgari Signet | 20% | 18% | 14% | +5 | 6.8 |  |
+| Bayou | 14% | 19% | 14% | +5 | - |  |
+| Nurturing Peatland | 27% | 17% | 14% | +4 | - |  |
+| Umbral Mantle | 24% | 17% | 14% | +3 | 7.1 |  |
+| Archdruid's Charm | 21% | 17% | 14% | +3 | 7.5 |  |
+| Kami of Whispered Hopes | 21% | 17% | 14% | +3 | 8.1 |  |
+| Nature's Claim | 25% | 17% | 14% | +3 | 7.8 |  |
+| Wirewood Lodge | 26% | 16% | 14% | +2 | - | random |
+| Arcane Signet | 22% | 16% | 14% | +2 | 7.1 | noncmd |
+| Seedborn Muse | 16% | 16% | 14% | +2 | 10.0 |  |
+| Ozolith, the Shattered Spire | 17% | 16% | 14% | +1 | 6.7 |  |
+| Castle Garenbrig | 26% | 14% | 15% | -1 | - |  |
+| Misty Rainforest | 19% | 14% | 15% | -1 | - |  |
+| Urborg, Tomb of Yawgmoth | 19% | 14% | 15% | -1 | - | random |
+| Windswept Heath | 20% | 13% | 15% | -2 | - |  |
+| Swiftfoot Boots | 21% | 12% | 15% | -3 | 6.7 |  |
+| Mirri's Guile | 25% | 12% | 15% | -3 | 6.8 |  |
+| Undergrowth Stadium | 26% | 12% | 15% | -3 | - |  |
+| Urza's Saga | 23% | 11% | 16% | -4 | - |  |
+| Nykthos, Shrine to Nyx | 19% | 11% | 15% | -5 | - |  |
+| Wooded Foothills | 19% | 11% | 15% | -5 | - |  |
+| Shang-Chi, Master of Kung Fu | 20% | 11% | 16% | -5 | 6.5 |  |
+| Bloodstained Mire | 21% | 10% | 16% | -6 | - |  |
+| Scalding Tarn | 21% | 10% | 16% | -6 | - |  |
+| Elves of Deep Shadow | 22% | 10% | 16% | -6 | 6.0 |  |
+| Polluted Delta | 22% | 7% | 17% | -10 | - |  |
+| Ba Sing Se | 19% | 3% | 17% | -15 | - |  |
+| Devoted Druid | 0% | - | 15% | - | - | all |
+| Imp's Mischief | 0% | - | 15% | - | - | all |
+| Pact of the Serpent | 0% | - | 15% | - | - | all |
+| Sylvan Library | 0% | - | 15% | - | - | all |
+| The One Ring | 0% | - | 15% | - | - |  |
+| Wild Growth | 0% | - | 15% | - | - | all |
+| Wirewood Symbiote | 0% | - | 15% | - | - | all |
 
 Never cast or played: Devoted Druid, Imp's Mischief, Pact of the Serpent, Sylvan Library, The One Ring, Wild Growth, Wirewood Symbiote
 
@@ -660,11 +660,11 @@ Never cast or played: Devoted Druid, Imp's Mischief, Pact of the Serpent, Sylvan
 
 Bots can be wrong about a card. Before acting on a finding, play or watch a few games and check:
 - zurgo: Forge's AI is flagged as weak with Blade of Selves, Goblin Bombardment, Mace of the Valiant, Phyrexian Altar, Phyrexian Tower, Reconnaissance, Urborg, Tomb of Yawgmoth, Viscera Seer. A person would play these better.
-- zurgo: rarely or never used by the bot: Bastion of Remembrance, Elenda, the Dusk Rose, Goblin Bombardment, Indulge, Professional Face-Breaker, Reconnaissance, Skullclamp, Soul Warden, Takenuma, Abandoned Mire, Urborg, Tomb of Yawgmoth, Viscera Seer. Clunky, or just misplayed?
+- zurgo: rarely or never used by the bot: Goblin Bombardment, Indulge, Reconnaissance, Viscera Seer. Clunky, or just misplayed?
 - zimone: Forge's AI is flagged as weak with Crop Rotation, Elvish Reclaimer, Farseek, Omniscience, Quirion Ranger, Scroll Rack, Sylvan Library, Yavimaya, Cradle of Growth. A person would play these better.
-- zimone: rarely or never used by the bot: Abhorrent Oculus, Aesi, Tyrant of Gyre Strait, An Offer You Can't Refuse, Blightsteel Colossus, Breeding Pool, Brine Elemental, Counterspell, Crucible of Worlds, Dark Depths, Darksteel Colossus, Guardian Project, It That Betrays. Clunky, or just misplayed?
+- zimone: rarely or never used by the bot: Brine Elemental, Darksteel Colossus, Kozilek, Butcher of Truth, Omniscience, Quirion Ranger, Scroll Rack, Stratus Dancer, Sylvan Library, Vesuvan Shapeshifter. Clunky, or just misplayed?
 - nelly: Forge's AI is flagged as weak with Alliance of Arms, Ancient Tomb, Angel's Trumpet, Crescendo of War, False Orders, Hot Pursuit, Infinite Hourglass, Master Warcraft, Maze of Ith, Reconnaissance, Rite of the Raging Storm, Teyo, Geometric Tactician. A person would play these better.
-- nelly: rarely or never used by the bot: Alliance of Arms, Angel's Grace, Angel's Trumpet, Authority of the Consuls, Bothersome Quasit, Crawlspace, Crystal Barricade, Elegant Parlor, False Orders, Fellwar Stone, Gisela, Blade of Goldnight, Hot Pursuit. Clunky, or just misplayed?
+- nelly: rarely or never used by the bot: Alliance of Arms, Angel's Trumpet, False Orders, Insurrection, Master Warcraft, Rebuff the Wicked, Reconnaissance, Take the Bait. Clunky, or just misplayed?
 - tyvar: Forge's AI is flagged as weak with Devoted Druid, Imp's Mischief, Leaf-Crowned Visionary, Lifecrafter's Bestiary, Pact of the Serpent, Sylvan Library, Urborg, Tomb of Yawgmoth, Veil of Summer, Wild Growth, Wirewood Lodge, Wirewood Symbiote, Yavimaya, Cradle of Growth. A person would play these better.
-- tyvar: rarely or never used by the bot: Devoted Druid, Finale of Devastation, Imp's Mischief, Kindred Dominance, Leyline of Abundance, Marwyn, the Nurturer, Overgrown Tomb, Pact of the Serpent, Sylvan Library, The One Ring, The Ozolith, Veil of Summer. Clunky, or just misplayed?
+- tyvar: rarely or never used by the bot: Devoted Druid, Imp's Mischief, Kindred Dominance, Pact of the Serpent, Sylvan Library, The One Ring, Veil of Summer, Wild Growth, Wirewood Symbiote. Clunky, or just misplayed?
 - Record hand-played games in results/<job>/manual.csv (columns: date, platform, deck, seat, won, turns, notes).
