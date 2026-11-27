@@ -47,6 +47,7 @@ MAX_FAILS = 2  # a batch that gives no games this many times is set aside
 LOG_KEEP_DAYS = 14
 
 _pull_fails = 0
+RUNNING = {}  # batch key -> what this PC is playing now (for status/<machine>.json)
 
 
 def log(msg):
@@ -147,11 +148,17 @@ def pull():
 def push(cfg, msg):
     if not cfg.get("push", True):
         return
+    try:
+        from . import replays
+
+        replays.write_status(cfg, sorted(RUNNING.values(), key=lambda x: x["started"]))
+    except Exception as e:
+        log("status not written: %r" % (e,))
     paths = [
         p
         for p in (
             "results", "decks/variants", "decks/nick", "decks/picks",
-            "decks/rotation", "decks/retired", "decks/power.json",
+            "decks/rotation", "decks/retired", "decks/power.json", "status",
         )
         if os.path.exists(os.path.join(ROOT, p))
     ]
@@ -344,6 +351,11 @@ def run_jobs(
                         job,
                         b,
                     )
+                    RUNNING["%s/%s" % (job["id"], b["id"])] = {
+                        "job": job["id"], "batch": b["id"], "test": b["test"],
+                        "opponents": [os.path.splitext(os.path.basename(o))[0] for o in b["opponents"]],
+                        "started": int(time.time()),
+                    }
                 if not running:
                     break
                 finished, _ = wait(
@@ -352,6 +364,7 @@ def run_jobs(
                 for fut in finished:
                     job, b = running.pop(fut)
                     key = "%s/%s" % (job["id"], b["id"])
+                    RUNNING.pop(key, None)
                     try:
                         res = fut.result()
                     except Exception as e:  # keep going; the batch will be retried
@@ -390,9 +403,11 @@ def run_jobs(
                     queue.clear()
                 if sync and time.time() - last_push > PUSH_EVERY:
                     push(cfg, "sim results")
+                    update_replays(cfg)
                     last_push = time.time()
     finally:
         keep_awake(False)
+        RUNNING.clear()
     if sync:
         for job in jobs:
             try:
@@ -491,6 +506,18 @@ def prune_logs(cfg):
             pass
 
 
+def update_replays(cfg):
+    """This PC's replays for the sims page (forgesim/replays.py); never stops the board."""
+    if not cfg.get("push", True):
+        return
+    try:
+        from . import replays
+
+        replays.update(cfg, log)
+    except Exception as e:
+        log("replays failed: %r" % (e,))
+
+
 def pools_upkeep(cfg):
     """On the rotation's machine (pools.json rotation.refresh_on): score new
     or changed opponent decks (picks dropped in by Nick, say), and refresh
@@ -565,6 +592,7 @@ def loop():
             except Exception as e:
                 log("report failed for %s: %r" % (job["id"], e))
         push(cfg, "sim reports")
+        update_replays(cfg)
         if n == 0:
             for _ in range(IDLE_SLEEP // 30):
                 if os.path.exists(PAUSE):
