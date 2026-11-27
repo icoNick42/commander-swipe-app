@@ -5,28 +5,32 @@ The look and layout rules for `index.html`. Written in PM cycle 4 (2026-11-17). 
 ## Principles
 
 1. **The card is the page.** On any screen, the card and the Skip / Maybe / Add buttons fit without scrolling. Everything else (piles, lists, filters) can scroll.
-2. **Card images stay whole.** Scryfall's rules: never crop a card or cover the artist and copyright line. Swipe labels (ADD / SKIP / MAYBE) only show while dragging.
-3. **Color means the choice.** Green = add, red = skip, amber = maybe, blue = "selected" or the main action. Every colored control also has a text label, so color is never the only signal.
-4. **Dark and quiet.** Card art is the color on the page; the interface stays neutral around it.
+2. **Card images stay whole.** Scryfall's rules: never crop a card or cover the artist and copyright line. Swipe labels (ADD / SKIP / MAYBE) only show while dragging. The one other picture is the commander's art behind the header (cycle 36). It's Scryfall's own art crop, not a crop of the card, and the artist is always named beside it.
+3. **Color means the choice.** Green = add, red = skip, amber = maybe, gold = "selected" or the main action (blue until cycle 36). Every colored control also has a text label, so color is never the only signal. The deck's own colors only tint the background (the spotlight and the pips); they never mark a control.
+4. **A card table, not a dashboard (cycle 36, Nick's pick A).** Warm and dark, like a game table at night: a soft spotlight where the card sits, serif headings, and as few boxes as possible. Card art is still the brightest thing on the page.
 
 ## Colors (CSS variables in `:root`)
 
+Cycle 36 changed the palette to the game table. The old cool blue-gray values are in git history (`dc73583` and before).
+
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#15171c` | page background |
-| `--panel` | `#1f232b` | panels, buttons, inputs |
-| `--panel-2` | `#262b35` | spare raised surface (not used yet) |
-| `--line` | `#333946` | borders and dividers |
-| `--text` | `#e8eaf0` | main text |
-| `--muted` | `#a3a9b8` | secondary text (7.6:1 on `--bg`, 6.7:1 on `--panel`; WCAG AA needs 4.5:1) |
-| `--accent` | `#6ea8fe` | focus ring, step numbers, hover border |
-| `--accent-bg` / `--accent-line` | `#2c4a7a` / `#3d63a3` | main button and selected pile |
+| `--bg` | `#14110d` | page background (warm near-black) |
+| `--panel` | `#1e1a15` | buttons, inputs, the plan check |
+| `--panel-2` | `#26211a` | spare raised surface (not used yet) |
+| `--line` | `#3a3128` | borders where one is still needed |
+| `--text` | `#f1e9dc` | main text (15.6:1 on `--bg`) |
+| `--muted` | `#b3a794` | secondary text (8.0:1 on `--bg`, 7.3:1 on `--panel`; WCAG AA needs 4.5:1) |
+| `--accent` | `#e0b25a` | gold: focus ring, step numbers, hover border, the main button's fill (9.3:1 with its `#1a1408` text) |
+| `--accent-bg` / `--accent-line` | `#3a2f1d` / `#8a6a2c` | older selected states; the selected look is now gold at 16% over the surface |
+| `--title` | `#f3d99c` | the app name (cycle 36) |
+| `--glow-1` / `--glow-2` | gold at 10%, then the deck's first and last colors at 11% | the two spotlights behind the card (cycle 36; set by `showDeckIdentity`) |
 | `--add` | `#3fb768` | add |
 | `--skip` | `#e0575b` | skip |
 | `--maybe` | `#e3b341` | maybe |
-| `--line-soft` | `#2a2f3a` | dividers between list rows (cycle 9; was a literal) |
-| `--accent-hover` | `#34568c` | main button on hover (cycle 9; was a literal) |
-| `--accent-text` | `#cfe0ff` | count on the selected pile chip (cycle 9; was a literal) |
+| `--line-soft` | `#2b251e` | dividers between list rows and between side sections (cycle 9; was a literal) |
+| `--accent-hover` | `#4a3c24` | spare (the main button now lightens to `#ebc276` on hover) |
+| `--accent-text` | `#ffe6b0` | text and count on a selected pile or choice (cycle 9; was a literal) |
 | `--error-text` | `#ff8b8b` | error messages (cycle 9; was a literal) |
 | `--notice-bg` / `--notice-line` | `#3a2f12` / `#6b5520` | notice box (cycle 9; was a literal) |
 | (literal) | `#a26ef0` / `#cbb0ff` | Game Changer badge |
@@ -38,8 +42,8 @@ Action buttons use their color as the border plus a see-through fill of the same
 ## Spacing, shape, type
 
 - Spacing steps: 4, 8, 12, 16, 24 px (`--space-1` to `--space-5`).
-- Corners: 8 px for controls (`--r-sm`), 12 px for panels (`--r-md`), fully round for pile chips.
-- Type: the system font at 16 px; small text 0.85-0.9 rem; the footer 0.78 rem. No web fonts (nothing to license or download).
+- Corners: 10 px for controls (`--r-sm`), 16 px for panels (`--r-md`), fully round for pile chips and the swipe buttons (cycle 36: 8 and 12 before).
+- Type (cycle 36): **Nunito Sans** for everything at 16 px, and **Fraunces** (semibold) for the app name and headings (h2, the side column's section titles, the plan check's title). Both are in `fonts/` as small `.woff2` files (Latin letters only, about 40 KB together), under the SIL Open Font License (the `OFL-*.txt` files there). The page never fetches a font from another site. Small text 0.85-0.9 rem; the footer 0.78 rem.
 - Touch targets: the action buttons are at least 44 px tall.
 
 ## Layout
@@ -96,6 +100,19 @@ Checked in cycle 6 (Chrome, fixtures): the buttons and the Fit line are in view 
 - **Deck total (cycle 21):** the note reads as a sum: "100 in your deck + 2 added - 1 cut = 101, 1 over 100." The other cut options fold behind a "Show N other cut options" button (not saved; closed on reload).
 - **Big screens (cycle 21):** at 1200 px wide and 860 px tall the card can grow to 440 px (1920x1080: 440; 1280x860: 373; 1366x768: unchanged).
 
+## The game-table look (cycle 36)
+
+Nick's picks from the design-council review: look A, the art banner with color tint, and the fonts stored in the repo. The words (a short verdict with the reasons one tap away) are cycle 37.
+
+- **Commander art:** `showDeckIdentity(cmd)` runs when a commander is picked. If the card has an art crop from `cards.scryfall.io`, it shows behind the top 240 px of the page as `body.has-art::before`. It's faded to 32% and masked to nothing toward the bottom. It's a background, so no height changes and `--chrome` stays the same. "Art: <artist>" sits at the right end of the header. With no art crop there's no banner and no credit. `CS.slimCard` now keeps `art` and `artist` (not saved anywhere).
+- **Deck colors:** the two spotlights take the commander's first and last colors in WUBRG order. A colorless commander gets gold. Small pips (12 px circles, plain colors, no Wizards symbols) follow the commander menu, named for screen readers ("Colors: white, black, red"). Hidden at 520 px and under, where the deck bar has no room.
+- **Fewer boxes:** side sections (Added, Maybe, Skipped, Your deck, Filters) are divided by a `--line-soft` line, not boxed. Pile chips are a soft 5% fill with no outline. On wide screens (1200 px and up) the pile list is plain text, and the open pile gets a gold bar on its left. Every selected state (pile, dropdown, mode switch, plan chips, Sort when changed) uses gold at 16%.
+- **Swipe buttons:** pills. Add is solid green with dark text, so it's the main action. Skip and Maybe keep their tinted outline. Undo has no outline.
+- **+1:** an Add (not in cut mode) floats a green "+1" up from the Add button for 0.7 s. Off with reduced motion.
+- **Phones (520 px and under):** the deck bar's menu text is 0.92 rem and the gaps are 8 px, so "Zurgo Stormrender" stays whole at 375 px in the wider font.
+
+Checked (cycle 36): the page check's 7 screen sizes (buttons and Fit line in view), plus 11 new checks. Also looked at live with real card art at 1280x860 and 375x667.
+
 ## Audit, cycle 9 (against these notes)
 
 Every color in the page is now a token above, apart from the action-button tints (the add/skip/maybe colors at 12-34% opacity) the badge colors listed in the table, and the black behind the card and its shadows. Contrast: no visible text below 4.5:1 (checked live). Still off the notes, left as they are because `--chrome` sizing depends on them: about 40 spacing values outside the 4/8/12/16/24 steps (2, 3, 5, 6, 7, 10, 14, 18 px), and 8 text sizes in use where the notes name 3 (0.75 and 0.8 rem are smaller than the footer's 0.78). Tidy these in one pass with a full size check.
@@ -105,3 +122,4 @@ Every color in the page is now a token above, apart from the action-button tints
 - Short laptop screens (about 700 px tall) get a small card (200 px wide), because the pile chips take three rows there. A side column for piles would fix it.
 - Double-faced cards show the front only.
 - No light theme.
+- The 8 text sizes (see the cycle 9 audit) are still there; Fraunces only replaced the font on headings, not their sizes.

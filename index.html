@@ -6,27 +6,45 @@
     <title>Commander Swipe</title>
     <link rel="icon" href="data:," />
     <style>
+      /* cycle 36: two fonts kept in fonts/ (SIL Open Font License, see the OFL files there),
+         cut down to Latin letters; nothing is fetched from another site */
+      @font-face {
+        font-family: "Nunito Sans";
+        src: url("fonts/nunito-sans.woff2") format("woff2");
+        font-weight: 400 800;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Fraunces";
+        src: url("fonts/fraunces-600.woff2") format("woff2");
+        font-weight: 600;
+        font-display: swap;
+      }
       :root {
-        --bg: #15171c;
-        --panel: #1f232b;
-        --line: #333946;
-        --text: #e8eaf0;
-        --muted: #a3a9b8;
+        /* cycle 36: the game-table palette (warm dark, gold accent); DESIGN.md has the table */
+        --bg: #14110d;
+        --panel: #1e1a15;
+        --line: #3a3128;
+        --text: #f1e9dc;
+        --muted: #b3a794;
         --add: #3fb768;
         --skip: #e0575b;
         --maybe: #e3b341;
-        --accent: #6ea8fe;
-        --accent-bg: #2c4a7a;
-        --accent-line: #3d63a3;
-        --panel-2: #262b35;
-        --line-soft: #2a2f3a;
-        --accent-hover: #34568c;
-        --accent-text: #cfe0ff;
+        --accent: #e0b25a;
+        --accent-bg: #3a2f1d;
+        --accent-line: #8a6a2c;
+        --panel-2: #26211a;
+        --line-soft: #2b251e;
+        --accent-hover: #4a3c24;
+        --accent-text: #ffe6b0;
         --error-text: #ff8b8b;
         --notice-bg: #3a2f12;
         --notice-line: #6b5520;
-        --r-sm: 8px;
-        --r-md: 12px;
+        --r-sm: 10px;
+        --r-md: 16px;
+        --title: #f3d99c; /* cycle 36: the app name and headings */
+        --glow-1: rgba(224, 178, 90, 0.1); /* cycle 36: the spotlight; set from the commander's colors */
+        --glow-2: rgba(224, 178, 90, 0.1);
         --space-1: 4px;
         --space-2: 8px;
         --space-3: 12px;
@@ -48,7 +66,8 @@
         background: var(--bg);
         color: var(--text);
         font:
-          16px/1.45 system-ui,
+          16px/1.45 "Nunito Sans",
+          system-ui,
           -apple-system,
           "Segoe UI",
           Roboto,
@@ -1361,12 +1380,254 @@
           transform: none;
         }
       }
+
+      /* ===== cycle 36: the game-table look (Nick's pick A) =====
+         Warm dark table, gold accent, serif headings, a spotlight behind the
+         card tinted by the commander's colors, the commander's art faded in
+         behind the top of the page, and fewer boxes. None of this changes
+         any height the --chrome sizing depends on. */
+      body {
+        position: relative;
+        isolation: isolate;
+        background:
+          radial-gradient(ellipse 38% 46% at 38% 42%, var(--glow-1), transparent 70%),
+          radial-gradient(ellipse 38% 46% at 62% 42%, var(--glow-2), transparent 70%),
+          var(--bg);
+        background-attachment: fixed;
+      }
+      /* the commander's art, faded in behind the header and deck bar (a background, so nothing moves) */
+      body.has-art::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 240px;
+        z-index: -1;
+        pointer-events: none;
+        background-image: var(--deck-art);
+        background-size: cover;
+        background-position: center 30%;
+        opacity: 0.32;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
+        mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
+      }
+      header {
+        border-bottom: 0;
+      }
+      header h1 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 600;
+        font-size: 1.4rem;
+        line-height: 1.2;
+        color: var(--title);
+      }
+      header .tagline {
+        font-style: italic;
+      }
+      .artcredit {
+        margin: 0 0 0 auto;
+        font-size: 0.75rem;
+        color: var(--muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 45%;
+      }
+      h2,
+      .side > details > summary,
+      .planask h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+      summary::marker {
+        color: var(--muted);
+        font-size: 0.8em;
+      }
+      footer {
+        border-top-color: var(--line-soft);
+      }
+      /* calmer controls: a soft fill and no hard outline until hover */
+      button,
+      select,
+      input[type="number"],
+      textarea {
+        border-color: var(--line-soft);
+      }
+      .primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #1a1408;
+        font-weight: 700;
+      }
+      .primary:hover:not(:disabled) {
+        background: #ebc276;
+        border-color: #ebc276;
+      }
+      .how li {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: transparent;
+      }
+      .planask {
+        background: rgba(30, 26, 21, 0.85);
+        border-color: var(--line-soft);
+      }
+      /* the color pips beside the commander */
+      .pips {
+        display: inline-flex;
+        gap: 4px;
+        flex: none;
+      }
+      .pips i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+      }
+      .pips .c-W { background: #f3ead0; }
+      .pips .c-U { background: #5b9fe0; }
+      .pips .c-B { background: #8f7ba8; }
+      .pips .c-R { background: #e0664a; }
+      .pips .c-G { background: #4fae6a; }
+      .pips .c-C { background: #b8b0a0; }
+      @media (max-width: 520px) {
+        .pips {
+          display: none;
+        }
+        /* the new font is a little wider: keep the commander's name whole at 375 px */
+        .deckbar {
+          gap: var(--space-2);
+        }
+        .deckbar select {
+          font-size: 0.92rem;
+          padding-left: 6px;
+        }
+        .deckbar button {
+          padding-left: var(--space-2);
+          padding-right: var(--space-2);
+        }
+      }
+      /* piles: soft chips on narrow screens; a plain list on wide ones */
+      .piles button,
+      .piles select {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: transparent;
+        color: var(--muted);
+      }
+      .piles button:hover:not(:disabled),
+      .piles select:hover {
+        color: var(--text);
+        border-color: transparent;
+        background: rgba(255, 255, 255, 0.09);
+      }
+      .piles button[aria-pressed="true"],
+      .piles select.active,
+      .modeswitch button[aria-checked="true"],
+      .planask .chips button[aria-pressed="true"],
+      .sortbox select.active {
+        background: rgba(224, 178, 90, 0.16);
+        border-color: transparent;
+        color: var(--accent-text);
+      }
+      .piles .count {
+        font-size: 0.8em;
+        opacity: 0.75;
+      }
+      .modeswitch {
+        border-left-color: var(--line-soft);
+      }
+      @media (min-width: 1200px) {
+        .swipecol > .piles button,
+        .swipecol > .piles select {
+          background: transparent;
+        }
+        .swipecol > .piles button[aria-pressed="true"],
+        .swipecol > .piles select.active,
+        .swipecol > .piles .modeswitch button[aria-checked="true"] {
+          background: rgba(224, 178, 90, 0.12);
+          box-shadow: inset 3px 0 0 var(--accent);
+        }
+        .swipecol > .piles .modeswitch {
+          border-top-color: var(--line-soft);
+        }
+      }
+      /* the side column: sections divided by a line, not boxed */
+      .side > section,
+      .side > details {
+        background: transparent;
+        border: 0;
+        border-top: 1px solid var(--line-soft);
+        border-radius: 0;
+        padding: var(--space-3) var(--space-1);
+        margin-bottom: 0;
+      }
+      .side > :first-child {
+        border-top: 0;
+      }
+      /* the card sits on the table */
+      .card {
+        box-shadow:
+          0 28px 56px -18px rgba(0, 0, 0, 0.85),
+          0 0 0 1px rgba(0, 0, 0, 0.4);
+      }
+      /* the swipe buttons: pills; Add is the solid one */
+      .actions button {
+        border-radius: 999px;
+        border-width: 1.5px;
+      }
+      .actions .add {
+        position: relative;
+        background: var(--add);
+        border-color: var(--add);
+        color: #0d1a11;
+      }
+      .actions .add:hover:not(:disabled) {
+        background: #4cc777;
+        border-color: #4cc777;
+      }
+      .actions .add.armed,
+      .actions .add.pressed {
+        background: #4cc777;
+        box-shadow: 0 0 0 3px rgba(63, 183, 104, 0.45);
+      }
+      .actions #undoBtn {
+        border-color: transparent;
+      }
+      /* a small +1 that floats up from Add */
+      .plusone {
+        position: absolute;
+        left: 50%;
+        top: -4px;
+        transform: translateX(-50%);
+        font-weight: 800;
+        font-size: 0.9rem;
+        color: var(--add);
+        pointer-events: none;
+        animation: plusone 0.7s ease-out forwards;
+      }
+      @keyframes plusone {
+        from {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+        to {
+          opacity: 0;
+          transform: translate(-50%, -26px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .plusone {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
       <h1>Commander Swipe</h1>
       <p class="tagline">Swipe through card ideas for your Commander deck</p>
+      <p class="artcredit" id="artCredit" hidden></p>
     </header>
     <main>
       <noscript><p class="msg error">This page needs JavaScript.</p></noscript>
@@ -1430,6 +1691,7 @@
         <div class="deckbar">
           <label for="commanderSelect">Commander</label>
           <select id="commanderSelect"></select>
+          <span class="pips" id="deckPips" hidden></span>
           <button id="changeDeckBtn" type="button">Update or switch deck</button>
         </div>
         <div class="deckline">
@@ -1612,7 +1874,7 @@
       </p>
     </footer>
 
-    <script src="core.js?v=35"></script>
+    <script src="core.js?v=36"></script>
     <script>
       (function () {
         "use strict";
@@ -2292,10 +2554,57 @@
           );
         }
 
+        /**
+         * Cycle 36: whose deck this is. The commander's art (Scryfall's art
+         * crop, with the artist credited) fades in behind the top of the page,
+         * the spotlight behind the card takes the deck's colors, and small
+         * pips beside the commander show them. No art: the plain table.
+         */
+        var GLOW = { W: "243, 234, 208", U: "91, 159, 224", B: "143, 123, 168", R: "224, 102, 74", G: "79, 174, 106" };
+        var COLOR_WORDS = { W: "white", U: "blue", B: "black", R: "red", G: "green" };
+        function showDeckIdentity(cmd) {
+          var body = document.body;
+          var ids = ["W", "U", "B", "R", "G"].filter(function (c) {
+            return (cmd.colorIdentity || []).indexOf(c) >= 0;
+          });
+          var a = ids.length ? GLOW[ids[0]] : "224, 178, 90";
+          var b = ids.length ? GLOW[ids[ids.length - 1]] : a;
+          body.style.setProperty("--glow-1", "rgba(" + a + ", 0.11)");
+          body.style.setProperty("--glow-2", "rgba(" + b + ", 0.11)");
+          var pips = $("deckPips");
+          pips.textContent = "";
+          (ids.length ? ids : ["C"]).forEach(function (c) {
+            var i = document.createElement("i");
+            i.className = "c-" + c;
+            pips.appendChild(i);
+          });
+          pips.setAttribute(
+            "aria-label",
+            ids.length
+              ? "Colors: " + ids.map(function (c) { return COLOR_WORDS[c]; }).join(", ")
+              : "Colorless",
+          );
+          pips.setAttribute("role", "img");
+          pips.hidden = false;
+          var credit = $("artCredit");
+          if (cmd.art && /^https:\/\/cards\.scryfall\.io\//.test(cmd.art)) {
+            body.style.setProperty("--deck-art", 'url("' + cmd.art + '")');
+            body.classList.add("has-art");
+            credit.textContent = cmd.artist ? "Art: " + cmd.artist : "";
+            credit.hidden = !cmd.artist;
+          } else {
+            body.style.removeProperty("--deck-art");
+            body.classList.remove("has-art");
+            credit.textContent = "";
+            credit.hidden = true;
+          }
+        }
+
         function selectCommander(cmd) {
           flushPending(); // save a swipe still animating to the deck it belongs to
           var token = ++S.token;
           S.commander = cmd;
+          showDeckIdentity(cmd); // cycle 36
           S.deckId = CS.deckId(cmd.name, S.parsed.cards);
           S.startOverPlan = null; // cycle 30: a confirm left open belongs to the old deck
           $("startOverAsk").hidden = true;
@@ -3084,6 +3393,20 @@
             }
           }
           if (reduceMotion) return;
+          // cycle 36: a +1 floats up from Add
+          if (choice === "add" && S.mode !== "cut") {
+            var ab = document.querySelector('#actions [data-choice="add"]');
+            if (ab) {
+              var plus = document.createElement("span");
+              plus.className = "plusone";
+              plus.setAttribute("aria-hidden", "true");
+              plus.textContent = "+1";
+              ab.appendChild(plus);
+              setTimeout(function () {
+                if (plus.parentNode) plus.parentNode.removeChild(plus);
+              }, 750);
+            }
+          }
           var target = choice === "add" ? $("addedCount") : choice === "maybe" ? $("maybeCount") : null;
           [target, $("progressLink")].forEach(function (x) {
             if (!x) return;

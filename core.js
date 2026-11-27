@@ -170,6 +170,11 @@
       (sc.image_uris && sc.image_uris.normal) ||
       (f.image_uris && f.image_uris.normal) ||
       null;
+    // cycle 36: the art crop and artist, for the commander's banner (credited on the page)
+    var art =
+      (sc.image_uris && sc.image_uris.art_crop) ||
+      (f.image_uris && f.image_uris.art_crop) ||
+      null;
     // cycle 29: no price (Nick proxies; price never counts, AGENTS.md)
     return {
       id: sc.id,
@@ -189,6 +194,8 @@
       types: sc.type_line || f.type_line || "",
       manaCost: sc.mana_cost || f.mana_cost || "",
       image: img,
+      art: art,
+      artist: sc.artist || f.artist || null,
       gameChanger: sc.game_changer === true,
       colorIdentity: sc.color_identity || [],
       edhrecRank: sc.edhrec_rank != null ? sc.edhrec_rank : null,
