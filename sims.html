@@ -1,0 +1,1753 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Commander Swipe sims</title>
+    <style>
+      /* Same palette as index.html (DESIGN.md) */
+      :root {
+        --bg: #15171c;
+        --panel: #1f232b;
+        --panel-2: #262b35;
+        --line: #333946;
+        --line-soft: #2a2f3a;
+        --text: #e8eaf0;
+        --muted: #a3a9b8;
+        --add: #3fb768;
+        --skip: #e0575b;
+        --maybe: #e3b341;
+        --accent: #6ea8fe;
+        --accent-bg: #2c4a7a;
+        --accent-line: #3d63a3;
+        --error-text: #ff8b8b;
+        --notice-bg: #3a2f12;
+        --notice-line: #6b5520;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.45 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      header h1 {
+        font-size: 1.1rem;
+        margin: 0;
+      }
+      header a {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      nav.tabs {
+        display: flex;
+        gap: 6px;
+        margin-left: auto;
+      }
+      button {
+        font: inherit;
+        color: var(--text);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 12px;
+        cursor: pointer;
+        min-height: 36px;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      button:focus-visible,
+      a:focus-visible,
+      select:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      button.primary,
+      nav.tabs button[aria-selected="true"] {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      button.danger {
+        color: var(--error-text);
+        border-color: var(--error-text);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      select,
+      input,
+      textarea {
+        font: inherit;
+        color: var(--text);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+      textarea {
+        width: 100%;
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 0.85rem;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font-size: 0.85rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 12px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+      }
+      .panel h2 {
+        font-size: 1rem;
+        margin: 0 0 6px;
+      }
+      .panel h3 {
+        font-size: 0.9rem;
+        margin: 10px 0 4px;
+        color: var(--muted);
+      }
+      .stale {
+        color: var(--maybe);
+      }
+      .bad {
+        color: var(--error-text);
+      }
+      .good {
+        color: var(--add);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 5px 6px;
+        border-bottom: 1px solid var(--line-soft);
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+      }
+      td.num,
+      th.num {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .bar {
+        display: inline-block;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--accent-line);
+        vertical-align: middle;
+      }
+      .notice {
+        background: var(--notice-bg);
+        border: 1px solid var(--notice-line);
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      ul.games {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul.games li {
+        border-bottom: 1px solid var(--line-soft);
+      }
+      ul.games button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        padding: 8px 4px;
+      }
+      ul.games button:hover {
+        background: var(--panel-2);
+      }
+      .tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0 7px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        margin-left: 4px;
+      }
+      .tag.win {
+        border-color: var(--add);
+        color: #9be3b4;
+      }
+      .tag.loss {
+        border-color: var(--skip);
+        color: var(--error-text);
+      }
+      /* replay */
+      .seats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .seat {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-size: 0.85rem;
+      }
+      .seat.active {
+        border-color: var(--accent);
+        background: var(--panel-2);
+      }
+      .seat.out {
+        opacity: 0.5;
+      }
+      .seat .life {
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+      .controls {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      ol.events {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        font-size: 0.9rem;
+      }
+      ol.events li {
+        margin: 2px 0;
+      }
+      button.card {
+        all: unset;
+        cursor: pointer;
+        text-decoration: underline dotted;
+      }
+      button.card:focus-visible {
+        outline: 2px solid var(--accent);
+      }
+      dialog {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px;
+        max-width: 94vw;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+      }
+      dialog img {
+        display: block;
+        width: min(488px, 88vw);
+        height: auto;
+        border-radius: 4.75% / 3.4%;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 6px 0;
+      }
+      .msg {
+        min-height: 1.3em;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Commander Swipe sims</h1>
+      <a href="./">Back to the app</a>
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button
+          type="button"
+          role="tab"
+          id="tab-now"
+          aria-selected="true"
+          aria-controls="view-now"
+        >
+          Now
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-results"
+          aria-selected="false"
+          aria-controls="view-results"
+        >
+          Results
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-replays"
+          aria-selected="false"
+          aria-controls="view-replays"
+        >
+          Replays
+        </button>
+        <button
+          type="button"
+          role="tab"
+          id="tab-decks"
+          aria-selected="false"
+          aria-controls="view-decks"
+        >
+          Decks
+        </button>
+      </nav>
+    </header>
+    <main>
+      <div id="notices"></div>
+      <section
+        id="view-now"
+        role="tabpanel"
+        aria-labelledby="tab-now"
+      ></section>
+      <section
+        id="view-results"
+        role="tabpanel"
+        aria-labelledby="tab-results"
+        hidden
+      ></section>
+      <section
+        id="view-replays"
+        role="tabpanel"
+        aria-labelledby="tab-replays"
+        hidden
+      ></section>
+      <section
+        id="view-decks"
+        role="tabpanel"
+        aria-labelledby="tab-decks"
+        hidden
+      ></section>
+    </main>
+    <dialog id="cardView" aria-label="Card">
+      <img id="cardImg" alt="" />
+      <div class="row">
+        <span id="cardName"></span
+        ><button type="button" id="cardClose" style="margin-left: auto">
+          Close
+        </button>
+      </div>
+    </dialog>
+    <script>
+      (function () {
+        "use strict";
+        // ------------------------------------------------------------ where the data lives
+        // The PCs push to GitHub: results and status/<pc>.json on the sims branch,
+        // each PC's replays on its own branch (replays-laptop, replays-desktop).
+        var OWNER = "icoNick42";
+        var REPO = "commander-swipe-app";
+        var MACHINES = ["laptop", "desktop"];
+        var RAW =
+          "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/";
+        var API = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/";
+        var TOKEN_KEY = "cs:sims:token";
+
+        function $(id) {
+          return document.getElementById(id);
+        }
+        function el(tag, attrs, kids) {
+          var e = document.createElement(tag);
+          Object.keys(attrs || {}).forEach(function (k) {
+            var v = attrs[k];
+            if (v == null) return;
+            if (k === "text") e.textContent = v;
+            else if (k === "onclick") e.addEventListener("click", v);
+            else if (k === "onchange") e.addEventListener("change", v);
+            else e.setAttribute(k, v);
+          });
+          (kids || []).forEach(function (c) {
+            if (c == null) return;
+            e.appendChild(
+              typeof c === "string" ? document.createTextNode(c) : c,
+            );
+          });
+          return e;
+        }
+        function token() {
+          try {
+            return localStorage.getItem(TOKEN_KEY) || "";
+          } catch (e) {
+            return "";
+          }
+        }
+        function bust() {
+          return "?t=" + Math.floor(Date.now() / 60000); // GitHub's raw files cache for a few minutes
+        }
+        function raw(branch, path) {
+          return fetch(RAW + branch + "/" + path + bust()).then(function (r) {
+            if (!r.ok) throw new Error(r.status + " " + path);
+            return r;
+          });
+        }
+        function rawJson(branch, path) {
+          return raw(branch, path).then(function (r) {
+            return r.json();
+          });
+        }
+        function rawGzJson(branch, path) {
+          return raw(branch, path).then(function (r) {
+            if (typeof DecompressionStream === "undefined")
+              throw new Error(
+                "This browser can't open replays (no DecompressionStream).",
+              );
+            return new Response(
+              r.body.pipeThrough(new DecompressionStream("gzip")),
+            ).json();
+          });
+        }
+        function api(path, opts) {
+          opts = opts || {};
+          var h = { Accept: "application/vnd.github+json" };
+          if (token()) h.Authorization = "Bearer " + token();
+          if (opts.body) h["Content-Type"] = "application/json";
+          return fetch(API + path, {
+            method: opts.method || "GET",
+            headers: h,
+            body: opts.body ? JSON.stringify(opts.body) : undefined,
+          }).then(function (r) {
+            return r.text().then(function (t) {
+              var j = null;
+              try {
+                j = t ? JSON.parse(t) : null;
+              } catch (e) {}
+              if (!r.ok)
+                throw new Error(
+                  (j && j.message) || r.status + " " + r.statusText,
+                );
+              return j;
+            });
+          });
+        }
+        function ago(sec) {
+          var s = Math.max(0, Math.round(Date.now() / 1000 - sec));
+          if (s < 90) return "just now";
+          if (s < 5400) return Math.round(s / 60) + " min ago";
+          if (s < 172800) return Math.round(s / 3600) + " h ago";
+          return Math.round(s / 86400) + " days ago";
+        }
+        function pct(x) {
+          return Math.round(x * 100) + "%";
+        }
+        function deckName(label) {
+          if (!label) return "?";
+          return label
+            .replace(/^o-/, "")
+            .replace(/^ar\d+-/, "")
+            .replace(/-/g, " ");
+        }
+        function notice(text) {
+          $("notices").appendChild(el("div", { class: "notice", text: text }));
+        }
+        function b64(s) {
+          return btoa(unescape(encodeURIComponent(s)));
+        }
+        function unb64(s) {
+          return decodeURIComponent(escape(atob(s.replace(/\n/g, ""))));
+        }
+
+        // ------------------------------------------------------------ tabs
+        var TABS = ["now", "results", "replays", "decks"];
+        var loaded = {};
+        function show(name) {
+          TABS.forEach(function (t) {
+            $("tab-" + t).setAttribute("aria-selected", String(t === name));
+            $("view-" + t).hidden = t !== name;
+          });
+          try {
+            history.replaceState(null, "", "#" + name);
+          } catch (e) {}
+          if (!loaded[name]) {
+            loaded[name] = true;
+            ({
+              now: loadNow,
+              results: loadResults,
+              replays: loadReplays,
+              decks: loadDecks,
+            })[name]();
+          }
+        }
+        TABS.forEach(function (t) {
+          $("tab-" + t).addEventListener("click", function () {
+            show(t);
+          });
+        });
+
+        // ------------------------------------------------------------ Now
+        function loadNow() {
+          var box = $("view-now");
+          box.textContent = "";
+          var grid = el("div", { class: "grid" });
+          box.appendChild(grid);
+          var total = el("p", { class: "muted small" });
+          box.appendChild(total);
+          box.appendChild(
+            el("button", {
+              type: "button",
+              text: "Refresh",
+              onclick: function () {
+                loadNow();
+              },
+            }),
+          );
+          var sum = 0;
+          return Promise.all(
+            MACHINES.map(function (m) {
+              var card = el("div", { class: "panel" }, [
+                el("h2", { text: m === "laptop" ? "Laptop" : "Desktop" }),
+                el("p", { class: "muted", text: "Loading..." }),
+              ]);
+              grid.appendChild(card);
+              return rawJson("sims", "status/" + m + ".json").then(
+                function (s) {
+                  card.removeChild(card.lastChild);
+                  sum += s.games_today || 0;
+                  var age = Date.now() / 1000 - s.updated;
+                  card.appendChild(
+                    el(
+                      "p",
+                      { class: age > 3600 ? "stale small" : "muted small" },
+                      [
+                        "Last report " +
+                          ago(s.updated) +
+                          (age > 3600
+                            ? " - it may be asleep, paused or off"
+                            : "") +
+                          ". " +
+                          (s.games_today || 0) +
+                          " games finished today.",
+                      ],
+                    ),
+                  );
+                  card.appendChild(
+                    el("h3", {
+                      text:
+                        s.running && s.running.length
+                          ? "Playing now"
+                          : "Playing now: nothing (between rounds)",
+                    }),
+                  );
+                  (s.running || []).forEach(function (r) {
+                    card.appendChild(
+                      el("div", { class: "small" }, [
+                        el("strong", { text: deckName(r.test) }),
+                        " vs " + r.opponents.map(deckName).join(", ") + " ",
+                        el("span", {
+                          class: "muted",
+                          text:
+                            "(" + r.job + ", started " + ago(r.started) + ")",
+                        }),
+                      ]),
+                    );
+                  });
+                  if (s.recent && s.recent.length) {
+                    card.appendChild(el("h3", { text: "Last games" }));
+                    var t = el("table");
+                    s.recent
+                      .slice()
+                      .reverse()
+                      .slice(0, 8)
+                      .forEach(function (g) {
+                        var won = g.winner === g.test;
+                        t.appendChild(
+                          el("tr", null, [
+                            el("td", { text: deckName(g.test) }),
+                            el("td", null, [
+                              el("span", {
+                                class:
+                                  "tag " +
+                                  (won ? "win" : g.winner ? "loss" : ""),
+                                text: won
+                                  ? "won"
+                                  : g.winner
+                                    ? deckName(g.winner) + " won"
+                                    : "draw",
+                              }),
+                            ]),
+                            el("td", {
+                              class: "num muted",
+                              text: (g.turns || "?") + " turns",
+                            }),
+                            el("td", { class: "num muted", text: ago(g.t) }),
+                          ]),
+                        );
+                      });
+                    card.appendChild(t);
+                  }
+                },
+                function () {
+                  card.removeChild(card.lastChild);
+                  card.appendChild(
+                    el("p", {
+                      class: "stale small",
+                      text: "No report from this PC yet. Its board sends one with its next results push (every 10 minutes while it plays).",
+                    }),
+                  );
+                },
+              );
+            }),
+          ).then(function () {
+            total.textContent =
+              "Both PCs together: " +
+              sum +
+              " games finished today. Reports come with each results push, about every 10 minutes.";
+          });
+        }
+
+        // ------------------------------------------------------------ Results
+        function deckTable(decks) {
+          var t = el("table", null, [
+            el("tr", null, [
+              el("th", { text: "Deck" }),
+              el("th", { class: "num", text: "Games" }),
+              el("th", { class: "num", text: "Win rate" }),
+              el("th", { text: "95% range" }),
+              el("th", { class: "num", text: "Cmdr turn" }),
+            ]),
+          ]);
+          Object.keys(decks).forEach(function (k) {
+            var d = decks[k];
+            t.appendChild(
+              el("tr", null, [
+                el("td", { text: deckName(k) }),
+                el("td", { class: "num", text: String(d.games) }),
+                el("td", { class: "num", text: pct(d.win_rate) }),
+                el("td", null, [
+                  el("span", {
+                    class: "bar",
+                    style:
+                      "margin-left:" +
+                      Math.round(d.win_lo * 120) +
+                      "px;width:" +
+                      Math.max(2, Math.round((d.win_hi - d.win_lo) * 120)) +
+                      "px",
+                  }),
+                  el("span", {
+                    class: "muted small",
+                    text: " " + pct(d.win_lo) + "-" + pct(d.win_hi),
+                  }),
+                ]),
+                el("td", {
+                  class: "num",
+                  text: d.cmd_first_turn ? d.cmd_first_turn.toFixed(1) : "-",
+                }),
+              ]),
+            );
+          });
+          return t;
+        }
+        function loadResults() {
+          var box = $("view-results");
+          box.textContent = "";
+          box.appendChild(
+            el("p", {
+              class: "muted small",
+              text: "Every game from both PCs counts here. In a 4-player game an even share is 25%. A difference whose range overlaps the other deck's isn't one the sims can see yet.",
+            }),
+          );
+          var list = el("div");
+          box.appendChild(list);
+          return api("contents/jobs?ref=sims")
+            .then(function (files) {
+              var ids = files
+                .filter(function (f) {
+                  return /\.json$/.test(f.name);
+                })
+                .map(function (f) {
+                  return f.name.replace(/\.json$/, "");
+                })
+                .sort(function (a, b) {
+                  return a === "standing"
+                    ? -1
+                    : b === "standing"
+                      ? 1
+                      : a < b
+                        ? 1
+                        : -1;
+                });
+              return Promise.all(
+                ids.map(function (id) {
+                  var p = el("div", { class: "panel" }, [
+                    el("h2", {
+                      text:
+                        id === "standing"
+                          ? "Background games (standing job)"
+                          : id,
+                    }),
+                  ]);
+                  list.appendChild(p);
+                  return Promise.all([
+                    rawJson("sims", "jobs/" + id + ".json").catch(function () {
+                      return null;
+                    }),
+                    rawJson("sims", "results/" + id + "/summary.json").catch(
+                      function () {
+                        return null;
+                      },
+                    ),
+                  ]).then(function (r) {
+                    var job = r[0],
+                      sum = r[1];
+                    if (job && job.note)
+                      p.appendChild(
+                        el("p", { class: "muted small", text: job.note }),
+                      );
+                    if (!sum) {
+                      p.appendChild(
+                        el("p", {
+                          class: "muted small",
+                          text: "No report yet (one is written when every batch is in; the standing job's every 6 hours).",
+                        }),
+                      );
+                      return;
+                    }
+                    p.appendChild(
+                      el("p", {
+                        class: "small",
+                        text:
+                          sum.batches_in +
+                          " of " +
+                          sum.batches_total +
+                          " batches in. Report made " +
+                          sum.made +
+                          ".",
+                      }),
+                    );
+                    p.appendChild(deckTable(sum.decks));
+                    p.appendChild(
+                      el("p", { class: "small" }, [
+                        el("a", {
+                          href:
+                            "https://github.com/" +
+                            OWNER +
+                            "/" +
+                            REPO +
+                            "/blob/sims/results/" +
+                            id +
+                            "/report.md",
+                          text: "Full report (cards and more)",
+                        }),
+                      ]),
+                    );
+                  });
+                }),
+              );
+            })
+            .catch(function (e) {
+              list.appendChild(
+                el("p", {
+                  class: "bad",
+                  text:
+                    "Couldn't list the jobs: " +
+                    e.message +
+                    (token()
+                      ? ""
+                      : " (GitHub allows 60 lookups an hour without a key; adding one on the Decks tab lifts that)"),
+                }),
+              );
+            });
+        }
+
+        // ------------------------------------------------------------ Replays
+        var R = { games: [], filter: { deck: "", result: "", pc: "" } };
+        function loadReplays() {
+          var box = $("view-replays");
+          box.textContent = "";
+          box.appendChild(
+            el("p", { class: "muted", text: "Loading both PCs' replays..." }),
+          );
+          return Promise.all(
+            MACHINES.map(function (m) {
+              return rawGzJson("replays-" + m, "index.json.gz").then(
+                function (ix) {
+                  return ix.games.map(function (g) {
+                    g.machine = m;
+                    return g;
+                  });
+                },
+                function () {
+                  return [];
+                },
+              );
+            }),
+          ).then(function (lists) {
+            R.games = [].concat.apply([], lists).sort(function (a, b) {
+              return b.t - a.t;
+            });
+            R.counts = lists.map(function (l) {
+              return l.length;
+            });
+            renderReplayList();
+          });
+        }
+        function testSeat(g) {
+          var s = Object.keys(g.players).filter(function (k) {
+            return g.players[k] === g.test;
+          })[0];
+          return s || null;
+        }
+        function renderReplayList() {
+          var box = $("view-replays");
+          box.textContent = "";
+          box.appendChild(
+            el("p", {
+              class: "muted small",
+              text:
+                "The last 14 days of games: laptop " +
+                R.counts[0] +
+                ", desktop " +
+                R.counts[1] +
+                ". Pick one to watch it turn by turn.",
+            }),
+          );
+          var decks = {};
+          R.games.forEach(function (g) {
+            if (g.test) decks[g.test] = true;
+          });
+          var f = R.filter;
+          var sel = function (key, opts) {
+            var s = el("select", { "aria-label": key });
+            opts.forEach(function (o) {
+              var op = el("option", { value: o[0], text: o[1] });
+              if (f[key] === o[0]) op.selected = true;
+              s.appendChild(op);
+            });
+            s.addEventListener("change", function () {
+              f[key] = s.value;
+              renderReplayList();
+            });
+            return s;
+          };
+          box.appendChild(
+            el("div", { class: "filters" }, [
+              sel(
+                "deck",
+                [["", "All your decks"]].concat(
+                  Object.keys(decks)
+                    .sort()
+                    .map(function (d) {
+                      return [d, deckName(d)];
+                    }),
+                ),
+              ),
+              sel("result", [
+                ["", "Won or lost"],
+                ["won", "Your deck won"],
+                ["lost", "Your deck lost"],
+              ]),
+              sel("pc", [
+                ["", "Both PCs"],
+                ["laptop", "Laptop"],
+                ["desktop", "Desktop"],
+              ]),
+            ]),
+          );
+          var shown = R.games.filter(function (g) {
+            if (f.deck && g.test !== f.deck) return false;
+            if (f.pc && g.machine !== f.pc) return false;
+            var ts = testSeat(g);
+            var won = ts && g.winner === ts;
+            if (f.result === "won" && !won) return false;
+            if (f.result === "lost" && won) return false;
+            return true;
+          });
+          if (!shown.length) {
+            box.appendChild(
+              el("p", {
+                class: "muted",
+                text: R.games.length
+                  ? "No games match."
+                  : "No replays yet. Each PC starts sending them with its next results push after its board updates.",
+              }),
+            );
+            return;
+          }
+          var ul = el("ul", { class: "games" });
+          shown.slice(0, 200).forEach(function (g) {
+            var ts = testSeat(g);
+            var won = ts && g.winner === ts;
+            var opp = Object.keys(g.players)
+              .filter(function (k) {
+                return k !== ts;
+              })
+              .map(function (k) {
+                return deckName(g.players[k]);
+              });
+            ul.appendChild(
+              el("li", null, [
+                el(
+                  "button",
+                  {
+                    type: "button",
+                    onclick: function () {
+                      openReplay(g);
+                    },
+                  },
+                  [
+                    el("strong", { text: deckName(g.test) }),
+                    el("span", {
+                      class: "tag " + (won ? "win" : g.winner ? "loss" : ""),
+                      text: won
+                        ? "won"
+                        : g.winner
+                          ? deckName(g.players[g.winner]) + " won"
+                          : "draw",
+                    }),
+                    el("span", { class: "tag", text: g.turns + " turns" }),
+                    el("span", { class: "tag", text: g.machine }),
+                    el("div", {
+                      class: "muted small",
+                      text:
+                        "vs " +
+                        opp.join(", ") +
+                        " - " +
+                        g.date +
+                        " (" +
+                        g.job +
+                        ")",
+                    }),
+                  ],
+                ),
+              ]),
+            );
+          });
+          box.appendChild(ul);
+          if (shown.length > 200)
+            box.appendChild(
+              el("p", {
+                class: "muted small",
+                text:
+                  "Showing the newest 200 of " +
+                  shown.length +
+                  ". Narrow it with the filters.",
+              }),
+            );
+        }
+
+        function cardBtn(name) {
+          return el("button", {
+            type: "button",
+            class: "card",
+            text: name,
+            onclick: function () {
+              $("cardName").textContent = name;
+              $("cardImg").alt = name;
+              $("cardImg").src =
+                "https://api.scryfall.com/cards/named?format=image&version=normal&exact=" +
+                encodeURIComponent(name);
+              $("cardView").showModal();
+            },
+          });
+        }
+
+        var V = null; // the replay on screen: {g, turns: [[events]], i, timer}
+        function openReplay(meta) {
+          var box = $("view-replays");
+          box.textContent = "";
+          box.appendChild(
+            el("p", { class: "muted", text: "Loading the game..." }),
+          );
+          rawGzJson("replays-" + meta.machine, meta.file).then(
+            function (g) {
+              var turns = [];
+              g.events.forEach(function (ev) {
+                if (ev[2] === "T")
+                  turns.push({ n: ev[0], seat: ev[1], life: ev[3], ev: [] });
+                else if (turns.length) turns[turns.length - 1].ev.push(ev);
+              });
+              V = { g: g, meta: meta, turns: turns, i: 0, timer: null };
+              renderReplay();
+            },
+            function (e) {
+              box.textContent = "";
+              box.appendChild(
+                el("p", {
+                  class: "bad",
+                  text: "Couldn't load that game: " + e.message,
+                }),
+              );
+              box.appendChild(
+                el("button", {
+                  type: "button",
+                  text: "Back to the list",
+                  onclick: renderReplayList,
+                }),
+              );
+            },
+          );
+        }
+        function lifeAt(i) {
+          // life at the start of turn i, carried forward (a turn lists only totals seen so far)
+          var life = {};
+          Object.keys(V.g.players).forEach(function (s) {
+            life[s] = 40;
+          });
+          for (var k = 0; k <= i && k < V.turns.length; k++) {
+            Object.keys(V.turns[k].life || {}).forEach(function (s) {
+              life[s] = V.turns[k].life[s];
+            });
+          }
+          return life;
+        }
+        function outBy(i) {
+          var out = {};
+          for (var k = 0; k < i && k < V.turns.length; k++)
+            V.turns[k].ev.forEach(function (e) {
+              if (e[2] === "X") out[e[1]] = e[3];
+            });
+          return out;
+        }
+        function renderReplay() {
+          var box = $("view-replays");
+          box.textContent = "";
+          var g = V.g,
+            t = V.turns[V.i];
+          var name = function (s) {
+            return deckName(g.players[s]);
+          };
+          var ts = testSeat(g);
+          box.appendChild(
+            el("div", { class: "row" }, [
+              el("button", {
+                type: "button",
+                text: "Back to the list",
+                onclick: function () {
+                  stop();
+                  renderReplayList();
+                },
+              }),
+              el("span", {
+                class: "muted small",
+                text:
+                  g.date +
+                  " - " +
+                  g.machine +
+                  " - " +
+                  g.job +
+                  " - " +
+                  (g.winner ? name(g.winner) + " won" : "a draw") +
+                  " on turn " +
+                  g.turns +
+                  (g.ms ? " (" + Math.round(g.ms / 1000) + " s of play)" : ""),
+              }),
+            ]),
+          );
+          var life = lifeAt(V.i);
+          var out = outBy(V.i);
+          var seats = el("div", { class: "seats" });
+          Object.keys(g.players)
+            .sort()
+            .forEach(function (s) {
+              var cm = (g.commanders && g.commanders[s]) || [];
+              seats.appendChild(
+                el(
+                  "div",
+                  {
+                    class:
+                      "seat" +
+                      (t && t.seat === s ? " active" : "") +
+                      (out[s] ? " out" : ""),
+                  },
+                  [
+                    el("div", null, [
+                      el("strong", {
+                        text: name(s) + (s === ts ? " (yours)" : ""),
+                      }),
+                    ]),
+                    el("div", {
+                      class: "life",
+                      text: out[s] ? "out" : String(life[s]),
+                    }),
+                    el(
+                      "div",
+                      { class: "muted" },
+                      cm.length
+                        ? [cardBtn(cm[0])].concat(
+                            cm.length > 1 ? [" + ", cardBtn(cm[1])] : [],
+                          )
+                        : [],
+                    ),
+                  ],
+                ),
+              );
+            });
+          box.appendChild(seats);
+          var range = el("input", {
+            type: "range",
+            min: "0",
+            max: String(V.turns.length - 1),
+            value: String(V.i),
+            "aria-label": "Turn",
+            style: "flex:1;min-width:140px",
+          });
+          range.addEventListener("input", function () {
+            V.i = Number(range.value);
+            renderReplay();
+          });
+          box.appendChild(
+            el("div", { class: "controls" }, [
+              el("button", {
+                type: "button",
+                text: "Prev",
+                onclick: function () {
+                  step(-1);
+                },
+              }),
+              el("button", {
+                type: "button",
+                class: "primary",
+                text: V.timer ? "Pause" : "Play",
+                onclick: function () {
+                  if (V.timer) stop();
+                  else play();
+                  renderReplay();
+                },
+              }),
+              el("button", {
+                type: "button",
+                text: "Next turn",
+                onclick: function () {
+                  step(1);
+                },
+              }),
+              range,
+              el("span", {
+                class: "muted small",
+                text: "Turn " + (t ? t.n : "-") + " of " + g.turns,
+              }),
+            ]),
+          );
+          if (!t) return;
+          box.appendChild(el("h3", { text: name(t.seat) + "'s turn" }));
+          var ol = el("ol", { class: "events" });
+          var words = {
+            L: "played",
+            C: "cast",
+            A: "attacked with",
+            D: "died:",
+            X: "is out:",
+          };
+          t.ev.forEach(function (e) {
+            if (e[2] === "E") return;
+            var who = e[1] ? name(e[1]) + " " : "";
+            var li = el("li");
+            if (e[2] === "A") {
+              var parts = e[3].split(" -> ");
+              var target = (parts[1] || "").replace(
+                /^seat (\d+)$/,
+                function (m, s) {
+                  return name(s);
+                },
+              );
+              li.appendChild(
+                document.createTextNode(who + "attacked " + target + " with "),
+              );
+              parts[0].split(/, | and /).forEach(function (c, i, a) {
+                li.appendChild(cardBtn(c));
+                if (i < a.length - 1)
+                  li.appendChild(document.createTextNode(", "));
+              });
+            } else if (e[2] === "L" || e[2] === "C" || e[2] === "D") {
+              li.appendChild(document.createTextNode(who + words[e[2]] + " "));
+              li.appendChild(cardBtn(e[3]));
+            } else
+              li.appendChild(
+                document.createTextNode(who + (words[e[2]] || "") + " " + e[3]),
+              );
+            ol.appendChild(li);
+          });
+          if (!t.ev.length)
+            ol.appendChild(
+              el("li", {
+                class: "muted",
+                text: "Nothing cast or attacked this turn.",
+              }),
+            );
+          box.appendChild(ol);
+        }
+        function step(d) {
+          V.i = Math.max(0, Math.min(V.turns.length - 1, V.i + d));
+          if (V.i === V.turns.length - 1) stop();
+          renderReplay();
+        }
+        function play() {
+          stop();
+          V.timer = setInterval(function () {
+            step(1);
+          }, 1500);
+        }
+        function stop() {
+          if (V && V.timer) {
+            clearInterval(V.timer);
+            V.timer = null;
+          }
+        }
+
+        // ------------------------------------------------------------ Decks
+        // Changes go to the sims branch through GitHub's API with a key Nick
+        // makes once and keeps only in this browser. The boards pick them up
+        // on their next round (they convert .txt exports to Forge decks).
+        function loadDecks() {
+          var box = $("view-decks");
+          box.textContent = "";
+          var keyPanel = el("div", { class: "panel" });
+          box.appendChild(keyPanel);
+          renderKeyPanel(keyPanel);
+          var mine = el("div", { class: "panel" }, [
+            el("h2", { text: "Your decks (played in the background games)" }),
+            el("p", { class: "muted small", text: "Loading..." }),
+          ]);
+          var picks = el("div", { class: "panel" }, [
+            el("h2", { text: "Your picks (opponents that never rotate out)" }),
+            el("p", { class: "muted small", text: "Loading..." }),
+          ]);
+          var rot = el("div", { class: "panel" }, [
+            el("h2", { text: "The rotation (refreshed weekly by the laptop)" }),
+            el("p", { class: "muted small", text: "Loading..." }),
+          ]);
+          var add = el("div", { class: "panel" });
+          box.appendChild(add);
+          box.appendChild(mine);
+          box.appendChild(picks);
+          box.appendChild(rot);
+          renderAddPanel(add);
+          Promise.all([
+            rawJson("sims", "jobs/standing.json"),
+            api("contents/decks/nick?ref=sims").catch(function () {
+              return [];
+            }),
+            api("contents/decks/picks?ref=sims").catch(function () {
+              return [];
+            }),
+            rawJson("sims", "decks/power.json").catch(function () {
+              return { decks: {} };
+            }),
+            rawJson("sims", "decks/rotation/pool.json").catch(function () {
+              return { decks: {} };
+            }),
+          ]).then(
+            function (r) {
+              var standing = r[0],
+                nick = r[1],
+                pk = r[2],
+                power = r[3].decks || {},
+                pool = r[4];
+              // your decks
+              mine.removeChild(mine.lastChild);
+              var inStanding = {};
+              Object.keys(standing.tests).forEach(function (label) {
+                inStanding[standing.tests[label]] = label;
+              });
+              var t = el("table", null, [
+                el("tr", null, [
+                  el("th", { text: "Deck file" }),
+                  el("th", { text: "In the background games" }),
+                  el("th", { text: "" }),
+                ]),
+              ]);
+              nick
+                .filter(function (f) {
+                  return /\.txt$/.test(f.name);
+                })
+                .forEach(function (f) {
+                  var base = f.name.replace(/\.txt$/, "");
+                  var dck = "decks/nick/" + base + ".dck";
+                  var label = inStanding[dck];
+                  t.appendChild(
+                    el("tr", null, [
+                      el("td", { text: base }),
+                      el("td", { text: label ? "yes, as " + label : "no" }),
+                      el("td", null, [
+                        el("button", {
+                          type: "button",
+                          text: label ? "Stop playing it" : "Play it",
+                          onclick: function () {
+                            setStanding(base, !label);
+                          },
+                        }),
+                      ]),
+                    ]),
+                  );
+                });
+              mine.appendChild(t);
+              // picks
+              picks.removeChild(picks.lastChild);
+              var pf = pk.filter(function (f) {
+                return /\.(txt|dck)$/.test(f.name);
+              });
+              var names = {};
+              pf.forEach(function (f) {
+                names[f.name.replace(/\.(txt|dck)$/, "")] = true;
+              });
+              if (!Object.keys(names).length)
+                picks.appendChild(
+                  el("p", {
+                    class: "muted small",
+                    text: "None yet. Add one above: it will sit at every table.",
+                  }),
+                );
+              Object.keys(names).forEach(function (n) {
+                var s = power["decks/picks/" + n + ".dck"];
+                picks.appendChild(
+                  el("div", { class: "row" }, [
+                    el("strong", { text: n }),
+                    el("span", {
+                      class: "muted small",
+                      text: s ? s.label : "power not scored yet",
+                    }),
+                    el("button", {
+                      type: "button",
+                      class: "danger",
+                      text: "Remove",
+                      onclick: function () {
+                        removePick(n, pf);
+                      },
+                    }),
+                  ]),
+                );
+              });
+              // rotation
+              rot.removeChild(rot.lastChild);
+              rot.appendChild(
+                el("p", {
+                  class: "muted small",
+                  text:
+                    "Last refreshed " +
+                    (pool.refreshed || "never") +
+                    ". Plans: " +
+                    Object.keys(pool.plans || {})
+                      .map(function (k) {
+                        return k + " " + pool.plans[k];
+                      })
+                      .join(", ") +
+                    ".",
+                }),
+              );
+              var rt = el("table", null, [
+                el("tr", null, [
+                  el("th", { text: "Deck" }),
+                  el("th", { text: "Plan" }),
+                  el("th", { text: "Power" }),
+                  el("th", { text: "" }),
+                ]),
+              ]);
+              Object.keys(pool.decks || {})
+                .sort(function (a, b) {
+                  return pool.decks[a].step - pool.decks[b].step;
+                })
+                .forEach(function (f) {
+                  var d = pool.decks[f];
+                  rt.appendChild(
+                    el("tr", null, [
+                      el("td", null, [
+                        d.commander
+                          ? cardBtn(d.commander.split(" + ")[0])
+                          : d.name,
+                        el("div", { class: "muted small", text: d.name }),
+                      ]),
+                      el("td", { text: d.plan }),
+                      el("td", { text: d.power }),
+                      el("td", null, [
+                        d.source
+                          ? el("a", {
+                              href: d.source,
+                              text: "Archidekt",
+                              target: "_blank",
+                              rel: "noopener",
+                            })
+                          : null,
+                      ]),
+                    ]),
+                  );
+                });
+              rot.appendChild(rt);
+            },
+            function (e) {
+              mine.lastChild.textContent =
+                "Couldn't read the decks: " + e.message;
+            },
+          );
+        }
+
+        function renderKeyPanel(p) {
+          p.textContent = "";
+          p.appendChild(
+            el("h2", { text: "GitHub key (for changes from here)" }),
+          );
+          if (token()) {
+            p.appendChild(
+              el("p", {
+                class: "small good",
+                text: "A key is saved in this browser. Changes made here go straight to the sims branch; the PCs pick them up within about 10 minutes.",
+              }),
+            );
+            p.appendChild(
+              el("button", {
+                type: "button",
+                text: "Forget the key",
+                onclick: function () {
+                  try {
+                    localStorage.removeItem(TOKEN_KEY);
+                  } catch (e) {}
+                  renderKeyPanel(p);
+                },
+              }),
+            );
+            return;
+          }
+          p.appendChild(
+            el("p", { class: "small" }, [
+              "Viewing works without one. To add or change decks from here, make a key once: on GitHub go to ",
+              el("a", {
+                href: "https://github.com/settings/personal-access-tokens/new",
+                target: "_blank",
+                rel: "noopener",
+                text: "Settings > Developer settings > Fine-grained tokens",
+              }),
+              ", choose Only select repositories > " +
+                REPO +
+                ", give Contents: Read and write, and paste it here. It stays only in this browser (never on the site or in the repo).",
+            ]),
+          );
+          var inp = el("input", {
+            type: "password",
+            "aria-label": "GitHub key",
+            placeholder: "github_pat_...",
+            autocomplete: "off",
+            style: "flex:1;min-width:200px",
+          });
+          var msg = el("div", { class: "msg" });
+          p.appendChild(
+            el("div", { class: "row" }, [
+              inp,
+              el("button", {
+                type: "button",
+                class: "primary",
+                text: "Save key",
+                onclick: function () {
+                  var v = inp.value.trim();
+                  if (!v) return;
+                  fetch(API, {
+                    headers: {
+                      Authorization: "Bearer " + v,
+                      Accept: "application/vnd.github+json",
+                    },
+                  })
+                    .then(function (r) {
+                      return r.json().then(function (j) {
+                        if (!r.ok) throw new Error(j.message || r.status);
+                        if (!j.permissions || !j.permissions.push)
+                          throw new Error("this key can't write to " + REPO);
+                        try {
+                          localStorage.setItem(TOKEN_KEY, v);
+                        } catch (e) {
+                          throw new Error(
+                            "this browser won't save it (storage is off)",
+                          );
+                        }
+                        renderKeyPanel(p);
+                        loaded.decks = false;
+                      });
+                    })
+                    .catch(function (e) {
+                      msg.textContent = "Not saved: " + e.message;
+                      msg.className = "msg bad";
+                    });
+                },
+              }),
+            ]),
+          );
+          p.appendChild(msg);
+        }
+
+        function slugName(s) {
+          return s
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "")
+            .slice(0, 40);
+        }
+        function getFile(path) {
+          return api("contents/" + path + "?ref=sims").then(
+            function (j) {
+              return { sha: j.sha, text: unb64(j.content) };
+            },
+            function (e) {
+              if (/Not Found/.test(e.message)) return null;
+              throw e;
+            },
+          );
+        }
+        function putFile(path, text, message, sha) {
+          var body = {
+            message: message + "\n\n(from the sims page)",
+            content: b64(text),
+            branch: "sims",
+          };
+          if (sha) body.sha = sha;
+          return api("contents/" + path, { method: "PUT", body: body });
+        }
+        function delFile(path, sha, message) {
+          return api("contents/" + path, {
+            method: "DELETE",
+            body: {
+              message: message + "\n\n(from the sims page)",
+              sha: sha,
+              branch: "sims",
+            },
+          });
+        }
+        function needKey(msg) {
+          if (token()) return true;
+          msg.textContent = "Save a GitHub key first (top of this tab).";
+          msg.className = "msg bad";
+          return false;
+        }
+
+        function renderAddPanel(p) {
+          p.textContent = "";
+          p.appendChild(el("h2", { text: "Add or update a deck" }));
+          p.appendChild(
+            el("p", {
+              class: "muted small",
+              text: "In Moxfield: Export, then Copy for Moxfield, and paste it here. Using a name that already exists replaces that deck (its old numbers stay under its old version).",
+            }),
+          );
+          var name = el("input", {
+            type: "text",
+            "aria-label": "Deck name",
+            placeholder: "Name, like zurgo or kaalia",
+            style: "flex:1;min-width:160px",
+          });
+          var kind = el("select", { "aria-label": "Add as" }, [
+            el("option", {
+              value: "nick",
+              text: "One of your decks (played in the background games)",
+            }),
+            el("option", {
+              value: "picks",
+              text: "A pick (an opponent at every table)",
+            }),
+          ]);
+          var text = el("textarea", {
+            rows: "8",
+            "aria-label": "Moxfield export",
+            placeholder:
+              "1 Zurgo Stormrender (TDC) 10\n1 Adeline, Resplendent Cathar (MID) 312\n...",
+          });
+          var msg = el("div", { class: "msg" });
+          var go = el("button", {
+            type: "button",
+            class: "primary",
+            text: "Save to the sims",
+          });
+          go.addEventListener("click", function () {
+            if (!needKey(msg)) return;
+            var n = slugName(name.value);
+            var body = text.value.trim();
+            var lines = body.split(/\r?\n/).filter(function (l) {
+              return /^\s*\d+\s+\S/.test(l);
+            });
+            if (!n) {
+              msg.textContent = "Give it a name.";
+              msg.className = "msg bad";
+              return;
+            }
+            if (lines.length < 40) {
+              msg.textContent =
+                "That doesn't look like a whole deck (" +
+                lines.length +
+                " card lines). Paste the full Moxfield export.";
+              msg.className = "msg bad";
+              return;
+            }
+            go.disabled = true;
+            msg.className = "msg muted";
+            msg.textContent = "Saving...";
+            var path = "decks/" + kind.value + "/" + n + ".txt";
+            getFile(path)
+              .then(function (old) {
+                return putFile(
+                  path,
+                  body + "\n",
+                  (old ? "Update " : "Add ") +
+                    (kind.value === "picks" ? "pick " : "deck ") +
+                    n,
+                  old && old.sha,
+                );
+              })
+              .then(function () {
+                if (kind.value === "nick") return setStanding(n, true, true);
+              })
+              .then(function () {
+                msg.className = "msg good";
+                msg.textContent =
+                  "Saved. The desktop's board turns it into a Forge deck on its next round (within about 10 minutes, longer mid-round), and the laptop scores its power.";
+                loaded.decks = false;
+                setTimeout(loadDecks, 1500);
+              })
+              .catch(function (e) {
+                msg.className = "msg bad";
+                msg.textContent = "Not saved: " + e.message;
+              })
+              .then(function () {
+                go.disabled = false;
+              });
+          });
+          p.appendChild(el("div", { class: "row" }, [name, kind]));
+          p.appendChild(text);
+          p.appendChild(el("div", { class: "row" }, [go]));
+          p.appendChild(msg);
+        }
+
+        /** Adds or takes a deck out of the standing job's tests (decks/nick/<base>.dck). */
+        function setStanding(base, on, quiet) {
+          var msg = $("view-decks").querySelector(".msg") || el("div");
+          if (!needKey(msg)) return Promise.resolve();
+          return getFile("jobs/standing.json")
+            .then(function (f) {
+              var job = JSON.parse(f.text);
+              var path = "decks/nick/" + base + ".dck";
+              var tests = job.tests;
+              var label = Object.keys(tests).filter(function (k) {
+                return tests[k] === path;
+              })[0];
+              if (on && label) return;
+              if (!on && !label) return;
+              if (on) {
+                var l = base;
+                while (tests[l]) l = l + "-2";
+                tests[l] = path;
+              } else {
+                if (Object.keys(tests).length < 2)
+                  throw new Error(
+                    "the background games need at least one deck",
+                  );
+                delete tests[label];
+              }
+              return putFile(
+                "jobs/standing.json",
+                JSON.stringify(job, null, 1) + "\n",
+                (on ? "Play " : "Stop playing ") +
+                  base +
+                  " in the background games",
+                f.sha,
+              );
+            })
+            .then(
+              function () {
+                if (!quiet) {
+                  loaded.decks = false;
+                  loadDecks();
+                }
+              },
+              function (e) {
+                alertBox("Not changed: " + e.message);
+              },
+            );
+        }
+        function removePick(n, files) {
+          var msg = el("div");
+          if (!needKey(msg)) {
+            alertBox(msg.textContent);
+            return;
+          }
+          var mine = files.filter(function (f) {
+            return f.name === n + ".txt" || f.name === n + ".dck";
+          });
+          mine
+            .reduce(function (p, f) {
+              return p.then(function () {
+                return delFile(
+                  "decks/picks/" + f.name,
+                  f.sha,
+                  "Remove pick " + n,
+                );
+              });
+            }, Promise.resolve())
+            .then(
+              function () {
+                loaded.decks = false;
+                loadDecks();
+              },
+              function (e) {
+                alertBox("Not removed: " + e.message);
+              },
+            );
+        }
+        function alertBox(text) {
+          var p = $("view-decks");
+          p.insertBefore(
+            el("div", { class: "notice", text: text }),
+            p.firstChild,
+          );
+        }
+
+        // ------------------------------------------------------------ start
+        $("cardClose").addEventListener("click", function () {
+          $("cardView").close();
+        });
+        $("cardView").addEventListener("click", function (e) {
+          if (e.target === this) this.close();
+        });
+        var first = (location.hash || "#now").slice(1);
+        show(TABS.indexOf(first) !== -1 ? first : "now");
+      })();
+    </script>
+  </body>
+</html>
