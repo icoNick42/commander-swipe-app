@@ -149,7 +149,10 @@ def push(cfg, msg):
         return
     paths = [
         p
-        for p in ("results", "decks/variants", "decks/nick")
+        for p in (
+            "results", "decks/variants", "decks/nick", "decks/picks",
+            "decks/rotation", "decks/retired", "decks/power.json",
+        )
         if os.path.exists(os.path.join(ROOT, p))
     ]
     a = git("add", "-A", *paths)
@@ -423,7 +426,9 @@ def sync_decks(cfg):
 
     if deck_converter(cfg):
         changed = False
-        for txt in glob.glob(os.path.join(ROOT, "decks", "nick", "*.txt")):
+        txts = glob.glob(os.path.join(ROOT, "decks", "nick", "*.txt"))
+        txts += glob.glob(os.path.join(ROOT, "decks", "picks", "*.txt"))
+        for txt in txts:
             dck = txt[:-4] + ".dck"
             if os.path.exists(dck) and os.path.getmtime(dck) >= os.path.getmtime(txt):
                 continue
@@ -456,6 +461,10 @@ def sync_decks(cfg):
             (os.path.basename(p), p)
             for p in glob.glob(os.path.join(ROOT, "decks", "nick", "*.dck"))
         ]
+        srcs += [
+            ("pick " + os.path.basename(p), p)
+            for p in glob.glob(os.path.join(ROOT, "decks", "picks", "*.dck"))
+        ]
         for p in glob.glob(os.path.join(ROOT, "decks", "variants", "*", "*.dck")):
             # variants are named by job too, so the same label in two jobs can't collide
             srcs.append(
@@ -480,6 +489,30 @@ def prune_logs(cfg):
                 os.remove(p)
         except OSError:
             pass
+
+
+def pools_upkeep(cfg):
+    """On the rotation's machine (pools.json rotation.refresh_on): score new
+    or changed opponent decks (picks dropped in by Nick, say), and refresh
+    the rotation once a week. Needs Scryfall Local and the internet."""
+    from . import power, rotation
+
+    try:
+        conf = rotation.cfg()["rotation"]
+    except (OSError, ValueError, KeyError):
+        return
+    if cfg["name"] != conf.get("refresh_on", "").lower():
+        return
+    try:
+        if rotation.due(cfg["name"]):
+            log("rotation refresh starting")
+            pool = rotation.refresh(log=log)
+            log("rotation refreshed: %d decks" % len(pool["decks"]))
+            push(cfg, "rotation refresh")
+        elif power.update(log=log):
+            push(cfg, "power scores")
+    except Exception as e:
+        log("pools upkeep failed: %r" % (e,))
 
 
 # ------------------------------------------------------------------ loop
@@ -514,6 +547,13 @@ def loop():
             sync_decks(cfg)
         except Exception as e:
             log("deck sync failed: %r" % (e,))
+        try:
+            from . import mirror
+
+            mirror.sync(cfg, log)
+        except Exception as e:
+            log("mirror failed: %r" % (e,))
+        pools_upkeep(cfg)
         try:
             n = run_jobs(cfg, standing=True)
         except Exception as e:

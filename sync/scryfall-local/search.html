@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card Search (local)</title>
+<!-- Served by scryfall_local.py. Card data and images: Scryfall (scryfall.com). -->
+<style>
+  :root {
+    --bg: #15171c; --panel: #1e2129; --line: #2c313c; --text: #e7e9ee;
+    --muted: #9aa2b1; --accent: #e9a23b; --link: #8fb8ff; --warn: #f0c36b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color: var(--link); }
+  header { position: sticky; top: 0; z-index: 5; background: var(--panel);
+           border-bottom: 1px solid var(--line); padding: 10px 16px; }
+  .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; max-width: 1400px; margin: 0 auto; }
+  .brand { font-weight: 700; letter-spacing: .02em; margin-right: 4px; white-space: nowrap; }
+  .brand small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+  #q { flex: 1 1 380px; min-width: 200px; padding: 9px 12px; font-size: 16px; border-radius: 8px;
+       border: 1px solid var(--line); background: #12141a; color: var(--text); }
+  #q:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  button, select { background: #2a2f3a; color: var(--text); border: 1px solid var(--line);
+                   border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
+  button:hover, select:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); color: #1a1a1a; border-color: var(--accent); font-weight: 600; }
+  main { max-width: 1400px; margin: 0 auto; padding: 14px 16px 60px; }
+  #status { color: var(--muted); margin: 4px 0 12px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .warn { color: var(--warn); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+  .grid .card { cursor: pointer; position: relative; }
+  .grid img { width: 100%; aspect-ratio: 488 / 680; border-radius: 4.75% / 3.5%; display: block;
+              background: #232733; object-fit: contain; }
+  .grid .card:hover img { outline: 2px solid var(--accent); }
+  .grid .flip { position: absolute; right: 6px; top: 38%; padding: 4px 8px; font-size: 12px;
+                opacity: .85; border-radius: 20px; }
+  .pager { display: flex; gap: 8px; justify-content: center; align-items: center; margin: 18px 0; }
+</style>
+<style>
+  table.list { width: 100%; border-collapse: collapse; }
+  table.list td { border-bottom: 1px solid var(--line); padding: 8px 6px; vertical-align: top; }
+  table.list tr { cursor: pointer; }
+  table.list tr:hover td { background: #1b1e25; }
+  table.list .nm { font-weight: 600; white-space: nowrap; }
+  table.list .tx { color: #c9ced8; font-size: 14px; }
+  .ms { display: inline-block; min-width: 1.35em; height: 1.35em; line-height: 1.35em; padding: 0 .25em;
+        border-radius: 1em; text-align: center; font-size: .78em; font-weight: 700; color: #111;
+        background: #cac5c0; margin: 0 1px; vertical-align: .08em; }
+  .ms.W { background: #f8f3d6; } .ms.U { background: #a9d0ef; } .ms.B { background: #bdb3ad; }
+  .ms.R { background: #f2a587; } .ms.G { background: #9fd1a8; } .ms.T { background: #ddd; }
+  .reminder { font-style: italic; color: var(--muted); }
+  /* card details */
+  #overlay { position: fixed; inset: 0; background: rgba(5, 6, 9, .78); z-index: 10; display: none;
+             overflow-y: auto; padding: 30px 16px; }
+  #overlay.open { display: block; }
+  .detail { max-width: 1100px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line);
+            border-radius: 12px; padding: 20px; display: grid; grid-template-columns: minmax(240px, 400px) 1fr;
+            gap: 24px; position: relative; }
+  .detail .imgs img { width: 100%; border-radius: 4.75% / 3.5%; display: block; margin-bottom: 10px; }
+  .detail h2 { margin: 0 0 2px; font-size: 22px; }
+  .face { border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .face .type { color: var(--muted); margin: 2px 0 8px; }
+  .face .flavor { font-style: italic; color: var(--muted); margin-top: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .chip { font-size: 12px; padding: 3px 8px; border-radius: 20px; background: #2a2f3a; border: 1px solid var(--line); }
+  .chip.legal { background: #1f4730; border-color: #2f6b47; }
+  .chip.banned { background: #5a2323; border-color: #874040; }
+  .chip.restricted { background: #4d4220; border-color: #7a6a33; }
+  .chip.tag { cursor: pointer; } .chip.tag:hover { border-color: var(--accent); }
+  .chip.gc { background: #5b3b0f; border-color: var(--accent); }
+  .detail h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 6px; }
+  .rulings p { margin: 0 0 8px; font-size: 14px; } .rulings small { color: var(--muted); }
+  .prints { font-size: 13px; max-height: 260px; overflow-y: auto; }
+  .prints td { padding: 3px 8px 3px 0; border-bottom: 1px solid var(--line); }
+  .prints td + td { white-space: nowrap; }
+  .close { position: absolute; right: 12px; top: 10px; }
+  #help { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+          padding: 4px 18px 12px; margin-bottom: 14px; font-size: 14px; }
+  #help.open { display: block; }
+  #help code { background: #12141a; padding: 1px 5px; border-radius: 4px; color: #f3d9a6; cursor: pointer; }
+  #help td { padding: 3px 12px 3px 0; vertical-align: top; }
+  @media (max-width: 760px) { .detail { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <form class="bar" id="form">
+    <div class="brand">Card Search<small id="dataDate">local Scryfall data</small></div>
+    <input id="q" type="search" autocomplete="off" spellcheck="false"
+           placeholder='Try: id<=rwb otag:removal  or  o:"whenever you attack"  (press / to focus)'>
+    <button class="primary" type="submit">Search</button>
+    <select id="order" title="Sort by">
+      <option value="name">Name</option><option value="cmc">Mana value</option>
+      <option value="edhrec">EDHREC rank</option><option value="usd">Price (USD)</option>
+      <option value="released">Release date</option><option value="rarity">Rarity</option>
+      <option value="color">Color</option><option value="power">Power</option>
+    </select>
+    <button type="button" id="dir" title="Sort direction">Auto</button>
+    <button type="button" id="view" title="Switch between images and text">Text view</button>
+    <button type="button" id="helpBtn">Syntax</button>
+  </form>
+</header>
+<main>
+  <div id="help">
+    <p>Terms side by side must all match. Put <b>or</b> between terms for either, <b>-</b> in front for NOT,
+       and use (parentheses) to group. Quote phrases: <code>o:"draw a card"</code>. Regex works in slashes:
+       <code>o:/^{t}: add/</code>. In text searches, <b>~</b> means the card itself. Click any example to try it.</p>
+    <table>
+      <tr><td><b>Name</b></td><td>bare words <code>lightning bolt</code>, exact <code>!"Sol Ring"</code></td></tr>
+      <tr><td><b>Rules text</b></td><td><code>o:"whenever you attack"</code> (skips reminder text), <code>fo:flying</code> (includes it)</td></tr>
+      <tr><td><b>Type</b></td><td><code>t:legendary t:creature</code> <code>t:goblin</code></td></tr>
+      <tr><td><b>Color</b></td><td><code>c:rg</code> (at least red and green) <code>c=rg</code> (exactly) <code>c:m</code> (multicolor) <code>c:c</code> (colorless)</td></tr>
+      <tr><td><b>Commander</b></td><td><code>id:mardu</code> (fits a Mardu deck) <code>id<=rwb</code> <code>is:commander</code> <code>f:commander</code> <code>is:gamechanger</code></td></tr>
+      <tr><td><b>Role tags</b></td><td><code>otag:removal</code> <code>otag:ramp</code> <code>otag:draw</code> <code>otag:board-wipe</code> <code>otag:tutor</code> (Scryfall Tagger tags; click tags on a card for more)</td></tr>
+      <tr><td><b>Numbers</b></td><td><code>cmc>=5</code> <code>mv:even</code> <code>pow>=4</code> <code>pow>tou</code> <code>loy=3</code> <code>usd<1</code> <code>year>=2024</code></td></tr>
+      <tr><td><b>Mana</b></td><td><code>m:{R}{R}</code> or <code>m:RR</code> (at least), <code>m={2}{W}</code> (exactly)</td></tr>
+      <tr><td><b>Other</b></td><td><code>r:mythic</code> <code>e:mh3</code> (printed in a set) <code>kw:ward</code> <code>a:"rebecca guay"</code> <code>ft:dragon</code> <code>game:arena</code> <code>banned:commander</code> <code>is:mdfc</code></td></tr>
+      <tr><td><b>Sorting</b></td><td><code>order:edhrec</code> <code>order:usd dir:desc</code>, or use the menu</td></tr>
+      <tr><td><b>Extras</b></td><td>Tokens, emblems, planes and playtest cards are hidden; add <code>include:extras</code> or <code>t:token</code> to see them.</td></tr>
+    </table>
+    <p>Not here yet: art tags (<code>atag:</code>), searching individual printings (<code>unique:prints</code>), and a few rare keywords.</p>
+  </div>
+  <div id="status"></div>
+  <div id="results"></div>
+  <div class="pager" id="pager"></div>
+</main>
+<div id="overlay"></div>
+<script>
+const $ = s => document.querySelector(s);
+const state = { q: "", order: "name", dir: "", page: 1, view: "images" };
+const FORMATS = ["commander", "standard", "pioneer", "modern", "legacy", "vintage", "pauper",
+                 "brawl", "historic", "timeless", "oathbreaker", "paupercommander", "premodern"];
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, ch =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+// "{2}{R}" -> little colored circles. Expects text that's already escaped.
+function mana(s) {
+  return String(s ?? "").replace(/\{([^}]+)\}/g, (m, sym) => {
+    const color = sym.split("/").find(x => /^[WUBRGT]$/.test(x)) || "";
+    return `<span class="ms ${color}" title="{${sym}}">${sym}</span>`;
+  });
+}
+// Rules text -> HTML: symbols, gray italic reminder text, line breaks.
+function rules(s) {
+  return mana(esc(s)).replace(/\([^)]*\)/g, m => `<span class="reminder">${m}</span>`)
+                     .replace(/\n/g, "<br>");
+}
+function faceText(c) {
+  return c.faces.map(f => rules(f.oracle_text || "")).join("<br><i>//</i><br>");
+}
+function stats(f) {
+  if (f.power != null) return `${esc(f.power)}/${esc(f.toughness)}`;
+  if (f.loyalty != null) return `Loyalty ${esc(f.loyalty)}`;
+  if (f.defense != null) return `Defense ${esc(f.defense)}`;
+  return "";
+}
+
+// ---- the address bar holds the search, so Back works and searches can be bookmarked
+function readHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  state.q = p.get("q") || ""; state.order = p.get("order") || "name";
+  state.dir = p.get("dir") || ""; state.page = +p.get("page") || 1;
+  state.view = p.get("view") || "images";
+}
+function writeHash() {
+  const p = new URLSearchParams();
+  if (state.q) p.set("q", state.q);
+  if (state.order !== "name") p.set("order", state.order);
+  if (state.dir) p.set("dir", state.dir);
+  if (state.page > 1) p.set("page", state.page);
+  if (state.view !== "images") p.set("view", state.view);
+  const h = "#" + p.toString();
+  if (location.hash === h || (h === "#" && !location.hash)) run(); else location.hash = h;
+}
+function syncControls() {
+  $("#q").value = state.q; $("#order").value = state.order;
+  $("#dir").textContent = { asc: "Ascending", desc: "Descending" }[state.dir] || "Auto";
+  $("#view").textContent = state.view === "images" ? "Text view" : "Image view";
+}
+</script>
+<script>
+// ---- searching and showing results
+async function run() {
+  if (!state.q.trim()) {
+    $("#results").innerHTML = ""; $("#pager").innerHTML = "";
+    $("#status").textContent = "Type a search above. Click Syntax for everything you can search.";
+    return;
+  }
+  $("#status").textContent = "Searching…";
+  const url = `/api/search?q=${encodeURIComponent(state.q)}&order=${state.order}` +
+              `&dir=${state.dir}&page=${state.page}`;
+  let r;
+  try { r = await (await fetch(url)).json(); }
+  catch (e) { $("#status").innerHTML = `<span class="warn">Couldn't reach the search. Is the black window still open?</span>`; return; }
+  let line = `<span>${r.total.toLocaleString()} card${r.total === 1 ? "" : "s"}` +
+             (r.pages > 1 ? ` · page ${r.page} of ${r.pages}` : "") + "</span>";
+  for (const w of r.warnings) line += `<span class="warn">⚠ ${esc(w)}</span>`;
+  $("#status").innerHTML = line;
+  $("#results").innerHTML = state.view === "images" ? grid(r.cards) : list(r.cards);
+  pager(r);
+  window.scrollTo(0, 0);
+}
+function grid(cards) {
+  return `<div class="grid">` + cards.map(c => `
+    <div class="card" data-id="${c.id}">
+      <img loading="lazy" src="/img/${c.id}.jpg" alt="${esc(c.name)}. ${esc(c.type_line)}">
+      ${c.back ? `<button class="flip" data-flip="${c.id}" title="Show the other face">↻ Flip</button>` : ""}
+    </div>`).join("") + `</div>`;
+}
+function list(cards) {
+  return `<table class="list">` + cards.map(c => `
+    <tr data-id="${c.id}">
+      <td class="nm">${esc(c.name)}<br>${mana(esc(c.mana_cost))}</td>
+      <td><span style="color:var(--muted)">${esc(c.type_line)}</span>
+          <div class="tx">${faceText(c)}</div></td>
+      <td style="white-space:nowrap">${c.faces.map(stats).filter(Boolean).join(" // ")}</td>
+      <td style="white-space:nowrap">${c.usd ? "$" + esc(c.usd) : ""}</td>
+    </tr>`).join("") + `</table>`;
+}
+function pager(r) {
+  if (r.pages <= 1) { $("#pager").innerHTML = ""; return; }
+  $("#pager").innerHTML =
+    `<button data-page="${r.page - 1}" ${r.page <= 1 ? "disabled" : ""}>← Previous</button>
+     <span>Page ${r.page} of ${r.pages}</span>
+     <button data-page="${r.page + 1}" ${r.page >= r.pages ? "disabled" : ""}>Next →</button>`;
+}
+</script>
+<script>
+// ---- one card's full details
+async function openCard(id) {
+  const d = await (await fetch(`/api/card?id=${id}`)).json();
+  if (d.error) return;
+  const imgs = `<img src="/img/${d.id}.jpg" alt="${esc(d.name)}">` +
+               (d.back ? `<img src="/img/${d.id}-back.jpg" alt="${esc(d.name)}, back face">` : "");
+  const faces = d.faces.map(f => `
+    <div class="face">
+      <h2>${esc(f.name)} ${mana(esc(f.mana_cost || ""))}</h2>
+      <div class="type">${esc(f.type_line || "")}</div>
+      <div>${rules(f.oracle_text || "")}</div>
+      ${stats(f) ? `<div style="margin-top:8px;font-weight:600">${stats(f)}</div>` : ""}
+      ${f.flavor_text ? `<div class="flavor">${esc(f.flavor_text)}</div>` : ""}
+    </div>`).join("");
+  const badges = [
+    d.gc ? `<span class="chip gc">Game Changer</span>` : "",
+    d.reserved ? `<span class="chip">Reserved List</span>` : "",
+    `<span class="chip">${esc(d.rarity)}</span>`,
+    `<span class="chip">${esc(d.set_name)} (${esc(d.released.slice(0, 4))})</span>`,
+    `<span class="chip">Art: ${esc(d.artist)}</span>`,
+    d.prices.usd ? `<span class="chip">$${esc(d.prices.usd)}</span>` : "",
+    d.prices.usd_foil ? `<span class="chip">foil $${esc(d.prices.usd_foil)}</span>` : "",
+    d.edhrec ? `<span class="chip">EDHREC rank #${d.edhrec.toLocaleString()}</span>` : "",
+  ].join("");
+  const legal = FORMATS.filter(f => f in d.legalities).map(f => {
+    const v = d.legalities[f];
+    const label = v === "not_legal" ? "not legal" : v;
+    return `<span class="chip ${v}">${f}: ${label}</span>`;
+  }).join("");
+  const tags = d.tags.length
+    ? d.tags.map(t => `<span class="chip tag" data-q="otag:${esc(t)}">${esc(t)}</span>`).join("")
+    : `<span style="color:var(--muted)">No Tagger tags.</span>`;
+  const rulings = d.rulings.length
+    ? d.rulings.map(([date, text]) => `<p>${rules(text)} <small>(${esc(date)})</small></p>`).join("")
+    : `<p style="color:var(--muted)">No rulings.</p>`;
+  const prints = d.printings === null ? `<p style="color:var(--muted)">Printings are still loading; try again in a few seconds.</p>`
+    : `<table>` + d.printings.map(p => `<tr><td><a href="${esc(p.uri)}" target="_blank" rel="noopener">${esc(p.set_name)}</a>
+        ${p.digital ? "<small>(digital)</small>" : ""}</td><td>#${esc(p.number)}</td><td>${esc(p.released)}</td>
+        <td>${p.usd ? "$" + esc(p.usd) : ""}${p.usd_foil ? ` · foil $${esc(p.usd_foil)}` : ""}</td></tr>`).join("") + `</table>`;
+  $("#overlay").innerHTML = `
+    <div class="detail">
+      <button class="close" data-close>✕ Close</button>
+      <div class="imgs">${imgs}<a href="${esc(d.scryfall_uri)}" target="_blank" rel="noopener">Open on Scryfall ↗</a></div>
+      <div>
+        ${faces}
+        <div class="chips">${badges}</div>
+        <h3>Formats</h3><div class="chips">${legal}</div>
+        <h3>Scryfall Tagger tags (click to search)</h3><div class="chips">${tags}</div>
+        <h3>Rulings</h3><div class="rulings">${rulings}</div>
+        <h3>Printings (${d.printings ? d.printings.length : "…"})</h3><div class="prints">${prints}</div>
+      </div>
+    </div>`;
+  $("#overlay").classList.add("open");
+  $("#overlay").scrollTop = 0;
+}
+function closeCard() { $("#overlay").classList.remove("open"); }
+</script>
+<script>
+// ---- wiring up the buttons
+function searchFor(q) { state.q = q; state.page = 1; closeCard(); syncControls(); writeHash(); }
+
+$("#form").addEventListener("submit", e => { e.preventDefault(); searchFor($("#q").value); });
+$("#order").addEventListener("change", () => { state.order = $("#order").value; state.page = 1; writeHash(); });
+$("#dir").addEventListener("click", () => {
+  state.dir = { "": "asc", asc: "desc", desc: "" }[state.dir]; syncControls(); writeHash();
+});
+$("#view").addEventListener("click", () => {
+  state.view = state.view === "images" ? "text" : "images"; syncControls(); writeHash();
+});
+$("#helpBtn").addEventListener("click", () => $("#help").classList.toggle("open"));
+$("#help").addEventListener("click", e => {
+  if (e.target.tagName === "CODE") searchFor(e.target.textContent);
+});
+$("#results").addEventListener("click", e => {
+  const flip = e.target.closest("[data-flip]");
+  if (flip) {  // swap front and back image
+    const img = flip.parentElement.querySelector("img"), id = flip.dataset.flip;
+    img.src = img.src.includes("-back") ? `/img/${id}.jpg` : `/img/${id}-back.jpg`;
+    return;
+  }
+  const card = e.target.closest("[data-id]");
+  if (card) openCard(card.dataset.id);
+});
+$("#pager").addEventListener("click", e => {
+  const b = e.target.closest("[data-page]");
+  if (b && !b.disabled) { state.page = +b.dataset.page; writeHash(); }
+});
+$("#overlay").addEventListener("click", e => {
+  if (e.target.id === "overlay" || e.target.closest("[data-close]")) closeCard();
+  const tag = e.target.closest("[data-q]");
+  if (tag) searchFor(tag.dataset.q);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeCard();
+  if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); $("#q").select(); }
+});
+window.addEventListener("hashchange", () => { closeCard(); readHash(); syncControls(); run(); });
+
+fetch("/api/status").then(r => r.json()).then(s => {
+  $("#dataDate").textContent = `${s.cards.toLocaleString()} cards · Scryfall data from ${s.updated}`;
+});
+readHash(); syncControls(); run();
+</script>
+</body>
+</html>

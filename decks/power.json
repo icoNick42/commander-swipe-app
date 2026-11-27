@@ -1,0 +1,1745 @@
+{
+ "decks": {
+  "decks/gauntlet-a/40k-necron-dynasties.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.79,
+    "draw": 9,
+    "fast": 2,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "3480a20eb737",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 10.05,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/afc-draconic-rage.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.97,
+    "draw": 12,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "52c3fe1e58fe",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 8.65,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/blc-family-matters.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Combat Celebrant",
+     "Helm of the Host"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.55,
+    "draw": 16,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "88a0e68c4cb9",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 16.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Combat Celebrant + Helm of the Host"
+   ]
+  },
+  "decks/gauntlet-a/brc-urza-s-iron-alliance.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.56,
+    "draw": 14,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "01cef166fcf2",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 13.2,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/dsc-death-toll.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.5,
+    "draw": 8,
+    "fast": 2,
+    "interaction": 2,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "110b54753055",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 9.5,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/fdc-calling-all-angels.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.53,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "26740202c711",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 15.35,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/lcc-veloci-ramp-tor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.08,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "bef175e7806b",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 6.6,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/ltc-riders-of-rohan.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Gilraen, Dúnedain Protector",
+     "Village Bell-Ringer"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.34,
+    "draw": 17,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f55d67cb3e77",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 21.3,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Gilraen, Dúnedain Protector + Village Bell-Ringer"
+   ]
+  },
+  "decks/gauntlet-a/m3c-graveyard-overdrive.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.74,
+    "draw": 7,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "72e0587e9539",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 7.3,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/moc-growing-threat.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.1,
+    "draw": 10,
+    "fast": 2,
+    "interaction": 3,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0230d6c6df9e",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 10.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/ncc-riveteer-rampage.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.25,
+    "draw": 14,
+    "fast": 1,
+    "interaction": 1,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "787f3107ffda",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 7.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-a/otc-quick-draw.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.27,
+    "draw": 20,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ba3332edae08",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.65,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/40k-the-ruinous-powers.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.32,
+    "draw": 10,
+    "fast": 3,
+    "interaction": 1,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "aa8f5065c4e9",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 7.4,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/afc-aura-of-courage.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.77,
+    "draw": 15,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "9a5a712247d4",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.65,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/blc-peace-offering.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.23,
+    "draw": 23,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b3e0bcedd1cf",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.85,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/c15-plunder-the-graves.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.0,
+    "draw": 7,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 0,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "25572a37de85",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 5.5,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/c17-vampiric-bloodlust.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.71,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Teferi's Protection"
+   ],
+   "hash": "18db263983ef",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 7.95,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Teferi's Protection"
+   ]
+  },
+  "decks/gauntlet-b/c18-adaptive-enchantment.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.9,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "6d85ab18e225",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 9.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/c19-merciless-rage.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.17,
+    "draw": 11,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "00f07f8144cb",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 8.15,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/c20-arcane-maelstrom.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.7,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 4,
+    "unknown": 1
+   },
+   "game_changers": [
+    "Crop Rotation"
+   ],
+   "hash": "4bd358369db6",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 20.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "1 Game Changer: Crop Rotation"
+   ]
+  },
+  "decks/gauntlet-b/c21-prismari-performance.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.55,
+    "draw": 13,
+    "fast": 5,
+    "interaction": 1,
+    "tutor": 2,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "e304d5e010c1",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 14.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/cmm-eldrazi-unbound.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.61,
+    "draw": 10,
+    "fast": 2,
+    "interaction": 2,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "1d097a169726",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 4.95,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/cmm-enduring-enchantments.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.63,
+    "draw": 12,
+    "fast": 2,
+    "interaction": 1,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f8d18cfd1dfb",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 11.35,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/cmm-planeswalker-party.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.52,
+    "draw": 8,
+    "fast": 2,
+    "interaction": 2,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Narset, Parter of Veils"
+   ],
+   "hash": "85977db2a397",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 14.9,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Narset, Parter of Veils"
+   ]
+  },
+  "decks/gauntlet-b/cmm-sliver-swarm.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.16,
+    "draw": 8,
+    "fast": 1,
+    "interaction": 0,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "68c3f7eccc6e",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 8.7,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/cmr-arm-for-battle.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.68,
+    "draw": 4,
+    "fast": 2,
+    "interaction": 11,
+    "tutor": 3,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "e2e2415d091d",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 25.1,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/com-mirror-mastery.dck": {
+   "bracket": 4,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.27,
+    "draw": 7,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 9,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ff785658bc47",
+   "label": "Bracket 4 · Low",
+   "level": "Low",
+   "push": 17.65,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 6,
+   "why": [
+    "mass land denial: Ruination"
+   ]
+  },
+  "decks/gauntlet-b/dsc-endless-punishment.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.5,
+    "draw": 13,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "2cbeb804ec9f",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/eoc-world-shaper.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "The Gitrog Monster",
+     "Dakmor Salvage"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.52,
+    "draw": 10,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b9dd51d762dc",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 19.4,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: The Gitrog Monster + Dakmor Salvage"
+   ]
+  },
+  "decks/gauntlet-b/fic-scions-spellcraft.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.38,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "58e6035b12cc",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.1,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/khc-elven-empire.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.6,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 0,
+    "tutor": 0,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "d9f2005d0fbf",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 5.5,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/lcc-blood-rites.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.14,
+    "draw": 11,
+    "fast": 2,
+    "interaction": 2,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "3e6827df5652",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.8,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/m3c-tricky-terrain.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.55,
+    "draw": 13,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "7266214bace4",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 14.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/mic-undead-unleashed.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.97,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 0,
+    "unknown": 1
+   },
+   "game_changers": [],
+   "hash": "e073092c7ed4",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 7.15,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/mkc-blame-game.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.65,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f82156a286cd",
+   "label": "Bracket 2 · Low",
+   "level": "Low",
+   "push": 9.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 0,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/nec-buckle-up.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.32,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "9e860e07837b",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.9,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/otc-desert-bloom.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.65,
+    "draw": 8,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b1388655446f",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/otc-grand-larceny.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.6,
+    "draw": 6,
+    "fast": 3,
+    "interaction": 2,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0fc47b24ac3f",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 16.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/gauntlet-b/sld-20-ways-to-win.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Triskaidekaphile",
+     "Drown in Dreams"
+    ],
+    [
+     "The World Tree",
+     "Maskwood Nexus"
+    ],
+    [
+     "Biovisionary",
+     "Rite of Replication"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.35,
+    "draw": 12,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Seedborn Muse"
+   ],
+   "hash": "c113923a1e74",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 18.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Seedborn Muse",
+    "two-card combo: Triskaidekaphile + Drown in Dreams"
+   ]
+  },
+  "decks/gauntlet-b/sld-goblin-storm.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Storm-Kiln Artist",
+     "Haze of Rage"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.64,
+    "draw": 11,
+    "fast": 5,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0eff9ea06fae",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 26.8,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Storm-Kiln Artist + Haze of Rage"
+   ]
+  },
+  "decks/gauntlet-b/tdc-abzan-armor.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.35,
+    "draw": 7,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Seedborn Muse"
+   ],
+   "hash": "00951245c14e",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 10.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Seedborn Muse"
+   ]
+  },
+  "decks/rotation/ar1012121-kalamax-the-stormsire.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Kalamax, the Stormsire",
+     "Return the Favor"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.45,
+    "draw": 12,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "251b23581b0f",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 21.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Kalamax, the Stormsire + Return the Favor"
+   ]
+  },
+  "decks/rotation/ar13012848-yuna-grand-summoner.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.29,
+    "draw": 17,
+    "fast": 0,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "e73f4987a78f",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.55,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13074677-cid-timeless-artificer.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.14,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 7,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "fedd94d14315",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.8,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13593080-dan-lewis.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.73,
+    "draw": 11,
+    "fast": 0,
+    "interaction": 0,
+    "tutor": 6,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "83dde167b147",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.85,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13854904-the-wandering-minstrel.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.56,
+    "draw": 12,
+    "fast": 0,
+    "interaction": 11,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "9a8d56e05e11",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 25.7,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar1413767-silumgar-the-drifting-death.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.8,
+    "draw": 18,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "94e3a835aa8d",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 15.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar14687174-oskar-rubbish-reclaimer.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Hullbreaker Horror",
+     "Sol Ring"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.25,
+    "draw": 22,
+    "fast": 1,
+    "interaction": 8,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Notion Thief"
+   ],
+   "hash": "cc642988a470",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 24.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "1 Game Changer: Notion Thief",
+    "two-card combo: Hullbreaker Horror + Sol Ring"
+   ]
+  },
+  "decks/rotation/ar1605459-esior-wardwing-familiar.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.5,
+    "draw": 17,
+    "fast": 4,
+    "interaction": 8,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Teferi's Protection",
+    "Ancient Tomb",
+    "Fierce Guardianship"
+   ],
+   "hash": "06b6d394f41e",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 32.0,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "3 Game Changers: Teferi's Protection, Ancient Tomb, Fierce Guardianship"
+   ]
+  },
+  "decks/rotation/ar171880-sidisi-brood-tyrant.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.33,
+    "draw": 10,
+    "fast": 0,
+    "interaction": 1,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Field of the Dead"
+   ],
+   "hash": "0a01f96edc97",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 10.35,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Field of the Dead"
+   ]
+  },
+  "decks/rotation/ar1827191-grothama-all-devouring.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Dawnsire, Sunstar Dreadnought",
+     "Stuffy Doll"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.41,
+    "draw": 12,
+    "fast": 2,
+    "interaction": 7,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "a5fe53135df6",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 24.95,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Dawnsire, Sunstar Dreadnought + Stuffy Doll"
+   ]
+  },
+  "decks/rotation/ar21326316-sami-wildcat-captain.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.12,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "d8cf9dbba043",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 13.9,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar2292269-bilbo-birthday-celebrant.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.0,
+    "draw": 6,
+    "fast": 1,
+    "interaction": 1,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "4816288a9f1a",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 12.5,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar24359371-inga-and-esika.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Hullbreaker Horror",
+     "Intruder Alarm"
+    ],
+    [
+     "Hullbreaker Horror",
+     "Sol Ring"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 4.21,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "af29d8bcd830",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 12.45,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Hullbreaker Horror + Intruder Alarm"
+   ]
+  },
+  "decks/rotation/ar24691738-thrasios-triton-hero.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Gray Merchant of Asphodel",
+     "Rite of Replication"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.98,
+    "draw": 7,
+    "fast": 3,
+    "interaction": 7,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0efa11411039",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 23.6,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Gray Merchant of Asphodel + Rite of Replication"
+   ]
+  },
+  "decks/rotation/ar2508060-magda-brazen-outlaw.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.38,
+    "draw": 14,
+    "fast": 3,
+    "interaction": 0,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "70de86760baa",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 14.6,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar2713146-dromoka-the-eternal.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.94,
+    "draw": 15,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Ancient Tomb",
+    "Teferi's Protection"
+   ],
+   "hash": "a51648913dd4",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 16.3,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "2 Game Changers: Ancient Tomb, Teferi's Protection"
+   ]
+  },
+  "decks/rotation/ar27936225-tsagan-raider-warlord.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.95,
+    "draw": 8,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Teferi's Protection",
+    "Jeska's Will"
+   ],
+   "hash": "acebaef3a700",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 15.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "2 Game Changers: Teferi's Protection, Jeska's Will"
+   ]
+  },
+  "decks/rotation/ar2999284-rasaad-yn-bashir.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.22,
+    "draw": 12,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 9,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "a921e1c82a54",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 26.4,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar3081449-marchesa-the-black-rose.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.25,
+    "draw": 16,
+    "fast": 2,
+    "interaction": 3,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "aad859c4418b",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 17.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar3689944-vohar-vodalian-desecrator.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.35,
+    "draw": 16,
+    "fast": 1,
+    "interaction": 8,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Consecrated Sphinx",
+    "Cyclonic Rift"
+   ],
+   "hash": "54b574b38128",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 15.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "2 Game Changers: Consecrated Sphinx, Cyclonic Rift"
+   ]
+  },
+  "decks/rotation/ar3888384-aveline-de-grandpr.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.57,
+    "draw": 20,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "8056e31b2ebb",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 17.15,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar3997-isperia-supreme-judge.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.74,
+    "draw": 23,
+    "fast": 3,
+    "interaction": 8,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Ancient Tomb",
+    "Rhystic Study",
+    "Consecrated Sphinx"
+   ],
+   "hash": "d5af3483ab69",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 28.3,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "3 Game Changers: Ancient Tomb, Rhystic Study, Consecrated Sphinx"
+   ]
+  },
+  "decks/rotation/ar4036-yennett-cryptic-sovereign.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.28,
+    "draw": 18,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Teferi's Protection"
+   ],
+   "hash": "bc4e09fd4e2a",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 12.6,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "1 Game Changer: Teferi's Protection"
+   ]
+  },
+  "decks/rotation/ar4505318-atraxa-praetors-voice.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.86,
+    "draw": 7,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "cd4f0fe08e44",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 17.7,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4616610-raggadragga-goreguts-boss.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Spawnsire of Ulamog",
+     "Doubling Season"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.88,
+    "draw": 11,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "03ebfed221fd",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 12.6,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Spawnsire of Ulamog + Doubling Season"
+   ]
+  },
+  "decks/rotation/ar4616632-ukkima-stalking-shadow.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.05,
+    "draw": 16,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ccecb4d03c9d",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.75,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4811306-the-council-of-four.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.27,
+    "draw": 24,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "04b8a20e146b",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 24.65,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar567377-esika-god-of-the-tree.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "The World Tree",
+     "Purphoros, God of the Forge"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.84,
+    "draw": 18,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "afc628150a71",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 16.3,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: The World Tree + Purphoros, God of the Forge"
+   ]
+  },
+  "decks/rotation/ar8389387-wick-the-whorled-mind.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.85,
+    "draw": 8,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "3ea9dab93527",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 16.25,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar9115716-malfegor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.09,
+    "draw": 13,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "16e8e6417d05",
+   "label": "Bracket 2 · Mid",
+   "level": "Mid",
+   "push": 14.05,
+   "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 1,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  }
+ },
+ "note": "Power scores (forgesim/power.py). step 0-9 = Manafold's slider."
+}

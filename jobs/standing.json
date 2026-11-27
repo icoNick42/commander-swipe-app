@@ -1,7 +1,8 @@
 {"id": "standing",
- "note": "Always-on background job: Nick's decks vs. gauntlets A and B whenever there's nothing else to run. Builds up per-card data; report refreshed every 6 hours. Add a deck by putting its Moxfield export in decks/nick/<name>.txt and its label here.",
+ "note": "Always-on background job: Nick's decks vs. the rotation and gauntlets A and B (inside the default power window), with one of Nick's picks at every table once he has any, whenever there's nothing else to run. Builds up per-card data; report refreshed every 6 hours. Add a deck by putting its Moxfield export in decks/nick/<name>.txt and its label here.",
  "tests": {"zurgo": "decks/nick/zurgo.dck", "zimone": "decks/nick/zimone.dck",
            "nelly": "decks/nick/nelly.dck", "tyvar": "decks/nick/tyvar.dck"},
- "opponents": ["decks/gauntlet-a/*.dck", "decks/gauntlet-b/*.dck"], "paired": false,
+ "opponents": ["decks/rotation/*.dck", "decks/gauntlet-a/*.dck", "decks/gauntlet-b/*.dck"],
+ "window": "default", "picks": ["decks/picks/*.dck"], "paired": false,
  "games_per_test": 4000, "games_per_batch": 4, "clock": 1200, "seed": 1000,
  "machines": ["desktop", "laptop"], "priority": -10}

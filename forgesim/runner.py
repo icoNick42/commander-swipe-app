@@ -15,6 +15,13 @@ Job fields (defaults in brackets):
   status          "active" | "paused" | "done"           [active]
   tests           {label: deck path}  decks being measured (first = baseline)
   opponents       [deck paths or globs]  pool the other seats are drawn from
+  window          optional power window for the opponents, a name from
+                  decks/pools.json "windows" ("default") or [low, high] steps
+                  on Manafold's slider; decks with no score are left out
+  picks           optional [deck paths or globs]: Nick's picks. When any exist,
+                  picks_per_game of them (pools.json, default 1) sit at every
+                  table and `opponents` fills the other seats. Picks skip the
+                  window: Nick chose them.
   games_per_test  [200]     games_per_batch  [4]     pod  [4 players]
   clock           [1200]    seconds before Forge calls a game a draw
   seed            [1]
@@ -79,9 +86,9 @@ def test_path(job, label):
     return "decks/variants/%s/%s.dck" % (slug(job["id"]), slug(label))
 
 
-def opponent_pool(job, root):
+def _expand(patterns, root):
     pool = []
-    for pat in job.get("opponents", []):
+    for pat in patterns or []:
         hits = sorted(glob.glob(os.path.join(root, pat)))
         pool += (
             [os.path.relpath(h, root) for h in hits]
@@ -96,14 +103,62 @@ def opponent_pool(job, root):
     return out
 
 
+def _pools_conf(root):
+    try:
+        with open(os.path.join(root, "decks", "pools.json"), encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
+
+
+def window_steps(job, root):
+    w = job.get("window")
+    if w is None:
+        return None
+    if isinstance(w, str):
+        w = _pools_conf(root).get("windows", {}).get(w)
+        if w is None:
+            raise ValueError("job %s: unknown window %r" % (job["id"], job["window"]))
+    return int(w[0]), int(w[1])
+
+
+def opponent_pool(job, root):
+    pool = _expand(job.get("opponents", []), root)
+    steps = window_steps(job, root)
+    if steps is None:
+        return pool
+    try:
+        with open(os.path.join(root, "decks", "power.json"), encoding="utf-8") as fh:
+            scores = json.load(fh)["decks"]
+    except (OSError, ValueError, KeyError):
+        scores = {}
+    return [
+        p for p in pool
+        if p.replace("\\", "/") in scores
+        and steps[0] <= scores[p.replace("\\", "/")]["step"] <= steps[1]
+    ]
+
+
+def pick_pool(job, root):
+    picks = _expand(job.get("picks", []), root)
+    return [p for p in picks if os.path.exists(os.path.join(root, p))]
+
+
 def batches(job, root):
     """All batches of a job, in run order: [{id, test, index, seat, seed, opponents, owner}]."""
-    pool = opponent_pool(job, root)
+    picks = pick_pool(job, root)
+    pool = [p for p in opponent_pool(job, root) if p not in picks]
     pod = job["pod"]
-    if len(pool) < pod - 1:
+    n_picks = 0
+    if picks:
+        n_picks = min(
+            len(picks), pod - 1,
+            int(job.get("picks_per_game", _pools_conf(root).get("picks_per_game", 1))),
+        )
+    if len(pool) < pod - 1 - n_picks:
         raise ValueError(
             "job %s: need at least %d opponents, have %d"
-            % (job["id"], pod - 1, len(pool))
+            % (job["id"], pod - 1 - n_picks, len(pool))
         )
     n = math.ceil(job["games_per_test"] / job["games_per_batch"])
     out = []
@@ -113,7 +168,11 @@ def batches(job, root):
     paired = job.get("paired", True)
     for i in range(n):
         rng = random.Random(job["seed"] * 1000003 + i)
-        opps = rng.sample(pool, pod - 1)
+        opps = rng.sample(pool, pod - 1 - n_picks)
+        if n_picks:
+            # picks first in the draw so a job without picks keeps its old tables
+            opps = rng.sample(picks, n_picks) + opps
+            rng.shuffle(opps)
         seat = i % pod  # 0-based seat for the test deck
         # Forge replays a game exactly from its seed. Paired (the default): every
         # test deck gets the same seed in batch i, so a deck and its variant play

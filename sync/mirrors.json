@@ -1,0 +1,11 @@
+{
+  "_note": "Folders in this branch the board copies onto a PC (forgesim/mirror.py). It only adds and updates files there, never deletes. first_run starts the listed steps once if the 'unless' file is missing.",
+  "scryfall-local": {
+    "src": "sync/scryfall-local",
+    "dest": { "desktop": "D:\\Claude\\Scryfall Local" },
+    "first_run": {
+      "unless": "data/manifest.json",
+      "steps": ["update_scryfall.py", "download_images.py"]
+    }
+  }
+}

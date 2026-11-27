@@ -1,0 +1,24 @@
+{
+  "note": "Opponent pools. Steps are Manafold's power slider (forgesim/power.py): 0 B2 Low, 1 B2 Mid, 2 B2 High, 3 B3 Low, 4 B3 Mid, 5 B3 High, 6 B4 Low, 7 B4 Mid, 8 B4 High, 9 B5 cEDH.",
+  "windows": {
+    "default": [1, 5],
+    "precon": [0, 2],
+    "high": [4, 8]
+  },
+  "window_note": "default = Nick's 'mid-high 2 to mid-high 3', read as Bracket 2 Mid through Bracket 3 High (steps 1-5). Change the numbers here to move it.",
+  "picks_per_game": 1,
+  "picks_note": "Nick's picks (decks/picks) sit at every table when any exist: this many seats per game; rotation and gauntlet decks fill the rest.",
+  "level_cuts": { "2": [11.0, 17.0], "3": [20.0, 28.0], "4": [28.0, 38.0] },
+  "rotation": {
+    "refresh_on": "laptop",
+    "refresh_days": 7,
+    "size": 30,
+    "per_plan_min": 2,
+    "per_plan_max": 4,
+    "swap_per_refresh": 6,
+    "min_views": 2000,
+    "updated_within_days": 540,
+    "brackets": [2, 3],
+    "source": "Archidekt public Commander decks, most viewed, with the owner's bracket set to one in 'brackets'; Archidekt deck tags give the plan"
+  }
+}
