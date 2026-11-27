@@ -293,6 +293,71 @@
       .notice button {
         margin-left: var(--space-2);
       }
+      /* cycle 35: Add cards / Cut cards switch, and cut mode's card notes */
+      .modeswitch {
+        display: flex;
+        gap: 6px;
+        margin: 4px 0 8px;
+      }
+      .modeswitch button {
+        padding: 5px 12px;
+        font-size: 0.88rem;
+        border-radius: 999px;
+      }
+      .modeswitch button[aria-pressed="true"] {
+        background: var(--accent-bg);
+        border-color: var(--accent-line);
+      }
+      /* each word shows only in its own mode; the .mouse / .touch rules still pick the keys line */
+      #app:not(.cutmode) .w-cut,
+      #app.cutmode .w-add,
+      #app.cutmode .piles,
+      #app.cutmode .sortbox {
+        display: none;
+      }
+      .badge.idea {
+        border-color: var(--skip);
+      }
+      .cutnotes {
+        text-align: left;
+        font-size: 0.88rem;
+        margin: 6px 0 0;
+      }
+      .cutnotes h3 {
+        font-size: 0.8rem;
+        margin: 6px 0 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+      }
+      .cutnotes ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .keepwhy {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        margin: 8px 0 0;
+        font-size: 0.85rem;
+      }
+      .keepwhy button {
+        padding: 3px 10px;
+        font-size: 0.82rem;
+        border-radius: 999px;
+      }
+      .cutend {
+        text-align: center;
+        padding: 18px 8px;
+      }
+      .cutend .row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
       .startover .danger {
         color: var(--error-text);
         border-color: var(--error-text);
@@ -1373,6 +1438,12 @@
 
         <div class="layout">
           <div class="swipecol">
+            <div class="modeswitch" role="group" aria-label="Mode">
+              <button type="button" id="modeAdd" aria-pressed="true">Add cards</button>
+              <button type="button" id="modeCut" aria-pressed="false">
+                Cut cards<span class="count" id="cutLeft"></span>
+              </button>
+            </div>
             <nav class="piles" id="piles" aria-label="Piles">
               <span id="pileChips"></span>
               <select id="roleSelect" aria-label="Role piles"></select>
@@ -1381,13 +1452,13 @@
             <div class="stage" id="stage"></div>
             <div class="actions" id="actions">
               <button type="button" class="skip" data-choice="skip">
-                <span class="arr" aria-hidden="true">&larr; </span>Skip
+                <span class="arr" aria-hidden="true">&larr; </span><span class="w-add">Skip</span><span class="w-cut">Cut</span>
               </button>
               <button type="button" class="maybe" data-choice="maybe">
-                <span class="arr" aria-hidden="true">&uarr; </span>Maybe
+                <span class="arr" aria-hidden="true">&uarr; </span><span class="w-add">Maybe</span><span class="w-cut">Not sure</span>
               </button>
               <button type="button" class="add" data-choice="add">
-                Add<span class="arr" aria-hidden="true"> &rarr;</span>
+                <span class="w-add">Add</span><span class="w-cut">Keep</span><span class="arr" aria-hidden="true"> &rarr;</span>
               </button>
               <button type="button" id="undoBtn" aria-keyshortcuts="z">
                 Undo
@@ -1398,11 +1469,16 @@
               ><button type="button" class="linkbtn quickcopy" id="quickCopyBtn" hidden>
                 Copy picks
               </button>
-              <span class="mouse"
+              <span class="mouse w-add"
                 >Drag the card, or use the arrow keys: &rarr; add, &larr; skip,
                 &uarr; maybe, Z undo.</span
-              ><span class="touch"
+              ><span class="touch w-add"
                 >Swipe right to add, left to skip, up for maybe.</span
+              ><span class="mouse w-cut"
+                >Drag the card, or use the arrow keys: &larr; cut, &rarr; keep,
+                &uarr; not sure, Z undo.</span
+              ><span class="touch w-cut"
+                >Swipe left to cut, right to keep, up if you're not sure.</span
               >
             </p>
             <div class="swap" id="swapLine" hidden></div>
@@ -1605,6 +1681,16 @@
           revealed: null, // cycle 14: the pile whose chip was last scrolled into view
           justSwiped: false, // cycle 17: the next card stepped up from underneath (no fade-in)
           sort: "rec", // cycle 17: order of the open pile (CS.SORTS); not saved
+          mode: "add", // cycle 35: "add" (recommendations) or "cut" (the deck's own cards)
+          keep: null, // cycle 35: this commander's kept cards (CS.cleanKeep), or {newer: true}
+          cutLater: [], // cycle 35: name keys sent to the back with Not sure, this visit
+          cutHist: [], // cycle 35: this visit's cut-mode swipes, for Undo: {choice, name, before}
+          cutCounts: { cut: 0, keep: 0, later: 0 }, // cycle 35: this visit's counts
+          keepAsk: null, // cycle 35: the cut idea just kept: offer "Why keep?"
+          shownCut: null, // cycle 35: the deal card on screen
+          dealMemo: null, // cycle 35: {sig, fit, deal} so the deal is worked out once per change
+          keepSession: {}, // cycle 35: name key -> true, kept this visit while the keep save is a newer version's
+          keepSaveFailed: false, // cycle 35: the last keep save didn't stick
           sortView: null, // cycle 17: {key, cards} the last sorted copy of a pile
           planAnswer: null, // cycle 34: the player's plan answer for this commander (CS.cleanPlanAnswer), or null
           planAsk: false, // cycle 34: show the plan check in the card's place
@@ -1873,11 +1959,18 @@
             // Storage was cleared (another tab or app on this address): save what's on screen again.
             persist();
             CS.saveSettings(store, settings);
+            saveKeep(); // cycle 35 review S5
             return;
           }
           if (e.key === "cs:settings") {
             settings = CS.loadSettings(store);
             fillFilters();
+          } else if (
+            S.commander &&
+            e.key === "cs:" + CS.keepKey(S.commander.name)
+          ) {
+            // cycle 35: kept cards changed in another tab (a failing save keeps the screen's copy)
+            if (!S.keepSaveFailed) loadKeep(S.commander, true);
           } else if (
             S.deckId &&
             e.key === "cs:" + CS.deckKey(S.deckId) &&
@@ -2218,6 +2311,8 @@
           S.planAsk = !S.planAnswer && !S.planLocked;
           S.planFocused = false;
           S.planDraft = null;
+          loadKeep(cmd); // cycle 35
+          S.mode = "add"; // review N3: a new deck starts with adding (and its plan check)
           S.profile = CS.deckProfile(slims, cmd.name, S.planAnswer);
           S.fitCache = {};
           S.deckFit = CS.deckSynergy(S.profile, slims);
@@ -2904,6 +2999,10 @@
 
         function decide(choice, fromDrag) {
           flushPending();
+          if (S.mode === "cut") {
+            cutDecide(choice, fromDrag); // cycle 35
+            return;
+          }
           var rec = S.shown; // the card on screen, even if another tab changed the pile
           if (!rec || !S.state) return;
           // Save first, animate after, so a swipe is never lost to a quick
@@ -2999,6 +3098,10 @@
         function undo() {
           flushPending();
           if (!S.state) return;
+          if (S.mode === "cut") {
+            cutUndo(); // cycle 35
+            return;
+          }
           var r = CS.undo(latestState(), Date.now());
           if (!r.id) {
             status("Nothing to undo.");
@@ -3088,6 +3191,7 @@
         function render() {
           S.needsRender = false;
           if (!S.state) return;
+          renderMode(); // cycle 35
           renderNotices();
           renderPiles();
           renderStage();
@@ -3161,6 +3265,9 @@
           say(c.maybe, "maybe", "maybes");
           say(c.skip, "skip", "skips");
           say(c.cuts, "cut", "cuts");
+          // cycle 35: this commander's kept cards (review Should 1: an empty or newer-version save isn't counted)
+          var keptN = keepCount();
+          say(keptN, "kept card", "kept cards");
           var others = plan.keys.filter(function (k) {
             return k !== CS.deckKey(S.deckId) && k !== CS.oldDeckKey(S.deckId);
           }).length;
@@ -3180,7 +3287,9 @@
             (others
               ? ", and " + others + (others === 1 ? " other version" : " other versions") + " of this list"
               : "") +
-            "? Your other decks stay as they are. You can undo until you close this tab.";
+            "? Your other decks stay as they are" +
+            (keptN ? ", except that kept cards go for every " + name + " list" : "") + // review Should 3
+            ". You can undo until you close this tab.";
           $("startOverAsk").hidden = false;
           $("startOverNo").focus();
         }
@@ -3203,6 +3312,15 @@
           var shown = S.state;
           var backup = CS.startOver(store, plan, S.deckId, Date.now(), older);
           if (!backup.state) backup.state = shown; // the screen's copy, for when storage isn't working
+          // cycle 35: kept cards go too; the undo copy carries the screen's copy (review Should 2)
+          // review M1: an older undo copy's kept cards win, so one Undo goes all the way back
+          if (older && older.keep) backup.keep = older.keep;
+          else if (keepCount()) backup.keep = { name: S.commander.name, save: S.keep };
+          if (keepCount()) {
+            if (!store.remove(CS.keepKey(S.commander.name))) backup.failed.push(CS.keepKey(S.commander.name));
+            S.keep = CS.emptyKeep();
+          }
+          resetCutVisit();
           S.undoMem = backup; // review Must 1: the full copy, always
           S.undoRead = S.deckId;
           tabStore.set("undo:" + S.deckId, backup);
@@ -3238,6 +3356,24 @@
           flushPending();
           hideSwap();
           var back = CS.undoStartOver(store, b);
+          // cycle 35: kept cards come back too, also when saving isn't working
+          if (b.keep && b.keep.save && b.keep.name === S.commander.name) {
+            // review S1: kept cards are per commander, so keep what was kept since (on any list) and
+            // never write over a newer version's save
+            var nowSaved = CS.cleanKeep(store.get(CS.keepKey(S.commander.name), null));
+            var since = nowSaved || (S.keep && !S.keep.newer ? S.keep : CS.emptyKeep());
+            if (since.newer) S.keep = since;
+            else {
+              var merged = CS.cleanKeep(b.keep.save) || CS.emptyKeep();
+              Object.keys(since.kept).forEach(function (k) {
+                merged.kept[k] = since.kept[k];
+              });
+              merged.updated = Date.now();
+              S.keep = merged;
+              saveKeep();
+            }
+          }
+          resetCutVisit();
           tabStore.remove("undo:" + S.deckId);
           S.undoMem = null;
           if (back && storageAvailable && !S.saveFailed) openDeckState(S.commander);
@@ -3253,6 +3389,374 @@
           render();
           status("Undone: your earlier swipes, picks and cuts are back.");
           $("changeDeckBtn").focus();
+        }
+
+        // ------------------------------------------------------------ cut mode (cycle 35)
+
+        /** This commander's kept cards from storage (a newer-version save is left alone). */
+        /**
+         * This commander's kept cards from storage (a newer-version save is left alone).
+         * `fromOtherTab`: only the kept cards change; this tab's Undo and counts stay (review S3).
+         */
+        function loadKeep(cmd, fromOtherTab) {
+          S.keep = CS.cleanKeep(store.get(CS.keepKey(cmd.name), null)) || CS.emptyKeep();
+          if (fromOtherTab) return;
+          S.keepSession = {}; // review S2: cards kept this visit while the save is a newer version's
+          S.keepSaveFailed = false;
+          resetCutVisit();
+          S.cutHist = [];
+        }
+
+        function saveKeep() {
+          if (!S.commander || !S.keep || S.keep.newer) return; // never over a newer version's save
+          var ok = store.set(CS.keepKey(S.commander.name), S.keep);
+          S.keepSaveFailed = !ok; // review N2: its own flag, so a later deck save can't hide it
+          if (!ok && !S.saveFailed) {
+            S.saveFailed = true;
+            renderNotices();
+          }
+        }
+
+        function keepCount() {
+          return S.keep && !S.keep.newer ? Object.keys(S.keep.kept).length : 0;
+        }
+
+        /** A fresh pass through the deal (review N1: Undo history stays until the deck changes). */
+        function resetCutVisit() {
+          S.cutLater = [];
+          S.cutCounts = { cut: 0, keep: 0, later: 0 };
+          S.keepAsk = null;
+        }
+
+        function setMode(m) {
+          if (m === S.mode || !S.state) return;
+          flushPending();
+          S.mode = m;
+          if (m === "cut") resetCutVisit();
+          else refreshSwap();
+          S.dealMemo = null;
+          render();
+          var n = cutFresh().length;
+          status(
+            m === "cut"
+              ? n
+                ? "Cut mode: your deck's own cards, the app's cut ideas first. Left cuts, right keeps."
+                : "Cut mode: no cards to deal right now."
+              : "Back to adding cards.",
+          );
+        }
+
+        function renderMode() {
+          var cut = S.mode === "cut";
+          $("app").classList.toggle("cutmode", cut);
+          $("modeAdd").setAttribute("aria-pressed", String(!cut));
+          $("modeCut").setAttribute("aria-pressed", String(cut));
+          var n = S.profile && S.deckFit ? cutFresh().length : 0;
+          $("cutLeft").textContent = n ? " " + n : "";
+        }
+
+        /** The deal, worked out once per change (review Note: it ran twice per render). */
+        function cutDeal() {
+          if (!S.profile || !S.deckFit || !S.state) return [];
+          var sig = [
+            S.deckId,
+            JSON.stringify(S.state.cuts),
+            S.keep ? S.keep.updated + ":" + keepCount() : "",
+            S.cutLater.join("|"),
+            Object.keys(S.keepSession || {}).join("|"),
+            Object.keys(S.edhrecMap || {}).length,
+            S.combos ? 1 : 0,
+          ].join("~");
+          // review S4: the deal and the deck read it came from
+          if (S.dealMemo && S.dealMemo.sig === sig && S.dealMemo.fit === S.deckFit) return S.dealMemo.deal;
+          var opts = cutOpts();
+          var ideas = CS.cutSuggestions(S.profile, S.deckFit, S.deckSlimList, opts);
+          var noCuts = {};
+          Object.keys(opts).forEach(function (k) {
+            noCuts[k] = opts[k];
+          });
+          noCuts.cuts = {}; // review Should 4: the extras don't change as cards are cut
+          var pool = CS.cutCandidates(S.profile, S.deckFit, S.deckSlimList, noCuts);
+          var deal = CS.cutDeal(ideas, pool, {
+            cuts: S.state.cuts,
+            kept: S.keep && !S.keep.newer ? S.keep.kept : S.keepSession,
+            later: S.cutLater,
+          }).filter(function (d) {
+            return !!S.exportNames[CS.nameKey(d.name)]; // only cards in the pasted list can be cut
+          });
+          S.dealMemo = { sig: sig, deal: deal, fit: S.deckFit };
+          return deal;
+        }
+
+        /** The deal's cards not yet passed with Not sure (review S6: a pass ends when only those are left). */
+        function cutFresh() {
+          return cutDeal().filter(function (d) {
+            return S.cutLater.indexOf(CS.nameKey(d.name)) === -1;
+          });
+        }
+
+        function renderCutStage(stage, setButtons) {
+          S.shown = null;
+          S.shownCut = null;
+          $("undoBtn").disabled = !S.cutHist.length;
+          if (!S.profile || !S.deckFit) {
+            setButtons(false);
+            stage.appendChild(el("p", { class: "empty", text: "Reading your deck..." }));
+            return;
+          }
+          var deal = cutDeal();
+          if (!cutFresh().length) {
+            setButtons(false);
+            stage.appendChild(cutEndBox());
+            return;
+          }
+          setButtons(true);
+          var d = deal[0];
+          S.shownCut = d;
+          var info = S.cardInfo[d.id] || infoByName(d.name) || { name: d.name };
+          var face = info.image
+            ? el("img", { src: info.image, alt: cardAlt(info), draggable: "false" })
+            : el("div", { class: "textface" }, [
+                el("div", { class: "name", text: info.name }),
+                el("div", { class: "muted", text: [info.manaCost, info.typeLine].filter(Boolean).join("  ") }),
+                el("div", { class: "oracle", text: info.oracle || "" }),
+              ]);
+          var card = el("div", { class: "card" }, [
+            face,
+            el("div", { class: "hint add", text: "KEEP", "aria-hidden": "true" }),
+            el("div", { class: "hint skip", text: "CUT", "aria-hidden": "true" }),
+            el("div", { class: "hint maybe", text: "NOT SURE", "aria-hidden": "true" }),
+          ]);
+          attachDrag(card);
+          if (!S.justSwiped && !reduceMotion) card.classList.add("enter");
+          S.justSwiped = false;
+          var under = null;
+          var nInfo = deal[1] && (S.cardInfo[deal[1].id] || infoByName(deal[1].name));
+          if (nInfo && nInfo.image)
+            under = el("div", { class: "undercard", "aria-hidden": "true" }, [
+              el("img", { src: nInfo.image, alt: "", draggable: "false" }),
+            ]);
+          stage.appendChild(el("div", { class: "cardbox" }, under ? [under, card] : [card]));
+          var notes = [
+            el("h3", { text: "Why cut it" }),
+            el(
+              "ul",
+              null,
+              d.reasons.slice(0, 3).map(function (r) {
+                return el("li", { text: r });
+              }),
+            ),
+          ];
+          if (d.stays.length)
+            notes.push(
+              el("h3", { text: "Why it might stay" }),
+              el(
+                "ul",
+                null,
+                d.stays.map(function (r) {
+                  return el("li", { text: r });
+                }),
+              ),
+            );
+          var bits = [
+            el("div", { class: "namerow" }, [
+              el("div", { class: "cardname", text: info.name }),
+              el("span", {
+                class: "badge" + (d.kind === "idea" ? " idea" : ""),
+                text: d.kind === "idea" ? "Cut idea" : "Weaker card",
+              }),
+            ]),
+            el("div", {
+              class: "stats",
+              text: cutFresh().length + (cutFresh().length === 1 ? " card" : " cards") + " left to look at \u00b7 deck " + deckTotals().total,
+            }),
+            el("div", { class: "cutnotes" }, notes),
+          ];
+          if (S.keepAsk) bits.push(keepWhyRow(S.keepAsk));
+          stage.appendChild(el("div", { class: "meta" }, bits));
+        }
+
+        /** After keeping a cut idea: one tap to say why (optional). */
+        function keepWhyRow(name) {
+          return el(
+            "div",
+            { class: "keepwhy", role: "group", "aria-label": "Why keep " + name + "?" },
+            [el("span", { class: "muted", text: "Why keep " + name + "? (optional)" })].concat(
+              CS.KEEP_WHYS.map(function (w) {
+                return el("button", {
+                  type: "button",
+                  text: CS.KEEP_WHY_WORDS[w],
+                  onclick: function () {
+                    if (!S.keep || S.keep.newer) return;
+                    S.keep = CS.keepWhy(S.keep, name, w, Date.now());
+                    saveKeep();
+                    S.keepAsk = null;
+                    render();
+                    status("Kept " + name + ": " + CS.KEEP_WHY_WORDS[w].toLowerCase() + ".", "add");
+                  },
+                });
+              }),
+            ),
+          );
+        }
+
+        function cutEndBox() {
+          var c = S.cutCounts;
+          var t = deckTotals();
+          var notes = CS.keepNotes(S.keep, S.commander ? S.commander.name : "");
+          var msg = el("p", { class: "muted small", id: "keepNotesMsg" });
+          var box = el("textarea", { class: "copybox", id: "keepNotesBox", readonly: "", rows: "4", hidden: "" });
+          var kids = [
+            el("p", { text: "That's every card the app would look at for cuts." }),
+            el("p", {
+              class: "muted",
+              text:
+                "This visit: " + c.cut + (c.cut === 1 ? " cut, " : " cuts, ") +
+                c.keep + " kept, " + c.later + " not sure. Deck total: " + t.total +
+                (t.total === 100 ? " (right on 100)." : t.total > 100 ? " (" + (t.total - 100) + " over 100)." : " (" + (100 - t.total) + " under 100)."),
+            }),
+          ];
+          var row = [];
+          if (S.cutLater.length)
+            row.push(
+              el("button", {
+                type: "button",
+                text: "Look at the " + S.cutLater.length + " not-sure " + (S.cutLater.length === 1 ? "card" : "cards") + " again",
+                onclick: function () {
+                  S.cutLater = [];
+                  render();
+                },
+              }),
+            );
+          if (notes)
+            row.push(
+              el("button", {
+                type: "button",
+                text: "Copy keep notes",
+                onclick: function () {
+                  copyOut(notes, box, msg, "Copied. Paste it to Claude to check the cut rules against your reasons.");
+                },
+              }),
+            );
+          row.push(
+            el("button", {
+              type: "button",
+              class: "primary",
+              text: "Back to adding cards",
+              onclick: function () {
+                setMode("add");
+              },
+            }),
+          );
+          kids.push(el("div", { class: "row" }, row), msg, box);
+          return el("div", { class: "cutend" }, kids);
+        }
+
+        function cutDecide(choice, fromDrag) {
+          var d = S.shownCut;
+          if (!d || !S.state) return;
+          var e = S.exportNames[CS.nameKey(d.name)];
+          if (!e) {
+            S.dealMemo = null; // review Note: a card missing from the pasted list springs back
+            render();
+            return;
+          }
+          var before = { cuts: S.state.cuts[e.name] || 0, kept: S.keep && S.keep.kept[CS.nameKey(d.name)] || null };
+          S.keepAsk = null;
+          if (choice === "skip") {
+            S.state = CS.cutOne(latestState(), e.name, e.qty, Date.now());
+            persist();
+            noteChange();
+            S.cutCounts.cut++;
+          } else if (choice === "add") {
+            if (S.keep && !S.keep.newer) {
+              S.keep = CS.keepCard(S.keep, d.name, d.kind === "idea", Date.now());
+              saveKeep();
+              if (d.kind === "idea") S.keepAsk = d.name;
+            } else S.keepSession[CS.nameKey(d.name)] = true; // review S2: not saved, but not dealt again this visit
+            S.cutCounts.keep++;
+          } else {
+            var k = CS.nameKey(d.name);
+            S.cutLater = S.cutLater.filter(function (x) {
+              return x !== k;
+            });
+            S.cutLater.push(k);
+            S.cutCounts.later++;
+          }
+          S.cutHist.push({ choice: choice, name: d.name, exportName: e.name, before: before });
+          var total = deckTotals().total;
+          status(
+            (choice === "skip" ? "Cut: " : choice === "add" ? "Kept: " : "Not sure, later: ") + d.name +
+              (choice === "add" && S.keep && S.keep.newer ? " (for this visit: kept cards were saved by a newer version of the page)" : "") +
+              (choice === "skip" && total === 100 ? ". The deck is at 100." : choice === "skip" && total > 100 ? ". " + (total - 100) + " over 100." : ""),
+            choice,
+          );
+          feedback(choice, !!fromDrag);
+          var card = document.querySelector("#stage .card");
+          renderLists();
+          renderDeckFit();
+          if (!card || reduceMotion) {
+            render();
+            return;
+          }
+          var w = card.offsetWidth;
+          var dy = fromDrag ? fromDrag.dy : 0;
+          card.classList.remove("dragging");
+          card.classList.remove("enter");
+          card.classList.add("flying");
+          showHint(card, choice, 1);
+          card.style.transform =
+            choice === "add"
+              ? "translate(" + 1.6 * w + "px," + dy + "px) rotate(20deg)"
+              : choice === "skip"
+                ? "translate(" + -1.6 * w + "px," + dy + "px) rotate(-20deg)"
+                : "translate(0," + -1.6 * card.offsetHeight + "px)";
+          card.style.opacity = "0";
+          var finish = function () {
+            pending = null;
+            S.busy = false;
+            S.justSwiped = true;
+            render();
+          };
+          S.busy = true;
+          pending = { timer: setTimeout(finish, 200), commit: finish };
+        }
+
+        function cutUndo() {
+          var h = S.cutHist.pop();
+          if (!h) {
+            status("Nothing to undo.");
+            return;
+          }
+          S.keepAsk = null;
+          if (h.choice === "skip") {
+            if ((S.state.cuts[h.exportName] || 0) > h.before.cuts) {
+              S.state = CS.uncutOne(latestState(), h.exportName, Date.now());
+              persist();
+              noteChange();
+            }
+            S.cutCounts.cut = Math.max(0, S.cutCounts.cut - 1);
+          } else if (h.choice === "add") {
+            delete S.keepSession[CS.nameKey(h.name)];
+            if (S.keep && !S.keep.newer) {
+              S.keep = h.before.kept
+                ? CS.keepWhy(CS.keepCard(S.keep, h.before.kept.name, h.before.kept.idea, h.before.kept.at), h.name, h.before.kept.why, Date.now())
+                : CS.unkeepCard(S.keep, h.name, Date.now());
+              saveKeep();
+            }
+            S.cutCounts.keep = Math.max(0, S.cutCounts.keep - 1);
+          } else {
+            var k = CS.nameKey(h.name);
+            S.cutLater = S.cutLater.filter(function (x) {
+              return x !== k;
+            });
+            S.cutCounts.later = Math.max(0, S.cutCounts.later - 1);
+          }
+          S.justSwiped = false;
+          status("Undid: " + h.name);
+          renderLists();
+          renderDeckFit();
+          render();
         }
 
         function remaining(pile) {
@@ -3443,6 +3947,10 @@
             });
           };
           $("undoBtn").disabled = !S.state.history.length;
+          if (S.mode === "cut") {
+            renderCutStage(stage, setButtons); // cycle 35
+            return;
+          }
           if (S.planAsk && S.profile && S.commander) {
             setButtons(false);
             stage.appendChild(planAskBox());
@@ -4335,7 +4843,7 @@
           box.textContent = "";
           var sw = S.swap;
           if (sw && S.state && deckTotals().total <= 100) sw = S.swap = null; // made room already
-          if (!sw) {
+          if (!sw || S.mode === "cut") { // cycle 35: no "cut something for this?" in cut mode
             box.hidden = true;
             $("keysLine").hidden = false;
             $("status").classList.remove("vh"); // cycle 21
@@ -5019,6 +5527,12 @@
           },
         );
         $("undoBtn").addEventListener("click", undo);
+        $("modeAdd").addEventListener("click", function () {
+          setMode("add");
+        });
+        $("modeCut").addEventListener("click", function () {
+          setMode("cut");
+        });
         // Picked with the mouse or a finger: open it and move focus off the
         // dropdown, so the arrow keys swipe again. Picked with the arrow keys:
         // wait until they stop (or Enter) before opening, so browsing the
@@ -5114,7 +5628,7 @@
           if (map[e.key]) {
             e.preventDefault();
             decide(map[e.key]);
-          } else if ((e.key === "z" || e.key === "Z") && !S.planAsk) {
+          } else if ((e.key === "z" || e.key === "Z") && (!S.planAsk || S.mode === "cut")) {
             e.preventDefault();
             undo(); // (not behind the plan check, where the card can't be seen)
           }

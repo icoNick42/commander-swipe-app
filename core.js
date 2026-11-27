@@ -4599,6 +4599,222 @@
       });
   };
 
+  // ---------------------------------------------------------- cut mode (cycle 35)
+
+  /**
+   * Cycle 35 (a friend's idea, Nick's go): swipe through the deck's own cards
+   * to cut. Cards kept on purpose are saved per commander under
+   * cs:keep:<commander slug> as {v: 1, kept: {name key: {name, why, idea, at}},
+   * updated}, so a kept card stays kept after the list is edited in Moxfield.
+   */
+  CS.KEEP_MAX = 500;
+  CS.KEEP_WHYS = ["combo", "table", "pet", "better"];
+  CS.KEEP_WHY_WORDS = {
+    combo: "Combo piece",
+    table: "For my table",
+    pet: "Pet card",
+    better: "Better than it looks",
+  };
+  CS.DEAL_EXTRAS = 15;
+
+  CS.keepKey = function (commanderName) {
+    return "keep:" + CS.commanderSlug(commanderName);
+  };
+
+  CS.emptyKeep = function () {
+    return { v: 1, kept: {}, updated: 0 };
+  };
+
+  /**
+   * Checks a keep save. A bad save comes back null (read as empty). A save
+   * from a newer version comes back {v, newer: true, kept: {}}: the page
+   * leaves it alone and never writes over it.
+   */
+  CS.cleanKeep = function (saved) {
+    if (!saved || typeof saved !== "object" || Array.isArray(saved)) return null;
+    if (typeof saved.v === "number" && saved.v > 1)
+      return { v: saved.v, newer: true, kept: {}, updated: 0 };
+    if (saved.v !== 1 || !saved.kept || typeof saved.kept !== "object" || Array.isArray(saved.kept))
+      return null;
+    var out = CS.emptyKeep();
+    Object.keys(saved.kept).forEach(function (k) {
+      var e = saved.kept[k];
+      if (!e || typeof e !== "object" || typeof e.name !== "string" || !e.name) return;
+      if (CS.nameKey(e.name) !== k) return;
+      out.kept[k] = {
+        name: e.name,
+        why: CS.KEEP_WHYS.indexOf(e.why) !== -1 ? e.why : null,
+        idea: e.idea === true,
+        at: typeof e.at === "number" ? e.at : 0,
+      };
+    });
+    out.updated = typeof saved.updated === "number" ? saved.updated : 0;
+    var keys = Object.keys(out.kept);
+    if (keys.length > CS.KEEP_MAX) {
+      // review N4: an oversize save keeps its newest cards
+      keys.sort(function (a, b) {
+        return out.kept[b].at - out.kept[a].at || (a < b ? -1 : 1);
+      });
+      keys.slice(CS.KEEP_MAX).forEach(function (x) {
+        delete out.kept[x];
+      });
+    }
+    return out;
+  };
+
+  function copyKeep(keep) {
+    var src = keep && !keep.newer ? keep : CS.emptyKeep();
+    var out = { v: 1, kept: {}, updated: src.updated || 0 };
+    Object.keys(src.kept || {}).forEach(function (k) {
+      var e = src.kept[k];
+      out.kept[k] = { name: e.name, why: e.why || null, idea: !!e.idea, at: e.at || 0 };
+    });
+    return out;
+  }
+
+  /** Marks a deck card as kept. Only the newest CS.KEEP_MAX cards are kept. */
+  CS.keepCard = function (keep, name, idea, now) {
+    var out = copyKeep(keep);
+    var k = CS.nameKey(name);
+    var old = out.kept[k];
+    out.kept[k] = { name: name, why: old ? old.why : null, idea: !!idea, at: now || 0 };
+    var keys = Object.keys(out.kept);
+    if (keys.length > CS.KEEP_MAX) {
+      keys.sort(function (a, b) {
+        return out.kept[b].at - out.kept[a].at || (a < b ? -1 : 1);
+      });
+      keys.slice(CS.KEEP_MAX).forEach(function (x) {
+        delete out.kept[x];
+      });
+    }
+    out.updated = now || out.updated;
+    return out;
+  };
+
+  CS.unkeepCard = function (keep, name, now) {
+    var out = copyKeep(keep);
+    delete out.kept[CS.nameKey(name)];
+    out.updated = now || out.updated;
+    return out;
+  };
+
+  /** Sets (or clears, with null) why a kept card stays. */
+  CS.keepWhy = function (keep, name, why, now) {
+    var out = copyKeep(keep);
+    var e = out.kept[CS.nameKey(name)];
+    if (!e) return out;
+    e.why = CS.KEEP_WHYS.indexOf(why) !== -1 ? why : null;
+    out.updated = now || out.updated;
+    return out;
+  };
+
+  /**
+   * The cut deal: the deck's own cards, one at a time. The app's cut ideas
+   * first (in their order), then the CS.DEAL_EXTRAS weakest other cards.
+   * Left out of the extras: lands, role cards the deck is short on (locked),
+   * strong role cards (staple), and the cut ideas.
+   * `ideas`: CS.cutSuggestions result. `pool`: CS.cutCandidates worked out
+   * WITHOUT the cuts, so cutting a card doesn't deal a new weak card in its
+   * place (review Should 4). `o`: {cuts, kept (keep.kept), later (name keys
+   * sent to the back this visit, in order), extras}.
+   * Returns [{id, name, kind: "idea" | "weak", reasons, stays, x}].
+   */
+  CS.cutDeal = function (ideas, pool, o) {
+    o = o || {};
+    var cuts = o.cuts || {};
+    var kept = o.kept || {};
+    var cutKeys = {};
+    Object.keys(cuts).forEach(function (n) {
+      if (cuts[n] > 0) cutKeys[CS.nameKey(n)] = true;
+    });
+    var seen = {};
+    var out = [];
+    (ideas || []).forEach(function (x) {
+      var k = CS.nameKey(x.name);
+      seen[k] = true;
+      if (cutKeys[k] || kept[k]) return;
+      out.push({ id: x.id, name: x.name, kind: "idea", reasons: x.reasons || [], stays: CS.whyStay(x), x: x });
+    });
+    var extras = (pool || [])
+      .filter(function (x) {
+        return !x.land && !x.locked && !x.staple && !seen[CS.nameKey(x.name)];
+      })
+      .sort(function (a, b) {
+        return b.cut - a.cut || (a.name < b.name ? -1 : 1);
+      })
+      .slice(0, typeof o.extras === "number" ? o.extras : CS.DEAL_EXTRAS);
+    extras.forEach(function (x) {
+      var k = CS.nameKey(x.name);
+      if (cutKeys[k] || kept[k]) return;
+      out.push({
+        id: x.id,
+        name: x.name,
+        kind: "weak",
+        reasons: x.reasons && x.reasons.length ? x.reasons : ["Tie-in " + x.tie + " and strength " + x.strength + ": among the lowest in the deck"],
+        stays: CS.whyStay(x),
+        x: x,
+      });
+    });
+    var later = o.later || [];
+    if (!later.length) return out;
+    var now = [], back = [];
+    out.forEach(function (d) {
+      var i = later.indexOf(CS.nameKey(d.name));
+      if (i === -1) now.push(d);
+      else back.push({ i: i, d: d });
+    });
+    back.sort(function (a, b) {
+      return a.i - b.i;
+    });
+    return now.concat(
+      back.map(function (b) {
+        return b.d;
+      }),
+    );
+  };
+
+  /** Up to 3 reasons a cut candidate might stay (CS.cutCandidates fields). */
+  CS.whyStay = function (x) {
+    var out = [];
+    if (!x) return out;
+    if (x.planJob === "win") out.push("One of the deck's finishers");
+    else if (x.planJob === "voltron") out.push("Gear for the deck's voltron plan");
+    else if (x.planJob === "fuel") out.push("Feeds what your commander wants");
+    if (x.engine && x.planJob !== "fuel") out.push("Works with your commander");
+    if (x.roles && x.roles.length) {
+      var words = x.roles.map(function (r) {
+        var found = CS.SYN_ROLES.filter(function (s) {
+          return s.key === r;
+        })[0];
+        return found ? found.label.toLowerCase() : r;
+      });
+      out.push("Fills a role: " + words.join(", "));
+    }
+    if (typeof x.tie === "number" && x.tie >= 50) out.push("Ties in to the deck (tie-in " + x.tie + ")");
+    if (typeof x.strength === "number" && x.strength >= 60) out.push("A strong card (strength " + x.strength + ")");
+    if (typeof x.inc === "number" && x.inc >= 0.25)
+      out.push("In " + Math.round(x.inc * 100) + "% of this commander's decks on EDHREC");
+    return out.slice(0, 3);
+  };
+
+  /** Keep notes to paste to Claude: the cut ideas kept, with the reasons given. */
+  CS.keepNotes = function (keep, commanderName) {
+    var k = keep && !keep.newer ? keep.kept : {};
+    var lines = Object.keys(k)
+      .filter(function (n) {
+        return k[n].idea;
+      })
+      .sort(function (a, b) {
+        return k[a].at - k[b].at || (a < b ? -1 : 1);
+      })
+      .map(function (n) {
+        var e = k[n];
+        return "- " + e.name + ": " + (e.why ? CS.KEEP_WHY_WORDS[e.why] : "no reason given");
+      });
+    if (!lines.length) return "";
+    return ["Commander Swipe keep notes for " + commanderName + " (cut ideas I kept):"].concat(lines).join("\n");
+  };
+
   // ---------------------------------------------------------- start over (cycle 30)
 
   /**

@@ -3173,3 +3173,87 @@ test("cycle 34 review: steer only by what the player changed from the read they 
   assert.deepEqual(CS.cleanPlanAnswer({ v: 1, runs: ["spells"], wins: null, read: { runs: ["x", "spells"], wins: 5 } }).read, { runs: ["spells"], wins: null });
   assert.equal(CS.cleanPlanAnswer({ v: 1, runs: ["spells"], read: [1] }).read, undefined);
 });
+
+test("cycle 35: the cut deal puts cut ideas first, then the weakest others, and stays put as cards are cut", () => {
+  const ideas = CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const pool = CS.cutCandidates(zurgoProfile, zurgoSyn, zurgoSlims, {});
+  const deal = CS.cutDeal(ideas, pool, {});
+  assert.ok(deal.length > ideas.length);
+  assert.deepEqual(deal.slice(0, ideas.length).map((d) => d.name), ideas.map((x) => x.name));
+  const extras = deal.filter((d) => d.kind === "weak");
+  assert.ok(extras.length <= CS.DEAL_EXTRAS);
+  extras.forEach((d) => {
+    assert.ok(!d.x.land && !d.x.locked && !d.x.staple);
+    assert.ok(d.reasons.length >= 1);
+    assert.ok(d.stays.length <= 3);
+  });
+  // cutting a card takes it out without dealing a new weak card in its place (review Should 4)
+  const first = extras[0].name;
+  const after = CS.cutDeal(CS.cutSuggestions(zurgoProfile, zurgoSyn, zurgoSlims, { cuts: { [first]: 1 } }), pool, { cuts: { [first]: 1 } });
+  const extrasAfter = after.filter((d) => d.kind === "weak").map((d) => d.name);
+  assert.ok(extrasAfter.indexOf(first) === -1);
+  extrasAfter.forEach((n) => assert.ok(extras.some((d) => d.name === n)));
+  // kept cards aren't dealt; "not sure" goes to the back in order
+  const keep = CS.keepCard(CS.emptyKeep(), deal[0].name, true, 5);
+  const kept = CS.cutDeal(ideas, pool, { kept: keep.kept });
+  assert.ok(!kept.some((d) => d.name === deal[0].name));
+  const later = CS.cutDeal(ideas, pool, { later: [CS.nameKey(deal[1].name), CS.nameKey(deal[0].name)] });
+  assert.equal(later.length, deal.length);
+  assert.deepEqual(later.slice(-2).map((d) => d.name), [deal[1].name, deal[0].name]);
+});
+
+test("cycle 35: keep saves are checked, capped and never written over when newer", () => {
+  assert.equal(CS.keepKey("Zurgo Stormrender"), "keep:zurgo-stormrender");
+  assert.equal(CS.cleanKeep(null), null);
+  assert.equal(CS.cleanKeep([1]), null);
+  assert.equal(CS.cleanKeep({ v: 1, kept: [] }), null);
+  const newer = CS.cleanKeep({ v: 2, kept: { x: 1 } });
+  assert.equal(newer.newer, true);
+  assert.deepEqual(newer.kept, {});
+  // writing from a newer save starts from empty instead of keeping its contents
+  assert.equal(CS.keepCard(newer, "Sol Ring", false, 1).newer, undefined);
+  const k = CS.cleanKeep({
+    v: 1,
+    updated: 9,
+    kept: {
+      "sol ring": { name: "Sol Ring", why: "pet", idea: true, at: 3 },
+      "wrong key": { name: "Arcane Signet", why: "pet", idea: true, at: 3 },
+      "skullclamp": { name: "Skullclamp", why: "nonsense", at: "x" },
+    },
+  });
+  assert.deepEqual(Object.keys(k.kept).sort(), ["skullclamp", "sol ring"]);
+  assert.equal(k.kept["skullclamp"].why, null);
+  assert.equal(k.kept["skullclamp"].at, 0);
+  assert.equal(k.updated, 9);
+  let big = CS.emptyKeep();
+  for (let i = 0; i < CS.KEEP_MAX + 5; i++) big = CS.keepCard(big, "Card " + i, false, i + 1);
+  assert.equal(Object.keys(big.kept).length, CS.KEEP_MAX);
+  assert.ok(!big.kept[CS.nameKey("Card 0")]);
+  assert.ok(big.kept[CS.nameKey("Card " + (CS.KEEP_MAX + 4))]);
+  // review N4: an oversize save keeps its newest cards when read
+  const raw = { v: 1, kept: {} };
+  for (let i = 0; i < CS.KEEP_MAX + 3; i++) raw.kept[CS.nameKey("Card " + i)] = { name: "Card " + i, at: i + 1 };
+  const trimmed = CS.cleanKeep(raw);
+  assert.equal(Object.keys(trimmed.kept).length, CS.KEEP_MAX);
+  assert.ok(!trimmed.kept[CS.nameKey("Card 2")] && trimmed.kept[CS.nameKey("Card 3")]);
+  const why = CS.keepWhy(CS.keepCard(CS.emptyKeep(), "Sol Ring", true, 1), "Sol Ring", "combo", 2);
+  assert.equal(why.kept["sol ring"].why, "combo");
+  assert.equal(CS.unkeepCard(why, "Sol Ring", 3).kept["sol ring"], undefined);
+});
+
+test("cycle 35: keep notes list the cut ideas kept, with their reasons", () => {
+  let k = CS.keepCard(CS.emptyKeep(), "Blood Artist", true, 1);
+  k = CS.keepWhy(k, "Blood Artist", "table", 2);
+  k = CS.keepCard(k, "Sol Ring", false, 3); // not a cut idea: not in the notes
+  k = CS.keepCard(k, "Deathgreeter", true, 4);
+  assert.equal(
+    CS.keepNotes(k, "Zurgo Stormrender"),
+    "Commander Swipe keep notes for Zurgo Stormrender (cut ideas I kept):\n- Blood Artist: For my table\n- Deathgreeter: no reason given",
+  );
+  assert.equal(CS.keepNotes(CS.emptyKeep(), "Zurgo Stormrender"), "");
+  assert.deepEqual(CS.whyStay({ planJob: "win", engine: true, roles: ["draw"], tie: 80, strength: 90, inc: 0.5 }), [
+    "One of the deck's finishers",
+    "Works with your commander",
+    "Fills a role: card draw",
+  ]);
+});
