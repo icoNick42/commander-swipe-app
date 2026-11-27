@@ -294,24 +294,24 @@
         margin-left: var(--space-2);
       }
       /* cycle 35: Add cards / Cut cards switch, and cut mode's card notes */
+      /* in the pile row, so it takes no extra height (page check: buttons stay in view at 375x667) */
       .modeswitch {
         display: flex;
+        flex: none;
         gap: 6px;
-        margin: 4px 0 8px;
+        padding-left: 6px;
+        border-left: 1px solid var(--line);
       }
-      .modeswitch button {
-        padding: 5px 12px;
-        font-size: 0.88rem;
-        border-radius: 999px;
-      }
-      .modeswitch button[aria-pressed="true"] {
+      .modeswitch button[aria-checked="true"] {
         background: var(--accent-bg);
         border-color: var(--accent-line);
       }
       /* each word shows only in its own mode; the .mouse / .touch rules still pick the keys line */
       #app:not(.cutmode) .w-cut,
       #app.cutmode .w-add,
-      #app.cutmode .piles,
+      #app.cutmode #pileChips,
+      #app.cutmode #roleSelect,
+      #app.cutmode #themeSelect,
       #app.cutmode .sortbox {
         display: none;
       }
@@ -1298,6 +1298,13 @@
           max-width: none;
           border-radius: 8px;
         }
+        /* cycle 35: the mode switch stacks like the pile list, under it */
+        .swipecol > .piles .modeswitch {
+          flex-direction: column;
+          padding: 6px 0 0;
+          border-left: 0;
+          border-top: 1px solid var(--line);
+        }
       }
       @media (max-width: 520px) {
         :root {
@@ -1438,16 +1445,16 @@
 
         <div class="layout">
           <div class="swipecol">
-            <div class="modeswitch" role="group" aria-label="Mode">
-              <button type="button" id="modeAdd" aria-pressed="true">Add cards</button>
-              <button type="button" id="modeCut" aria-pressed="false">
-                Cut cards<span class="count" id="cutLeft"></span>
-              </button>
-            </div>
             <nav class="piles" id="piles" aria-label="Piles">
               <span id="pileChips"></span>
               <select id="roleSelect" aria-label="Role piles"></select>
               <select id="themeSelect" aria-label="Theme piles" hidden></select>
+              <span class="modeswitch" role="radiogroup" aria-label="Mode">
+                <button type="button" id="modeAdd" role="radio" aria-checked="true">Add cards</button>
+                <button type="button" id="modeCut" role="radio" aria-checked="false">
+                  Cut cards<span class="count" id="cutLeft"></span>
+                </button>
+              </span>
             </nav>
             <div class="stage" id="stage"></div>
             <div class="actions" id="actions">
@@ -3449,8 +3456,8 @@
         function renderMode() {
           var cut = S.mode === "cut";
           $("app").classList.toggle("cutmode", cut);
-          $("modeAdd").setAttribute("aria-pressed", String(!cut));
-          $("modeCut").setAttribute("aria-pressed", String(cut));
+          $("modeAdd").setAttribute("aria-checked", String(!cut));
+          $("modeCut").setAttribute("aria-checked", String(cut));
           var n = S.profile && S.deckFit ? cutFresh().length : 0;
           $("cutLeft").textContent = n ? " " + n : "";
         }
