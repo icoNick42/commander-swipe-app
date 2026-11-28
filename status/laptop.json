@@ -1,19 +1,8 @@
 {
  "machine": "laptop",
- "updated": 1795875860,
+ "updated": 1795876664,
  "workers": 3,
  "running": [
-  {
-   "job": "standing",
-   "batch": "zurgo-0395",
-   "test": "zurgo",
-   "opponents": [
-    "ar4811209-aragorn-king-of-gondor",
-    "cmm-planeswalker-party",
-    "ar4747444-lord-of-the-nazg-l"
-   ],
-   "started": 1795875652
-  },
   {
    "job": "standing",
    "batch": "zimone-0395",
@@ -27,125 +16,136 @@
   },
   {
    "job": "standing",
-   "batch": "nelly-0395",
-   "test": "nelly",
+   "batch": "zurgo-0397",
+   "test": "zurgo",
    "opponents": [
-    "ar4811209-aragorn-king-of-gondor",
-    "cmm-planeswalker-party",
-    "ar4747444-lord-of-the-nazg-l"
+    "ar4789041-faramir-steward-of-gondor",
+    "ar4489667-katilda-and-lier",
+    "ar12003910-kambal-profiteering-mayor"
    ],
-   "started": 1795875830
+   "started": 1795876227
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0397",
+   "test": "zimone",
+   "opponents": [
+    "ar4789041-faramir-steward-of-gondor",
+    "ar4489667-katilda-and-lier",
+    "ar12003910-kambal-profiteering-mayor"
+   ],
+   "started": 1795876543
   }
  ],
- "games_today": 656,
+ "games_today": 668,
  "recent": [
   {
    "job": "standing",
-   "batch": "zimone-0393",
-   "test": "zimone",
+   "batch": "nelly-0395",
+   "test": "nelly",
    "game": 1,
-   "winner": "zimone",
-   "turns": 51,
-   "t": 1795875654
+   "winner": "o-ar4811209-aragorn-king-of-gondor",
+   "turns": 27,
+   "t": 1795876172
   },
   {
    "job": "standing",
-   "batch": "zimone-0393",
-   "test": "zimone",
+   "batch": "nelly-0395",
+   "test": "nelly",
    "game": 2,
-   "winner": "zimone",
-   "turns": 43,
-   "t": 1795875654
+   "winner": "o-cmm-planeswalker-party",
+   "turns": 50,
+   "t": 1795876172
   },
   {
    "job": "standing",
-   "batch": "zimone-0393",
-   "test": "zimone",
+   "batch": "nelly-0395",
+   "test": "nelly",
    "game": 3,
-   "winner": "o-tdc-abzan-armor",
+   "winner": "o-ar4811209-aragorn-king-of-gondor",
    "turns": 61,
-   "t": 1795875654
+   "t": 1795876172
   },
   {
    "job": "standing",
-   "batch": "zimone-0393",
-   "test": "zimone",
+   "batch": "nelly-0395",
+   "test": "nelly",
    "game": 4,
-   "winner": "o-tdc-abzan-armor",
-   "turns": 47,
-   "t": 1795875654
+   "winner": "o-ar4747444-lord-of-the-nazg-l",
+   "turns": 55,
+   "t": 1795876172
   },
   {
    "job": "standing",
-   "batch": "zurgo-0393",
+   "batch": "zurgo-0395",
    "test": "zurgo",
    "game": 1,
    "winner": "zurgo",
-   "turns": 37,
-   "t": 1795875788
+   "turns": 51,
+   "t": 1795876228
   },
   {
    "job": "standing",
-   "batch": "zurgo-0393",
+   "batch": "zurgo-0395",
    "test": "zurgo",
    "game": 2,
-   "winner": "o-ar13557489-zidane-tantalus-thief",
-   "turns": 36,
-   "t": 1795875788
+   "winner": "zurgo",
+   "turns": 55,
+   "t": 1795876228
   },
   {
    "job": "standing",
-   "batch": "zurgo-0393",
+   "batch": "zurgo-0395",
    "test": "zurgo",
    "game": 3,
-   "winner": "o-ar13557489-zidane-tantalus-thief",
-   "turns": 66,
-   "t": 1795875788
+   "winner": "o-cmm-planeswalker-party",
+   "turns": 61,
+   "t": 1795876228
   },
   {
    "job": "standing",
-   "batch": "zurgo-0393",
+   "batch": "zurgo-0395",
    "test": "zurgo",
    "game": 4,
-   "winner": "o-ar13557489-zidane-tantalus-thief",
-   "turns": 48,
-   "t": 1795875788
+   "winner": "o-ar4811209-aragorn-king-of-gondor",
+   "turns": 62,
+   "t": 1795876228
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0393",
+   "batch": "tyvar-main-0395",
    "test": "tyvar-main",
    "game": 1,
-   "winner": "tyvar-main",
-   "turns": 48,
-   "t": 1795875832
+   "winner": "o-ar4811209-aragorn-king-of-gondor",
+   "turns": 67,
+   "t": 1795876544
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0393",
+   "batch": "tyvar-main-0395",
    "test": "tyvar-main",
    "game": 2,
-   "winner": "o-tdc-abzan-armor",
-   "turns": 40,
-   "t": 1795875832
+   "winner": "o-ar4747444-lord-of-the-nazg-l",
+   "turns": 56,
+   "t": 1795876544
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0393",
+   "batch": "tyvar-main-0395",
    "test": "tyvar-main",
    "game": 3,
-   "winner": "o-tdc-abzan-armor",
-   "turns": 40,
-   "t": 1795875832
+   "winner": "o-ar4747444-lord-of-the-nazg-l",
+   "turns": 67,
+   "t": 1795876544
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0393",
+   "batch": "tyvar-main-0395",
    "test": "tyvar-main",
    "game": 4,
-   "winner": "o-tdc-abzan-armor",
-   "turns": 39,
-   "t": 1795875832
+   "winner": "o-ar4811209-aragorn-king-of-gondor",
+   "turns": 50,
+   "t": 1795876544
   }
  ]
 }
