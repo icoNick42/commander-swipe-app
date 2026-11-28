@@ -1,151 +1,117 @@
 {
  "machine": "desktop",
- "updated": 1795877079,
+ "updated": 1795877743,
  "workers": 4,
- "running": [
+ "running": [],
+ "games_today": 680,
+ "recent": [
   {
    "job": "standing",
-   "batch": "tyvar-main-0638",
-   "test": "tyvar-main",
-   "opponents": [
-    "otc-quick-draw",
-    "ar14687174-oskar-rubbish-reclaimer",
-    "otc-desert-bloom"
-   ],
-   "started": 1795875905
+   "batch": "nelly-0640",
+   "test": "nelly",
+   "game": 1,
+   "winner": "o-otc-grand-larceny",
+   "turns": 67,
+   "t": 1795877464
   },
   {
    "job": "standing",
    "batch": "nelly-0640",
    "test": "nelly",
-   "opponents": [
-    "otc-grand-larceny",
-    "ar1827191-grothama-all-devouring",
-    "cmr-arm-for-battle"
-   ],
-   "started": 1795876689
+   "game": 2,
+   "winner": "o-cmr-arm-for-battle",
+   "turns": 39,
+   "t": 1795877464
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0640",
+   "test": "nelly",
+   "game": 3,
+   "winner": "nelly",
+   "turns": 63,
+   "t": 1795877464
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0640",
+   "test": "nelly",
+   "game": 4,
+   "winner": "nelly",
+   "turns": 58,
+   "t": 1795877464
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0638",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-otc-desert-bloom",
+   "turns": 56,
+   "t": 1795877659
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0638",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "tyvar-main",
+   "turns": 43,
+   "t": 1795877659
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0638",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-otc-desert-bloom",
+   "turns": 57,
+   "t": 1795877659
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0638",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-otc-desert-bloom",
+   "turns": 41,
+   "t": 1795877659
   },
   {
    "job": "standing",
    "batch": "tyvar-main-0640",
    "test": "tyvar-main",
-   "opponents": [
-    "otc-grand-larceny",
-    "ar1827191-grothama-all-devouring",
-    "cmr-arm-for-battle"
-   ],
-   "started": 1795876934
-  }
- ],
- "games_today": 668,
- "recent": [
-  {
-   "job": "standing",
-   "batch": "zurgo-0640",
-   "test": "zurgo",
    "game": 1,
-   "winner": "o-ar1827191-grothama-all-devouring",
-   "turns": 50,
-   "t": 1795876689
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0640",
-   "test": "zurgo",
-   "game": 2,
-   "winner": "o-ar1827191-grothama-all-devouring",
-   "turns": 49,
-   "t": 1795876689
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0640",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "o-ar1827191-grothama-all-devouring",
-   "turns": 43,
-   "t": 1795876689
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0640",
-   "test": "zurgo",
-   "game": 4,
    "winner": "o-cmr-arm-for-battle",
-   "turns": 45,
-   "t": 1795876689
+   "turns": 36,
+   "t": 1795877743
   },
   {
    "job": "standing",
-   "batch": "zimone-0640",
-   "test": "zimone",
-   "game": 1,
-   "winner": "zimone",
-   "turns": 35,
-   "t": 1795876934
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0640",
-   "test": "zimone",
+   "batch": "tyvar-main-0640",
+   "test": "tyvar-main",
    "game": 2,
    "winner": "o-otc-grand-larceny",
-   "turns": 38,
-   "t": 1795876934
+   "turns": 52,
+   "t": 1795877743
   },
   {
    "job": "standing",
-   "batch": "zimone-0640",
-   "test": "zimone",
+   "batch": "tyvar-main-0640",
+   "test": "tyvar-main",
    "game": 3,
    "winner": "o-ar1827191-grothama-all-devouring",
-   "turns": 44,
-   "t": 1795876934
+   "turns": 39,
+   "t": 1795877743
   },
   {
    "job": "standing",
-   "batch": "zimone-0640",
-   "test": "zimone",
+   "batch": "tyvar-main-0640",
+   "test": "tyvar-main",
    "game": 4,
-   "winner": "zimone",
-   "turns": 70,
-   "t": 1795876934
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0638",
-   "test": "nelly",
-   "game": 1,
-   "winner": "o-otc-desert-bloom",
-   "turns": 58,
-   "t": 1795876988
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0638",
-   "test": "nelly",
-   "game": 2,
-   "winner": "nelly",
-   "turns": 64,
-   "t": 1795876988
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0638",
-   "test": "nelly",
-   "game": 3,
-   "winner": null,
-   "turns": 33,
-   "t": 1795876988
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0638",
-   "test": "nelly",
-   "game": 4,
-   "winner": "nelly",
-   "turns": 49,
-   "t": 1795876988
+   "winner": "tyvar-main",
+   "turns": 46,
+   "t": 1795877743
   }
  ]
 }
