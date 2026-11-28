@@ -10,7 +10,6 @@
   "chosen_one_in": 3,
   "chosen_note": "Your chosen opponents (decks/chosen) skip the power window; about one table in chosen_one_in gets one of them (1 = every table). The sims page's Decks tab changes this number.",
   "picks_note": "Nick's picks (decks/picks) sit at every table when any exist: this many seats per game; rotation and gauntlet decks fill the rest.",
-  "level_cuts": { "2": [11.0, 17.0], "3": [20.0, 28.0], "4": [28.0, 38.0] },
   "rotation": {
     "refresh_on": "laptop",
     "refresh_days": 7,

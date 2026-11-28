@@ -264,7 +264,7 @@ def build(cand, window, crowded, log):
         log("rotation: hold %s (already have %s)" % (cand["name"], key))
         return "held", {"commander": key}
     score = P.score_lists(commanders, main)
-    held = {"step": score["step"], "label": score["label"], "commander": key}
+    held = {"step": score["step"], "label": score["label"], "commander": key, "method": P.METHOD}
     if not (window[0] <= score["step"] <= window[1]):
         log(
             "rotation: hold %s (%s, outside the window)"
@@ -357,7 +357,11 @@ def refresh(log=print, dry_run=False):
         h = held.get(str(x["id"]))
         if not h:
             return True
-        if "step" in h and not (window[0] <= h["step"] <= window[1]):
+        if (
+            "step" in h
+            and h.get("method") == P.METHOD  # a step from older scoring may now fit
+            and not (window[0] <= h["step"] <= window[1])
+        ):
             return False  # still outside the window: no need to fetch it again
         return not crowded(h["commander"])
 
