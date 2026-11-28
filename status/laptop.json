@@ -1,117 +1,151 @@
 {
  "machine": "laptop",
- "updated": 1795881083,
+ "updated": 1795881690,
  "workers": 3,
- "running": [],
- "games_today": 760,
+ "running": [
+  {
+   "job": "standing",
+   "batch": "zimone-0409",
+   "test": "zimone",
+   "opponents": [
+    "ar11986722-kastral-the-windcrested",
+    "ar16113205-anti-venom-horrifying-healer",
+    "ar12217122-sensational-spider-man"
+   ],
+   "started": 1795881359
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0409",
+   "test": "tyvar-main",
+   "opponents": [
+    "ar11986722-kastral-the-windcrested",
+    "ar16113205-anti-venom-horrifying-healer",
+    "ar12217122-sensational-spider-man"
+   ],
+   "started": 1795881533
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0411",
+   "test": "zurgo",
+   "opponents": [
+    "ar1784107-rootha-mercurial-artist",
+    "cmm-planeswalker-party",
+    "ar24691738-thrasios-triton-hero"
+   ],
+   "started": 1795881599
+  }
+ ],
+ "games_today": 776,
  "recent": [
   {
    "job": "standing",
-   "batch": "tyvar-main-0405",
+   "batch": "nelly-0407",
+   "test": "nelly",
+   "game": 1,
+   "winner": "o-ar4489667-katilda-and-lier",
+   "turns": 42,
+   "t": 1795881372
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0407",
+   "test": "nelly",
+   "game": 2,
+   "winner": "o-ar9525620-atraxa-grand-unifier",
+   "turns": 35,
+   "t": 1795881372
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0407",
+   "test": "nelly",
+   "game": 3,
+   "winner": "o-ar4489667-katilda-and-lier",
+   "turns": 40,
+   "t": 1795881372
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0407",
+   "test": "nelly",
+   "game": 4,
+   "winner": "o-ar9525620-atraxa-grand-unifier",
+   "turns": 40,
+   "t": 1795881372
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0407",
    "test": "tyvar-main",
    "game": 1,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 36,
-   "t": 1795880442
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0405",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 25,
-   "t": 1795880442
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0405",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 31,
-   "t": 1795880442
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0405",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 48,
-   "t": 1795880442
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0407",
-   "test": "zurgo",
-   "game": 1,
-   "winner": "zurgo",
-   "turns": 55,
-   "t": 1795880544
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0407",
-   "test": "zurgo",
-   "game": 2,
-   "winner": "zurgo",
-   "turns": 41,
-   "t": 1795880544
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0407",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "zurgo",
-   "turns": 41,
-   "t": 1795880544
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0407",
-   "test": "zurgo",
-   "game": 4,
-   "winner": "o-40k-necron-dynasties",
-   "turns": 52,
-   "t": 1795880544
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0407",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-ar4541848-zur-the-enchanter",
-   "turns": 37,
-   "t": 1795880738
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0407",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar13534635-g-raha-tia-scion-reborn",
-   "turns": 62,
-   "t": 1795880738
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0407",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-ar13534635-g-raha-tia-scion-reborn",
-   "turns": 47,
-   "t": 1795880738
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0407",
-   "test": "zimone",
-   "game": 4,
-   "winner": "o-40k-necron-dynasties",
+   "winner": "o-ar4489667-katilda-and-lier",
    "turns": 49,
-   "t": 1795880738
+   "t": 1795881534
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0407",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-ar4489667-katilda-and-lier",
+   "turns": 64,
+   "t": 1795881534
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0407",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar9525620-atraxa-grand-unifier",
+   "turns": 42,
+   "t": 1795881534
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0407",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar4489667-katilda-and-lier",
+   "turns": 43,
+   "t": 1795881534
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0409",
+   "test": "nelly",
+   "game": 1,
+   "winner": "o-ar16113205-anti-venom-horrifying-healer",
+   "turns": 39,
+   "t": 1795881600
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0409",
+   "test": "nelly",
+   "game": 2,
+   "winner": "o-ar12217122-sensational-spider-man",
+   "turns": 46,
+   "t": 1795881600
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0409",
+   "test": "nelly",
+   "game": 3,
+   "winner": "o-ar12217122-sensational-spider-man",
+   "turns": 48,
+   "t": 1795881600
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0409",
+   "test": "nelly",
+   "game": 4,
+   "winner": "o-ar16113205-anti-venom-horrifying-healer",
+   "turns": 53,
+   "t": 1795881600
   }
  ]
 }
