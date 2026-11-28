@@ -22,25 +22,209 @@
    ],
    "views": 11516
   },
-  "ar13012848-yuna-grand-summoner.dck": {
-   "added": "2026-11-25",
-   "commander": "Yuna, Grand Summoner",
-   "file": "ar13012848-yuna-grand-summoner.dck",
-   "name": "Yuna - Bant Summon Tribal (Enchantment and Saga Creatures)",
-   "owner": "Gawain_101",
+  "ar10253497-teysa-karlov.dck": {
+   "added": "2026-11-28",
+   "commander": "Teysa Karlov",
+   "file": "ar10253497-teysa-karlov.dck",
+   "name": "Teysa Karlov EDH (125€ Budget - Bracket 2)",
+   "owner": "Graefox",
    "owner_bracket": 2,
-   "plan": "enchantress",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/13012848",
-   "step": 1,
+   "plan": "aristocrats",
+   "power": "Bracket 4 · Low",
+   "source": "https://archidekt.com/decks/10253497",
+   "step": 6,
    "tags": [
-    "Historic",
-    "Sagas",
-    "Counters Matter",
-    "Enchantress",
-    "Enchantments"
+    "Aristocrats",
+    "Tokens",
+    "Sacrifice",
+    "Lifedrain"
    ],
-   "views": 10205
+   "views": 11388
+  },
+  "ar10704336-zada-hedron-grinder.dck": {
+   "added": "2026-11-28",
+   "commander": "Zada, Hedron Grinder",
+   "file": "ar10704336-zada-hedron-grinder.dck",
+   "name": "Zada EDH (50€ Budget - Bracket 2)",
+   "owner": "Graefox",
+   "owner_bracket": 2,
+   "plan": "spellslinger",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/10704336",
+   "step": 2,
+   "tags": [
+    "Goblins",
+    "Spellslinger"
+   ],
+   "views": 3829
+  },
+  "ar10718169-zoraline-cosmos-caller.dck": {
+   "added": "2026-11-28",
+   "commander": "Zoraline, Cosmos Caller",
+   "file": "ar10718169-zoraline-cosmos-caller.dck",
+   "name": "Bat Tribal - Updated 06/2026",
+   "owner": "SgtGoob",
+   "owner_bracket": 2,
+   "plan": "lifegain",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/10718169",
+   "step": 2,
+   "tags": [
+    "Lifegain",
+    "Bats",
+    "Graveyard",
+    "Tokens"
+   ],
+   "views": 4027
+  },
+  "ar11302041-saheeli-radiant-creator.dck": {
+   "added": "2026-11-28",
+   "commander": "Saheeli, Radiant Creator",
+   "file": "ar11302041-saheeli-radiant-creator.dck",
+   "name": "Saheeli - Radiant Runner",
+   "owner": "Adaptive1",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/11302041",
+   "step": 5,
+   "tags": [
+    "Energy",
+    "Clones",
+    "Tokens",
+    "Combo",
+    "Midrange"
+   ],
+   "views": 5969
+  },
+  "ar11328492-ezio-auditore-da-firenze.dck": {
+   "added": "2026-11-28",
+   "commander": "Ezio Auditore da Firenze",
+   "file": "ar11328492-ezio-auditore-da-firenze.dck",
+   "name": "Freerunning Precon - Ezio Auditore de Frienze",
+   "owner": "ExenephaN",
+   "owner_bracket": 2,
+   "plan": "freerunning",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/11328492",
+   "step": 4,
+   "tags": [
+    "Freerunning",
+    "Assassins",
+    "Humans",
+    "Legends",
+    "Unmodified Precon",
+    "Historic",
+    "Flavor"
+   ],
+   "views": 4681
+  },
+  "ar11409740-hashaton-scarab-s-fist.dck": {
+   "added": "2026-11-28",
+   "commander": "Hashaton, Scarab's Fist",
+   "file": "ar11409740-hashaton-scarab-s-fist.dck",
+   "name": "The Hash-Slinging Slasher",
+   "owner": "Yurios",
+   "owner_bracket": 2,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/11409740",
+   "step": 2,
+   "tags": [
+    "Self-Discard",
+    "Graveyard",
+    "Reanimator"
+   ],
+   "views": 3589
+  },
+  "ar11704604-gallia-of-the-endless-dance.dck": {
+   "added": "2026-11-28",
+   "commander": "Gallia of the Endless Dance + Sierra, Nuka's Biggest Fan",
+   "file": "ar11704604-gallia-of-the-endless-dance.dck",
+   "name": "Liarra Festival",
+   "owner": "Quinky",
+   "owner_bracket": 2,
+   "plan": "rule-zero",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/11704604",
+   "step": 2,
+   "tags": [
+    "Rule Zero",
+    "Flavor",
+    "Creatures"
+   ],
+   "views": 6082
+  },
+  "ar11986722-kastral-the-windcrested.dck": {
+   "added": "2026-11-28",
+   "commander": "Kastral, the Windcrested",
+   "file": "ar11986722-kastral-the-windcrested.dck",
+   "name": "7. fly me through the tempest",
+   "owner": "Jimnah",
+   "owner_bracket": 2,
+   "plan": "birds",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/11986722",
+   "step": 2,
+   "tags": [
+    "Birds",
+    "Tempest Hawk"
+   ],
+   "views": 6143
+  },
+  "ar12003910-kambal-profiteering-mayor.dck": {
+   "added": "2026-11-28",
+   "commander": "Kambal, Profiteering Mayor",
+   "file": "ar12003910-kambal-profiteering-mayor.dck",
+   "name": "Continuity & Inevitability",
+   "owner": "hebreakslate",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/12003910",
+   "step": 2,
+   "tags": [
+    "Tokens",
+    "Lifegain",
+    "Aristocrats"
+   ],
+   "views": 3674
+  },
+  "ar12217122-sensational-spider-man.dck": {
+   "added": "2026-11-28",
+   "commander": "Sensational Spider-Man",
+   "file": "ar12217122-sensational-spider-man.dck",
+   "name": "Sticky Spiderman",
+   "owner": "Animoto",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/12217122",
+   "step": 2,
+   "tags": [
+    "+1/+1 Counters",
+    "Proliferate",
+    "Tap/Untap",
+    "Control"
+   ],
+   "views": 6329
+  },
+  "ar12497316-sergeant-john-benton.dck": {
+   "added": "2026-11-28",
+   "commander": "Sergeant John Benton",
+   "file": "ar12497316-sergeant-john-benton.dck",
+   "name": "Sgt. John Buffs - $25 Budget Buffs v. 1.5",
+   "owner": "DipJD2016",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/12497316",
+   "step": 2,
+   "tags": [
+    "Budget",
+    "Voltron"
+   ],
+   "views": 3997
   },
   "ar13074677-cid-timeless-artificer.dck": {
    "added": "2026-11-25",
@@ -60,24 +244,91 @@
    ],
    "views": 11016
   },
-  "ar13593080-dan-lewis.dck": {
-   "added": "2026-11-25",
-   "commander": "Dan Lewis + The First Doctor",
-   "file": "ar13593080-dan-lewis.dck",
-   "name": "[Contest Submission] Dan Lewis & The First Doctor Ft. Cloud - Double Frypan",
-   "owner": "Pandalk",
+  "ar13109232-cecil-dark-knight.dck": {
+   "added": "2026-11-28",
+   "commander": "Cecil, Dark Knight",
+   "file": "ar13109232-cecil-dark-knight.dck",
+   "name": "FFIV Got Overlooked But My Goat Did Not",
+   "owner": "Koobie88",
    "owner_bracket": 2,
-   "plan": "artifacts",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/13593080",
-   "step": 1,
+   "plan": "lifegain",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/13109232",
+   "step": 2,
    "tags": [
-    "Jank",
-    "Hidden Commander",
+    "Life Paying",
+    "Lifegain",
+    "Knights",
+    "Legends",
+    "Humans"
+   ],
+   "views": 5773
+  },
+  "ar13534635-g-raha-tia-scion-reborn.dck": {
+   "added": "2026-11-28",
+   "commander": "G'raha Tia, Scion Reborn",
+   "file": "ar13534635-g-raha-tia-scion-reborn.dck",
+   "name": "For Want of a Hero",
+   "owner": "BPRadiant",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/13534635",
+   "step": 2,
+   "tags": [
+    "Equipment",
+    "Modified Creatures",
+    "Heroes",
+    "Tokens",
     "Artifacts",
+    "Midrange"
+   ],
+   "views": 3537
+  },
+  "ar13546643-y-shtola-night-s-blessed.dck": {
+   "added": "2026-11-28",
+   "commander": "Y'shtola, Night's Blessed",
+   "file": "ar13546643-y-shtola-night-s-blessed.dck",
+   "name": "FFXIV Scions & Spellcraft | $30 Upgrade",
+   "owner": "GrazzetMTG",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/13546643",
+   "step": 2,
+   "tags": [],
+   "views": 40488
+  },
+  "ar13557489-zidane-tantalus-thief.dck": {
+   "added": "2026-11-28",
+   "commander": "Zidane, Tantalus Thief",
+   "file": "ar13557489-zidane-tantalus-thief.dck",
+   "name": "Zidane - Honor Among Thieves",
+   "owner": "Donpa",
+   "owner_bracket": 2,
+   "plan": "theft",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/13557489",
+   "step": 2,
+   "tags": [
+    "Theft",
     "Equipment"
    ],
-   "views": 9052
+   "views": 6783
+  },
+  "ar13686965-vivi-ornitier.dck": {
+   "added": "2026-11-28",
+   "commander": "Vivi Ornitier",
+   "file": "ar13686965-vivi-ornitier.dck",
+   "name": "Bracket 2 Base  & Budget Vivi",
+   "owner": "itsflimmy",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/13686965",
+   "step": 5,
+   "tags": [],
+   "views": 36286
   },
   "ar13854904-the-wandering-minstrel.dck": {
    "added": "2026-11-25",
@@ -97,21 +348,60 @@
    ],
    "views": 26425
   },
-  "ar1413767-silumgar-the-drifting-death.dck": {
-   "added": "2026-11-25",
-   "commander": "Silumgar, the Drifting Death",
-   "file": "ar1413767-silumgar-the-drifting-death.dck",
-   "name": "Silumgar, the Drifting Death: Death From Above",
-   "owner": "danaroach",
+  "ar13904462-squall-seed-mercenary.dck": {
+   "added": "2026-11-28",
+   "commander": "Squall, SeeD Mercenary",
+   "file": "ar13904462-squall-seed-mercenary.dck",
+   "name": "Squall's Graveyard Loop",
+   "owner": "iammattmorgan",
    "owner_bracket": 2,
-   "plan": "tribal",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/1413767",
-   "step": 1,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/13904462",
+   "step": 2,
    "tags": [
-    "Dragons"
+    "Graveyard",
+    "Sacrifice"
    ],
-   "views": 29009
+   "views": 6310
+  },
+  "ar14414826-hearthhull-the-worldseed.dck": {
+   "added": "2026-11-28",
+   "commander": "Hearthhull, the Worldseed",
+   "file": "ar14414826-hearthhull-the-worldseed.dck",
+   "name": "World Shaper // Hearthhull, the Worldseed EDH (Final) [Precon]",
+   "owner": "HausPlant",
+   "owner_bracket": 2,
+   "plan": "aristocrats",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/14414826",
+   "step": 3,
+   "tags": [
+    "Aristocrats",
+    "Lands Matter",
+    "Sacrifice",
+    "Unmodified Precon"
+   ],
+   "views": 5636
+  },
+  "ar14581723-fire-lord-azula.dck": {
+   "added": "2026-11-28",
+   "commander": "Fire Lord Azula",
+   "file": "ar14581723-fire-lord-azula.dck",
+   "name": "Azula, Cracked - Fire Lord Azula",
+   "owner": "omgitrobby",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/14581723",
+   "step": 2,
+   "tags": [
+    "Voltron",
+    "Spellslinger",
+    "Spell Copy",
+    "Budget"
+   ],
+   "views": 8008
   },
   "ar14687174-oskar-rubbish-reclaimer.dck": {
    "added": "2026-11-25",
@@ -132,6 +422,74 @@
    ],
    "views": 27028
   },
+  "ar14729702-inspirit-flagship-vessel.dck": {
+   "added": "2026-11-28",
+   "commander": "Inspirit, Flagship Vessel",
+   "file": "ar14729702-inspirit-flagship-vessel.dck",
+   "name": "Counter Intelligence Upgraded",
+   "owner": "PhyrexianChad",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/14729702",
+   "step": 2,
+   "tags": [
+    "Charge Counters",
+    "+1/+1 Counters",
+    "Artifacts",
+    "Spacecraft"
+   ],
+   "views": 5067
+  },
+  "ar14875868-ragost-deft-gastronaut.dck": {
+   "added": "2026-11-28",
+   "commander": "Ragost, Deft Gastronaut",
+   "file": "ar14875868-ragost-deft-gastronaut.dck",
+   "name": "Shell's Kitchen FULL FLAVOUR - Ragost, Deft Gastronaut by Based Deck Department",
+   "owner": "BasedDeckDepartment",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/14875868",
+   "step": 4,
+   "tags": [],
+   "views": 32836
+  },
+  "ar1497047-jirina-kudro.dck": {
+   "added": "2026-11-28",
+   "commander": "Jirina Kudro",
+   "file": "ar1497047-jirina-kudro.dck",
+   "name": "Jirina Kudro",
+   "owner": "JorgeL",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/1497047",
+   "step": 3,
+   "tags": [
+    "Humans",
+    "Upgraded Precon",
+    "Tokens"
+   ],
+   "views": 4683
+  },
+  "ar15821740-ognis-the-dragon-s-lash.dck": {
+   "added": "2026-11-28",
+   "commander": "Ognis, the Dragon's Lash",
+   "file": "ar15821740-ognis-the-dragon-s-lash.dck",
+   "name": "Jund suspend",
+   "owner": "Squees_Devotee345",
+   "owner_bracket": 2,
+   "plan": "suspend",
+   "power": "Bracket 4 · Low",
+   "source": "https://archidekt.com/decks/15821740",
+   "step": 6,
+   "tags": [
+    "Suspend",
+    "Treasure"
+   ],
+   "views": 3837
+  },
   "ar1605459-esior-wardwing-familiar.dck": {
    "added": "2026-11-25",
    "commander": "Esior, Wardwing Familiar + Ardenn, Intrepid Archaeologist",
@@ -148,6 +506,117 @@
     "Voltron"
    ],
    "views": 55892
+  },
+  "ar16113205-anti-venom-horrifying-healer.dck": {
+   "added": "2026-11-28",
+   "commander": "Anti-Venom, Horrifying Healer",
+   "file": "ar16113205-anti-venom-horrifying-healer.dck",
+   "name": "Anti Venom",
+   "owner": "Dagoth_Ur__",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/16113205",
+   "step": 5,
+   "tags": [
+    "+1/+1 Counters",
+    "Burn",
+    "Equipment",
+    "Jank"
+   ],
+   "views": 5027
+  },
+  "ar16187838-katara-water-tribe-s-hope.dck": {
+   "added": "2026-11-28",
+   "commander": "Katara, Water Tribe's Hope",
+   "file": "ar16187838-katara-water-tribe-s-hope.dck",
+   "name": "Katara, Water Tribe's Hope: A Germ of an Idea 2.0",
+   "owner": "danaroach",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/16187838",
+   "step": 2,
+   "tags": [
+    "Equipment",
+    "Waterbending"
+   ],
+   "views": 6730
+  },
+  "ar16291504-kratos-stoic-father.dck": {
+   "added": "2026-11-28",
+   "commander": "Kratos, Stoic Father + Atreus, Impulsive Son",
+   "file": "ar16291504-kratos-stoic-father.dck",
+   "name": "Dad and son bonding - Kindred gods",
+   "owner": "Xorises",
+   "owner_bracket": 2,
+   "plan": "gods",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/16291504",
+   "step": 2,
+   "tags": [
+    "Casual",
+    "Gods",
+    "Legends",
+    "Proliferate",
+    "Experience Counters"
+   ],
+   "views": 6055
+  },
+  "ar16399353-ghired-mirror-of-the-wilds.dck": {
+   "added": "2026-11-28",
+   "commander": "Ghired, Mirror of the Wilds",
+   "file": "ar16399353-ghired-mirror-of-the-wilds.dck",
+   "name": "[Contest Submission] Ghired, Mirror of the Wilds - Omenpath to Zendikar",
+   "owner": "Pandalk",
+   "owner_bracket": 2,
+   "plan": "combo",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/16399353",
+   "step": 2,
+   "tags": [
+    "Allies",
+    "Cantrips",
+    "Clones",
+    "Combo",
+    "Landfall"
+   ],
+   "views": 5432
+  },
+  "ar16623967-wick-the-whorled-mind.dck": {
+   "added": "2026-11-28",
+   "commander": "Wick, the Whorled Mind",
+   "file": "ar16623967-wick-the-whorled-mind.dck",
+   "name": "Wick, Snail Voltron",
+   "owner": "Sheepy627",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/16623967",
+   "step": 2,
+   "tags": [
+    "Rats",
+    "Changelings",
+    "Voltron",
+    "Power Matters",
+    "Equipment",
+    "Artifacts"
+   ],
+   "views": 3853
+  },
+  "ar17183253-iroh-tea-master.dck": {
+   "added": "2026-11-28",
+   "commander": "Iroh, Tea Master",
+   "file": "ar17183253-iroh-tea-master.dck",
+   "name": "CZ 711 | Iroh, Tea Master",
+   "owner": "GameKnights",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/17183253",
+   "step": 2,
+   "tags": [],
+   "views": 21278
   },
   "ar171880-sidisi-brood-tyrant.dck": {
    "added": "2026-11-25",
@@ -168,6 +637,57 @@
    ],
    "views": 49444
   },
+  "ar17417255-fire-lord-zuko.dck": {
+   "added": "2026-11-28",
+   "commander": "Fire Lord Zuko",
+   "file": "ar17417255-fire-lord-zuko.dck",
+   "name": "Everything Changed When The Fire Nation Attacked (Fire Lord Zuko)",
+   "owner": "BasedDeckDepartment",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/17417255",
+   "step": 2,
+   "tags": [],
+   "views": 25198
+  },
+  "ar1756322-rem-karolus-stalwart-slayer.dck": {
+   "added": "2026-11-28",
+   "commander": "Rem Karolus, Stalwart Slayer",
+   "file": "ar1756322-rem-karolus-stalwart-slayer.dck",
+   "name": "Rem Revere's Midnight Ride",
+   "owner": "Paleo99",
+   "owner_bracket": 2,
+   "plan": "burn",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/1756322",
+   "step": 2,
+   "tags": [
+    "Dragon's Approach",
+    "Burn",
+    "Spellslinger"
+   ],
+   "views": 4329
+  },
+  "ar1784107-rootha-mercurial-artist.dck": {
+   "added": "2026-11-28",
+   "commander": "Rootha, Mercurial Artist",
+   "file": "ar1784107-rootha-mercurial-artist.dck",
+   "name": "Izzet a spell? Izzet a copy? No it's an Orc Lady!",
+   "owner": "aka0815",
+   "owner_bracket": 2,
+   "plan": "spellslinger",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/1784107",
+   "step": 4,
+   "tags": [
+    "Spellslinger",
+    "Spell Copy",
+    "Flavor",
+    "Chaos"
+   ],
+   "views": 4817
+  },
   "ar1827191-grothama-all-devouring.dck": {
    "added": "2026-11-25",
    "commander": "Grothama, All-Devouring",
@@ -187,39 +707,67 @@
    ],
    "views": 26004
   },
-  "ar21326316-sami-wildcat-captain.dck": {
-   "added": "2026-11-25",
-   "commander": "Sami, Wildcat Captain",
-   "file": "ar21326316-sami-wildcat-captain.dck",
-   "name": "Stuck on Repeat",
-   "owner": "ifnjeff",
+  "ar20846381-kess-dissident-mage.dck": {
+   "added": "2026-11-28",
+   "commander": "Kess, Dissident Mage",
+   "file": "ar20846381-kess-dissident-mage.dck",
+   "name": "Maleficarum",
+   "owner": "Odin00",
    "owner_bracket": 2,
    "plan": "spellslinger",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/21326316",
-   "step": 1,
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/20846381",
+   "step": 5,
    "tags": [
+    "Poison",
+    "Proliferate",
     "Spellslinger",
-    "Affinity",
-    "Artifacts"
+    "Flashback",
+    "Counters Matter",
+    "Counterspells",
+    "Draw",
+    "Control"
    ],
-   "views": 9152
+   "views": 4988
   },
-  "ar2292269-bilbo-birthday-celebrant.dck": {
-   "added": "2026-11-25",
+  "ar22665531-bilbo-birthday-celebrant.dck": {
+   "added": "2026-11-28",
    "commander": "Bilbo, Birthday Celebrant",
-   "file": "ar2292269-bilbo-birthday-celebrant.dck",
-   "name": "Bilbo Abzan Lifegain",
-   "owner": "UraniumMan9",
+   "file": "ar22665531-bilbo-birthday-celebrant.dck",
+   "name": "Awww C'mon, I'm Just the Little Birthday Boy!",
+   "owner": "Us3ful",
    "owner_bracket": 2,
    "plan": "lifegain",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/2292269",
-   "step": 1,
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/22665531",
+   "step": 4,
    "tags": [
-    "Lifegain"
+    "Lifegain",
+    "Tokens",
+    "Alternate Wincon"
    ],
-   "views": 9276
+   "views": 3446
+  },
+  "ar24191872-krile-baldesion.dck": {
+   "added": "2026-11-28",
+   "commander": "Krile Baldesion",
+   "file": "ar24191872-krile-baldesion.dck",
+   "name": "A Dwarf and Her Very Persistent Rabbits",
+   "owner": "Dunglebungus",
+   "owner_bracket": 2,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/24191872",
+   "step": 2,
+   "tags": [
+    "Self-Mill",
+    "Hare Apparent",
+    "Persistent Petitioners",
+    "Type Hack",
+    "Flashback",
+    "Mill"
+   ],
+   "views": 6936
   },
   "ar24359371-inga-and-esika.dck": {
    "added": "2026-11-25",
@@ -263,25 +811,19 @@
    ],
    "views": 9837
   },
-  "ar2508060-magda-brazen-outlaw.dck": {
-   "added": "2026-11-25",
-   "commander": "Magda, Brazen Outlaw",
-   "file": "ar2508060-magda-brazen-outlaw.dck",
-   "name": "Dwarves & Dragons | Magda, Brazen Outlaw",
-   "owner": "SegaGenesis91",
+  "ar25038666-d-in-of-the-ancient-halls.dck": {
+   "added": "2026-11-28",
+   "commander": "Dáin of the Ancient Halls",
+   "file": "ar25038666-d-in-of-the-ancient-halls.dck",
+   "name": "Dwarven Legion",
+   "owner": "tolariancommunitycollege",
    "owner_bracket": 2,
-   "plan": "tribal",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/2508060",
-   "step": 1,
-   "tags": [
-    "Tap/Untap",
-    "Treasure",
-    "Dwarves",
-    "Dragons",
-    "Artifacts"
-   ],
-   "views": 9288
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/25038666",
+   "step": 2,
+   "tags": [],
+   "views": 39371
   },
   "ar2713146-dromoka-the-eternal.dck": {
    "added": "2026-11-25",
@@ -318,6 +860,22 @@
    ],
    "views": 106747
   },
+  "ar2829718-burakos-party-leader.dck": {
+   "added": "2026-11-28",
+   "commander": "Burakos, Party Leader + Folk Hero",
+   "file": "ar2829718-burakos-party-leader.dck",
+   "name": "Burakos, Party Hero",
+   "owner": "VigilantSera",
+   "owner_bracket": 2,
+   "plan": "party",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/2829718",
+   "step": 2,
+   "tags": [
+    "Party"
+   ],
+   "views": 3951
+  },
   "ar2999284-rasaad-yn-bashir.dck": {
    "added": "2026-11-25",
    "commander": "Rasaad yn Bashir + Guild Artisan",
@@ -335,6 +893,26 @@
     "Aggro"
    ],
    "views": 8706
+  },
+  "ar3060923-thrun-the-last-troll.dck": {
+   "added": "2026-11-28",
+   "commander": "Thrun, the Last Troll",
+   "file": "ar3060923-thrun-the-last-troll.dck",
+   "name": "Thrun $35 Bulk Bin Budget Voltron",
+   "owner": "Bruisedfrog",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/3060923",
+   "step": 2,
+   "tags": [
+    "Voltron",
+    "Fight",
+    "Auras",
+    "Equipment",
+    "Budget"
+   ],
+   "views": 6436
   },
   "ar3081449-marchesa-the-black-rose.dck": {
    "added": "2026-11-25",
@@ -358,6 +936,24 @@
     "Casual"
    ],
    "views": 9521
+  },
+  "ar3127766-nadaar-selfless-paladin.dck": {
+   "added": "2026-11-28",
+   "commander": "Nadaar, Selfless Paladin",
+   "file": "ar3127766-nadaar-selfless-paladin.dck",
+   "name": "Dungeon Midrange",
+   "owner": "pearsoc4",
+   "owner_bracket": 2,
+   "plan": "blink",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/3127766",
+   "step": 2,
+   "tags": [
+    "Dungeon",
+    "Blink",
+    "ETB Effects"
+   ],
+   "views": 5482
   },
   "ar3689944-vohar-vodalian-desecrator.dck": {
    "added": "2026-11-25",
@@ -424,6 +1020,64 @@
    ],
    "views": 33548
   },
+  "ar4297953-codie-vociferous-codex.dck": {
+   "added": "2026-11-28",
+   "commander": "Codie, Vociferous Codex",
+   "file": "ar4297953-codie-vociferous-codex.dck",
+   "name": "Codie's Curious Cyclery (229)",
+   "owner": "Wedgi",
+   "owner_bracket": 2,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/4297953",
+   "step": 2,
+   "tags": [
+    "Cycling",
+    "Budget",
+    "Casual",
+    "Reanimator",
+    "Jank"
+   ],
+   "views": 3763
+  },
+  "ar4347074-kelsien-the-plague.dck": {
+   "added": "2026-11-28",
+   "commander": "Kelsien, the Plague",
+   "file": "ar4347074-kelsien-the-plague.dck",
+   "name": "Kelsien, the Plague",
+   "owner": "SomethingUnusual152",
+   "owner_bracket": 2,
+   "plan": "voltron",
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/4347074",
+   "step": 5,
+   "tags": [
+    "Voltron",
+    "Deathtouch",
+    "Counters Matter",
+    "Pingers"
+   ],
+   "views": 4694
+  },
+  "ar4489667-katilda-and-lier.dck": {
+   "added": "2026-11-28",
+   "commander": "Katilda and Lier",
+   "file": "ar4489667-katilda-and-lier.dck",
+   "name": "School of Magic: Abjuration",
+   "owner": "Paleo99",
+   "owner_bracket": 2,
+   "plan": "control",
+   "power": "Bracket 3 · High",
+   "source": "https://archidekt.com/decks/4489667",
+   "step": 5,
+   "tags": [
+    "Humans",
+    "Control",
+    "Spellslinger",
+    "Turbo Fog"
+   ],
+   "views": 3762
+  },
   "ar4505318-atraxa-praetors-voice.dck": {
    "added": "2026-11-25",
    "commander": "Atraxa, Praetors' Voice",
@@ -440,6 +1094,26 @@
     "Poison"
    ],
    "views": 10924
+  },
+  "ar4541848-zur-the-enchanter.dck": {
+   "added": "2026-11-28",
+   "commander": "Zur the Enchanter",
+   "file": "ar4541848-zur-the-enchanter.dck",
+   "name": "Self-Discard",
+   "owner": "pearsoc4",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/4541848",
+   "step": 2,
+   "tags": [
+    "Self-Discard",
+    "Tokens",
+    "Enchantments",
+    "Cycling",
+    "Connive"
+   ],
+   "views": 4062
   },
   "ar4616610-raggadragga-goreguts-boss.dck": {
    "added": "2026-11-25",
@@ -475,6 +1149,100 @@
    ],
    "views": 13542
   },
+  "ar4675341-ghave-guru-of-spores.dck": {
+   "added": "2026-11-28",
+   "commander": "Ghave, Guru of Spores",
+   "file": "ar4675341-ghave-guru-of-spores.dck",
+   "name": "The Fungus Among Us",
+   "owner": "Lucrest_Krahl",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/4675341",
+   "step": 2,
+   "tags": [
+    "Flavor",
+    "Commander Matters",
+    "+1/+1 Counters",
+    "Fungi",
+    "Jank",
+    "Saprolings",
+    "Tokens"
+   ],
+   "views": 5765
+  },
+  "ar4717461-kenessos-priest-of-thassa.dck": {
+   "added": "2026-11-28",
+   "commander": "Kenessos, Priest of Thassa",
+   "file": "ar4717461-kenessos-priest-of-thassa.dck",
+   "name": "Kenessos - Big Squids ($300)",
+   "owner": "The_Not_So_Scary_Werepanda",
+   "owner_bracket": 2,
+   "plan": "sea-monsters",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/4717461",
+   "step": 3,
+   "tags": [
+    "Sea Monsters",
+    "Scry",
+    "Stompy"
+   ],
+   "views": 7886
+  },
+  "ar4747444-lord-of-the-nazg-l.dck": {
+   "added": "2026-11-28",
+   "commander": "Lord of the Nazgûl",
+   "file": "ar4747444-lord-of-the-nazg-l.dck",
+   "name": "Only LotR - Lord of the Nazgul",
+   "owner": "DnlTvrs",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/4747444",
+   "step": 4,
+   "tags": [
+    "Wraiths",
+    "+1/+1 Counters",
+    "Commander Matters",
+    "The Ring"
+   ],
+   "views": 4590
+  },
+  "ar4789041-faramir-steward-of-gondor.dck": {
+   "added": "2026-11-28",
+   "commander": "Faramir, Steward of Gondor",
+   "file": "ar4789041-faramir-steward-of-gondor.dck",
+   "name": "Faramir, Steward of Gondor $50",
+   "owner": "benthic_druid",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/4789041",
+   "step": 2,
+   "tags": [
+    "Tokens",
+    "Budget"
+   ],
+   "views": 4443
+  },
+  "ar4811209-aragorn-king-of-gondor.dck": {
+   "added": "2026-11-28",
+   "commander": "Aragorn, King of Gondor",
+   "file": "ar4811209-aragorn-king-of-gondor.dck",
+   "name": "Aragorn, the One True King",
+   "owner": "iammattmorgan",
+   "owner_bracket": 2,
+   "plan": "humans",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/4811209",
+   "step": 2,
+   "tags": [
+    "Humans",
+    "Monarch",
+    "Upgraded Precon"
+   ],
+   "views": 7858
+  },
   "ar4811306-the-council-of-four.dck": {
    "added": "2026-11-25",
    "commander": "The Council of Four",
@@ -491,6 +1259,77 @@
     "Control"
    ],
    "views": 32551
+  },
+  "ar5187052-elesh-norn-mother-of-machines.dck": {
+   "added": "2026-11-28",
+   "commander": "Elesh Norn, Mother of Machines",
+   "file": "ar5187052-elesh-norn-mother-of-machines.dck",
+   "name": "Elesh Norn, ETB madness",
+   "owner": "Fayne",
+   "owner_bracket": 2,
+   "plan": "control",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/5187052",
+   "step": 2,
+   "tags": [
+    "ETB Effects",
+    "Bounce",
+    "Control"
+   ],
+   "views": 3530
+  },
+  "ar5336983-gallia-of-the-endless-dance.dck": {
+   "added": "2026-11-28",
+   "commander": "Gallia of the Endless Dance",
+   "file": "ar5336983-gallia-of-the-endless-dance.dck",
+   "name": "Dangerous, my friend",
+   "owner": "Paleo99",
+   "owner_bracket": 2,
+   "plan": "aggro",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/5336983",
+   "step": 2,
+   "tags": [
+    "Changelings",
+    "Aggro"
+   ],
+   "views": 3819
+  },
+  "ar539230-sephara-sky-s-blade.dck": {
+   "added": "2026-11-28",
+   "commander": "Sephara, Sky's Blade",
+   "file": "ar539230-sephara-sky-s-blade.dck",
+   "name": "Sephara, Sky's Blade | The Birds",
+   "owner": "Xaroth",
+   "owner_bracket": 2,
+   "plan": "aggro",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/539230",
+   "step": 2,
+   "tags": [
+    "Flying",
+    "Aggro"
+   ],
+   "views": 3372
+  },
+  "ar5444936-kynaios-and-tiro-of-meletis.dck": {
+   "added": "2026-11-28",
+   "commander": "Kynaios and Tiro of Meletis",
+   "file": "ar5444936-kynaios-and-tiro-of-meletis.dck",
+   "name": "Kynaios & Tiro - Group Hug Madness ($250)",
+   "owner": "The_Not_So_Scary_Werepanda",
+   "owner_bracket": 2,
+   "plan": "group-hug",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/5444936",
+   "step": 3,
+   "tags": [
+    "Group Hug",
+    "Jank",
+    "Casual",
+    "Chaos"
+   ],
+   "views": 4847
   },
   "ar567377-esika-god-of-the-tree.dck": {
    "added": "2026-11-25",
@@ -514,173 +1353,921 @@
    ],
    "views": 9898
   },
-  "ar8389387-wick-the-whorled-mind.dck": {
-   "added": "2026-11-25",
-   "commander": "Wick, the Whorled Mind",
-   "file": "ar8389387-wick-the-whorled-mind.dck",
-   "name": "Wick, the Whorled Mind",
-   "owner": "Tryphecta",
+  "ar5840236-samut-vizier-of-naktamun.dck": {
+   "added": "2026-11-28",
+   "commander": "Samut, Vizier of Naktamun",
+   "file": "ar5840236-samut-vizier-of-naktamun.dck",
+   "name": "Samut, Vizier of Naktamun EDH",
+   "owner": "IGoPogo",
    "owner_bracket": 2,
-   "plan": "aristocrats",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/8389387",
-   "step": 1,
+   "plan": "haste",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/5840236",
+   "step": 2,
    "tags": [
-    "Rats",
-    "Sacrifice",
-    "Burn"
+    "Haste",
+    "Myriad"
    ],
-   "views": 9747
+   "views": 5170
   },
-  "ar9115716-malfegor.dck": {
-   "added": "2026-11-25",
-   "commander": "Malfegor",
-   "file": "ar9115716-malfegor.dck",
-   "name": "Malfegor's Mudpit Melee",
-   "owner": "SalubriousSnail",
-   "owner_bracket": 3,
-   "plan": "discard",
-   "power": "Bracket 2 · Mid",
-   "source": "https://archidekt.com/decks/9115716",
-   "step": 1,
+  "ar5944521-ugl-k-of-the-white-hand.dck": {
+   "added": "2026-11-28",
+   "commander": "Uglúk of the White Hand",
+   "file": "ar5944521-ugl-k-of-the-white-hand.dck",
+   "name": "Ogbur Quickblades",
+   "owner": "Upgrayedd_phd",
+   "owner_bracket": 2,
+   "plan": "counters",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/5944521",
+   "step": 4,
    "tags": [
+    "+1/+1 Counters",
+    "Goblins",
+    "Sacrifice",
+    "Equipment",
+    "Aggro"
+   ],
+   "views": 3667
+  },
+  "ar6384788-feather-the-redeemed.dck": {
+   "added": "2026-11-28",
+   "commander": "Feather, the Redeemed",
+   "file": "ar6384788-feather-the-redeemed.dck",
+   "name": "Lightning Storm",
+   "owner": "Shankos",
+   "owner_bracket": 2,
+   "plan": "spellslinger",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/6384788",
+   "step": 2,
+   "tags": [
+    "Commander Matters",
+    "Spellslinger"
+   ],
+   "views": 3488
+  },
+  "ar6518487-adeline-resplendent-cathar.dck": {
+   "added": "2026-11-28",
+   "commander": "Adeline, Resplendent Cathar",
+   "file": "ar6518487-adeline-resplendent-cathar.dck",
+   "name": "Adeline, Resplendent Cathar",
+   "owner": "hiuji",
+   "owner_bracket": 2,
+   "plan": "aggro",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/6518487",
+   "step": 2,
+   "tags": [
+    "Aggro",
+    "Tokens",
+    "Commander Matters",
+    "Tempo",
+    "Weenies",
+    "Spellslinger"
+   ],
+   "views": 3975
+  },
+  "ar6728202-marvo-deep-operative.dck": {
+   "added": "2026-11-28",
+   "commander": "Marvo, Deep Operative",
+   "file": "ar6728202-marvo-deep-operative.dck",
+   "name": "Marvo Big Mana",
+   "owner": "Mcgeek",
+   "owner_bracket": 2,
+   "plan": "topdeck",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/6728202",
+   "step": 3,
+   "tags": [
+    "Topdeck",
+    "Big Mana"
+   ],
+   "views": 5472
+  },
+  "ar7179788-raphael-fiendish-savior.dck": {
+   "added": "2026-11-28",
+   "commander": "Raphael, Fiendish Savior",
+   "file": "ar7179788-raphael-fiendish-savior.dck",
+   "name": "Pay The Devil his due",
+   "owner": "Bigmama135",
+   "owner_bracket": 2,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7179788",
+   "step": 2,
+   "tags": [
+    "Devils",
+    "Demons",
+    "Reanimator",
+    "Discard",
+    "Lifegain"
+   ],
+   "views": 3636
+  },
+  "ar7340540-riku-of-many-paths.dck": {
+   "added": "2026-11-28",
+   "commander": "Riku of Many Paths",
+   "file": "ar7340540-riku-of-many-paths.dck",
+   "name": "Waylon Jennings Live! - Budget Riku of Many Paths Tokens",
+   "owner": "Wanderer.M.B",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7340540",
+   "step": 2,
+   "tags": [
+    "Budget",
+    "Tokens",
+    "Spellslinger"
+   ],
+   "views": 6186
+  },
+  "ar7667132-galazeth-prismari.dck": {
+   "added": "2026-11-28",
+   "commander": "Galazeth Prismari",
+   "file": "ar7667132-galazeth-prismari.dck",
+   "name": "$100 Galazeth Prismari Control B2",
+   "owner": "BasedDeckDepartment",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7667132",
+   "step": 2,
+   "tags": [],
+   "views": 20335
+  },
+  "ar7767629-disa-the-restless.dck": {
+   "added": "2026-11-28",
+   "commander": "Disa the Restless",
+   "file": "ar7767629-disa-the-restless.dck",
+   "name": "Delirium Disa Nuts",
+   "owner": "JointheDanceGuy",
+   "owner_bracket": 2,
+   "plan": "graveyard",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7767629",
+   "step": 2,
+   "tags": [
+    "Lhurgoyfs",
+    "Self-Mill",
+    "Reanimator",
     "Discard"
    ],
-   "views": 115775
+   "views": 9525
+  },
+  "ar7817483-sauron-the-dark-lord.dck": {
+   "added": "2026-11-28",
+   "commander": "Sauron, the Dark Lord",
+   "file": "ar7817483-sauron-the-dark-lord.dck",
+   "name": "$100ish (inflation) Sauron, The Dark Lord Spellslinger B2",
+   "owner": "BasedDeckDepartment",
+   "owner_bracket": 2,
+   "plan": "unknown",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7817483",
+   "step": 2,
+   "tags": [],
+   "views": 82134
+  },
+  "ar7877447-gonti-canny-acquisitor.dck": {
+   "added": "2026-11-28",
+   "commander": "Gonti, Canny Acquisitor",
+   "file": "ar7877447-gonti-canny-acquisitor.dck",
+   "name": "Gonti Precon",
+   "owner": "Jumacuisbo",
+   "owner_bracket": 2,
+   "plan": "theft",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/7877447",
+   "step": 2,
+   "tags": [
+    "Unmodified Precon",
+    "Theft"
+   ],
+   "views": 3667
+  },
+  "ar8086748-kudo-king-among-bears.dck": {
+   "added": "2026-11-28",
+   "commander": "Kudo, King Among Bears",
+   "file": "ar8086748-kudo-king-among-bears.dck",
+   "name": "Winnie the Pow",
+   "owner": "LuisMichel",
+   "owner_bracket": 2,
+   "plan": "tokens",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/8086748",
+   "step": 4,
+   "tags": [
+    "Tokens",
+    "Bears"
+   ],
+   "views": 3952
+  },
+  "ar8092178-neriv-crackling-vanguard.dck": {
+   "added": "2026-11-28",
+   "commander": "Neriv, Crackling Vanguard",
+   "file": "ar8092178-neriv-crackling-vanguard.dck",
+   "name": "Neriv, Crackling Vanguard",
+   "owner": "Slydog3005",
+   "owner_bracket": 2,
+   "plan": "tribal",
+   "power": "Bracket 3 · Low",
+   "source": "https://archidekt.com/decks/8092178",
+   "step": 3,
+   "tags": [
+    "Dragons",
+    "Flying",
+    "Burn",
+    "Tokens",
+    "Warriors"
+   ],
+   "views": 4328
+  },
+  "ar8127150-edward-kenway.dck": {
+   "added": "2026-11-28",
+   "commander": "Edward Kenway",
+   "file": "ar8127150-edward-kenway.dck",
+   "name": "Boats & H0es",
+   "owner": "Squanchorlando",
+   "owner_bracket": 2,
+   "plan": "flavor",
+   "power": "Bracket 3 · Mid",
+   "source": "https://archidekt.com/decks/8127150",
+   "step": 4,
+   "tags": [
+    "Flavor",
+    "Pirates",
+    "Treasure"
+   ],
+   "views": 6860
+  },
+  "ar8418780-gr-ma-saruman-s-footman.dck": {
+   "added": "2026-11-28",
+   "commander": "Gríma, Saruman's Footman",
+   "file": "ar8418780-gr-ma-saruman-s-footman.dck",
+   "name": "Gríma, Saruman's Footman: A Storm of Spells",
+   "owner": "danaroach",
+   "owner_bracket": 2,
+   "plan": "spellslinger",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/8418780",
+   "step": 2,
+   "tags": [
+    "Spellslinger"
+   ],
+   "views": 8967
+  },
+  "ar8555972-amalia-benavides-aguirre.dck": {
+   "added": "2026-11-28",
+   "commander": "Amalia Benavides Aguirre",
+   "file": "ar8555972-amalia-benavides-aguirre.dck",
+   "name": "Mana curve? Nah Mana Spike",
+   "owner": "lazyname5",
+   "owner_bracket": 2,
+   "plan": "lifegain",
+   "power": "Bracket 2 · High",
+   "source": "https://archidekt.com/decks/8555972",
+   "step": 2,
+   "tags": [
+    "Lifegain",
+    "Lurrus Companion"
+   ],
+   "views": 3963
+  },
+  "ar9525620-atraxa-grand-unifier.dck": {
+   "added": "2026-11-28",
+   "commander": "Atraxa, Grand Unifier",
+   "file": "ar9525620-atraxa-grand-unifier.dck",
+   "name": "We hate haste in this house.",
+   "owner": "lazyname5",
+   "owner_bracket": 2,
+   "plan": "ramp",
+   "power": "Bracket 4 · Low",
+   "source": "https://archidekt.com/decks/9525620",
+   "step": 6,
+   "tags": [
+    "Ramp"
+   ],
+   "views": 4648
+  }
+ },
+ "held": {
+  "11131009": {
+   "commander": "Vanille, Cheerful l'Cie",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "11346749": {
+   "commander": "Zinnia, Valley's Voice",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "11363581": {
+   "commander": "Flubs, the Fool",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "1211096": {
+   "commander": "Nikya of the Old Ways",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "12436923": {
+   "commander": "Extus, Oriq Overlord",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "13622291": {
+   "commander": "Squall, SeeD Mercenary",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "14229578": {
+   "commander": "Omnath, Locus of All",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "15949974": {
+   "commander": "Eddie Brock",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "17249885": {
+   "commander": "Witch-king of Angmar",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "17638384": {
+   "commander": "Avatar Aang",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "18254876": {
+   "commander": "Garth One-Eye",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "19890385": {
+   "commander": "Hei Bai, Forest Guardian",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "20975441": {
+   "commander": "Criminal Past + Sarevok, Deathbringer",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "2103374": {
+   "commander": "Grist, the Hunger Tide",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "2122317": {
+   "commander": "Adeline, Resplendent Cathar"
+  },
+  "219863": {
+   "commander": "Torbran, Thane of Red Fell",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "23227864": {
+   "commander": "Nick Fury, Agent of S.H.I.E.L.D.",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "24359499": {
+   "commander": "Stonebrow, Krosan Hero",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "24364891": {
+   "commander": "The Master, Transcendent",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "25039073": {
+   "commander": "Thranduil, the Elvenking",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "25068923": {
+   "commander": "Bolg, Erebor's Reckoning",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "2508745": {
+   "commander": "Silvar, Devourer of the Free + Trynn, Champion of Freedom",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "27394663": {
+   "commander": "Mr. Foxglove",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "2751704": {
+   "commander": "The Mimeoplasm",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "2856931": {
+   "commander": "Tana, the Bloodsower + Tymna the Weaver",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "3065762": {
+   "commander": "Ognis, the Dragon's Lash",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "3866335": {
+   "commander": "Minthara, Merciless Soul",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "4024411": {
+   "commander": "Atraxa, Grand Unifier"
+  },
+  "4753440": {
+   "commander": "Anje Falkenrath",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "4759479": {
+   "commander": "Flubs, the Fool",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "5787922": {
+   "commander": "Caesar, Legion's Emperor",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "5801783": {
+   "commander": "Kutzil, Malamet Exemplar",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "6080611": {
+   "commander": "Ayula, Queen Among Bears",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "633795": {
+   "commander": "Kathril, Aspect Warper",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "6777268": {
+   "commander": "Brenard, Ginger Sculptor",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "684798": {
+   "commander": "Raffine, Scheming Seer",
+   "label": "Bracket 2 · Low",
+   "step": 0
+  },
+  "7394582": {
+   "commander": "Laughing Jasper Flint",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "7539511": {
+   "commander": "Beorn the Fierce",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "7607306": {
+   "commander": "Rakdos, the Muscle",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "8021743": {
+   "commander": "Zoyowa Lava-Tongue",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "8257183": {
+   "commander": "Phlage, Titan of Fire's Fury",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "8376824": {
+   "commander": "Drana and Linvala",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "8469452": {
+   "commander": "Akul the Unrepentant",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "8525043": {
+   "commander": "Muerra, Trash Tactician",
+   "label": "Bracket 2 · Mid",
+   "step": 1
+  },
+  "9045279": {
+   "commander": "Rem Karolus, Stalwart Slayer",
+   "label": "Bracket 2 · Low",
+   "step": 0
   }
  },
  "plans": {
-  "aggro": 2,
-  "aristocrats": 1,
-  "artifacts": 2,
+  "aggro": 5,
+  "aristocrats": 2,
+  "artifacts": 1,
+  "birds": 1,
+  "blink": 1,
+  "burn": 1,
+  "combo": 1,
   "commander-matters": 1,
-  "control": 1,
-  "counters": 2,
+  "control": 3,
+  "counters": 8,
   "creatures": 1,
   "deathtouch": 1,
-  "discard": 1,
-  "enchantress": 1,
-  "gods": 1,
-  "graveyard": 2,
+  "flavor": 1,
+  "freerunning": 1,
+  "gods": 2,
+  "graveyard": 8,
+  "group-hug": 1,
+  "haste": 1,
+  "humans": 1,
   "lands": 1,
-  "lifegain": 1,
+  "lifegain": 4,
+  "party": 1,
   "phyrexians": 1,
-  "ramp": 1,
-  "spellslinger": 2,
+  "ramp": 2,
+  "rule-zero": 1,
+  "sea-monsters": 1,
+  "spellslinger": 6,
   "sphinxes": 1,
-  "theft": 1,
-  "tokens": 1,
-  "topdeck": 1,
-  "tribal": 2,
-  "voltron": 1,
+  "suspend": 1,
+  "theft": 3,
+  "tokens": 8,
+  "topdeck": 2,
+  "tribal": 1,
+  "unknown": 8,
+  "voltron": 8,
   "wizards": 1
  },
  "refreshed": "2026-11-25",
  "seen": [
-  3887,
   3948,
   3994,
   3997,
   4036,
+  59498,
   59957,
+  59975,
   59989,
+  59996,
+  98576,
+  159637,
+  162485,
+  171116,
+  171119,
   171880,
+  179917,
   215454,
-  311582,
-  313935,
-  554186,
+  267564,
+  337076,
+  539230,
   567377,
   580194,
-  715322,
+  716035,
+  765366,
+  783764,
+  798324,
+  892306,
+  955658,
   1012121,
+  1024052,
+  1077316,
+  1077790,
+  1279692,
+  1310761,
+  1310924,
   1413767,
-  1585124,
+  1468377,
+  1497047,
   1605459,
-  1777280,
+  1756322,
+  1784107,
+  1796655,
   1826225,
   1827191,
-  1909492,
-  1932156,
+  1872476,
+  1887351,
+  2003895,
+  2069367,
+  2132175,
   2292269,
-  2293977,
   2326905,
   2500182,
   2508060,
-  2659039,
+  2524607,
+  2547514,
+  2565917,
+  2603269,
+  2631247,
+  2637484,
+  2693916,
+  2702853,
   2713146,
-  2856931,
-  2886541,
+  2829718,
+  2852373,
+  2896308,
+  2995596,
   2999284,
+  3017907,
+  3019470,
+  3022641,
   3040290,
-  3047743,
   3060318,
-  3065762,
+  3060923,
   3081449,
+  3127766,
+  3162302,
+  3180331,
+  3287259,
   3311704,
+  3366493,
+  3372857,
+  3495447,
+  3533830,
   3536404,
+  3543155,
   3566740,
+  3591894,
   3605612,
+  3624561,
+  3646297,
+  3648554,
+  3662396,
+  3665940,
   3689944,
-  3811989,
+  3715652,
+  3785689,
+  3805528,
   3888384,
-  4116172,
-  4279849,
-  4301639,
+  3890218,
+  3891320,
+  3937134,
+  3959040,
+  4006733,
+  4065275,
+  4070099,
+  4120885,
+  4184675,
+  4247858,
+  4279593,
+  4297953,
+  4300688,
+  4347074,
+  4356194,
+  4365625,
+  4381411,
   4383530,
+  4489667,
   4505318,
-  4593603,
+  4541848,
+  4547078,
   4616606,
   4616610,
   4616632,
+  4643531,
+  4675341,
+  4689995,
+  4717461,
   4741234,
   4744420,
+  4747444,
+  4762874,
+  4789041,
+  4791237,
+  4800960,
+  4811209,
   4811306,
+  4843392,
+  4845395,
+  4848462,
+  4940622,
   5005670,
-  5072301,
+  5040143,
+  5063414,
+  5119799,
+  5168809,
+  5187052,
+  5224935,
+  5225864,
   5276327,
   5311494,
+  5336983,
+  5386497,
+  5430689,
+  5444936,
+  5453674,
   5498543,
   5607118,
-  5952063,
+  5639564,
+  5719015,
+  5728262,
+  5786793,
+  5792943,
+  5840236,
+  5848441,
+  5883038,
+  5944521,
+  5958051,
+  5962767,
   6103226,
-  6780851,
-  6847581,
+  6152764,
+  6232333,
+  6276279,
+  6371964,
+  6384788,
+  6396486,
+  6444787,
+  6472485,
+  6518487,
+  6728202,
+  6741287,
+  6836556,
+  6846936,
+  6850665,
+  7014244,
+  7115047,
+  7179788,
   7234189,
+  7274355,
+  7278682,
+  7340540,
+  7349531,
   7484618,
+  7549862,
+  7577198,
+  7605129,
+  7665039,
+  7667132,
+  7713132,
+  7767629,
   7773101,
-  7933656,
+  7786331,
+  7803286,
+  7817483,
+  7857431,
+  7869472,
+  7875347,
+  7877447,
+  7923443,
+  7941001,
   7998853,
+  8049458,
+  8062709,
+  8086748,
+  8092178,
+  8127150,
+  8178785,
+  8276301,
+  8338412,
   8389387,
+  8418780,
   8458485,
+  8459568,
+  8466027,
+  8555972,
+  8569613,
+  8588603,
+  8608579,
+  8634304,
   8635493,
-  9045279,
+  8707005,
+  8748306,
+  8865274,
+  8887911,
+  8907059,
+  8915902,
+  9022730,
+  9044161,
+  9044880,
+  9052717,
+  9065121,
   9115716,
+  9142862,
+  9279561,
+  9525620,
+  9599591,
+  10048031,
   10253497,
+  10494475,
+  10521773,
   10538736,
+  10636744,
+  10704336,
+  10718169,
+  11302041,
+  11328492,
+  11352483,
+  11409740,
   11428593,
+  11451025,
+  11452773,
+  11704604,
   11727626,
+  11986722,
+  12003910,
+  12017718,
+  12020727,
+  12052175,
+  12082972,
+  12120063,
+  12217122,
+  12252442,
   12383088,
+  12442420,
+  12473407,
+  12497316,
   12535195,
+  12909823,
   13012848,
   13074677,
-  13390996,
+  13093634,
+  13109232,
+  13534635,
+  13546643,
+  13557489,
   13593080,
+  13653108,
+  13653321,
+  13672920,
+  13686965,
+  13707799,
+  13766172,
   13854904,
-  14586723,
+  13904462,
+  13963753,
+  14175470,
+  14232133,
+  14250702,
+  14414826,
+  14581723,
   14687174,
-  15073736,
+  14698800,
+  14727362,
+  14729702,
+  14757994,
+  14875868,
+  15232815,
+  15377140,
+  15821740,
+  15888283,
+  16113205,
+  16187838,
+  16291504,
+  16399353,
+  16400532,
+  16623967,
+  17049746,
+  17074410,
+  17177718,
+  17183253,
+  17275817,
+  17417255,
+  17433658,
+  17493352,
+  17585113,
   17664858,
+  17710889,
+  17868597,
+  18012910,
   18654546,
+  18746691,
+  18929165,
   19257975,
+  20057620,
+  20559842,
+  20846381,
   21326316,
+  22665531,
+  22787496,
   23158931,
+  23211494,
+  23311283,
   23822448,
+  23989631,
+  24134603,
+  24191872,
   24359371,
-  24364891,
   24691738,
-  25930423,
-  27394663,
-  27840574,
+  25038666,
+  25083639,
+  26124570,
+  26208500,
+  26222704,
   27936225
- ]
+ ],
+ "tried": "2026-11-28"
 }

@@ -1,0 +1,117 @@
+{
+ "machine": "laptop",
+ "updated": 1795874419,
+ "workers": 3,
+ "running": [],
+ "games_today": 616,
+ "recent": [
+  {
+   "job": "standing",
+   "batch": "zurgo-0389",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 45,
+   "t": 1795873342
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0389",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "zurgo",
+   "turns": 32,
+   "t": 1795873342
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0389",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 40,
+   "t": 1795873342
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0389",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 55,
+   "t": 1795873342
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0383",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "tyvar-main",
+   "turns": 37,
+   "t": 1795873430
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0383",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-otc-grand-larceny",
+   "turns": 36,
+   "t": 1795873430
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0383",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar2999284-rasaad-yn-bashir",
+   "turns": 50,
+   "t": 1795873430
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0383",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "tyvar-main",
+   "turns": 43,
+   "t": 1795873430
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0389",
+   "test": "zimone",
+   "game": 1,
+   "winner": "o-nec-buckle-up",
+   "turns": 52,
+   "t": 1795873484
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0389",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 59,
+   "t": 1795873484
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0389",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 40,
+   "t": 1795873484
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0389",
+   "test": "zimone",
+   "game": 4,
+   "winner": "o-brc-urza-s-iron-alliance",
+   "turns": 38,
+   "t": 1795873484
+  }
+ ]
+}

@@ -1015,25 +1015,269 @@
     "two-card combo: Kalamax, the Stormsire + Return the Favor"
    ]
   },
-  "decks/rotation/ar13012848-yuna-grand-summoner.dck": {
+  "decks/rotation/ar10253497-teysa-karlov.dck": {
+   "bracket": 4,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.49,
+    "draw": 13,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "6c27d3752b42",
+   "label": "Bracket 4 · Low",
+   "level": "Low",
+   "push": 22.05,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 6,
+   "why": [
+    "mass land denial: Liliana, Dreadhorde General"
+   ]
+  },
+  "decks/rotation/ar10704336-zada-hedron-grinder.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 3.29,
-    "draw": 17,
-    "fast": 0,
+    "avg_cmc": 1.92,
+    "draw": 12,
+    "fast": 4,
     "interaction": 2,
     "tutor": 1,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "e73f4987a78f",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 12.55,
-   "scored": "2026-11-25",
+   "hash": "b9452413bdd9",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 24.9,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar10718169-zoraline-cosmos-caller.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.49,
+    "draw": 13,
+    "fast": 1,
+    "interaction": 10,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ba1245a49886",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 23.05,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar11302041-saheeli-radiant-creator.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Lightning Runner",
+     "Stone Idol Generator"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.63,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 13,
+    "tutor": 7,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "67b40aab0547",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 39.85,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "two-card combo: Lightning Runner + Stone Idol Generator"
+   ]
+  },
+  "decks/rotation/ar11328492-ezio-auditore-da-firenze.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Ezio Auditore da Firenze",
+     "Tree of Perdition"
+    ],
+    [
+     "Ezio Auditore da Firenze",
+     "Sorin Markov"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.36,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 8,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b0996ecee422",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 26.7,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Ezio Auditore da Firenze + Tree of Perdition"
+   ]
+  },
+  "decks/rotation/ar11409740-hashaton-scarab-s-fist.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.41,
+    "draw": 24,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "afaea75df7d4",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.45,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar11704604-gallia-of-the-endless-dance.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.92,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "6e9d688bf9de",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar11986722-kastral-the-windcrested.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.79,
+    "draw": 6,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 31,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "1cc11deb6438",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 60.55,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar12003910-kambal-profiteering-mayor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.07,
+    "draw": 14,
+    "fast": 2,
+    "interaction": 9,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "004c7c5d3989",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 21.65,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar12217122-sensational-spider-man.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.96,
+    "draw": 16,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "7a99263cb257",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 21.7,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar12497316-sergeant-john-benton.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 1.94,
+    "draw": 5,
+    "fast": 0,
+    "interaction": 9,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "65f49e3336d2",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.8,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
    ]
@@ -1061,27 +1305,140 @@
     "no Game Changers or two-card combos"
    ]
   },
-  "decks/rotation/ar13593080-dan-lewis.dck": {
+  "decks/rotation/ar13109232-cecil-dark-knight.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 3.73,
+    "avg_cmc": 3.0,
     "draw": 11,
-    "fast": 0,
-    "interaction": 0,
-    "tutor": 6,
+    "fast": 1,
+    "interaction": 11,
+    "tutor": 0,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "83dde167b147",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 12.85,
-   "scored": "2026-11-25",
+   "hash": "ed5b1bcbd05a",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.5,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13534635-g-raha-tia-scion-reborn.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.92,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 7,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ade1afc03588",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13546643-y-shtola-night-s-blessed.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.3,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 2,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "eccb7eb9da9c",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.0,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13557489-zidane-tantalus-thief.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.84,
+    "draw": 14,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 9,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "40315f851153",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 28.3,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar13686965-vivi-ornitier.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Vivi Ornitier",
+     "Quicksilver Elemental"
+    ],
+    [
+     "Niv-Mizzet, Parun",
+     "Niv-Mizzet, Visionary"
+    ],
+    [
+     "Curiosity",
+     "Niv-Mizzet, Parun"
+    ],
+    [
+     "Niv-Mizzet, Parun",
+     "Ophidian Eye"
+    ],
+    [
+     "Tandem Lookout",
+     "Niv-Mizzet, Parun"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.11,
+    "draw": 30,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "288c17828c75",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 41.95,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "two-card combo: Vivi Ornitier + Quicksilver Elemental"
    ]
   },
   "decks/rotation/ar13854904-the-wandering-minstrel.dck": {
@@ -1107,25 +1464,76 @@
     "no Game Changers or two-card combos"
    ]
   },
-  "decks/rotation/ar1413767-silumgar-the-drifting-death.dck": {
+  "decks/rotation/ar13904462-squall-seed-mercenary.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 3.8,
-    "draw": 18,
-    "fast": 1,
+    "avg_cmc": 2.31,
+    "draw": 23,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "e0babf6eb34e",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 30.45,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar14414826-hearthhull-the-worldseed.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "The Gitrog Monster",
+     "Dakmor Salvage"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.52,
+    "draw": 10,
+    "fast": 2,
     "interaction": 6,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "d53648e37b15",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 19.4,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: The Gitrog Monster + Dakmor Salvage"
+   ]
+  },
+  "decks/rotation/ar14581723-fire-lord-azula.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.42,
+    "draw": 16,
+    "fast": 2,
+    "interaction": 7,
     "tutor": 0,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "94e3a835aa8d",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 15.0,
-   "scored": "2026-11-25",
+   "hash": "c47a7c4098cb",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 23.9,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
    ]
@@ -1161,6 +1569,110 @@
     "two-card combo: Hullbreaker Horror + Sol Ring"
    ]
   },
+  "decks/rotation/ar14729702-inspirit-flagship-vessel.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.14,
+    "draw": 7,
+    "fast": 3,
+    "interaction": 5,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "3c8233fe5e7e",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.3,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar14875868-ragost-deft-gastronaut.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.53,
+    "draw": 23,
+    "fast": 0,
+    "interaction": 5,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [
+    "Smothering Tithe"
+   ],
+   "hash": "7c45d48e02de",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 23.35,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "1 Game Changer: Smothering Tithe"
+   ]
+  },
+  "decks/rotation/ar1497047-jirina-kudro.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Ingris Stingerquill",
+     "Mana Echoes"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.58,
+    "draw": 7,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "afe4d983ae1e",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 11.6,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Ingris Stingerquill + Mana Echoes"
+   ]
+  },
+  "decks/rotation/ar15821740-ognis-the-dragon-s-lash.dck": {
+   "bracket": 4,
+   "combos": [
+    [
+     "Rousing Refrain",
+     "Rift Elemental"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 4.1,
+    "draw": 6,
+    "fast": 3,
+    "interaction": 2,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "516359ebe57c",
+   "label": "Bracket 4 · Low",
+   "level": "Low",
+   "push": 14.0,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 6,
+   "why": [
+    "mass land denial: Curse of the Cabal"
+   ]
+  },
   "decks/rotation/ar1605459-esior-wardwing-familiar.dck": {
    "bracket": 3,
    "combos": [],
@@ -1188,6 +1700,165 @@
     "3 Game Changers: Teferi's Protection, Ancient Tomb, Fierce Guardianship"
    ]
   },
+  "decks/rotation/ar16113205-anti-venom-horrifying-healer.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Anti-Venom, Horrifying Healer",
+     "Gideon's Sacrifice"
+    ],
+    [
+     "Anti-Venom, Horrifying Healer",
+     "Pariah's Shield"
+    ],
+    [
+     "Dawnsire, Sunstar Dreadnought",
+     "Phyrexian Vindicator"
+    ],
+    [
+     "Dawnsire, Sunstar Dreadnought",
+     "Stuffy Doll"
+    ],
+    [
+     "Guilty Conscience",
+     "Phyrexian Vindicator"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.94,
+    "draw": 18,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "85db2eac4565",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 31.8,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "two-card combo: Anti-Venom, Horrifying Healer + Gideon's Sacrifice"
+   ]
+  },
+  "decks/rotation/ar16187838-katara-water-tribe-s-hope.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.95,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "3a63983d47fd",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 17.75,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar16291504-kratos-stoic-father.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.19,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 10,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "621fd96bf491",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.55,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar16399353-ghired-mirror-of-the-wilds.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.98,
+    "draw": 16,
+    "fast": 0,
+    "interaction": 2,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c04a1941050a",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar16623967-wick-the-whorled-mind.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.58,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 4,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "5e27dbae6a27",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar17183253-iroh-tea-master.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.71,
+    "draw": 20,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "53f204a51583",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 22.95,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
   "decks/rotation/ar171880-sidisi-brood-tyrant.dck": {
    "bracket": 3,
    "combos": [],
@@ -1211,6 +1882,96 @@
    "step": 3,
    "why": [
     "1 Game Changer: Field of the Dead"
+   ]
+  },
+  "decks/rotation/ar17417255-fire-lord-zuko.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.25,
+    "draw": 6,
+    "fast": 1,
+    "interaction": 8,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "07e083fa36af",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.75,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar1756322-rem-karolus-stalwart-slayer.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.06,
+    "draw": 11,
+    "fast": 2,
+    "interaction": 7,
+    "tutor": 25,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ae9c96a47219",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 55.7,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar1784107-rootha-mercurial-artist.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Teach by Example",
+     "Increasing Vengeance"
+    ],
+    [
+     "Rootha, Mercurial Artist",
+     "Increasing Vengeance"
+    ],
+    [
+     "Rootha, Mercurial Artist",
+     "Reverberate"
+    ],
+    [
+     "Rootha, Mercurial Artist",
+     "Twincast"
+    ],
+    [
+     "Twincast",
+     "Increasing Vengeance"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.42,
+    "draw": 20,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c864b5ee9d65",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 26.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Teach by Example + Increasing Vengeance"
    ]
   },
   "decks/rotation/ar1827191-grothama-all-devouring.dck": {
@@ -1241,48 +2002,97 @@
     "two-card combo: Dawnsire, Sunstar Dreadnought + Stuffy Doll"
    ]
   },
-  "decks/rotation/ar21326316-sami-wildcat-captain.dck": {
-   "bracket": 2,
-   "combos": [],
+  "decks/rotation/ar20846381-kess-dissident-mage.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Prologue to Phyresis",
+     "Expansion Algorithm"
+    ],
+    [
+     "Super State",
+     "Tainted Strike"
+    ],
+    [
+     "Super State",
+     "Phyresis"
+    ],
+    [
+     "Super State",
+     "Corrupted Conscience"
+    ]
+   ],
    "counts": {
-    "avg_cmc": 3.12,
-    "draw": 10,
-    "fast": 1,
-    "interaction": 4,
-    "tutor": 1,
+    "avg_cmc": 2.86,
+    "draw": 19,
+    "fast": 3,
+    "interaction": 6,
+    "tutor": 6,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "d8cf9dbba043",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 13.9,
-   "scored": "2026-11-25",
+   "hash": "38a2d9d77df2",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 41.2,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 5,
    "why": [
-    "no Game Changers or two-card combos"
+    "two-card combo: Prologue to Phyresis + Expansion Algorithm"
    ]
   },
-  "decks/rotation/ar2292269-bilbo-birthday-celebrant.dck": {
-   "bracket": 2,
-   "combos": [],
+  "decks/rotation/ar22665531-bilbo-birthday-celebrant.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Peregrin Took",
+     "Nuka-Cola Vending Machine"
+    ],
+    [
+     "Peregrin Took",
+     "Experimental Confectioner"
+    ]
+   ],
    "counts": {
-    "avg_cmc": 3.0,
-    "draw": 6,
+    "avg_cmc": 3.09,
+    "draw": 10,
     "fast": 1,
-    "interaction": 1,
+    "interaction": 3,
     "tutor": 3,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "4816288a9f1a",
-   "label": "Bracket 2 · Mid",
+   "hash": "3a85eae1fff0",
+   "label": "Bracket 3 · Mid",
    "level": "Mid",
-   "push": 12.5,
-   "scored": "2026-11-25",
+   "push": 20.05,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 4,
+   "why": [
+    "two-card combo: Peregrin Took + Nuka-Cola Vending Machine"
+   ]
+  },
+  "decks/rotation/ar24191872-krile-baldesion.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.08,
+    "draw": 10,
+    "fast": 0,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c641095b4b13",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
    ]
@@ -1347,25 +2157,25 @@
     "two-card combo: Gray Merchant of Asphodel + Rite of Replication"
    ]
   },
-  "decks/rotation/ar2508060-magda-brazen-outlaw.dck": {
+  "decks/rotation/ar25038666-d-in-of-the-ancient-halls.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 3.38,
-    "draw": 14,
+    "avg_cmc": 2.94,
+    "draw": 9,
     "fast": 3,
-    "interaction": 0,
-    "tutor": 1,
+    "interaction": 5,
+    "tutor": 2,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "70de86760baa",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 14.6,
-   "scored": "2026-11-25",
+   "hash": "ca0e8d22a518",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.8,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
    ]
@@ -1422,6 +2232,29 @@
     "2 Game Changers: Teferi's Protection, Jeska's Will"
    ]
   },
+  "decks/rotation/ar2829718-burakos-party-leader.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.09,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 3,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b0947d2cdb62",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.55,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
   "decks/rotation/ar2999284-rasaad-yn-bashir.dck": {
    "bracket": 2,
    "combos": [],
@@ -1445,6 +2278,29 @@
     "no Game Changers or two-card combos"
    ]
   },
+  "decks/rotation/ar3060923-thrun-the-last-troll.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.94,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0cfa54af936f",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.3,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
   "decks/rotation/ar3081449-marchesa-the-black-rose.dck": {
    "bracket": 2,
    "combos": [],
@@ -1462,6 +2318,29 @@
    "level": "High",
    "push": 17.25,
    "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar3127766-nadaar-selfless-paladin.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.15,
+    "draw": 11,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c1244088c017",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.75,
+   "scored": "2026-11-28",
    "spellbook": true,
    "step": 2,
    "why": [
@@ -1569,6 +2448,109 @@
     "1 Game Changer: Teferi's Protection"
    ]
   },
+  "decks/rotation/ar4297953-codie-vociferous-codex.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.28,
+    "draw": 35,
+    "fast": 0,
+    "interaction": 3,
+    "tutor": 22,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c54d83d70ee7",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 49.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4347074-kelsien-the-plague.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Kelsien, the Plague",
+     "Thornbite Staff"
+    ],
+    [
+     "Goblin Sharpshooter",
+     "Maha, Its Feathers Night"
+    ],
+    [
+     "Goblin Sharpshooter",
+     "Quietus Spike"
+    ],
+    [
+     "Goblin Sharpshooter",
+     "Gorgon's Head"
+    ],
+    [
+     "Goblin Sharpshooter",
+     "Gorgon Flail"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.88,
+    "draw": 12,
+    "fast": 1,
+    "interaction": 7,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "89fc9497e944",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 28.6,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "two-card combo: Kelsien, the Plague + Thornbite Staff"
+   ]
+  },
+  "decks/rotation/ar4489667-katilda-and-lier.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Approach of the Second Sun",
+     "Consult the Star Charts"
+    ],
+    [
+     "Approach of the Second Sun",
+     "Solve the Equation"
+    ],
+    [
+     "Approach of the Second Sun",
+     "Personal Tutor"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.82,
+    "draw": 22,
+    "fast": 0,
+    "interaction": 5,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "b092cdf3cd93",
+   "label": "Bracket 3 · High",
+   "level": "High",
+   "push": 32.4,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 5,
+   "why": [
+    "two-card combo: Approach of the Second Sun + Consult the Star Charts"
+   ]
+  },
   "decks/rotation/ar4505318-atraxa-praetors-voice.dck": {
    "bracket": 2,
    "combos": [],
@@ -1586,6 +2568,29 @@
    "level": "High",
    "push": 17.7,
    "scored": "2026-11-25",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4541848-zur-the-enchanter.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.92,
+    "draw": 26,
+    "fast": 3,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "093527028b1c",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 24.9,
+   "scored": "2026-11-28",
    "spellbook": true,
    "step": 2,
    "why": [
@@ -1643,6 +2648,128 @@
     "no Game Changers or two-card combos"
    ]
   },
+  "decks/rotation/ar4675341-ghave-guru-of-spores.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.97,
+    "draw": 12,
+    "fast": 0,
+    "interaction": 8,
+    "tutor": 4,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "db47064b0d31",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 22.15,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4717461-kenessos-priest-of-thassa.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Hullbreaker Horror",
+     "Sol Ring"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 4.41,
+    "draw": 15,
+    "fast": 3,
+    "interaction": 2,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ba352fa78ba9",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 13.95,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Hullbreaker Horror + Sol Ring"
+   ]
+  },
+  "decks/rotation/ar4747444-lord-of-the-nazg-l.dck": {
+   "bracket": 3,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.13,
+    "draw": 17,
+    "fast": 1,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [
+    "The One Ring"
+   ],
+   "hash": "1643e007cff9",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 20.35,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "1 Game Changer: The One Ring"
+   ]
+  },
+  "decks/rotation/ar4789041-faramir-steward-of-gondor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.22,
+    "draw": 12,
+    "fast": 0,
+    "interaction": 12,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "81175ac01f8c",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar4811209-aragorn-king-of-gondor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.38,
+    "draw": 20,
+    "fast": 2,
+    "interaction": 4,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "851d151f640e",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 21.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
   "decks/rotation/ar4811306-the-council-of-four.dck": {
    "bracket": 2,
    "combos": [],
@@ -1664,6 +2791,103 @@
    "step": 2,
    "why": [
     "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar5187052-elesh-norn-mother-of-machines.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.45,
+    "draw": 9,
+    "fast": 1,
+    "interaction": 7,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0a159ddb4a09",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.75,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar5336983-gallia-of-the-endless-dance.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.22,
+    "draw": 13,
+    "fast": 0,
+    "interaction": 6,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "aa27a590f0d8",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar539230-sephara-sky-s-blade.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.65,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 7,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f3c91974a000",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 27.75,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar5444936-kynaios-and-tiro-of-meletis.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Omnath, Locus of Rage",
+     "Mirrorform"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.79,
+    "draw": 25,
+    "fast": 0,
+    "interaction": 4,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "0729a5b75f6f",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 16.55,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Omnath, Locus of Rage + Mirrorform"
    ]
   },
   "decks/rotation/ar567377-esika-god-of-the-tree.dck": {
@@ -1694,50 +2918,420 @@
     "two-card combo: The World Tree + Purphoros, God of the Forge"
    ]
   },
-  "decks/rotation/ar8389387-wick-the-whorled-mind.dck": {
+  "decks/rotation/ar5840236-samut-vizier-of-naktamun.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 2.85,
-    "draw": 8,
-    "fast": 1,
+    "avg_cmc": 2.73,
+    "draw": 14,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "4de0e1f66aa1",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.35,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar5944521-ugl-k-of-the-white-hand.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "The Reaver Cleaver",
+     "Aggravated Assault"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.4,
+    "draw": 4,
+    "fast": 5,
     "interaction": 6,
     "tutor": 1,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "3ea9dab93527",
-   "label": "Bracket 2 · Mid",
+   "hash": "3471efe39684",
+   "label": "Bracket 3 · Mid",
    "level": "Mid",
-   "push": 16.25,
-   "scored": "2026-11-25",
+   "push": 26.5,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 4,
    "why": [
-    "no Game Changers or two-card combos"
+    "two-card combo: The Reaver Cleaver + Aggravated Assault"
    ]
   },
-  "decks/rotation/ar9115716-malfegor.dck": {
+  "decks/rotation/ar6384788-feather-the-redeemed.dck": {
    "bracket": 2,
    "combos": [],
    "counts": {
-    "avg_cmc": 3.09,
-    "draw": 13,
-    "fast": 1,
-    "interaction": 4,
+    "avg_cmc": 2.13,
+    "draw": 6,
+    "fast": 2,
+    "interaction": 6,
     "tutor": 0,
     "unknown": 0
    },
    "game_changers": [],
-   "hash": "16e8e6417d05",
-   "label": "Bracket 2 · Mid",
-   "level": "Mid",
-   "push": 14.05,
-   "scored": "2026-11-25",
+   "hash": "527a926ce274",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 19.35,
+   "scored": "2026-11-28",
    "spellbook": true,
-   "step": 1,
+   "step": 2,
    "why": [
     "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar6518487-adeline-resplendent-cathar.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.32,
+    "draw": 15,
+    "fast": 0,
+    "interaction": 10,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "18dc65afc63f",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 22.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar6728202-marvo-deep-operative.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Hullbreaker Horror",
+     "Sol Ring"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.95,
+    "draw": 14,
+    "fast": 3,
+    "interaction": 6,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f6181ac7265d",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 19.75,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: Hullbreaker Horror + Sol Ring"
+   ]
+  },
+  "decks/rotation/ar7179788-raphael-fiendish-savior.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.26,
+    "draw": 14,
+    "fast": 2,
+    "interaction": 5,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "4b5e369fefa6",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.2,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar7340540-riku-of-many-paths.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.47,
+    "draw": 20,
+    "fast": 2,
+    "interaction": 10,
+    "tutor": 1,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "ce53d68a1c17",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 25.15,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar7667132-galazeth-prismari.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.38,
+    "draw": 32,
+    "fast": 0,
+    "interaction": 7,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "51f2e7bdd8e4",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 26.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar7767629-disa-the-restless.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.72,
+    "draw": 18,
+    "fast": 1,
+    "interaction": 1,
+    "tutor": 8,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "013d6e034ba2",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 22.4,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar7817483-sauron-the-dark-lord.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 2.73,
+    "draw": 14,
+    "fast": 2,
+    "interaction": 9,
+    "tutor": 2,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "99169a5455cb",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 26.35,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar7877447-gonti-canny-acquisitor.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.58,
+    "draw": 7,
+    "fast": 3,
+    "interaction": 2,
+    "tutor": 5,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "5aa0ee016b77",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 18.1,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar8086748-kudo-king-among-bears.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Kudo, King Among Bears",
+     "Elesh Norn, Grand Cenobite"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 2.93,
+    "draw": 16,
+    "fast": 0,
+    "interaction": 7,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "f2390c4ee099",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 23.85,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Kudo, King Among Bears + Elesh Norn, Grand Cenobite"
+   ]
+  },
+  "decks/rotation/ar8092178-neriv-crackling-vanguard.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "The Reaver Cleaver",
+     "Aggravated Assault"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.16,
+    "draw": 6,
+    "fast": 1,
+    "interaction": 8,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "6dafdd9b4bf8",
+   "label": "Bracket 3 · Low",
+   "level": "Low",
+   "push": 16.2,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 3,
+   "why": [
+    "two-card combo: The Reaver Cleaver + Aggravated Assault"
+   ]
+  },
+  "decks/rotation/ar8127150-edward-kenway.dck": {
+   "bracket": 3,
+   "combos": [
+    [
+     "Malcolm, Keen-Eyed Navigator",
+     "Glint-Horn Buccaneer"
+    ]
+   ],
+   "counts": {
+    "avg_cmc": 3.06,
+    "draw": 19,
+    "fast": 1,
+    "interaction": 5,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "fedf49f7ff23",
+   "label": "Bracket 3 · Mid",
+   "level": "Mid",
+   "push": 20.2,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 4,
+   "why": [
+    "two-card combo: Malcolm, Keen-Eyed Navigator + Glint-Horn Buccaneer"
+   ]
+  },
+  "decks/rotation/ar8418780-gr-ma-saruman-s-footman.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 3.01,
+    "draw": 15,
+    "fast": 1,
+    "interaction": 9,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "85e87009a0a4",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 20.45,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar8555972-amalia-benavides-aguirre.dck": {
+   "bracket": 2,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 1.82,
+    "draw": 10,
+    "fast": 1,
+    "interaction": 13,
+    "tutor": 0,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "c499ff9b5944",
+   "label": "Bracket 2 · High",
+   "level": "High",
+   "push": 27.9,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 2,
+   "why": [
+    "no Game Changers or two-card combos"
+   ]
+  },
+  "decks/rotation/ar9525620-atraxa-grand-unifier.dck": {
+   "bracket": 4,
+   "combos": [],
+   "counts": {
+    "avg_cmc": 4.09,
+    "draw": 12,
+    "fast": 2,
+    "interaction": 6,
+    "tutor": 3,
+    "unknown": 0
+   },
+   "game_changers": [],
+   "hash": "e354a1433703",
+   "label": "Bracket 4 · Low",
+   "level": "Low",
+   "push": 17.05,
+   "scored": "2026-11-28",
+   "spellbook": true,
+   "step": 6,
+   "why": [
+    "extra turns: Emrakul, the Promised End, Nexus of Fate"
    ]
   }
  },
