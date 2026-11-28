@@ -1,19 +1,8 @@
 {
  "machine": "desktop",
- "updated": 1795876400,
+ "updated": 1795877079,
  "workers": 4,
  "running": [
-  {
-   "job": "standing",
-   "batch": "nelly-0638",
-   "test": "nelly",
-   "opponents": [
-    "otc-quick-draw",
-    "ar14687174-oskar-rubbish-reclaimer",
-    "otc-desert-bloom"
-   ],
-   "started": 1795875587
-  },
   {
    "job": "standing",
    "batch": "tyvar-main-0638",
@@ -27,136 +16,136 @@
   },
   {
    "job": "standing",
-   "batch": "zurgo-0640",
-   "test": "zurgo",
+   "batch": "nelly-0640",
+   "test": "nelly",
    "opponents": [
     "otc-grand-larceny",
     "ar1827191-grothama-all-devouring",
     "cmr-arm-for-battle"
    ],
-   "started": 1795875958
+   "started": 1795876689
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0640",
+   "test": "tyvar-main",
+   "opponents": [
+    "otc-grand-larceny",
+    "ar1827191-grothama-all-devouring",
+    "cmr-arm-for-battle"
+   ],
+   "started": 1795876934
+  }
+ ],
+ "games_today": 668,
+ "recent": [
+  {
+   "job": "standing",
+   "batch": "zurgo-0640",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-ar1827191-grothama-all-devouring",
+   "turns": 50,
+   "t": 1795876689
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0640",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-ar1827191-grothama-all-devouring",
+   "turns": 49,
+   "t": 1795876689
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0640",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-ar1827191-grothama-all-devouring",
+   "turns": 43,
+   "t": 1795876689
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0640",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-cmr-arm-for-battle",
+   "turns": 45,
+   "t": 1795876689
   },
   {
    "job": "standing",
    "batch": "zimone-0640",
    "test": "zimone",
-   "opponents": [
-    "otc-grand-larceny",
-    "ar1827191-grothama-all-devouring",
-    "cmr-arm-for-battle"
-   ],
-   "started": 1795876069
-  }
- ],
- "games_today": 656,
- "recent": [
+   "game": 1,
+   "winner": "zimone",
+   "turns": 35,
+   "t": 1795876934
+  },
   {
    "job": "standing",
-   "batch": "zurgo-0638",
-   "test": "zurgo",
-   "game": 1,
-   "winner": "o-otc-quick-draw",
+   "batch": "zimone-0640",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-otc-grand-larceny",
+   "turns": 38,
+   "t": 1795876934
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0640",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-ar1827191-grothama-all-devouring",
    "turns": 44,
-   "t": 1795875905
+   "t": 1795876934
   },
   {
    "job": "standing",
-   "batch": "zurgo-0638",
-   "test": "zurgo",
+   "batch": "zimone-0640",
+   "test": "zimone",
+   "game": 4,
+   "winner": "zimone",
+   "turns": 70,
+   "t": 1795876934
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0638",
+   "test": "nelly",
+   "game": 1,
+   "winner": "o-otc-desert-bloom",
+   "turns": 58,
+   "t": 1795876988
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0638",
+   "test": "nelly",
    "game": 2,
-   "winner": "o-otc-quick-draw",
+   "winner": "nelly",
    "turns": 64,
-   "t": 1795875905
+   "t": 1795876988
   },
   {
    "job": "standing",
-   "batch": "zurgo-0638",
-   "test": "zurgo",
+   "batch": "nelly-0638",
+   "test": "nelly",
    "game": 3,
-   "winner": "o-otc-desert-bloom",
-   "turns": 63,
-   "t": 1795875905
+   "winner": null,
+   "turns": 33,
+   "t": 1795876988
   },
   {
    "job": "standing",
-   "batch": "zurgo-0638",
-   "test": "zurgo",
+   "batch": "nelly-0638",
+   "test": "nelly",
    "game": 4,
-   "winner": "zurgo",
-   "turns": 55,
-   "t": 1795875905
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0636",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-c17-vampiric-bloodlust",
-   "turns": 54,
-   "t": 1795875958
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0636",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-c17-vampiric-bloodlust",
-   "turns": 43,
-   "t": 1795875958
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0636",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-c17-vampiric-bloodlust",
-   "turns": 73,
-   "t": 1795875958
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0636",
-   "test": "zimone",
-   "game": 4,
-   "winner": "o-c21-prismari-performance",
-   "turns": 65,
-   "t": 1795875958
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0638",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-otc-desert-bloom",
-   "turns": 46,
-   "t": 1795876069
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0638",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-otc-quick-draw",
-   "turns": 57,
-   "t": 1795876069
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0638",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-otc-desert-bloom",
-   "turns": 53,
-   "t": 1795876069
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0638",
-   "test": "zimone",
-   "game": 4,
-   "winner": "o-otc-desert-bloom",
-   "turns": 52,
-   "t": 1795876069
+   "winner": "nelly",
+   "turns": 49,
+   "t": 1795876988
   }
  ]
 }
