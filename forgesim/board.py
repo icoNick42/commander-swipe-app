@@ -157,7 +157,7 @@ def push(cfg, msg):
     paths = [
         p
         for p in (
-            "results", "decks/variants", "decks/nick", "decks/picks",
+            "results", "decks/variants", "decks/nick", "decks/picks", "decks/chosen",
             "decks/rotation", "decks/retired", "decks/power.json", "status",
         )
         if os.path.exists(os.path.join(ROOT, p))
@@ -434,7 +434,8 @@ def deck_converter(cfg):
 
 def sync_decks(cfg):
     """Your decks: decks/nick/<name>.txt (a Moxfield export) becomes
-    <name>.dck when the .txt is new or newer. Then every deck in
+    <name>.dck when the .txt is new or newer (picks in decks/picks and
+    chosen opponents in decks/chosen too). Then every deck in
     decks/nick and decks/variants is copied into Forge's own deck folder,
     so it shows up when you play in the Forge window."""
     from . import decks as D
@@ -443,6 +444,7 @@ def sync_decks(cfg):
         changed = False
         txts = glob.glob(os.path.join(ROOT, "decks", "nick", "*.txt"))
         txts += glob.glob(os.path.join(ROOT, "decks", "picks", "*.txt"))
+        txts += glob.glob(os.path.join(ROOT, "decks", "chosen", "*.txt"))
         for txt in txts:
             dck = txt[:-4] + ".dck"
             if os.path.exists(dck) and os.path.getmtime(dck) >= os.path.getmtime(txt):
@@ -479,6 +481,10 @@ def sync_decks(cfg):
         srcs += [
             ("pick " + os.path.basename(p), p)
             for p in glob.glob(os.path.join(ROOT, "decks", "picks", "*.dck"))
+        ]
+        srcs += [
+            ("opp " + os.path.basename(p), p)
+            for p in glob.glob(os.path.join(ROOT, "decks", "chosen", "*.dck"))
         ]
         for p in glob.glob(os.path.join(ROOT, "decks", "variants", "*", "*.dck")):
             # variants are named by job too, so the same label in two jobs can't collide

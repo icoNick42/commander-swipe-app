@@ -7,6 +7,8 @@
   },
   "window_note": "default = Nick's pick on 2026-11-28: Bracket 2 High through Bracket 4 Mid (steps 2-7). Was B2 Mid to B3 High (1-5). Change the numbers here to move it.",
   "picks_per_game": 1,
+  "chosen_one_in": 3,
+  "chosen_note": "Your chosen opponents (decks/chosen) skip the power window; about one table in chosen_one_in gets one of them (1 = every table). The sims page's Decks tab changes this number.",
   "picks_note": "Nick's picks (decks/picks) sit at every table when any exist: this many seats per game; rotation and gauntlet decks fill the rest.",
   "level_cuts": { "2": [11.0, 17.0], "3": [20.0, 28.0], "4": [28.0, 38.0] },
   "rotation": {

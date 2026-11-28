@@ -22,6 +22,11 @@ Job fields (defaults in brackets):
                   picks_per_game of them (pools.json, default 1) sit at every
                   table and `opponents` fills the other seats. Picks skip the
                   window: Nick chose them.
+  chosen          optional [deck paths or globs]: Nick's chosen opponents
+                  (decks/chosen). They skip the window too. About one table in
+                  chosen_one_in (pools.json, default 3) gets one of them, in a
+                  seat `opponents` would have filled; the rest of the draw is
+                  the same as without them.
   games_per_test  [200]     games_per_batch  [4]     pod  [4 players]
   clock           [1200]    seconds before Forge calls a game a draw
   seed            [1]
@@ -144,10 +149,28 @@ def pick_pool(job, root):
     return [p for p in picks if os.path.exists(os.path.join(root, p))]
 
 
+def chosen_pool(job, root):
+    picks = set(pick_pool(job, root))
+    chosen = _expand(job.get("chosen", []), root)
+    return [
+        p for p in chosen if p not in picks and os.path.exists(os.path.join(root, p))
+    ]
+
+
+def chosen_one_in(job, root):
+    """One table in this many gets a chosen opponent (1 = every table)."""
+    v = job.get("chosen_one_in", _pools_conf(root).get("chosen_one_in", 3))
+    try:
+        return max(1, int(v))
+    except (TypeError, ValueError):
+        return 3
+
+
 def batches(job, root):
     """All batches of a job, in run order: [{id, test, index, seat, seed, opponents, owner}]."""
     picks = pick_pool(job, root)
-    pool = [p for p in opponent_pool(job, root) if p not in picks]
+    chosen = chosen_pool(job, root)
+    pool = [p for p in opponent_pool(job, root) if p not in picks and p not in chosen]
     pod = job["pod"]
     n_picks = 0
     if picks:
@@ -173,6 +196,13 @@ def batches(job, root):
             # picks first in the draw so a job without picks keeps its old tables
             opps = rng.sample(picks, n_picks) + opps
             rng.shuffle(opps)
+        if chosen and n_picks < pod - 1:
+            # its own random stream, so tables without a chosen deck stay as they were
+            crng = random.Random(job["seed"] * 1000003 + i + 7000003)
+            if crng.randrange(chosen_one_in(job, root)) == 0:
+                seats = [k for k, p in enumerate(opps) if p not in picks]
+                opps = list(opps)
+                opps[crng.choice(seats)] = crng.choice(chosen)
         seat = i % pod  # 0-based seat for the test deck
         # Forge replays a game exactly from its seed. Paired (the default): every
         # test deck gets the same seed in batch i, so a deck and its variant play

@@ -51,7 +51,7 @@ from . import decks as D
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POWER = os.path.join(ROOT, "decks", "power.json")
 POOLS = os.path.join(ROOT, "decks", "pools.json")
-SCORED_DIRS = ["decks/picks", "decks/rotation", "decks/gauntlet-a", "decks/gauntlet-b"]
+SCORED_DIRS = ["decks/picks", "decks/chosen", "decks/rotation", "decks/gauntlet-a", "decks/gauntlet-b"]
 
 LABELS = [
     "Bracket 2 · Low",

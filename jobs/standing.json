@@ -3,6 +3,6 @@
  "tests": {"zurgo": "decks/nick/zurgo.dck", "zimone": "decks/nick/zimone.dck",
            "nelly": "decks/nick/nelly.dck", "tyvar-main": "decks/nick/tyvar.dck"},
  "opponents": ["decks/rotation/*.dck", "decks/gauntlet-a/*.dck", "decks/gauntlet-b/*.dck"],
- "window": "default", "picks": ["decks/picks/*.dck"], "paired": false,
+ "window": "default", "picks": ["decks/picks/*.dck"], "chosen": ["decks/chosen/*.dck"], "paired": false,
  "games_per_test": 4000, "games_per_batch": 4, "clock": 1200, "seed": 1000,
  "machines": ["desktop", "laptop"], "priority": -10}

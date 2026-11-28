@@ -3,12 +3,13 @@ change it halfway (fair comparisons: every test deck meets the same tables
 from start to finish).
 
     python -m forgesim.newjob <id> <label>=<deck path> [<label>=<deck path> ...]
-        [--window default|precon|high|<lo>-<hi>] [--no-picks]
+        [--window default|precon|high|<lo>-<hi>] [--no-picks] [--no-chosen]
         [--from decks/rotation/*.dck,decks/gauntlet-b/*.dck]
         [--games 300] [--seed 50] [--priority 5] [--note "..."]
 
 Defaults: opponents from the rotation plus both gauntlets, filtered to the
 default window; Nick's picks at every table (pools.json picks_per_game);
+his chosen opponents (decks/chosen) at about one table in chosen_one_in;
 300 games per test; both PCs. It prints the job and writes jobs/<id>.json.
 """
 
@@ -36,6 +37,7 @@ def main(argv):
     ap.add_argument("--window", default="default")
     ap.add_argument("--from", dest="src", default=",".join(DEFAULT_FROM))
     ap.add_argument("--no-picks", action="store_true")
+    ap.add_argument("--no-chosen", action="store_true")
     ap.add_argument("--games", type=int, default=300)
     ap.add_argument("--seed", type=int, default=50)
     ap.add_argument("--priority", type=int, default=5)
@@ -51,10 +53,14 @@ def main(argv):
         "opponents": a.src.split(","),
         "window": window,
         "picks": [] if a.no_picks else ["decks/picks/*.dck"],
+        "chosen": [] if a.no_chosen else ["decks/chosen/*.dck"],
     }
     picks = R.pick_pool(probe, ROOT)
+    chosen = R.chosen_pool(probe, ROOT)
     opps = [
-        p.replace("\\", "/") for p in R.opponent_pool(probe, ROOT) if p not in picks
+        p.replace("\\", "/")
+        for p in R.opponent_pool(probe, ROOT)
+        if p not in picks and p not in chosen
     ]
     tests = {}
     for t in a.tests:
@@ -68,6 +74,8 @@ def main(argv):
         "tests": tests,
         "opponents": opps,
         "picks": [p.replace("\\", "/") for p in picks],
+        "chosen": [p.replace("\\", "/") for p in chosen],
+        "chosen_one_in": R.chosen_one_in(probe, ROOT),
         "games_per_test": a.games,
         "games_per_batch": 4,
         "clock": 1200,
@@ -77,6 +85,8 @@ def main(argv):
     }
     if not job["picks"]:
         del job["picks"]
+    if not job["chosen"]:
+        del job["chosen"], job["chosen_one_in"]
     R.load_job_dict = None
     full = (
         R.load_job.__wrapped__(job)
@@ -89,7 +99,8 @@ def main(argv):
         json.dump(job, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     print(
-        "wrote %s: %d opponents, %d picks" % (out, len(opps), len(job.get("picks", [])))
+        "wrote %s: %d opponents, %d picks, %d chosen"
+        % (out, len(opps), len(job.get("picks", [])), len(job.get("chosen", [])))
     )
 
 
