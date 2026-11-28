@@ -1,58 +1,10 @@
 {
  "machine": "laptop",
- "updated": 1795877459,
+ "updated": 1795877599,
  "workers": 3,
- "running": [
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0397",
-   "test": "tyvar-main",
-   "opponents": [
-    "ar4789041-faramir-steward-of-gondor",
-    "ar4489667-katilda-and-lier",
-    "ar12003910-kambal-profiteering-mayor"
-   ],
-   "started": 1795876887
-  }
- ],
- "games_today": 684,
+ "running": [],
+ "games_today": 688,
  "recent": [
-  {
-   "job": "standing",
-   "batch": "zimone-0397",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-ar12003910-kambal-profiteering-mayor",
-   "turns": 36,
-   "t": 1795876888
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0397",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar12003910-kambal-profiteering-mayor",
-   "turns": 52,
-   "t": 1795876888
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0397",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-ar4789041-faramir-steward-of-gondor",
-   "turns": 44,
-   "t": 1795876888
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0397",
-   "test": "zimone",
-   "game": 4,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 44,
-   "t": 1795876888
-  },
   {
    "job": "standing",
    "batch": "nelly-0397",
@@ -124,6 +76,42 @@
    "winner": "o-ar4489667-katilda-and-lier",
    "turns": 43,
    "t": 1795877190
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0397",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-ar4789041-faramir-steward-of-gondor",
+   "turns": 44,
+   "t": 1795877600
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0397",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-ar4489667-katilda-and-lier",
+   "turns": 71,
+   "t": 1795877600
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0397",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar4789041-faramir-steward-of-gondor",
+   "turns": 45,
+   "t": 1795877600
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0397",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar4789041-faramir-steward-of-gondor",
+   "turns": 63,
+   "t": 1795877600
   }
  ]
 }
