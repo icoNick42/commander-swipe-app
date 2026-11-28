@@ -1,19 +1,8 @@
 {
  "machine": "desktop",
- "updated": 1795879094,
+ "updated": 1795879763,
  "workers": 4,
  "running": [
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0642",
-   "test": "tyvar-main",
-   "opponents": [
-    "ar4347074-kelsien-the-plague",
-    "ar10704336-zada-hedron-grinder",
-    "ar3997-isperia-supreme-judge"
-   ],
-   "started": 1795877809
-  },
   {
    "job": "standing",
    "batch": "zurgo-0646",
@@ -27,136 +16,147 @@
   },
   {
    "job": "standing",
-   "batch": "zimone-0646",
-   "test": "zimone",
+   "batch": "tyvar-main-0646",
+   "test": "tyvar-main",
    "opponents": [
     "ar8555972-amalia-benavides-aguirre",
     "nec-buckle-up",
     "ar6518487-adeline-resplendent-cathar"
    ],
-   "started": 1795878808
+   "started": 1795879158
   },
   {
    "job": "standing",
-   "batch": "nelly-0646",
+   "batch": "zimone-0648",
+   "test": "zimone",
+   "opponents": [
+    "sld-20-ways-to-win",
+    "blc-peace-offering",
+    "afc-draconic-rage"
+   ],
+   "started": 1795879373
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0648",
    "test": "nelly",
    "opponents": [
-    "ar8555972-amalia-benavides-aguirre",
-    "nec-buckle-up",
-    "ar6518487-adeline-resplendent-cathar"
+    "sld-20-ways-to-win",
+    "blc-peace-offering",
+    "afc-draconic-rage"
    ],
-   "started": 1795878824
+   "started": 1795879643
   }
  ],
- "games_today": 708,
+ "games_today": 724,
  "recent": [
   {
    "job": "standing",
-   "batch": "nelly-0644",
-   "test": "nelly",
-   "game": 1,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 49,
-   "t": 1795878622
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0644",
-   "test": "nelly",
-   "game": 2,
-   "winner": "nelly",
-   "turns": 35,
-   "t": 1795878622
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0644",
-   "test": "nelly",
-   "game": 3,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 41,
-   "t": 1795878622
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0644",
-   "test": "nelly",
-   "game": 4,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 33,
-   "t": 1795878622
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0644",
+   "batch": "tyvar-main-0642",
    "test": "tyvar-main",
    "game": 1,
-   "winner": "o-ar6384788-feather-the-redeemed",
-   "turns": 41,
-   "t": 1795878808
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 45,
+   "t": 1795879310
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0644",
+   "batch": "tyvar-main-0642",
    "test": "tyvar-main",
    "game": 2,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 40,
-   "t": 1795878808
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0644",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 46,
-   "t": 1795878808
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0644",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-cmm-enduring-enchantments",
-   "turns": 46,
-   "t": 1795878808
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0644",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 56,
-   "t": 1795878824
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0644",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
+   "winner": "o-ar4347074-kelsien-the-plague",
    "turns": 39,
-   "t": 1795878824
+   "t": 1795879310
   },
   {
    "job": "standing",
-   "batch": "zimone-0644",
+   "batch": "tyvar-main-0642",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar4347074-kelsien-the-plague",
+   "turns": 41,
+   "t": 1795879310
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0642",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 40,
+   "t": 1795879310
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0646",
+   "test": "zimone",
+   "game": 1,
+   "winner": "zimone",
+   "turns": 69,
+   "t": 1795879373
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0646",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 29,
+   "t": 1795879373
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0646",
    "test": "zimone",
    "game": 3,
-   "winner": "o-cmm-enduring-enchantments",
-   "turns": 51,
-   "t": 1795878824
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 35,
+   "t": 1795879373
   },
   {
    "job": "standing",
-   "batch": "zimone-0644",
+   "batch": "zimone-0646",
    "test": "zimone",
    "game": 4,
-   "winner": "o-ar13546643-y-shtola-night-s-blessed",
-   "turns": 49,
-   "t": 1795878824
+   "winner": "o-nec-buckle-up",
+   "turns": 53,
+   "t": 1795879373
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0648",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-afc-draconic-rage",
+   "turns": 38,
+   "t": 1795879643
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0648",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-afc-draconic-rage",
+   "turns": 33,
+   "t": 1795879643
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0648",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-afc-draconic-rage",
+   "turns": 50,
+   "t": 1795879643
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0648",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-afc-draconic-rage",
+   "turns": 34,
+   "t": 1795879643
   }
  ]
 }
