@@ -1,151 +1,151 @@
 {
  "machine": "laptop",
- "updated": 1795875066,
+ "updated": 1795875860,
  "workers": 3,
  "running": [
   {
    "job": "standing",
-   "batch": "zimone-0391",
+   "batch": "zurgo-0395",
+   "test": "zurgo",
+   "opponents": [
+    "ar4811209-aragorn-king-of-gondor",
+    "cmm-planeswalker-party",
+    "ar4747444-lord-of-the-nazg-l"
+   ],
+   "started": 1795875652
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0395",
    "test": "zimone",
    "opponents": [
-    "ar13109232-cecil-dark-knight",
-    "ar4717461-kenessos-priest-of-thassa",
-    "otc-quick-draw"
+    "ar4811209-aragorn-king-of-gondor",
+    "cmm-planeswalker-party",
+    "ar4747444-lord-of-the-nazg-l"
    ],
-   "started": 1795874713
+   "started": 1795875786
   },
   {
    "job": "standing",
-   "batch": "nelly-0391",
+   "batch": "nelly-0395",
    "test": "nelly",
    "opponents": [
-    "ar13109232-cecil-dark-knight",
-    "ar4717461-kenessos-priest-of-thassa",
-    "otc-quick-draw"
+    "ar4811209-aragorn-king-of-gondor",
+    "cmm-planeswalker-party",
+    "ar4747444-lord-of-the-nazg-l"
    ],
-   "started": 1795874885
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0391",
-   "test": "tyvar-main",
-   "opponents": [
-    "ar13109232-cecil-dark-knight",
-    "ar4717461-kenessos-priest-of-thassa",
-    "otc-quick-draw"
-   ],
-   "started": 1795874975
+   "started": 1795875830
   }
  ],
- "games_today": 628,
+ "games_today": 656,
  "recent": [
   {
    "job": "standing",
-   "batch": "zurgo-0391",
+   "batch": "zimone-0393",
+   "test": "zimone",
+   "game": 1,
+   "winner": "zimone",
+   "turns": 51,
+   "t": 1795875654
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0393",
+   "test": "zimone",
+   "game": 2,
+   "winner": "zimone",
+   "turns": 43,
+   "t": 1795875654
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0393",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-tdc-abzan-armor",
+   "turns": 61,
+   "t": 1795875654
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0393",
+   "test": "zimone",
+   "game": 4,
+   "winner": "o-tdc-abzan-armor",
+   "turns": 47,
+   "t": 1795875654
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0393",
    "test": "zurgo",
    "game": 1,
-   "winner": "zurgo",
-   "turns": 43,
-   "t": 1795874714
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0391",
-   "test": "zurgo",
-   "game": 2,
-   "winner": "o-ar4717461-kenessos-priest-of-thassa",
-   "turns": 35,
-   "t": 1795874714
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0391",
-   "test": "zurgo",
-   "game": 3,
    "winner": "zurgo",
    "turns": 37,
-   "t": 1795874714
+   "t": 1795875788
   },
   {
    "job": "standing",
-   "batch": "zurgo-0391",
+   "batch": "zurgo-0393",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-ar13557489-zidane-tantalus-thief",
+   "turns": 36,
+   "t": 1795875788
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0393",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-ar13557489-zidane-tantalus-thief",
+   "turns": 66,
+   "t": 1795875788
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0393",
    "test": "zurgo",
    "game": 4,
-   "winner": "o-otc-quick-draw",
-   "turns": 50,
-   "t": 1795874714
+   "winner": "o-ar13557489-zidane-tantalus-thief",
+   "turns": 48,
+   "t": 1795875788
   },
   {
    "job": "standing",
-   "batch": "nelly-0389",
-   "test": "nelly",
-   "game": 1,
-   "winner": "o-ar8555972-amalia-benavides-aguirre",
-   "turns": 29,
-   "t": 1795874886
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0389",
-   "test": "nelly",
-   "game": 2,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 54,
-   "t": 1795874886
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0389",
-   "test": "nelly",
-   "game": 3,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 58,
-   "t": 1795874886
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0389",
-   "test": "nelly",
-   "game": 4,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 43,
-   "t": 1795874886
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0389",
+   "batch": "tyvar-main-0393",
    "test": "tyvar-main",
    "game": 1,
    "winner": "tyvar-main",
-   "turns": 62,
-   "t": 1795874976
+   "turns": 48,
+   "t": 1795875832
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0389",
+   "batch": "tyvar-main-0393",
    "test": "tyvar-main",
    "game": 2,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 67,
-   "t": 1795874976
+   "winner": "o-tdc-abzan-armor",
+   "turns": 40,
+   "t": 1795875832
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0389",
+   "batch": "tyvar-main-0393",
    "test": "tyvar-main",
    "game": 3,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 54,
-   "t": 1795874976
+   "winner": "o-tdc-abzan-armor",
+   "turns": 40,
+   "t": 1795875832
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0389",
+   "batch": "tyvar-main-0393",
    "test": "tyvar-main",
    "game": 4,
-   "winner": "o-ar539230-sephara-sky-s-blade",
-   "turns": 54,
-   "t": 1795874976
+   "winner": "o-tdc-abzan-armor",
+   "turns": 39,
+   "t": 1795875832
   }
  ]
 }
