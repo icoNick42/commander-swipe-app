@@ -1,6 +1,6 @@
 {
  "machine": "desktop",
- "updated": 1795874223,
+ "updated": 1795875063,
  "workers": 4,
  "running": [
   {
@@ -16,136 +16,147 @@
   },
   {
    "job": "standing",
-   "batch": "zimone-0634",
+   "batch": "zimone-0636",
    "test": "zimone",
    "opponents": [
-    "ar2508060-magda-brazen-outlaw",
-    "m3c-tricky-terrain",
-    "dsc-endless-punishment"
+    "c17-vampiric-bloodlust",
+    "nec-buckle-up",
+    "c21-prismari-performance"
    ],
-   "started": 1795873907
+   "started": 1795874441
   },
   {
    "job": "standing",
-   "batch": "nelly-0634",
+   "batch": "nelly-0636",
    "test": "nelly",
    "opponents": [
-    "ar2508060-magda-brazen-outlaw",
-    "m3c-tricky-terrain",
-    "dsc-endless-punishment"
+    "c17-vampiric-bloodlust",
+    "nec-buckle-up",
+    "c21-prismari-performance"
    ],
-   "started": 1795874041
+   "started": 1795874758
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0636",
+   "test": "tyvar-main",
+   "opponents": [
+    "c17-vampiric-bloodlust",
+    "nec-buckle-up",
+    "c21-prismari-performance"
+   ],
+   "started": 1795874762
   }
  ],
- "games_today": 616,
+ "games_today": 632,
  "recent": [
   {
    "job": "standing",
-   "batch": "zurgo-0632",
-   "test": "zurgo",
+   "batch": "zimone-0634",
+   "test": "zimone",
    "game": 1,
    "winner": "o-ar2508060-magda-brazen-outlaw",
-   "turns": 40,
-   "t": 1795873907
+   "turns": 34,
+   "t": 1795874441
   },
   {
    "job": "standing",
-   "batch": "zurgo-0632",
-   "test": "zurgo",
+   "batch": "zimone-0634",
+   "test": "zimone",
    "game": 2,
-   "winner": "o-otc-desert-bloom",
-   "turns": 42,
-   "t": 1795873907
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0632",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "o-otc-desert-bloom",
-   "turns": 42,
-   "t": 1795873907
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0632",
-   "test": "zurgo",
-   "game": 4,
    "winner": "o-ar2508060-magda-brazen-outlaw",
-   "turns": 36,
-   "t": 1795873907
+   "turns": 33,
+   "t": 1795874441
   },
   {
    "job": "standing",
-   "batch": "zurgo-0634",
+   "batch": "zimone-0634",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-dsc-endless-punishment",
+   "turns": 53,
+   "t": 1795874441
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0634",
+   "test": "zimone",
+   "game": 4,
+   "winner": "zimone",
+   "turns": 44,
+   "t": 1795874441
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0634",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 39,
+   "t": 1795874758
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0634",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-dsc-endless-punishment",
+   "turns": 35,
+   "t": 1795874758
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0634",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 29,
+   "t": 1795874758
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0634",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-dsc-endless-punishment",
+   "turns": 42,
+   "t": 1795874758
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0636",
    "test": "zurgo",
    "game": 1,
    "winner": "zurgo",
-   "turns": 33,
-   "t": 1795874041
+   "turns": 32,
+   "t": 1795874762
   },
   {
    "job": "standing",
-   "batch": "zurgo-0634",
+   "batch": "zurgo-0636",
    "test": "zurgo",
    "game": 2,
-   "winner": "o-ar2508060-magda-brazen-outlaw",
-   "turns": 42,
-   "t": 1795874041
+   "winner": "o-c17-vampiric-bloodlust",
+   "turns": 59,
+   "t": 1795874762
   },
   {
    "job": "standing",
-   "batch": "zurgo-0634",
+   "batch": "zurgo-0636",
    "test": "zurgo",
    "game": 3,
-   "winner": "o-m3c-tricky-terrain",
-   "turns": 40,
-   "t": 1795874041
+   "winner": "zurgo",
+   "turns": 32,
+   "t": 1795874762
   },
   {
    "job": "standing",
-   "batch": "zurgo-0634",
+   "batch": "zurgo-0636",
    "test": "zurgo",
    "game": 4,
-   "winner": "o-m3c-tricky-terrain",
-   "turns": 45,
-   "t": 1795874041
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0632",
-   "test": "tyvar-main",
-   "game": 1,
    "winner": "o-c21-prismari-performance",
-   "turns": 29,
-   "t": 1795874219
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0632",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "o-ar2508060-magda-brazen-outlaw",
-   "turns": 44,
-   "t": 1795874219
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0632",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-ar2508060-magda-brazen-outlaw",
    "turns": 37,
-   "t": 1795874219
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0632",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-otc-desert-bloom",
-   "turns": 41,
-   "t": 1795874219
+   "t": 1795874762
   }
  ]
 }
