@@ -1,162 +1,117 @@
 {
  "machine": "desktop",
- "updated": 1795881097,
+ "updated": 1795881481,
  "workers": 4,
- "running": [
+ "running": [],
+ "games_today": 776,
+ "recent": [
   {
    "job": "standing",
-   "batch": "zurgo-0650",
-   "test": "zurgo",
-   "opponents": [
-    "ar14581723-fire-lord-azula",
-    "m3c-tricky-terrain",
-    "ar16623967-wick-the-whorled-mind"
-   ],
-   "started": 1795879987
+   "batch": "tyvar-main-0652",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-ar4541848-zur-the-enchanter",
+   "turns": 62,
+   "t": 1795881420
   },
   {
    "job": "standing",
-   "batch": "zurgo-0652",
-   "test": "zurgo",
-   "opponents": [
-    "ar4541848-zur-the-enchanter",
-    "ar13854904-the-wandering-minstrel",
-    "ar20846381-kess-dissident-mage"
-   ],
-   "started": 1795880594
+   "batch": "tyvar-main-0652",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-ar20846381-kess-dissident-mage",
+   "turns": 49,
+   "t": 1795881420
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0652",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar13854904-the-wandering-minstrel",
+   "turns": 53,
+   "t": 1795881420
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0652",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar20846381-kess-dissident-mage",
+   "turns": 35,
+   "t": 1795881420
   },
   {
    "job": "standing",
    "batch": "zimone-0652",
    "test": "zimone",
-   "opponents": [
-    "ar4541848-zur-the-enchanter",
-    "ar13854904-the-wandering-minstrel",
-    "ar20846381-kess-dissident-mage"
-   ],
-   "started": 1795880620
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0652",
-   "test": "nelly",
-   "opponents": [
-    "ar4541848-zur-the-enchanter",
-    "ar13854904-the-wandering-minstrel",
-    "ar20846381-kess-dissident-mage"
-   ],
-   "started": 1795880827
-  }
- ],
- "games_today": 756,
- "recent": [
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0648",
-   "test": "tyvar-main",
    "game": 1,
-   "winner": "o-sld-20-ways-to-win",
-   "turns": 38,
-   "t": 1795880594
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0648",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "o-sld-20-ways-to-win",
-   "turns": 35,
-   "t": 1795880594
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0648",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-blc-peace-offering",
+   "winner": "o-ar13854904-the-wandering-minstrel",
    "turns": 48,
-   "t": 1795880594
+   "t": 1795881440
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0648",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-sld-20-ways-to-win",
-   "turns": 62,
-   "t": 1795880594
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0650",
-   "test": "nelly",
-   "game": 1,
-   "winner": "o-ar14581723-fire-lord-azula",
+   "batch": "zimone-0652",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-ar4541848-zur-the-enchanter",
    "turns": 53,
-   "t": 1795880620
+   "t": 1795881440
   },
   {
    "job": "standing",
-   "batch": "nelly-0650",
-   "test": "nelly",
-   "game": 2,
-   "winner": "o-ar14581723-fire-lord-azula",
-   "turns": 39,
-   "t": 1795880620
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0650",
-   "test": "nelly",
+   "batch": "zimone-0652",
+   "test": "zimone",
    "game": 3,
-   "winner": "o-ar16623967-wick-the-whorled-mind",
-   "turns": 43,
-   "t": 1795880620
+   "winner": "zimone",
+   "turns": 49,
+   "t": 1795881440
   },
   {
    "job": "standing",
-   "batch": "nelly-0650",
-   "test": "nelly",
+   "batch": "zimone-0652",
+   "test": "zimone",
    "game": 4,
-   "winner": "o-m3c-tricky-terrain",
-   "turns": 44,
-   "t": 1795880620
+   "winner": "o-ar4541848-zur-the-enchanter",
+   "turns": 70,
+   "t": 1795881440
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0650",
-   "test": "tyvar-main",
+   "batch": "zurgo-0650",
+   "test": "zurgo",
    "game": 1,
-   "winner": "o-m3c-tricky-terrain",
-   "turns": 60,
-   "t": 1795880827
+   "winner": "zurgo",
+   "turns": 44,
+   "t": 1795881480
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0650",
-   "test": "tyvar-main",
+   "batch": "zurgo-0650",
+   "test": "zurgo",
    "game": 2,
-   "winner": "o-m3c-tricky-terrain",
-   "turns": 46,
-   "t": 1795880827
+   "winner": "zurgo",
+   "turns": 48,
+   "t": 1795881480
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0650",
-   "test": "tyvar-main",
+   "batch": "zurgo-0650",
+   "test": "zurgo",
    "game": 3,
-   "winner": "tyvar-main",
-   "turns": 32,
-   "t": 1795880827
+   "winner": "o-m3c-tricky-terrain",
+   "turns": 53,
+   "t": 1795881480
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0650",
-   "test": "tyvar-main",
+   "batch": "zurgo-0650",
+   "test": "zurgo",
    "game": 4,
    "winner": "o-m3c-tricky-terrain",
-   "turns": 36,
-   "t": 1795880827
+   "turns": 52,
+   "t": 1795881480
   }
  ]
 }
