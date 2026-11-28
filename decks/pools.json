@@ -12,13 +12,16 @@
   "rotation": {
     "refresh_on": "laptop",
     "refresh_days": 7,
-    "size": 30,
+    "size": 120,
     "per_plan_min": 2,
-    "per_plan_max": 4,
-    "swap_per_refresh": 6,
-    "min_views": 2000,
+    "per_plan_max": 8,
+    "per_commander": 1,
+    "swap_per_refresh": 20,
+    "min_views": 500,
     "updated_within_days": 540,
     "brackets": [2, 3, 4],
+    "pages": 10,
+    "size_note": "120 since 2026-11-28 (was 30), so the same few opponents don't meet over and over. pages = Archidekt search pages of 50 per bracket; per_commander = most decks one commander can have in the pool.",
     "source": "Archidekt public Commander decks, most viewed, with the owner's bracket set to one in 'brackets'; Archidekt deck tags give the plan"
   }
 }
