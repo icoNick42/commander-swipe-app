@@ -1,82 +1,44 @@
 {
  "machine": "laptop",
- "updated": 1795878227,
+ "updated": 1795878845,
  "workers": 3,
- "running": [],
- "games_today": 688,
+ "running": [
+  {
+   "job": "standing",
+   "batch": "zurgo-0399",
+   "test": "zurgo",
+   "opponents": [
+    "ar12497316-sergeant-john-benton",
+    "ar8127150-edward-kenway",
+    "cmm-eldrazi-unbound"
+   ],
+   "started": 1795878239
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0399",
+   "test": "tyvar-main",
+   "opponents": [
+    "ar12497316-sergeant-john-benton",
+    "ar8127150-edward-kenway",
+    "cmm-eldrazi-unbound"
+   ],
+   "started": 1795878597
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0401",
+   "test": "zurgo",
+   "opponents": [
+    "40k-the-ruinous-powers",
+    "ar2713146-dromoka-the-eternal",
+    "ar16113205-anti-venom-horrifying-healer"
+   ],
+   "started": 1795878695
+  }
+ ],
+ "games_today": 696,
  "recent": [
-  {
-   "job": "standing",
-   "batch": "nelly-0397",
-   "test": "nelly",
-   "game": 1,
-   "winner": "o-ar12003910-kambal-profiteering-mayor",
-   "turns": 42,
-   "t": 1795877134
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0397",
-   "test": "nelly",
-   "game": 2,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 43,
-   "t": 1795877134
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0397",
-   "test": "nelly",
-   "game": 3,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 36,
-   "t": 1795877134
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0397",
-   "test": "nelly",
-   "game": 4,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 41,
-   "t": 1795877134
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0397",
-   "test": "zurgo",
-   "game": 1,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 38,
-   "t": 1795877190
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0397",
-   "test": "zurgo",
-   "game": 2,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 52,
-   "t": 1795877190
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0397",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "zurgo",
-   "turns": 37,
-   "t": 1795877190
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0397",
-   "test": "zurgo",
-   "game": 4,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 43,
-   "t": 1795877190
-  },
   {
    "job": "standing",
    "batch": "tyvar-main-0397",
@@ -112,6 +74,78 @@
    "winner": "o-ar4789041-faramir-steward-of-gondor",
    "turns": 63,
    "t": 1795877600
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0399",
+   "test": "zimone",
+   "game": 1,
+   "winner": "zimone",
+   "turns": 56,
+   "t": 1795878598
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0399",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-ar12497316-sergeant-john-benton",
+   "turns": 43,
+   "t": 1795878598
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0399",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-ar12497316-sergeant-john-benton",
+   "turns": 40,
+   "t": 1795878598
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0399",
+   "test": "zimone",
+   "game": 4,
+   "winner": "o-ar8127150-edward-kenway",
+   "turns": 47,
+   "t": 1795878598
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0399",
+   "test": "nelly",
+   "game": 1,
+   "winner": "o-ar12497316-sergeant-john-benton",
+   "turns": 42,
+   "t": 1795878696
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0399",
+   "test": "nelly",
+   "game": 2,
+   "winner": "o-cmm-eldrazi-unbound",
+   "turns": 39,
+   "t": 1795878696
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0399",
+   "test": "nelly",
+   "game": 3,
+   "winner": "o-cmm-eldrazi-unbound",
+   "turns": 45,
+   "t": 1795878696
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0399",
+   "test": "nelly",
+   "game": 4,
+   "winner": "nelly",
+   "turns": 38,
+   "t": 1795878696
   }
  ]
 }
