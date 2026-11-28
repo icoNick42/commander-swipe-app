@@ -1,151 +1,151 @@
 {
  "machine": "laptop",
- "updated": 1795878845,
+ "updated": 1795879594,
  "workers": 3,
  "running": [
   {
    "job": "standing",
-   "batch": "zurgo-0399",
-   "test": "zurgo",
+   "batch": "zimone-0403",
+   "test": "zimone",
    "opponents": [
-    "ar12497316-sergeant-john-benton",
-    "ar8127150-edward-kenway",
-    "cmm-eldrazi-unbound"
+    "sld-goblin-storm",
+    "ar24359371-inga-and-esika",
+    "com-mirror-mastery"
    ],
-   "started": 1795878239
+   "started": 1795879252
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0399",
+   "batch": "nelly-0403",
+   "test": "nelly",
+   "opponents": [
+    "sld-goblin-storm",
+    "ar24359371-inga-and-esika",
+    "com-mirror-mastery"
+   ],
+   "started": 1795879423
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0403",
    "test": "tyvar-main",
    "opponents": [
-    "ar12497316-sergeant-john-benton",
-    "ar8127150-edward-kenway",
-    "cmm-eldrazi-unbound"
+    "sld-goblin-storm",
+    "ar24359371-inga-and-esika",
+    "com-mirror-mastery"
    ],
-   "started": 1795878597
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0401",
-   "test": "zurgo",
-   "opponents": [
-    "40k-the-ruinous-powers",
-    "ar2713146-dromoka-the-eternal",
-    "ar16113205-anti-venom-horrifying-healer"
-   ],
-   "started": 1795878695
+   "started": 1795879473
   }
  ],
- "games_today": 696,
+ "games_today": 724,
  "recent": [
   {
    "job": "standing",
-   "batch": "tyvar-main-0397",
+   "batch": "tyvar-main-0401",
    "test": "tyvar-main",
    "game": 1,
-   "winner": "o-ar4789041-faramir-steward-of-gondor",
+   "winner": "o-ar16113205-anti-venom-horrifying-healer",
+   "turns": 48,
+   "t": 1795879254
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0401",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-ar2713146-dromoka-the-eternal",
    "turns": 44,
-   "t": 1795877600
+   "t": 1795879254
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0397",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "o-ar4489667-katilda-and-lier",
-   "turns": 71,
-   "t": 1795877600
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0397",
+   "batch": "tyvar-main-0401",
    "test": "tyvar-main",
    "game": 3,
-   "winner": "o-ar4789041-faramir-steward-of-gondor",
-   "turns": 45,
-   "t": 1795877600
+   "winner": "o-ar2713146-dromoka-the-eternal",
+   "turns": 49,
+   "t": 1795879254
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0397",
+   "batch": "tyvar-main-0401",
    "test": "tyvar-main",
    "game": 4,
-   "winner": "o-ar4789041-faramir-steward-of-gondor",
-   "turns": 63,
-   "t": 1795877600
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0399",
-   "test": "zimone",
-   "game": 1,
-   "winner": "zimone",
-   "turns": 56,
-   "t": 1795878598
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0399",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar12497316-sergeant-john-benton",
-   "turns": 43,
-   "t": 1795878598
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0399",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-ar12497316-sergeant-john-benton",
-   "turns": 40,
-   "t": 1795878598
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0399",
-   "test": "zimone",
-   "game": 4,
-   "winner": "o-ar8127150-edward-kenway",
+   "winner": "o-ar2713146-dromoka-the-eternal",
    "turns": 47,
-   "t": 1795878598
+   "t": 1795879254
   },
   {
    "job": "standing",
-   "batch": "nelly-0399",
-   "test": "nelly",
+   "batch": "zimone-0401",
+   "test": "zimone",
    "game": 1,
-   "winner": "o-ar12497316-sergeant-john-benton",
-   "turns": 42,
-   "t": 1795878696
+   "winner": "o-ar16113205-anti-venom-horrifying-healer",
+   "turns": 56,
+   "t": 1795879424
   },
   {
    "job": "standing",
-   "batch": "nelly-0399",
-   "test": "nelly",
+   "batch": "zimone-0401",
+   "test": "zimone",
    "game": 2,
-   "winner": "o-cmm-eldrazi-unbound",
-   "turns": 39,
-   "t": 1795878696
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0399",
-   "test": "nelly",
-   "game": 3,
-   "winner": "o-cmm-eldrazi-unbound",
-   "turns": 45,
-   "t": 1795878696
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0399",
-   "test": "nelly",
-   "game": 4,
-   "winner": "nelly",
+   "winner": "o-ar2713146-dromoka-the-eternal",
    "turns": 38,
-   "t": 1795878696
+   "t": 1795879424
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0401",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-40k-the-ruinous-powers",
+   "turns": 55,
+   "t": 1795879424
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0401",
+   "test": "zimone",
+   "game": 4,
+   "winner": null,
+   "turns": 43,
+   "t": 1795879424
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0403",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-sld-goblin-storm",
+   "turns": 51,
+   "t": 1795879474
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0403",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "zurgo",
+   "turns": 55,
+   "t": 1795879474
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0403",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "zurgo",
+   "turns": 39,
+   "t": 1795879474
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0403",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "zurgo",
+   "turns": 36,
+   "t": 1795879474
   }
  ]
 }
