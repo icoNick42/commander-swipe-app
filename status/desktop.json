@@ -1,117 +1,162 @@
 {
  "machine": "desktop",
- "updated": 1795877804,
+ "updated": 1795878416,
  "workers": 4,
- "running": [],
- "games_today": 680,
+ "running": [
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0642",
+   "test": "tyvar-main",
+   "opponents": [
+    "ar4347074-kelsien-the-plague",
+    "ar10704336-zada-hedron-grinder",
+    "ar3997-isperia-supreme-judge"
+   ],
+   "started": 1795877809
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0644",
+   "test": "zurgo",
+   "opponents": [
+    "ar13546643-y-shtola-night-s-blessed",
+    "ar6384788-feather-the-redeemed",
+    "cmm-enduring-enchantments"
+   ],
+   "started": 1795878141
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0644",
+   "test": "zimone",
+   "opponents": [
+    "ar13546643-y-shtola-night-s-blessed",
+    "ar6384788-feather-the-redeemed",
+    "cmm-enduring-enchantments"
+   ],
+   "started": 1795878227
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0644",
+   "test": "nelly",
+   "opponents": [
+    "ar13546643-y-shtola-night-s-blessed",
+    "ar6384788-feather-the-redeemed",
+    "cmm-enduring-enchantments"
+   ],
+   "started": 1795878295
+  }
+ ],
+ "games_today": 692,
  "recent": [
   {
    "job": "standing",
-   "batch": "nelly-0640",
+   "batch": "zimone-0642",
+   "test": "zimone",
+   "game": 1,
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 47,
+   "t": 1795878141
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0642",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-ar10704336-zada-hedron-grinder",
+   "turns": 42,
+   "t": 1795878141
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0642",
+   "test": "zimone",
+   "game": 3,
+   "winner": "zimone",
+   "turns": 54,
+   "t": 1795878141
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0642",
+   "test": "zimone",
+   "game": 4,
+   "winner": "zimone",
+   "turns": 39,
+   "t": 1795878141
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0642",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-ar4347074-kelsien-the-plague",
+   "turns": 51,
+   "t": 1795878227
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0642",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-ar4347074-kelsien-the-plague",
+   "turns": 48,
+   "t": 1795878227
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0642",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "zurgo",
+   "turns": 49,
+   "t": 1795878227
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0642",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "zurgo",
+   "turns": 34,
+   "t": 1795878227
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0642",
    "test": "nelly",
    "game": 1,
-   "winner": "o-otc-grand-larceny",
-   "turns": 67,
-   "t": 1795877464
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 40,
+   "t": 1795878295
   },
   {
    "job": "standing",
-   "batch": "nelly-0640",
+   "batch": "nelly-0642",
    "test": "nelly",
    "game": 2,
-   "winner": "o-cmr-arm-for-battle",
-   "turns": 39,
-   "t": 1795877464
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 50,
+   "t": 1795878295
   },
   {
    "job": "standing",
-   "batch": "nelly-0640",
+   "batch": "nelly-0642",
    "test": "nelly",
    "game": 3,
    "winner": "nelly",
-   "turns": 63,
-   "t": 1795877464
+   "turns": 47,
+   "t": 1795878295
   },
   {
    "job": "standing",
-   "batch": "nelly-0640",
+   "batch": "nelly-0642",
    "test": "nelly",
    "game": 4,
-   "winner": "nelly",
-   "turns": 58,
-   "t": 1795877464
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0638",
-   "test": "tyvar-main",
-   "game": 1,
-   "winner": "o-otc-desert-bloom",
-   "turns": 56,
-   "t": 1795877659
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0638",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "tyvar-main",
-   "turns": 43,
-   "t": 1795877659
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0638",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-otc-desert-bloom",
-   "turns": 57,
-   "t": 1795877659
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0638",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-otc-desert-bloom",
-   "turns": 41,
-   "t": 1795877659
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0640",
-   "test": "tyvar-main",
-   "game": 1,
-   "winner": "o-cmr-arm-for-battle",
-   "turns": 36,
-   "t": 1795877743
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0640",
-   "test": "tyvar-main",
-   "game": 2,
-   "winner": "o-otc-grand-larceny",
-   "turns": 52,
-   "t": 1795877743
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0640",
-   "test": "tyvar-main",
-   "game": 3,
-   "winner": "o-ar1827191-grothama-all-devouring",
-   "turns": 39,
-   "t": 1795877743
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0640",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "tyvar-main",
-   "turns": 46,
-   "t": 1795877743
+   "winner": "o-ar3997-isperia-supreme-judge",
+   "turns": 40,
+   "t": 1795878295
   }
  ]
 }
