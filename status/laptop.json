@@ -1,151 +1,117 @@
 {
  "machine": "laptop",
- "updated": 1795880369,
+ "updated": 1795880736,
  "workers": 3,
- "running": [
+ "running": [],
+ "games_today": 760,
+ "recent": [
   {
    "job": "standing",
-   "batch": "zimone-0403",
-   "test": "zimone",
-   "opponents": [
-    "sld-goblin-storm",
-    "ar24359371-inga-and-esika",
-    "com-mirror-mastery"
-   ],
-   "started": 1795879252
+   "batch": "tyvar-main-0405",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-ar27936225-tsagan-raider-warlord",
+   "turns": 36,
+   "t": 1795880442
   },
   {
    "job": "standing",
    "batch": "tyvar-main-0405",
    "test": "tyvar-main",
-   "opponents": [
-    "ar27936225-tsagan-raider-warlord",
-    "ar5944521-ugl-k-of-the-white-hand",
-    "ltc-riders-of-rohan"
-   ],
-   "started": 1795880143
+   "game": 2,
+   "winner": "o-ar27936225-tsagan-raider-warlord",
+   "turns": 25,
+   "t": 1795880442
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0405",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar27936225-tsagan-raider-warlord",
+   "turns": 31,
+   "t": 1795880442
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0405",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar27936225-tsagan-raider-warlord",
+   "turns": 48,
+   "t": 1795880442
   },
   {
    "job": "standing",
    "batch": "zurgo-0407",
    "test": "zurgo",
-   "opponents": [
-    "ar13534635-g-raha-tia-scion-reborn",
-    "40k-necron-dynasties",
-    "ar4541848-zur-the-enchanter"
-   ],
-   "started": 1795880219
-  }
- ],
- "games_today": 744,
- "recent": [
-  {
-   "job": "standing",
-   "batch": "zurgo-0405",
-   "test": "zurgo",
    "game": 1,
-   "winner": "o-ltc-riders-of-rohan",
-   "turns": 46,
-   "t": 1795880078
+   "winner": "zurgo",
+   "turns": 55,
+   "t": 1795880544
   },
   {
    "job": "standing",
-   "batch": "zurgo-0405",
+   "batch": "zurgo-0407",
    "test": "zurgo",
    "game": 2,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 27,
-   "t": 1795880078
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0405",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "o-ltc-riders-of-rohan",
-   "turns": 39,
-   "t": 1795880078
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0405",
-   "test": "zurgo",
-   "game": 4,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 32,
-   "t": 1795880078
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0405",
-   "test": "zimone",
-   "game": 1,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 23,
-   "t": 1795880144
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0405",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 26,
-   "t": 1795880144
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0405",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-ar5944521-ugl-k-of-the-white-hand",
+   "winner": "zurgo",
    "turns": 41,
-   "t": 1795880144
+   "t": 1795880544
   },
   {
    "job": "standing",
-   "batch": "zimone-0405",
+   "batch": "zurgo-0407",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "zurgo",
+   "turns": 41,
+   "t": 1795880544
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0407",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-40k-necron-dynasties",
+   "turns": 52,
+   "t": 1795880544
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0407",
+   "test": "zimone",
+   "game": 1,
+   "winner": "o-ar4541848-zur-the-enchanter",
+   "turns": 37,
+   "t": 1795880738
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0407",
+   "test": "zimone",
+   "game": 2,
+   "winner": "o-ar13534635-g-raha-tia-scion-reborn",
+   "turns": 62,
+   "t": 1795880738
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0407",
+   "test": "zimone",
+   "game": 3,
+   "winner": "o-ar13534635-g-raha-tia-scion-reborn",
+   "turns": 47,
+   "t": 1795880738
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0407",
    "test": "zimone",
    "game": 4,
-   "winner": "o-ltc-riders-of-rohan",
-   "turns": 40,
-   "t": 1795880144
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0405",
-   "test": "nelly",
-   "game": 1,
-   "winner": "nelly",
-   "turns": 26,
-   "t": 1795880220
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0405",
-   "test": "nelly",
-   "game": 2,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 26,
-   "t": 1795880220
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0405",
-   "test": "nelly",
-   "game": 3,
-   "winner": "o-ar5944521-ugl-k-of-the-white-hand",
-   "turns": 47,
-   "t": 1795880220
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0405",
-   "test": "nelly",
-   "game": 4,
-   "winner": "o-ar27936225-tsagan-raider-warlord",
-   "turns": 32,
-   "t": 1795880220
+   "winner": "o-40k-necron-dynasties",
+   "turns": 49,
+   "t": 1795880738
   }
  ]
 }
