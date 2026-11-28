@@ -1,162 +1,162 @@
 {
  "machine": "desktop",
- "updated": 1795879763,
+ "updated": 1795880430,
  "workers": 4,
  "running": [
   {
    "job": "standing",
-   "batch": "zurgo-0646",
+   "batch": "tyvar-main-0648",
+   "test": "tyvar-main",
+   "opponents": [
+    "sld-20-ways-to-win",
+    "blc-peace-offering",
+    "afc-draconic-rage"
+   ],
+   "started": 1795879937
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0650",
    "test": "zurgo",
    "opponents": [
-    "ar8555972-amalia-benavides-aguirre",
-    "nec-buckle-up",
-    "ar6518487-adeline-resplendent-cathar"
+    "ar14581723-fire-lord-azula",
+    "m3c-tricky-terrain",
+    "ar16623967-wick-the-whorled-mind"
    ],
-   "started": 1795878622
+   "started": 1795879987
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0650",
+   "test": "zimone",
+   "opponents": [
+    "ar14581723-fire-lord-azula",
+    "m3c-tricky-terrain",
+    "ar16623967-wick-the-whorled-mind"
+   ],
+   "started": 1795880057
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0650",
+   "test": "nelly",
+   "opponents": [
+    "ar14581723-fire-lord-azula",
+    "m3c-tricky-terrain",
+    "ar16623967-wick-the-whorled-mind"
+   ],
+   "started": 1795880279
+  }
+ ],
+ "games_today": 740,
+ "recent": [
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0646",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 62,
+   "t": 1795879987
   },
   {
    "job": "standing",
    "batch": "tyvar-main-0646",
    "test": "tyvar-main",
-   "opponents": [
-    "ar8555972-amalia-benavides-aguirre",
-    "nec-buckle-up",
-    "ar6518487-adeline-resplendent-cathar"
-   ],
-   "started": 1795879158
+   "game": 2,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 61,
+   "t": 1795879987
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0646",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 31,
+   "t": 1795879987
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0646",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-ar6518487-adeline-resplendent-cathar",
+   "turns": 40,
+   "t": 1795879987
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0646",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "zurgo",
+   "turns": 34,
+   "t": 1795880057
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0646",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 49,
+   "t": 1795880057
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0646",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 66,
+   "t": 1795880057
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0646",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-ar8555972-amalia-benavides-aguirre",
+   "turns": 42,
+   "t": 1795880057
   },
   {
    "job": "standing",
    "batch": "zimone-0648",
    "test": "zimone",
-   "opponents": [
-    "sld-20-ways-to-win",
-    "blc-peace-offering",
-    "afc-draconic-rage"
-   ],
-   "started": 1795879373
-  },
-  {
-   "job": "standing",
-   "batch": "nelly-0648",
-   "test": "nelly",
-   "opponents": [
-    "sld-20-ways-to-win",
-    "blc-peace-offering",
-    "afc-draconic-rage"
-   ],
-   "started": 1795879643
-  }
- ],
- "games_today": 724,
- "recent": [
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0642",
-   "test": "tyvar-main",
    "game": 1,
-   "winner": "o-ar3997-isperia-supreme-judge",
-   "turns": 45,
-   "t": 1795879310
+   "winner": "o-afc-draconic-rage",
+   "turns": 48,
+   "t": 1795880279
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0642",
-   "test": "tyvar-main",
+   "batch": "zimone-0648",
+   "test": "zimone",
    "game": 2,
-   "winner": "o-ar4347074-kelsien-the-plague",
-   "turns": 39,
-   "t": 1795879310
+   "winner": "o-blc-peace-offering",
+   "turns": 31,
+   "t": 1795880279
   },
   {
    "job": "standing",
-   "batch": "tyvar-main-0642",
-   "test": "tyvar-main",
+   "batch": "zimone-0648",
+   "test": "zimone",
    "game": 3,
-   "winner": "o-ar4347074-kelsien-the-plague",
-   "turns": 41,
-   "t": 1795879310
-  },
-  {
-   "job": "standing",
-   "batch": "tyvar-main-0642",
-   "test": "tyvar-main",
-   "game": 4,
-   "winner": "o-ar3997-isperia-supreme-judge",
+   "winner": "o-blc-peace-offering",
    "turns": 40,
-   "t": 1795879310
+   "t": 1795880279
   },
   {
    "job": "standing",
-   "batch": "zimone-0646",
-   "test": "zimone",
-   "game": 1,
-   "winner": "zimone",
-   "turns": 69,
-   "t": 1795879373
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0646",
-   "test": "zimone",
-   "game": 2,
-   "winner": "o-ar8555972-amalia-benavides-aguirre",
-   "turns": 29,
-   "t": 1795879373
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0646",
-   "test": "zimone",
-   "game": 3,
-   "winner": "o-ar8555972-amalia-benavides-aguirre",
-   "turns": 35,
-   "t": 1795879373
-  },
-  {
-   "job": "standing",
-   "batch": "zimone-0646",
+   "batch": "zimone-0648",
    "test": "zimone",
    "game": 4,
-   "winner": "o-nec-buckle-up",
-   "turns": 53,
-   "t": 1795879373
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0648",
-   "test": "zurgo",
-   "game": 1,
    "winner": "o-afc-draconic-rage",
-   "turns": 38,
-   "t": 1795879643
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0648",
-   "test": "zurgo",
-   "game": 2,
-   "winner": "o-afc-draconic-rage",
-   "turns": 33,
-   "t": 1795879643
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0648",
-   "test": "zurgo",
-   "game": 3,
-   "winner": "o-afc-draconic-rage",
-   "turns": 50,
-   "t": 1795879643
-  },
-  {
-   "job": "standing",
-   "batch": "zurgo-0648",
-   "test": "zurgo",
-   "game": 4,
-   "winner": "o-afc-draconic-rage",
-   "turns": 34,
-   "t": 1795879643
+   "turns": 56,
+   "t": 1795880279
   }
  ]
 }
