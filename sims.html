@@ -1256,6 +1256,10 @@
             el("h2", { text: "Your picks (opponents that never rotate out)" }),
             el("p", { class: "muted small", text: "Loading..." }),
           ]);
+          var chosen = el("div", { class: "panel" }, [
+            el("h2", { text: "Your chosen opponents (mixed into the tables)" }),
+            el("p", { class: "muted small", text: "Loading..." }),
+          ]);
           var rot = el("div", { class: "panel" }, [
             el("h2", { text: "The rotation (refreshed weekly by the laptop)" }),
             el("p", { class: "muted small", text: "Loading..." }),
@@ -1264,6 +1268,7 @@
           box.appendChild(add);
           box.appendChild(mine);
           box.appendChild(picks);
+          box.appendChild(chosen);
           box.appendChild(rot);
           renderAddPanel(add);
           Promise.all([
@@ -1280,13 +1285,21 @@
             rawJson("sims", "decks/rotation/pool.json").catch(function () {
               return { decks: {} };
             }),
+            api("contents/decks/chosen?ref=sims").catch(function () {
+              return [];
+            }),
+            rawJson("sims", "decks/pools.json").catch(function () {
+              return {};
+            }),
           ]).then(
             function (r) {
               var standing = r[0],
                 nick = r[1],
                 pk = r[2],
                 power = r[3].decks || {},
-                pool = r[4];
+                pool = r[4],
+                ch = r[5],
+                pools = r[6];
               // your decks
               mine.removeChild(mine.lastChild);
               var inStanding = {};
@@ -1355,12 +1368,13 @@
                       class: "danger",
                       text: "Remove",
                       onclick: function () {
-                        removePick(n, pf);
+                        removeDeck("picks", "pick", n, pf);
                       },
                     }),
                   ]),
                 );
               });
+              renderChosen(chosen, ch, power, pools);
               // rotation
               rot.removeChild(rot.lastChild);
               rot.appendChild(
@@ -1574,7 +1588,7 @@
             placeholder: "Name, like zurgo or kaalia",
             style: "flex:1;min-width:160px",
           });
-          var kind = el("select", { "aria-label": "Add as" }, [
+          var kind = el("select", { "aria-label": "Add as", style: "max-width:100%" }, [
             el("option", {
               value: "nick",
               text: "One of your decks (played in the background games)",
@@ -1582,6 +1596,10 @@
             el("option", {
               value: "picks",
               text: "A pick (an opponent at every table)",
+            }),
+            el("option", {
+              value: "chosen",
+              text: "A chosen opponent (mixed into some tables)",
             }),
           ]);
           var text = el("textarea", {
@@ -1626,7 +1644,11 @@
                   path,
                   body + "\n",
                   (old ? "Update " : "Add ") +
-                    (kind.value === "picks" ? "pick " : "deck ") +
+                    (kind.value === "picks"
+                      ? "pick "
+                      : kind.value === "chosen"
+                        ? "chosen opponent "
+                        : "deck ") +
                     n,
                   old && old.sha,
                 );
@@ -1701,7 +1723,121 @@
               },
             );
         }
-        function removePick(n, files) {
+        /** Your chosen opponents: decks/chosen, plus how often they sit in. */
+        function renderChosen(box, files, power, pools) {
+          box.removeChild(box.lastChild);
+          var oneIn = Math.max(1, parseInt(pools.chosen_one_in, 10) || 3);
+          var cf = files.filter(function (f) {
+            return /\.(txt|dck)$/.test(f.name);
+          });
+          var names = {};
+          cf.forEach(function (f) {
+            names[f.name.replace(/\.(txt|dck)$/, "")] = true;
+          });
+          var list = Object.keys(names).sort();
+          box.appendChild(
+            el("p", {
+              class: "muted small",
+              text: "As many as you like. They never rotate out and skip the power window. Each table has a 1 in " +
+                oneIn +
+                " chance of getting one of them, in a seat a rotation deck would have taken." +
+                (list.length
+                  ? " Each one sits at about 1 table in " +
+                    oneIn * list.length +
+                    "."
+                  : ""),
+            }),
+          );
+          var sel = el("select", { "aria-label": "How often" });
+          var steps = [1, 2, 3, 4, 5, 6, 8, 10];
+          if (steps.indexOf(oneIn) === -1) {
+            steps.push(oneIn);
+            steps.sort(function (a, b) {
+              return a - b;
+            });
+          }
+          steps.forEach(function (k) {
+            var o = el("option", {
+              value: String(k),
+              text: k === 1 ? "every table" : "1 table in " + k,
+            });
+            if (k === oneIn) o.selected = true;
+            sel.appendChild(o);
+          });
+          var msg = el("div", { class: "msg" });
+          var save = el("button", {
+            type: "button",
+            text: "Save",
+            onclick: function () {
+              if (!needKey(msg)) return;
+              var k = parseInt(sel.value, 10);
+              save.disabled = true;
+              msg.className = "msg muted";
+              msg.textContent = "Saving...";
+              getFile("decks/pools.json")
+                .then(function (f) {
+                  var conf = JSON.parse(f.text);
+                  if (conf.chosen_one_in === k) return;
+                  conf.chosen_one_in = k;
+                  return putFile(
+                    "decks/pools.json",
+                    JSON.stringify(conf, null, 2) + "\n",
+                    "Chosen opponents: one at about 1 table in " + k,
+                    f.sha,
+                  );
+                })
+                .then(function () {
+                  msg.className = "msg good";
+                  msg.textContent =
+                    "Saved. The PCs use it from their next round.";
+                })
+                .catch(function (e) {
+                  msg.className = "msg bad";
+                  msg.textContent = "Not saved: " + e.message;
+                })
+                .then(function () {
+                  save.disabled = false;
+                });
+            },
+          });
+          box.appendChild(
+            el("div", { class: "row" }, [
+              el("span", { class: "small", text: "One of them at" }),
+              sel,
+              save,
+            ]),
+          );
+          box.appendChild(msg);
+          if (!list.length)
+            box.appendChild(
+              el("p", {
+                class: "muted small",
+                text: "None yet. Add one above as \"A chosen opponent\".",
+              }),
+            );
+          list.forEach(function (n) {
+            var s = power["decks/chosen/" + n + ".dck"];
+            box.appendChild(
+              el("div", { class: "row" }, [
+                el("strong", { text: n }),
+                el("span", {
+                  class: "muted small",
+                  text: s ? s.label : "power not scored yet",
+                }),
+                el("button", {
+                  type: "button",
+                  class: "danger",
+                  text: "Remove",
+                  onclick: function () {
+                    removeDeck("chosen", "chosen opponent", n, cf);
+                  },
+                }),
+              ]),
+            );
+          });
+        }
+        /** Deletes decks/<folder>/<n>.txt and .dck (a pick or a chosen opponent). */
+        function removeDeck(folder, word, n, files) {
           var msg = el("div");
           if (!needKey(msg)) {
             alertBox(msg.textContent);
@@ -1714,9 +1850,9 @@
             .reduce(function (p, f) {
               return p.then(function () {
                 return delFile(
-                  "decks/picks/" + f.name,
+                  "decks/" + folder + "/" + f.name,
                   f.sha,
-                  "Remove pick " + n,
+                  "Remove " + word + " " + n,
                 );
               });
             }, Promise.resolve())
