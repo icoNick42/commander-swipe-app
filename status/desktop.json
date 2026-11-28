@@ -1,0 +1,151 @@
+{
+ "machine": "desktop",
+ "updated": 1795874223,
+ "workers": 4,
+ "running": [
+  {
+   "job": "standing",
+   "batch": "zimone-0632",
+   "test": "zimone",
+   "opponents": [
+    "c21-prismari-performance",
+    "otc-desert-bloom",
+    "ar2508060-magda-brazen-outlaw"
+   ],
+   "started": 1795873606
+  },
+  {
+   "job": "standing",
+   "batch": "zimone-0634",
+   "test": "zimone",
+   "opponents": [
+    "ar2508060-magda-brazen-outlaw",
+    "m3c-tricky-terrain",
+    "dsc-endless-punishment"
+   ],
+   "started": 1795873907
+  },
+  {
+   "job": "standing",
+   "batch": "nelly-0634",
+   "test": "nelly",
+   "opponents": [
+    "ar2508060-magda-brazen-outlaw",
+    "m3c-tricky-terrain",
+    "dsc-endless-punishment"
+   ],
+   "started": 1795874041
+  }
+ ],
+ "games_today": 616,
+ "recent": [
+  {
+   "job": "standing",
+   "batch": "zurgo-0632",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 40,
+   "t": 1795873907
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0632",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-otc-desert-bloom",
+   "turns": 42,
+   "t": 1795873907
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0632",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-otc-desert-bloom",
+   "turns": 42,
+   "t": 1795873907
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0632",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 36,
+   "t": 1795873907
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0634",
+   "test": "zurgo",
+   "game": 1,
+   "winner": "zurgo",
+   "turns": 33,
+   "t": 1795874041
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0634",
+   "test": "zurgo",
+   "game": 2,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 42,
+   "t": 1795874041
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0634",
+   "test": "zurgo",
+   "game": 3,
+   "winner": "o-m3c-tricky-terrain",
+   "turns": 40,
+   "t": 1795874041
+  },
+  {
+   "job": "standing",
+   "batch": "zurgo-0634",
+   "test": "zurgo",
+   "game": 4,
+   "winner": "o-m3c-tricky-terrain",
+   "turns": 45,
+   "t": 1795874041
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0632",
+   "test": "tyvar-main",
+   "game": 1,
+   "winner": "o-c21-prismari-performance",
+   "turns": 29,
+   "t": 1795874219
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0632",
+   "test": "tyvar-main",
+   "game": 2,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 44,
+   "t": 1795874219
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0632",
+   "test": "tyvar-main",
+   "game": 3,
+   "winner": "o-ar2508060-magda-brazen-outlaw",
+   "turns": 37,
+   "t": 1795874219
+  },
+  {
+   "job": "standing",
+   "batch": "tyvar-main-0632",
+   "test": "tyvar-main",
+   "game": 4,
+   "winner": "o-otc-desert-bloom",
+   "turns": 41,
+   "t": 1795874219
+  }
+ ]
+}
