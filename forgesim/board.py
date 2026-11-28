@@ -550,7 +550,8 @@ class Restart(Exception):
 
 
 def restart_if_code_changed(before):
-    if before and code_rev() != before:
+    now = code_rev()
+    if before and now and now != before:  # "" = git hiccup, not a change
         log("board code changed; restarting into the new version")
         raise Restart()
 
@@ -559,14 +560,18 @@ def loop():
     cfg = load_config()
     git_cleanup()
     log("board started on %s, %d workers" % (cfg["name"], cfg["workers"]))
+    # The code this process is running. Compared with what's on disk after
+    # every pull: a push that loses a race pulls mid-round (push() -> pull()),
+    # so comparing only around the loop-start pull missed most code changes
+    # and the board kept running old code from memory.
+    started = code_rev()
     last_prune = 0
     while True:
         if paused():
             time.sleep(30)
             continue
-        before = code_rev()
         pull()
-        restart_if_code_changed(before)
+        restart_if_code_changed(started)
         if time.time() - last_prune > 86400:
             prune_logs(cfg)
             last_prune = time.time()
